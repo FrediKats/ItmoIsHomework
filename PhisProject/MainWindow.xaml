@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PhisProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="400" Width="700">
+    <Canvas  x:Name="PaintCanvas">
+        <Button x:Name="ButtonStart" Content="Button" Canvas.Left="429" Canvas.Top="320" Width="76" Click="StartMoving" Height="24"/>
+        <TextBlock x:Name="EllipseData" Canvas.Left="590" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="22"/>
+
+    </Canvas>
 </Window>
