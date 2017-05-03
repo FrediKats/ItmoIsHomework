@@ -1,13 +1,13 @@
-﻿<Window x:Class="PhisProject.MainWindow"
+﻿<Window x:Class="PhysProject.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PhisProject"
+        xmlns:local="clr-namespace:PhysProject"
         mc:Ignorable="d"
         Title="MainWindow" Height="400" Width="700">
-    <Canvas  x:Name="PaintCanvas">
-        <Button x:Name="ButtonStart" Content="Button" Canvas.Left="429" Canvas.Top="320" Width="76" Click="StartMoving" Height="24"/>
+    <Canvas  x:Name="MainCanvas">
+        <Button x:Name="ButtonStart" Content="Button" Canvas.Left="429" Canvas.Top="320" Width="76" Height="24"/>
         <TextBlock x:Name="EllipseData" Canvas.Left="590" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="22"/>
 
     </Canvas>
