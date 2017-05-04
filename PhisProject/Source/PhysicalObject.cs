@@ -12,13 +12,15 @@ namespace PhysProject.Source
         private TwoDimesional _moveDirection;
         private TwoDimesional _newMoveDirection;
         private TwoDimesional _position;
+        private TwoDimesional _size;
 
         protected PhysicalObject(PhysicalField field, TwoDimesional size,
             TwoDimesional position, TwoDimesional moveDirection)
         {
-            _physicField = field;
             _moveDirection = moveDirection;
+            _physicField = field;
             _position = position;
+            _size = size;
             _objectEllipse = new Ellipse()
             {
                 Height = size.Y,
@@ -64,6 +66,7 @@ namespace PhysProject.Source
         public Ellipse ObjectEllipse => _objectEllipse;
         public PhysicalField Field => _physicField;
         public TwoDimesional Position => _position;
+        public TwoDimesional Size => _size;
         public TwoDimesional AccelerationDirection
         {
             set { _accelerationDirection = value; }
@@ -71,6 +74,7 @@ namespace PhysProject.Source
 
         public TwoDimesional MoveDirection
         {
+            get { return _moveDirection;}
             set { _newMoveDirection = value; }
         }
 

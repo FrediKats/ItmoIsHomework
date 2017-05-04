@@ -23,6 +23,13 @@ namespace PhysProject.TestingTool
                     AccelerationDirection = new TwoDimesional(dX, dY);
                 }
             }
+
+            if (Position.Y - Size.Y / 2 < 0)
+            {
+                TwoDimesional currentMove = MoveDirection;
+                currentMove.Y = currentMove.Y * -1;
+                MoveDirection = currentMove;
+            }
         }
     }
 }

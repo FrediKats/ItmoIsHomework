@@ -62,6 +62,7 @@
     <Compile Include="Source\PhysicalField.cs" />
     <Compile Include="Source\Tool.cs" />
     <Compile Include="Source\TwoDimesional.cs" />
+    <Compile Include="TestingTool\Balist.cs" />
     <Compile Include="TestingTool\CustomObject.cs" />
     <Page Include="PhysicalCanvas.xaml">
       <Generator>MSBuild:Compile</Generator>

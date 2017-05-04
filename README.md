@@ -38,9 +38,9 @@
 - Ellipse **ObjectEllipse** - возвращает фигуру
 - TwoDimesional **Position** - возвращает текущую позицию фигуры
 - PhysicalField **Field** - возвращает поле, к которому привязае объект
-
+- TwoDimesional **Size** - возвращает размер фигуры	
 - TwoDimesional **AccelerationDirection** - задает вектор ускорения
-- TwoDimesional **MoveDirection** - задает новый вектор движения
+- TwoDimesional **MoveDirection** - задает новый вектор движения / возвращает текущий вектор движения
 
 ## **class PhysicalField**
 Класс, который реализует физическое пространство, связывает и реализует перемещение объектов класса **PhysicalObject** (и производных от него).
@@ -48,7 +48,6 @@
 ### **Доступные методы:**
 - **PhysicalField**(**Canvas** *fieldCanvas*, **int** *timePerTick*) - конструктор, который принимает **Canvas** на котором будут размещаться объекты и периодичность, с которой будет обновляться.
 - void **AddObject**(**PhysicalObject** *obj*) - добавляет новый объект на поле
-- void **AddObject**(**TwoDimesional** *size*, **TwoDimesional** *position*, **TwoDimesional** *moveDirection*) - принимает нужные параметры для создания объекта, создает и сразу же добавляет на поле
 - void **AddStaticObject**(**PhysicalObject** *obj*) - добавляет новый объект на поле **для которого не будет вызывается метод перемещения**
 - void **Start**(**object** *sender*, **EventArgs** *e*) - запускает движение объектов. (Входные параметры для соответствия EventHandler делегату, чтобы можно было назначить на нажатие кнопки)
 
