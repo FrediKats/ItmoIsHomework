@@ -12,7 +12,9 @@ namespace PhysProject
             InitializeComponent();
             _field = new PhysicalField(MainCanvas, Config.TimePerTick);
             _field.AddObject(new TwoDimesional(10, 10), new TwoDimesional(50, 50),
-                new TwoDimesional(0, 0));
+                new TwoDimesional(10, 0));
+            _field.AddObject(new TwoDimesional(10, 10), new TwoDimesional(80, 80),
+                new TwoDimesional(0, -10));
             ButtonStart.Click += _field.Start;
         }
     }

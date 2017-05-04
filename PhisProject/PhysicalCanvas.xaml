@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PhysProject"
         mc:Ignorable="d"
         Title="MainWindow" Height="400" Width="700">
-    <Canvas  x:Name="MainCanvas">
+    <Canvas  x:Name="MainCanvas" Margin="0,0,300,0">
         <Button x:Name="ButtonStart" Content="Button" Canvas.Left="429" Canvas.Top="320" Width="76" Height="24"/>
         <TextBlock x:Name="EllipseData" Canvas.Left="590" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="22"/>
 

@@ -8,14 +8,21 @@ namespace PhysProject.TestingTool
         {
         }
 
-        protected override void SetAccelerationVector()
+        protected override void CustomConduct()
         {
-            if (Position.Y >= 290)
+            foreach (PhysicalObject physicalObject in Field.PhysicalObjects)
             {
-                StopMoving();
-                return;
+                double distance = Tool.Distance(Position, physicalObject.Position);
+                if (distance != 0)
+                {
+                    double a = 50 / distance;
+                    double dX = Position.X - physicalObject.Position.X;
+                    double dY = Position.Y - physicalObject.Position.Y;
+                    dX = dX * a / distance;
+                    dY = dY * a / distance;
+                    AccelerationDirection = new TwoDimesional(dX, dY);
+                }
             }
-            AccelerationDirection = new TwoDimesional(10, 7);
         }
     }
 }
