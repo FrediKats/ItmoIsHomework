@@ -39,12 +39,6 @@ namespace PhysProject.Source
             _physicalObjects.Add(obj);
         }
 
-        public void AddObject(TwoDimesional size, TwoDimesional position,
-            TwoDimesional moveDirection)
-        {
-            _physicalObjects.Add(new CustomObject(this, size, position, moveDirection));
-        }
-
         public void AddStaticObject(PhysicalObject obj)
         {
             _staticObjects.Add(obj);
