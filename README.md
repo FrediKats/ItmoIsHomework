@@ -11,11 +11,18 @@
 - **X** - получение X-координаты
 - **Y** - получение Y-координаты (внезапно)
 
+## **class Tool**
+Класс с дополнительными статическими методами.
+
+### **Доступные методы:**
+- double **Distance**(**TwoDimesional** *f*, **TwoDimesional** *s*) - возвращает расстояние по Пифагору
+
+
 ## **class PhysicalObject**
 Класс, который реализует физический объект.
 
 ### **Методы для определения / переопределения:**
-- abstract void **SetAccelerationVector**() - метод, в котором нужно определить функцию, по которой будет изменяться вектор ускорения **AccelerationDirection**
+- abstract void **CustomConduct**() - метод, в котором нужно определить поведение объекта
 
 ### **Доступные методы:**
 - **PhysicalObject**(**PhysicalField** *field*, **TwoDimesional** *size*, **TwoDimesional** *position*, **TwoDimesional** *moveDirection*) - конструктор, принимает:
@@ -29,8 +36,11 @@
 
 ### **Свойства:**
 - Ellipse **ObjectEllipse** - возвращает фигуру
-- TwoDimesional Position - возвращает текущую позицию фигуры
-- TwoDimesional AccelerationDirection - задает вектор ускорения
+- TwoDimesional **Position** - возвращает текущую позицию фигуры
+- PhysicalField **Field** - возвращает поле, к которому привязае объект
+
+- TwoDimesional **AccelerationDirection** - задает вектор ускорения
+- TwoDimesional **MoveDirection** - задает новый вектор движения
 
 ## **class PhysicalField**
 Класс, который реализует физическое пространство, связывает и реализует перемещение объектов класса **PhysicalObject** (и производных от него).

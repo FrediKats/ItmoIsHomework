@@ -10,6 +10,7 @@ namespace PhysProject.Source
         private Ellipse _objectEllipse;
         private TwoDimesional _accelerationDirection;
         private TwoDimesional _moveDirection;
+        private TwoDimesional _newMoveDirection;
         private TwoDimesional _position;
 
         protected PhysicalObject(PhysicalField field, TwoDimesional size,
@@ -39,12 +40,18 @@ namespace PhysProject.Source
         private void UpdatePosition()
         {
             Canvas.SetLeft(_objectEllipse, _position.X - _objectEllipse.Width / 2);
-            Canvas.SetTop(_objectEllipse, 400 - (_position.Y - _objectEllipse.Height / 2));
+            Canvas.SetBottom(_objectEllipse, _position.Y - _objectEllipse.Height / 2);
         }
 
         public void UpdateMoveDirection(int timePassed)
         {
-            SetAccelerationVector();
+            _accelerationDirection = new TwoDimesional(0, 0);
+            _newMoveDirection = null;
+            CustomConduct();
+            if (_newMoveDirection != null)
+            {
+                _moveDirection = _newMoveDirection;
+            }
             _moveDirection += (_accelerationDirection * timePassed);
         }
 
@@ -55,12 +62,18 @@ namespace PhysProject.Source
         }
 
         public Ellipse ObjectEllipse => _objectEllipse;
+        public PhysicalField Field => _physicField;
         public TwoDimesional Position => _position;
         public TwoDimesional AccelerationDirection
         {
             set { _accelerationDirection = value; }
         }
 
-        protected abstract void SetAccelerationVector();
+        public TwoDimesional MoveDirection
+        {
+            set { _newMoveDirection = value; }
+        }
+
+        protected abstract void CustomConduct();
     }
 }
