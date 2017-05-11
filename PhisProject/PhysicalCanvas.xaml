@@ -9,6 +9,13 @@
     <Canvas  x:Name="MainCanvas" Margin="0,0,300,0">
         <Button x:Name="ButtonStart" Content="Button" Canvas.Left="429" Canvas.Top="320" Width="76" Height="24"/>
         <TextBlock x:Name="EllipseData" Canvas.Left="590" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="22"/>
+        <TextBox x:Name="TextBoxV" Height="24" Canvas.Left="546" TextWrapping="Wrap" Canvas.Top="76" Width="120"/>
+        <TextBox x:Name="TextBoxA" Height="22" Canvas.Left="546" TextWrapping="Wrap" Canvas.Top="105" Width="120" RenderTransformOrigin="0.5,-0.818"/>
+        <TextBox x:Name="TextBoxH" Height="24" Canvas.Left="546" TextWrapping="Wrap" Canvas.Top="132" Width="120"/>
+        <Button Content="Button" Canvas.Left="591" Canvas.Top="222" Width="75" Click="Button_Click"/>
+        <TextBlock Canvas.Left="446" TextWrapping="Wrap" Text="Enter Velocity" Canvas.Top="76" Height="24" Width="79"/>
+        <TextBlock Canvas.Left="446" TextWrapping="Wrap" Text="Enter Angle" Canvas.Top="103" Height="24" Width="79"/>
+        <TextBlock Canvas.Left="446" TextWrapping="Wrap" Text="Enter Height" Canvas.Top="132" Height="24" Width="79"/>
 
     </Canvas>
 </Window>

@@ -2,6 +2,6 @@
 {
     public class Config
     {
-        public const int TimePerTick = 30;
+        public const int TimePerTick = 10;
     }
 }
