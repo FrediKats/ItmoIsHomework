@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using PhysProject.TestingTool;
 
@@ -42,6 +43,7 @@ namespace PhysProject.Source
         public void AddStaticObject(PhysicalObject obj)
         {
             _staticObjects.Add(obj);
+            obj.UpdatePosition();
         }
 
         public void Start(object sender, EventArgs e)
