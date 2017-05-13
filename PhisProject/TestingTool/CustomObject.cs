@@ -11,7 +11,7 @@ namespace PhysProject.TestingTool
         protected override void CustomConduct()
         {
             TwoDimesional newAcceleration = new TwoDimesional(0, 0);
-            foreach (PhysicalObject physicalObject in Field.PhysicalObjects)
+            foreach (PhysicalObject physicalObject in PhysicField.PhysicalObjects)
             {
                 double distance = Tool.Distance(Position, physicalObject.Position);
                 if (distance != 0)
