@@ -9,15 +9,16 @@ namespace PhysProject.Source
 {
     public class PhysicalField
     {
-        private readonly DispatcherTimer _systemTime = new DispatcherTimer();
-        private readonly List<PhysicalObject> _physicalObjects = new List<PhysicalObject>();
-        private readonly List<PhysicalObject> _staticObjects = new List<PhysicalObject>();
-        private readonly int _timePerTick;
-        private readonly Canvas _canvas;
+        public readonly List<PhysicalObject> PhysicalObjects = new List<PhysicalObject>();
+        public readonly List<PhysicalObject> StaticObjects = new List<PhysicalObject>();
+        public readonly Canvas FieldCanvas;
 
-        public PhysicalField(Canvas fieldCanvas, int timePerTick)
+        private readonly DispatcherTimer _systemTime = new DispatcherTimer();
+        private readonly int _timePerTick;
+
+        public PhysicalField(Canvas fieldFieldCanvas, int timePerTick)
         {
-            _canvas = fieldCanvas;
+            FieldCanvas = fieldFieldCanvas;
             _timePerTick = timePerTick;
             _systemTime.Interval = TimeSpan.FromMilliseconds(timePerTick);
             _systemTime.Tick += Action;
@@ -25,11 +26,11 @@ namespace PhysProject.Source
 
         private void Action(object sender, EventArgs e)
         {
-            foreach (PhysicalObject obj in _physicalObjects)
+            foreach (PhysicalObject obj in PhysicalObjects)
             {
                 obj.UpdateMoveDirection(_timePerTick);
             }
-            foreach (PhysicalObject obj in _physicalObjects)
+            foreach (PhysicalObject obj in PhysicalObjects)
             {
                 obj.MoveObject(_timePerTick);
             }
@@ -37,12 +38,13 @@ namespace PhysProject.Source
 
         public void AddObject(PhysicalObject obj)
         {
-            _physicalObjects.Add(obj);
+            PhysicalObjects.Add(obj);
+            obj.UpdatePosition();
         }
 
         public void AddStaticObject(PhysicalObject obj)
         {
-            _staticObjects.Add(obj);
+            StaticObjects.Add(obj);
             obj.UpdatePosition();
         }
 
@@ -50,9 +52,6 @@ namespace PhysProject.Source
         {
             _systemTime.Start();
         }
-
-        public List<PhysicalObject> PhysicalObjects => _physicalObjects;
-        public List<PhysicalObject> StaticObjects => _staticObjects;
-        public Canvas FieldCanvas => _canvas;
+        
     }
 }

@@ -6,30 +6,21 @@ namespace PhysProject.Source
 {
     public abstract class PhysicalObject
     {
-        private readonly PhysicalField _physicField;
-        private readonly Ellipse _matherialObject;
-        private readonly int _size;
-
+        public readonly PhysicalField PhysicField;
+        public readonly Ellipse MatherialObject;
+        public TwoDimesional Position;
+        
         private TwoDimesional _accelerationVector;
         private TwoDimesional _speedVector, _newSpeedVector;
-        private TwoDimesional _position;
+        
 
-        protected PhysicalObject(PhysicalField field, int size,
-            TwoDimesional position, TwoDimesional speedVector)
+        protected PhysicalObject(PhysicalField field, double size, TwoDimesional position, TwoDimesional speedVector)
         {
             _speedVector = speedVector;
-            _physicField = field;
-            _position = position;
-            _size = size;
-            _matherialObject = new Ellipse()
-            {
-                Height = size,
-                Width = size,
-                StrokeThickness = 1,
-                Stroke = new SolidColorBrush() { Color = Colors.Navy },
-                Fill = new SolidColorBrush() { Color = Colors.Yellow }
-            };
-            _physicField.FieldCanvas.Children.Add(_matherialObject);
+            PhysicField = field;
+            Position = position;
+            MatherialObject = Tool.GenerateEllipse(size);
+            PhysicField.FieldCanvas.Children.Add(MatherialObject);
             UpdatePosition();
         }
 
@@ -41,8 +32,8 @@ namespace PhysProject.Source
 
         public void UpdatePosition()
         {
-            Canvas.SetLeft(_matherialObject, _position.X - _matherialObject.Width / 2);
-            Canvas.SetBottom(_matherialObject, _position.Y - _matherialObject.Height / 2);
+            Canvas.SetLeft(MatherialObject, Position.X - MatherialObject.Width / 2);
+            Canvas.SetBottom(MatherialObject, Position.Y - MatherialObject.Height / 2);
         }
 
         public void UpdateMoveDirection(int timePassed)
@@ -63,17 +54,23 @@ namespace PhysProject.Source
 
         public void MoveObject(int timePassed)
         {
-            _position += (_speedVector * timePassed);
+            Position += (_speedVector * timePassed);
             UpdatePosition();
         }
 
-        public Ellipse MatherialObject => _matherialObject;
-        public PhysicalField Field => _physicField;
-        public TwoDimesional Position => _position;
-        public int Size => _size;
+        public double Size
+        {
+            get { return MatherialObject.Width; }
+            set
+            {
+                MatherialObject.Width = value;
+                MatherialObject.Height = value;
+            }
+        }
 
         public TwoDimesional AccelerationDirection
         {
+            get { return _accelerationVector; }
             set { _accelerationVector = value; }
         }
 
