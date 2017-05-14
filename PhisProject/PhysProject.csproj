@@ -65,7 +65,7 @@
     </ApplicationDefinition>
     <Compile Include="Config.cs" />
     <Compile Include="MainWindow.cs" />
-    <Compile Include="Source\PhysicalObject.cs" />
+    <Compile Include="Source\PhysicalBaseObject.cs" />
     <Compile Include="Source\PhysicalField.cs" />
     <Compile Include="Source\Tool.cs" />
     <Compile Include="Source\TwoDimesional.cs" />

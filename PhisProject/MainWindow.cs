@@ -7,14 +7,21 @@ namespace PhysProject
 {
     public partial class MainWindow
     {
+        private PhysicalField _field;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            UpdateUserInterface();
+        }
+
         void UpdateUserInterface()
         {
             _field = new PhysicalField(MainCanvas, Config.TimePerTick);
             _field.AddObject(new CustomObject(_field, 10,
-                new TwoDimesional(50, 50), new TwoDimesional(10, 0)));
+                new TwoDimesional(50, 50), new TwoDimesional(10, 3)));
             _field.AddObject(new CustomObject(_field, 10,
                 new TwoDimesional(80, 80), new TwoDimesional(0, -10)));
-
             ButtonStart.Click += _field.Start;
         }
 

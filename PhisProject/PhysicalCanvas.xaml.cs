@@ -7,13 +7,5 @@ namespace PhysProject
 {
     public partial class MainWindow : Window
     {
-        private PhysicalField _field;
-
-        public MainWindow()
-        {
-
-            InitializeComponent();
-            UpdateUserInterface();
-        }
     }
 }
