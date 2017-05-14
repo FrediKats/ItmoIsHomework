@@ -1,39 +1,18 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
+﻿using System.Windows.Shapes;
 
 namespace PhysProject.Source
 {
-    public abstract class PhysicalObject
+    public abstract class PhysicalBaseObject
     {
-        public readonly PhysicalField PhysicField;
+        #region Public
+        public readonly PhysicalField Field;
         public readonly Ellipse MatherialObject;
         public TwoDimesional Position;
-        
-        private TwoDimesional _accelerationVector;
-        private TwoDimesional _speedVector, _newSpeedVector;
-        
-
-        protected PhysicalObject(PhysicalField field, double size, TwoDimesional position, TwoDimesional speedVector)
-        {
-            _speedVector = speedVector;
-            PhysicField = field;
-            Position = position;
-            MatherialObject = Tool.GenerateEllipse(size);
-            PhysicField.FieldCanvas.Children.Add(MatherialObject);
-            UpdatePosition();
-        }
 
         public void StopMoving()
         {
             _speedVector = new TwoDimesional(0, 0);
             _accelerationVector = new TwoDimesional(0, 0);
-        }
-
-        public void UpdatePosition()
-        {
-            Canvas.SetLeft(MatherialObject, Position.X - MatherialObject.Width / 2);
-            Canvas.SetBottom(MatherialObject, Position.Y - MatherialObject.Height / 2);
         }
 
         public void UpdateMoveDirection(int timePassed)
@@ -50,12 +29,6 @@ namespace PhysProject.Source
             {
                 _speedVector += (_accelerationVector * timePassed);
             }
-        }
-
-        public void MoveObject(int timePassed)
-        {
-            Position += (_speedVector * timePassed);
-            UpdatePosition();
         }
 
         public double Size
@@ -79,7 +52,24 @@ namespace PhysProject.Source
             get { return _speedVector;}
             set { _newSpeedVector = value; }
         }
+        #endregion
+
+        #region Private
+        private TwoDimesional _accelerationVector;
+        private TwoDimesional _speedVector, _newSpeedVector;
+        #endregion
+
+        #region Protected
+        protected PhysicalBaseObject(PhysicalField field, double size, TwoDimesional position, TwoDimesional speedVector)
+        {
+            _speedVector = speedVector;
+            Field = field;
+            Position = position;
+            MatherialObject = Tool.GenerateEllipse(size);
+        }
 
         protected abstract void CustomConduct();
+        #endregion
+
     }
 }

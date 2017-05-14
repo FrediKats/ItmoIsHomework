@@ -1,57 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using PhysProject.TestingTool;
 
 namespace PhysProject.Source
 {
     public class PhysicalField
     {
-        public readonly List<PhysicalObject> PhysicalObjects = new List<PhysicalObject>();
-        public readonly List<PhysicalObject> StaticObjects = new List<PhysicalObject>();
+        #region Public
+        public readonly List<PhysicalBaseObject> PhysicalObjects = new List<PhysicalBaseObject>();
+        public readonly List<PhysicalBaseObject> StaticObjects = new List<PhysicalBaseObject>();
         public readonly Canvas FieldCanvas;
-
-        private readonly DispatcherTimer _systemTime = new DispatcherTimer();
-        private readonly int _timePerTick;
-
+ 
         public PhysicalField(Canvas fieldFieldCanvas, int timePerTick)
         {
             FieldCanvas = fieldFieldCanvas;
             _timePerTick = timePerTick;
             _systemTime.Interval = TimeSpan.FromMilliseconds(timePerTick);
-            _systemTime.Tick += Action;
+            _systemTime.Tick += FieldUpdate;
         }
 
-        private void Action(object sender, EventArgs e)
-        {
-            foreach (PhysicalObject obj in PhysicalObjects)
-            {
-                obj.UpdateMoveDirection(_timePerTick);
-            }
-            foreach (PhysicalObject obj in PhysicalObjects)
-            {
-                obj.MoveObject(_timePerTick);
-            }
-        }
-
-        public void AddObject(PhysicalObject obj)
+        public void AddObject(PhysicalBaseObject obj)
         {
             PhysicalObjects.Add(obj);
-            obj.UpdatePosition();
+            FieldCanvas.Children.Add(obj.MatherialObject);
+            UpdatePosition(obj);
         }
 
-        public void AddStaticObject(PhysicalObject obj)
+        public void AddStaticObject(PhysicalBaseObject obj)
         {
             StaticObjects.Add(obj);
-            obj.UpdatePosition();
+            UpdatePosition(obj);
         }
 
         public void Start(object sender, EventArgs e)
         {
             _systemTime.Start();
         }
-        
+        #endregion
+
+        #region Private
+        private readonly DispatcherTimer _systemTime = new DispatcherTimer();
+        private readonly int _timePerTick;
+
+        private void FieldUpdate(object sender, EventArgs e)
+        {
+            foreach (PhysicalBaseObject obj in PhysicalObjects)
+            {
+                obj.UpdateMoveDirection(_timePerTick);
+            }
+            foreach (PhysicalBaseObject obj in PhysicalObjects)
+            {
+                obj.Position += (obj.SpeedVector * _timePerTick);
+                UpdatePosition(obj);
+            }
+        }
+
+        private void UpdatePosition(PhysicalBaseObject obj)
+        {
+            Canvas.SetLeft(obj.MatherialObject, obj.Position.X - obj.MatherialObject.Width / 2);
+            Canvas.SetBottom(obj.MatherialObject, obj.Position.Y - obj.MatherialObject.Height / 2);
+        }
+        #endregion
     }
 }
