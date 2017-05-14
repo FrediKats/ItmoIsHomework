@@ -2,7 +2,7 @@
 
 namespace PhysProject.TestingTool
 {
-    public class CustomObject : PhysicalObject
+    public class CustomObject : PhysicalBaseObject
     {
         public CustomObject(PhysicalField field, int size, TwoDimesional position, TwoDimesional speedVector) : base(field, size, position, speedVector)
         {
@@ -11,7 +11,7 @@ namespace PhysProject.TestingTool
         protected override void CustomConduct()
         {
             TwoDimesional newAcceleration = new TwoDimesional(0, 0);
-            foreach (PhysicalObject physicalObject in PhysicField.PhysicalObjects)
+            foreach (PhysicalBaseObject physicalObject in Field.PhysicalObjects)
             {
                 double distance = Tool.Distance(Position, physicalObject.Position);
                 if (distance != 0)
