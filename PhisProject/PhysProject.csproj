@@ -64,6 +64,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Config.cs" />
+    <Compile Include="Inredika\InredikaInterface.cs" />
+    <Compile Include="Inredika\InredikaInterface.xaml.cs">
+      <DependentUpon>InredikaInterface.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Inredika\Ticker.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="Source\PhysicalBaseObject.cs" />
     <Compile Include="Source\PhysicalField.cs" />
@@ -71,6 +76,10 @@
     <Compile Include="Source\TwoDimesional.cs" />
     <Compile Include="TestingTool\Balist.cs" />
     <Compile Include="TestingTool\CustomObject.cs" />
+    <Page Include="Inredika\InredikaInterface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PhysicalCanvas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -111,5 +120,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

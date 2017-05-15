@@ -4,7 +4,7 @@ using System.Windows.Shapes;
 
 namespace PhysProject.Source
 {
-    public class Tool
+    public static class Tool
     {
         public static double Distance(TwoDimesional f, TwoDimesional s)
         {
@@ -21,6 +21,24 @@ namespace PhysProject.Source
                 Stroke = new SolidColorBrush() { Color = Colors.Navy },
                 Fill = new SolidColorBrush() { Color = Colors.Yellow }
             };
+        }
+
+        public static Line GenerateLine(double x1, double y1, double x2, double y2)
+        {
+            return new Line()
+            {
+                X1 = x1,
+                Y1 = Config.WindowHeight - y1,
+                X2 = x2,
+                Y2 = Config.WindowHeight - y2,
+                StrokeThickness = 2,
+                Stroke = Brushes.Navy
+            };
+        }
+
+        public static Line GenerateLine(TwoDimesional f, TwoDimesional s)
+        {
+            return GenerateLine(f.X, f.Y, s.X, s.Y);
         }
     }
 }
