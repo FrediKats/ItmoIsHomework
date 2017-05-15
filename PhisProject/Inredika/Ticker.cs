@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using PhysProject.Source;
 
 namespace PhysProject.Inredika
@@ -8,15 +10,18 @@ namespace PhysProject.Inredika
     {
         private TextBlock _debug;
         private TwoDimesional _startPosition;
-        private double L = 20;
+        private Line _line;
+        private double L = 40;
 
         public Ticker(PhysicalField field, double size, TwoDimesional position, TwoDimesional speedVector) : base(field, size, position, speedVector)
         {
             _startPosition = position;
-            double newX = L * Math.Sin(Math.PI / 6) * -1;
+            double newX = L * Math.Sin(Math.PI / 6) * -1;   
             double newY = L * Math.Cos(Math.PI / 6) * -1;
             TwoDimesional objectPosition = new TwoDimesional(newX, newY);
             Position = objectPosition + Position;
+            _line = Tool.GenerateLine(_startPosition, Position);
+            Field.FieldCanvas.Children.Add(_line);
         }
 
         public void SetDebug(TextBlock debugText)
@@ -37,6 +42,9 @@ namespace PhysProject.Inredika
                                $"V:({SpeedVector.X};{SpeedVector.Y})\n" +
                                $"A:({AccelerationDirection.X};{AccelerationDirection.Y}";
             }
+
+            _line.X2 = Position.X;
+           _line.Y2 = 400 - Position.Y;
         }
     }
 }
