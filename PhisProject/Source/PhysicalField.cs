@@ -30,6 +30,7 @@ namespace PhysProject.Source
         public void AddStaticObject(PhysicalBaseObject obj)
         {
             StaticObjects.Add(obj);
+            FieldCanvas.Children.Add(obj.MatherialObject);
             UpdatePosition(obj);
         }
 
