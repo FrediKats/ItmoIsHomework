@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="InredikaInterface" Height="400" Width="600">
     <Canvas x:Name="InterfaceCanvas" Margin="0,0,200,0">
-        <Button x:Name="ButtonStart" Content="Button" Canvas.Left="489" Canvas.Top="308" Width="75"/>
-        <TextBlock x:Name="TextBoxDebug" Canvas.Left="430" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="35"/>
+        <Button x:Name="ButtonStart" Content="Start" Canvas.Left="489" Canvas.Top="308" Width="75"/>
+        <TextBlock x:Name="TextBoxDebug" Canvas.Left="430" TextWrapping="Wrap" Text="Label for debug" Canvas.Top="35"/>
     </Canvas>
 </Window>

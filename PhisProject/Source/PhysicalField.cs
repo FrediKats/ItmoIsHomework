@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
@@ -33,7 +34,7 @@ namespace PhysProject.Source
             FieldCanvas.Children.Add(obj.MatherialObject);
             UpdatePosition(obj);
         }
-
+        
         public void Start(object sender, EventArgs e)
         {
             _systemTime.Start();
@@ -60,7 +61,7 @@ namespace PhysProject.Source
         private void UpdatePosition(PhysicalBaseObject obj)
         {
             Canvas.SetLeft(obj.MatherialObject, obj.Position.X - obj.MatherialObject.Width / 2);
-            Canvas.SetBottom(obj.MatherialObject, obj.Position.Y - obj.MatherialObject.Height / 2);
+            Canvas.SetTop(obj.MatherialObject, Config.WindowHeight - obj.Position.Y - obj.MatherialObject.Height / 2);
         }
         #endregion
     }
