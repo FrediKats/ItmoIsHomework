@@ -1,4 +1,5 @@
-﻿using System.Windows.Shapes;
+﻿using System.Collections.Generic;
+using System.Windows.Shapes;
 
 namespace PhysProject.Source
 {
@@ -8,6 +9,7 @@ namespace PhysProject.Source
         public readonly PhysicalField Field;
         public readonly Ellipse MatherialObject;
         public TwoDimesional Position;
+        public readonly List<Graphic> GraphicList = new List<Graphic>();
 
         public void StopMoving()
         {
@@ -29,6 +31,11 @@ namespace PhysProject.Source
             {
                 _speedVector += (_accelerationVector * timePassed);
             }
+        }
+
+        public void AddGraphic(Graphic graphic)
+        {
+            GraphicList.Add(graphic);
         }
 
         public double Size
