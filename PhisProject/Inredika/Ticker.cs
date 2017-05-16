@@ -44,7 +44,11 @@ namespace PhysProject.Inredika
             }
 
             _line.X2 = Position.X;
-           _line.Y2 = 400 - Position.Y;
+           _line.Y2 = Config.WindowHeight - Position.Y;
+            if (GraphicList.Count >= 1)
+            {
+                GraphicList[0].AddPoint(0, Position.X - _startPosition.X);
+            }
         }
     }
 }
