@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Shapes;
 
 namespace PhysProject.Source
@@ -7,14 +8,21 @@ namespace PhysProject.Source
     {
         #region Public
         public readonly PhysicalField Field;
-        public readonly Ellipse MatherialObject;
+        public readonly Ellipse MaterialObject;
         public TwoDimesional Position;
+        public TwoDimesional PrevPosition;
         public readonly List<Graphic> GraphicList = new List<Graphic>();
+        public int TimeAdded = -1;
+
+        public bool IsWayDraw = false;
 
         public void StopMoving()
         {
             _speedVector = new TwoDimesional(0, 0);
             _accelerationVector = new TwoDimesional(0, 0);
+
+            Field.StaticObjects.Add(this);
+            Field.PhysicalObjects.Remove(this);
         }
 
         public void UpdateMoveDirection(int timePassed)
@@ -40,11 +48,11 @@ namespace PhysProject.Source
 
         public double Size
         {
-            get { return MatherialObject.Width; }
+            get { return MaterialObject.Width; }
             set
             {
-                MatherialObject.Width = value;
-                MatherialObject.Height = value;
+                MaterialObject.Width = value;
+                MaterialObject.Height = value;
             }
         }
 
@@ -72,7 +80,8 @@ namespace PhysProject.Source
             _speedVector = speedVector;
             Field = field;
             Position = position;
-            MatherialObject = Tool.GenerateEllipse(size);
+            PrevPosition = position;
+            MaterialObject = Tool.GenerateEllipse(size);
         }
 
         protected abstract void CustomConduct();

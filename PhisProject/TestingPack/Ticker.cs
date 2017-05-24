@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using PhysProject.Source;
 
-namespace PhysProject.Inredika
+namespace PhysProject.TestingPack
 {
     public class Ticker : PhysicalBaseObject
     {
