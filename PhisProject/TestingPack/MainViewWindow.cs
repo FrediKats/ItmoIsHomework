@@ -1,22 +1,18 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows;
 using System.Windows.Shapes;
-using OxyPlot;
 using OxyPlot.Series;
 using PhysProject.Source;
-using PhysProject.TestingTool;
 
-namespace PhysProject.Inredika
+namespace PhysProject.TestingPack
 {
-    public partial class InredikaInterface : Window
+    public partial class MainViewWindow : Window
     {
         private PhysicalField _field;
         private Graphic _gr;
 
         private int _maxHeignt = 250;
 
-        public InredikaInterface()
+        public MainViewWindow()
         {
             InitializeComponent();
             Testing();
