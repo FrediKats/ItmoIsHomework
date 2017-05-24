@@ -13,16 +13,14 @@ namespace PhysProject.Source
         public TwoDimesional PrevPosition;
         public readonly List<Graphic> GraphicList = new List<Graphic>();
         public int TimeAdded = -1;
-
+        public bool IsStoped = false;
         public bool IsWayDraw = false;
 
         public void StopMoving()
         {
             _speedVector = new TwoDimesional(0, 0);
             _accelerationVector = new TwoDimesional(0, 0);
-
-            Field.StaticObjects.Add(this);
-            Field.PhysicalObjects.Remove(this);
+            IsStoped = true;
         }
 
         public void UpdateMoveDirection(int timePassed)
