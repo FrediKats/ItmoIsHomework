@@ -17,7 +17,7 @@ namespace PhysProject.Source
 
             _plotView.Model = Model;
             Model.Axes.Clear();
-            Model.Series.Clear();
+            CleanGraph();
 
             _axisX = new OxyPlot.Axes.LinearAxis()
             {
@@ -61,6 +61,12 @@ namespace PhysProject.Source
                 UpdateModel();
             }
             
+        }
+
+        public void CleanGraph()
+        {
+            Model.Series.Clear();
+            UpdateModel();
         }
         #endregion
 

@@ -10,11 +10,9 @@ namespace PhysProject.Source
     public class PhysicalField
     {
         #region Public
-        public readonly List<PhysicalBaseObject> PhysicalObjects = new List<PhysicalBaseObject>();
-        public readonly List<PhysicalBaseObject> StaticObjects = new List<PhysicalBaseObject>();
+        public List<PhysicalBaseObject> PhysicalObjects = new List<PhysicalBaseObject>();
         public readonly Canvas FieldCanvas;
         public int CurrentTime;
-
 
         public PhysicalField(Canvas fieldFieldCanvas, int timePerTick)
         {
@@ -30,13 +28,6 @@ namespace PhysProject.Source
             FieldCanvas.Children.Add(obj.MaterialObject);
             UpdatePosition(obj);
         }
-
-        public void AddStaticObject(PhysicalBaseObject obj)
-        {
-            StaticObjects.Add(obj);
-            FieldCanvas.Children.Add(obj.MaterialObject);
-            UpdatePosition(obj);
-        }
         
         public void Start(object sender, EventArgs e)
         {
@@ -47,21 +38,37 @@ namespace PhysProject.Source
         {
             _systemTime.Stop();
         }
+
+        public void ClearCanvas()
+        {
+            for (int i = 0; i < lines.Count; i++)
+            {
+                FieldCanvas.Children.Remove(lines[i]);
+            }
+            lines = new List<Line>();
+
+            foreach (PhysicalBaseObject obj in PhysicalObjects)
+            {
+                FieldCanvas.Children.Remove(obj.MaterialObject);
+            }
+            PhysicalObjects = new List<PhysicalBaseObject>();
+        }
         #endregion
 
         #region Private
         private readonly DispatcherTimer _systemTime = new DispatcherTimer();
         private readonly int _timePerTick;
+        private List<Line> lines = new List<Line>();
 
         private void FieldUpdate(object sender, EventArgs e)
         {
-            CurrentTime = DateTime.Now.Millisecond;
+            CurrentTime = (int) (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
 
             foreach (PhysicalBaseObject obj in PhysicalObjects)
             {
                 if (obj.TimeAdded == -1)
                 {
-                    obj.TimeAdded = DateTime.Now.Millisecond;
+                    obj.TimeAdded = (int) (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
                 }
                 obj.UpdateMoveDirection(_timePerTick);
             }
@@ -74,6 +81,7 @@ namespace PhysProject.Source
                 {
                     Line line = Tool.GenerateLine(obj.PrevPosition, obj.Position);
                     FieldCanvas.Children.Add(line);
+                    lines.Add(line);
                 }
             }
         }
