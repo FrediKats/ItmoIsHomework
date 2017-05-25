@@ -12,7 +12,6 @@ namespace PhysProject.Source
         #region Public
         public List<PhysicalBaseObject> PhysicalObjects = new List<PhysicalBaseObject>();
         public readonly Canvas FieldCanvas;
-        public int CurrentTime;
 
         public PhysicalField(Canvas fieldFieldCanvas, int timePerTick)
         {
@@ -41,9 +40,9 @@ namespace PhysProject.Source
 
         public void ClearCanvas()
         {
-            for (int i = 0; i < lines.Count; i++)
+            foreach (Line t in lines)
             {
-                FieldCanvas.Children.Remove(lines[i]);
+                FieldCanvas.Children.Remove(t);
             }
             lines = new List<Line>();
 
@@ -62,14 +61,9 @@ namespace PhysProject.Source
 
         private void FieldUpdate(object sender, EventArgs e)
         {
-            CurrentTime = (int) (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
 
             foreach (PhysicalBaseObject obj in PhysicalObjects)
             {
-                if (obj.TimeAdded == -1)
-                {
-                    obj.TimeAdded = (int) (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
-                }
                 obj.UpdateMoveDirection(_timePerTick);
             }
             foreach (PhysicalBaseObject obj in PhysicalObjects)

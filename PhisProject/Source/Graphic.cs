@@ -52,17 +52,6 @@ namespace PhysProject.Source
             } 
         }
 
-        public void AddPoint(int seriesNumber, double y)
-        {
-            if (Model.Series[seriesNumber].GetType() == typeof(OxyPlot.Series.LineSeries))
-            {
-                _time += Config.TimePerTick;
-                ((OxyPlot.Series.LineSeries)Model.Series[0]).Points.Add(new DataPoint(_time, y));
-                UpdateModel();
-            }
-            
-        }
-
         public void CleanGraph()
         {
             Model.Series.Clear();
@@ -73,7 +62,6 @@ namespace PhysProject.Source
         #region Private
         private PlotView _plotView;
         private OxyPlot.Axes.LinearAxis _axisY, _axisX;
-        private int _time = 0;
 
         private void UpdateModel()
         {
