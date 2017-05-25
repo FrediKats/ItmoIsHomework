@@ -12,7 +12,6 @@ namespace PhysProject.Source
         public TwoDimesional Position;
         public TwoDimesional PrevPosition;
         public readonly List<Graphic> GraphicList = new List<Graphic>();
-        public int TimeAdded = -1;
         public bool IsStoped = false;
         public bool IsWayDraw = false;
 
