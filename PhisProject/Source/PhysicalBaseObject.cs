@@ -21,7 +21,7 @@ namespace PhysProject.Source
         public void StopMoving()
         {
             _speedVector = new TwoDimesional(0, 0);
-            _accelerationVector = new TwoDimesional(0, 0);
+            AccelerationDirection = new TwoDimesional(0, 0);
             IsStoped = true;
         }
 
@@ -40,9 +40,9 @@ namespace PhysProject.Source
             {
                 _speedVector = _newSpeedVector;
             }
-            if (_accelerationVector != null)
+            if (AccelerationDirection != null)
             {
-                _speedVector += (_accelerationVector * timePassed / 1000);
+                _speedVector += (AccelerationDirection * timePassed / 1000);
             }
         }
 
@@ -74,7 +74,6 @@ namespace PhysProject.Source
         #endregion
 
         #region Private
-        private TwoDimesional _accelerationVector;
         private TwoDimesional _speedVector, _newSpeedVector;
         #endregion
 
