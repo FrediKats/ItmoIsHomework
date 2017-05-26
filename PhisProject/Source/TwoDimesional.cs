@@ -30,5 +30,10 @@
         {
             return new TwoDimesional(td.X * coef, td.Y * coef);
         }
+
+        public static TwoDimesional operator /(TwoDimesional td, double coef)
+        {
+            return new TwoDimesional(td.X / coef, td.Y / coef);
+        }
     }
 }

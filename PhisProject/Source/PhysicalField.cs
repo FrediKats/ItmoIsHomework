@@ -68,7 +68,7 @@ namespace PhysProject.Source
             foreach (PhysicalBaseObject obj in PhysicalObjects)
             {
                 obj.PrevPosition = new TwoDimesional(obj.Position);
-                obj.Position += (obj.SpeedVector * _timePerTick);
+                obj.Position += (obj.SpeedVector * _timePerTick / 1000);
                 UpdatePosition(obj);
                 if (obj.IsWayDraw)
                 {
