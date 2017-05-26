@@ -42,7 +42,7 @@ namespace PhysProject.Source
             }
             if (_accelerationVector != null)
             {
-                _speedVector += (_accelerationVector * timePassed);
+                _speedVector += (_accelerationVector * timePassed / 1000);
             }
         }
 
