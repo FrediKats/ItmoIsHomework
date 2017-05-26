@@ -57,16 +57,16 @@ namespace PhysProject.Source
             Model.Series.Clear();
             UpdateModel();
         }
+
+        public void UpdateModel()
+        {
+            Model.InvalidatePlot(true);
+        }
         #endregion
 
         #region Private
         private PlotView _plotView;
         private OxyPlot.Axes.LinearAxis _axisY, _axisX;
-
-        private void UpdateModel()
-        {
-            Model.InvalidatePlot(true);
-        }
         #endregion
     }
 }
