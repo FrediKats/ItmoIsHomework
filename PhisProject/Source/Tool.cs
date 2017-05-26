@@ -28,9 +28,9 @@ namespace PhysProject.Source
             return new Line()
             {
                 X1 = x1,
-                Y1 = Config.WindowHeight - y1,
+                Y1 = y1,
                 X2 = x2,
-                Y2 = Config.WindowHeight - y2,
+                Y2 = y2,
                 StrokeThickness = 2,
                 Stroke = Brushes.Navy
             };

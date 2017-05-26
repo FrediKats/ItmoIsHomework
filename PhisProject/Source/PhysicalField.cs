@@ -61,7 +61,6 @@ namespace PhysProject.Source
 
         private void FieldUpdate(object sender, EventArgs e)
         {
-
             foreach (PhysicalBaseObject obj in PhysicalObjects)
             {
                 obj.UpdateMoveDirection(_timePerTick);
@@ -83,7 +82,7 @@ namespace PhysProject.Source
         private void UpdatePosition(PhysicalBaseObject obj)
         {
             Canvas.SetLeft(obj.MaterialObject, obj.Position.X - obj.MaterialObject.Width / 2);
-            Canvas.SetTop(obj.MaterialObject, Config.WindowHeight - obj.Position.Y - obj.MaterialObject.Height / 2);
+            Canvas.SetTop(obj.MaterialObject, obj.Position.Y - obj.MaterialObject.Height / 2);
         }
         #endregion
     }

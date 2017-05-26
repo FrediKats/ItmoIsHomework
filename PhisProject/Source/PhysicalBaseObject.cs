@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 
 namespace PhysProject.Source
@@ -7,13 +8,15 @@ namespace PhysProject.Source
     public abstract class PhysicalBaseObject
     {
         #region Public
+        public readonly List<Graphic> GraphicList = new List<Graphic>();
         public readonly PhysicalField Field;
         public readonly Ellipse MaterialObject;
-        public TwoDimesional Position;
-        public TwoDimesional PrevPosition;
-        public readonly List<Graphic> GraphicList = new List<Graphic>();
+        public TwoDimesional Position, PrevPosition;
+        public TwoDimesional AccelerationDirection;
         public bool IsStoped = false;
         public bool IsWayDraw = false;
+        public int SelfTime = 0;
+        public TextBlock DebugBlock;
 
         public void StopMoving()
         {
@@ -24,8 +27,13 @@ namespace PhysProject.Source
 
         public void UpdateMoveDirection(int timePassed)
         {
-            _newSpeedVector = null;
+            if (IsStoped)
+            {
+                return;
+            }
 
+            SelfTime += timePassed;
+            _newSpeedVector = null;
             CustomConduct();
 
             if (_newSpeedVector != null)
@@ -53,10 +61,9 @@ namespace PhysProject.Source
             }
         }
 
-        public TwoDimesional AccelerationDirection
+        public void SetDebugBlock(TextBlock tb)
         {
-            get { return _accelerationVector; }
-            set { _accelerationVector = value; }
+            DebugBlock = tb;
         }
 
         public TwoDimesional SpeedVector
