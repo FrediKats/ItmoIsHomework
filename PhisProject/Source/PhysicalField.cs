@@ -25,9 +25,9 @@ namespace PhysProject.Source
         {
             PhysicalObjects.Add(obj);
             FieldCanvas.Children.Add(obj.MaterialObject);
-            UpdatePosition(obj);
+            obj.UpdatePosition();
         }
-        
+
         public void Start(object sender, EventArgs e)
         {
             _systemTime.Start();
@@ -71,8 +71,6 @@ namespace PhysProject.Source
                 obj.PrevPosition = new TwoDimesional(obj.Position);
                 obj.Position += (obj.SpeedVector * _timePerTick / 1000);
 
-                UpdatePosition(obj);
-
                 if (obj.IsWayDraw)
                 {
                     Line line = Tool.GenerateLine(obj.PrevPosition, obj.Position);
@@ -80,12 +78,6 @@ namespace PhysProject.Source
                     _lines.Add(line);
                 }
             }
-        }
-
-        private void UpdatePosition(PhysicalBaseObject obj)
-        {
-            Canvas.SetLeft(obj.MaterialObject, obj.Position.X - obj.MaterialObject.Width / 2);
-            Canvas.SetTop(obj.MaterialObject, obj.Position.Y - obj.MaterialObject.Height / 2);
         }
         #endregion
     }

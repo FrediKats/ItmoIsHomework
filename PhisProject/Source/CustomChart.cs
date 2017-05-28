@@ -5,19 +5,19 @@ using OxyPlot.Wpf;
 
 namespace PhysProject.Source
 {
-    public class Graphic
+    public class CustomChart
     {
         #region Public
         public readonly PlotModel Model;
 
-        public Graphic(PlotView plotView)
+        public CustomChart(PlotView plotView)
         {
             _plotView = plotView;
             Model = new PlotModel();
 
             _plotView.Model = Model;
             Model.Axes.Clear();
-            CleanGraph();
+            CleanChart();
 
             _axisX = new OxyPlot.Axes.LinearAxis()
             {
@@ -37,26 +37,24 @@ namespace PhysProject.Source
             _axisY.Title = nameY;
         }
 
+        public void AddChart(OxyPlot.Series.LineSeries series)
+        {
+            Model.Series.Add(series);
+        }
+
         public void AddFunctionSeries(Func<double, double> f, double st, double end, double step)
         {
             Model.Series.Add(new FunctionSeries(f, st, end, step));
             UpdateModel();
         }
 
-        public void AddPoint(int seriesNumber, double x, double y)
+        public void AddPoint(OxyPlot.Series.LineSeries series, double x, double y)
         {
-            if (Model.Series[seriesNumber].GetType() == typeof(OxyPlot.Series.LineSeries))
-            {
-                ((OxyPlot.Series.LineSeries) Model.Series[seriesNumber]).Points.Add(new DataPoint(x, y));
-                UpdateModel();
-            }
-            else
-            {
-                throw new Exception("Series type error");
-            }
+            series.Points.Add(new DataPoint(x, y));
+            UpdateModel();
         }
 
-        public void CleanGraph()
+        public void CleanChart()
         {
             Model.Series.Clear();
             UpdateModel();
