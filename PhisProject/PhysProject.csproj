@@ -64,7 +64,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Config.cs" />
-    <Compile Include="Source\Graphic.cs" />
+    <Compile Include="Source\CustomChart.cs" />
+    <Compile Include="Source\CustomSeries.cs" />
     <Compile Include="Source\PhysicalBaseObject.cs" />
     <Compile Include="Source\PhysicalField.cs" />
     <Compile Include="Source\Tool.cs" />
