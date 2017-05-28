@@ -47,9 +47,13 @@ namespace PhysProject.Source
         {
             if (Model.Series[seriesNumber].GetType() == typeof(OxyPlot.Series.LineSeries))
             {
-                ((OxyPlot.Series.LineSeries)Model.Series[seriesNumber]).Points.Add(new DataPoint(x, y));
+                ((OxyPlot.Series.LineSeries) Model.Series[seriesNumber]).Points.Add(new DataPoint(x, y));
                 UpdateModel();
-            } 
+            }
+            else
+            {
+                throw new Exception("Series type error");
+            }
         }
 
         public void CleanGraph()

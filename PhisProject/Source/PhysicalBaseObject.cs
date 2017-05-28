@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 
@@ -11,12 +10,15 @@ namespace PhysProject.Source
         public readonly List<Graphic> GraphicList = new List<Graphic>();
         public readonly PhysicalField Field;
         public readonly Ellipse MaterialObject;
+        public TextBlock DebugBlock;
+
         public TwoDimesional Position, PrevPosition;
         public TwoDimesional AccelerationDirection;
+        
         public bool IsStoped = false;
         public bool IsWayDraw = false;
         public int SelfTime = 0;
-        public TextBlock DebugBlock;
+        
 
         public void StopMoving()
         {
@@ -61,16 +63,12 @@ namespace PhysProject.Source
             }
         }
 
-        public void SetDebugBlock(TextBlock tb)
-        {
-            DebugBlock = tb;
-        }
-
         public TwoDimesional SpeedVector
         {
             get { return _speedVector;}
             set { _newSpeedVector = value; }
         }
+
         #endregion
 
         #region Private

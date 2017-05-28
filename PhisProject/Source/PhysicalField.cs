@@ -40,11 +40,11 @@ namespace PhysProject.Source
 
         public void ClearCanvas()
         {
-            foreach (Line t in lines)
+            foreach (Line l in _lines)
             {
-                FieldCanvas.Children.Remove(t);
+                FieldCanvas.Children.Remove(l);
             }
-            lines = new List<Line>();
+            _lines = new List<Line>();
 
             foreach (PhysicalBaseObject obj in PhysicalObjects)
             {
@@ -57,7 +57,7 @@ namespace PhysProject.Source
         #region Private
         private readonly DispatcherTimer _systemTime = new DispatcherTimer();
         private readonly int _timePerTick;
-        private List<Line> lines = new List<Line>();
+        private List<Line> _lines = new List<Line>();
 
         private void FieldUpdate(object sender, EventArgs e)
         {
@@ -65,16 +65,19 @@ namespace PhysProject.Source
             {
                 obj.UpdateMoveDirection(_timePerTick);
             }
+
             foreach (PhysicalBaseObject obj in PhysicalObjects)
             {
                 obj.PrevPosition = new TwoDimesional(obj.Position);
                 obj.Position += (obj.SpeedVector * _timePerTick / 1000);
+
                 UpdatePosition(obj);
+
                 if (obj.IsWayDraw)
                 {
                     Line line = Tool.GenerateLine(obj.PrevPosition, obj.Position);
                     FieldCanvas.Children.Add(line);
-                    lines.Add(line);
+                    _lines.Add(line);
                 }
             }
         }
