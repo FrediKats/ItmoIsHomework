@@ -1,24 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using OxyPlot.Series;
 
 namespace PhysProject.Source
 {
     public abstract class PhysicalBaseObject
     {
         #region Public
-        public readonly List<Graphic> GraphicList = new List<Graphic>();
+        //public readonly List<CustomChart> GraphicList = new List<CustomChart>();
+
+        public List<CustomSeries> SeriesList = new List<CustomSeries>();
         public readonly PhysicalField Field;
         public readonly Ellipse MaterialObject;
-        public TextBlock DebugBlock;
+        public TextBlock InfoBlock;
 
-        public TwoDimesional Position, PrevPosition;
+        public TwoDimesional PrevPosition;
         public TwoDimesional AccelerationDirection;
-        
+
         public bool IsStoped = false;
         public bool IsWayDraw = false;
         public int SelfTime = 0;
-        
 
         public void StopMoving()
         {
@@ -48,9 +50,27 @@ namespace PhysProject.Source
             }
         }
 
-        public void AddGraphic(Graphic graphic)
+        public void AddSeries(CustomChart chart)
         {
-            GraphicList.Add(graphic);
+            SeriesList.Add(new CustomSeries(chart));
+        }
+
+        public void UpdatePosition()
+        {
+            Canvas.SetLeft(MaterialObject, Position.X - MaterialObject.Width / 2);
+            Canvas.SetTop(MaterialObject, Position.Y - MaterialObject.Height / 2);
+            CustomPositionUpdate();
+
+        }
+
+        public TwoDimesional Position
+        {
+            get { return _position; }
+            set
+            {
+                _position = value;
+                UpdatePosition();
+            }
         }
 
         public double Size
@@ -65,27 +85,32 @@ namespace PhysProject.Source
 
         public TwoDimesional SpeedVector
         {
-            get { return _speedVector;}
+            get { return _speedVector; }
             set { _newSpeedVector = value; }
         }
-
         #endregion
 
         #region Private
         private TwoDimesional _speedVector, _newSpeedVector;
+        private TwoDimesional _position;
         #endregion
 
         #region Protected
         protected PhysicalBaseObject(PhysicalField field, double size, TwoDimesional position, TwoDimesional speedVector)
         {
-            _speedVector = speedVector;
+            MaterialObject = Tool.GenerateEllipse(size);
             Field = field;
             Position = position;
             PrevPosition = position;
-            MaterialObject = Tool.GenerateEllipse(size);
+            _speedVector = speedVector;
         }
 
         protected abstract void CustomConduct();
+
+        protected virtual void CustomPositionUpdate()
+        {
+            return;
+        }
         #endregion
 
     }
