@@ -1,0 +1,175 @@
+﻿<Window
+    x:Class="PhysProject.Inredika.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PhysProject.Inredika.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:oxy="http://oxyplot.org/wpf"
+    Title="InredikaInterface"
+    Width="1092.5"
+    Height="664.5"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+    <Canvas x:Name="InterfaceCanvas" Margin="0,0,0,0">
+        <Rectangle
+            Canvas.Left="10"
+            Canvas.Top="260"
+            Width="474"
+            Height="278"
+            Fill="#FFF4F4F5"
+            Stroke="Black" />
+
+        <Button
+            x:Name="ButtonStart"
+            Canvas.Left="90"
+            Canvas.Top="464"
+            Canvas.Right="10"
+            Width="74"
+            Content="Start"
+            FontFamily="Arial Black" />
+        <Button
+            x:Name="ButtonClean"
+            Canvas.Left="90"
+            Canvas.Top="487"
+            Canvas.Right="10"
+            Width="74"
+            Content="Restart"
+            FontFamily="Arial Black" />
+        <oxy:PlotView
+            x:Name="PlotViewTop"
+            Canvas.Top="10"
+            Canvas.Right="10"
+            Width="500"
+            Height="300" />
+        <oxy:PlotView
+            x:Name="PlotViewBot"
+            Canvas.Top="320"
+            Canvas.Right="10"
+            Width="500"
+            Height="300" />
+        <TextBox
+            x:Name="InputSpringMass"
+            Canvas.Left="360"
+            Canvas.Top="304"
+            Width="100"
+            Height="24"
+            FontFamily="Arial Black"
+            Text="100"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="InputSpringCoefK"
+            Canvas.Left="360"
+            Canvas.Top="334"
+            Width="100"
+            Height="24"
+            FontFamily="Arial Black"
+            Text="0,05"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="InputSpringDeltaY"
+            Canvas.Left="360"
+            Canvas.Top="364"
+            Width="100"
+            Height="24"
+            FontFamily="Arial Black"
+            RenderTransformOrigin="0.5,0.5"
+            Text="60"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Left="270"
+            Canvas.Top="304"
+            Canvas.Right="130"
+            FontFamily="Arial Black"
+            Text="Масса, г"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Left="270"
+            Canvas.Top="334"
+            Canvas.Right="130"
+            FontFamily="Arial Black"
+            Text="K, Н/м"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Left="237"
+            Canvas.Top="363"
+            Canvas.Right="130"
+            FontFamily="Arial Black"
+            Text="Смещение, см"
+            TextWrapping="Wrap" />
+        <Button
+            x:Name="ButtonCreateSpring"
+            Canvas.Left="326"
+            Canvas.Top="438"
+            Canvas.Right="10"
+            Width="76"
+            Content="Spring"
+            FontFamily="Arial Black" />
+        <TextBox
+            x:Name="InputTickerLength"
+            Canvas.Left="152"
+            Canvas.Top="304"
+            Width="100"
+            Height="24"
+            FontFamily="Arial Black"
+            Text="100"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="InputTickerAngle"
+            Canvas.Left="152"
+            Canvas.Top="334"
+            Width="100"
+            Height="24"
+            FontFamily="Arial Black"
+            Text="30"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Left="30"
+            Canvas.Top="304"
+            FontFamily="Arial Black"
+            Text="Длина нити, см"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Left="30"
+            Canvas.Top="334"
+            FontFamily="Arial Black"
+            Text="Угол, градусы"
+            TextWrapping="Wrap" />
+        <Button
+            x:Name="ButtonCreateTicker"
+            Canvas.Left="90"
+            Canvas.Top="383"
+            Width="74"
+            Content="Ticker"
+            FontFamily="Arial Black" />
+        <TextBlock
+            Canvas.Left="217"
+            Canvas.Top="397"
+            Canvas.Right="130"
+            FontFamily="Arial Black"
+            Text="Сопротивление, кг/с"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="InputSpringCoefC"
+            Canvas.Left="360"
+            Canvas.Top="396"
+            Width="100"
+            Height="24"
+            FontFamily="Arial Black"
+            Text="0,5"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="tracker"
+            Canvas.Left="500"
+            Canvas.Top="150"
+            Text="150 см"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="tracker_Copy"
+            Canvas.Left="500"
+            Canvas.Top="100"
+            Text="100 см"
+            TextWrapping="Wrap" />
+    </Canvas>
+</Window>
