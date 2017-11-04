@@ -5,7 +5,7 @@ namespace PhysProject.Core
     public class CustomSeries
     {
         private CustomChart _chart;
-        private LineSeries _series;
+        public LineSeries _series;
 
         public CustomSeries(CustomChart chart)
         {
