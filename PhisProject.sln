@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject", "PhisProject\PhysProject.csproj", "{3A6B409D-5931-4C7A-ABFD-AB6E42BAFA60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject.Core", "PhysProject.Core\PhysProject.Core.csproj", "{87360350-079A-41A1-8D2B-30E277A3DA46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{3A6B409D-5931-4C7A-ABFD-AB6E42BAFA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A6B409D-5931-4C7A-ABFD-AB6E42BAFA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A6B409D-5931-4C7A-ABFD-AB6E42BAFA60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87360350-079A-41A1-8D2B-30E277A3DA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87360350-079A-41A1-8D2B-30E277A3DA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87360350-079A-41A1-8D2B-30E277A3DA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87360350-079A-41A1-8D2B-30E277A3DA46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34D3BB89-D86D-46A0-9214-4ACA35610BB7}
 	EndGlobalSection
 EndGlobal
