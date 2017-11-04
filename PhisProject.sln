@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject", "PhisProject\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject.Core", "PhysProject.Core\PhysProject.Core.csproj", "{87360350-079A-41A1-8D2B-30E277A3DA46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject.Inredika", "PhysProject.Inredika\PhysProject.Inredika.csproj", "{FBC35149-B4D8-48C6-ADE4-5199F66FD3BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{87360350-079A-41A1-8D2B-30E277A3DA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87360350-079A-41A1-8D2B-30E277A3DA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87360350-079A-41A1-8D2B-30E277A3DA46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBC35149-B4D8-48C6-ADE4-5199F66FD3BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC35149-B4D8-48C6-ADE4-5199F66FD3BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC35149-B4D8-48C6-ADE4-5199F66FD3BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC35149-B4D8-48C6-ADE4-5199F66FD3BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
