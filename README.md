@@ -1,1 +1,1 @@
-in-microsoft-we-trust
+In Microsoft We Trust
