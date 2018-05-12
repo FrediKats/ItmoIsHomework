@@ -2,15 +2,15 @@ DROP TABLE IF EXISTS Criteria
 GO
 CREATE TABLE Criteria
 (
-	CriteriaID				UNIQUEIDENTIFIER	NOT NULL IDENTITY (1, 1),
-	TaskID					UNIQUEIDENTIFIER	NOT NULL,
-	Title					NVARCHAR(64)		NOT NULL,
-	CriteriaDescription		NVARCHAR(512)		NULL,
-	MaxPoint				INT					NOT NULL,
+    CriteriaID              UNIQUEIDENTIFIER    NOT NULL,
+    TaskID                  UNIQUEIDENTIFIER    NOT NULL,
+    Title                   NVARCHAR(64)        NOT NULL,
+    CriteriaDescription     NVARCHAR(512)       NULL,
+    MaxPoint                INT                 NOT NULL,
 
-	CONSTRAINT PK_CRITERIA							PRIMARY KEY (CriteriaID),
-	CONSTRAINT FK_CRITERIA_TASK_ID					FOREIGN KEY (TaskID) REFERENCES Task(TaskID),
-	CONSTRAINT CH_CRITERIA_TITLE					CHECK (LEN(Title) > 5),
-	CONSTRAINT CH_CRITERIA_CRITERIA_DESCRIPTION		CHECK (LEN(CritriaDescription) > 30),
-	CONSTRAINT CH_CRITERIA_MAX_POINT				CHECK (MaxPoint > 0)
+    CONSTRAINT PK_CRITERIA                          PRIMARY KEY (CriteriaID),
+    CONSTRAINT FK_CRITERIA_TASK_ID                  FOREIGN KEY (TaskID) REFERENCES Task(TaskID),
+    CONSTRAINT CH_CRITERIA_TITLE                    CHECK (LEN(Title) > 5),
+    CONSTRAINT CH_CRITERIA_CRITERIA_DESCRIPTION     CHECK (LEN(CritriaDescription) > 30),
+    CONSTRAINT CH_CRITERIA_MAX_POINT                CHECK (MaxPoint > 0)
 )
