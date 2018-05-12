@@ -178,10 +178,41 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MyTempController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Criteria.cs" />
+    <Compile Include="Models\Repositories\ICourseRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\CourseRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\ReviewRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\SolutionRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\TaskRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\TokenRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\UserRepository.cs" />
+    <Compile Include="Models\Repositories\IReviewRepository.cs" />
+    <Compile Include="Models\Repositories\ISolutionRepository.cs" />
+    <Compile Include="Models\Repositories\ITaskRepository.cs" />
+    <Compile Include="Models\Repositories\ITokenRepository.cs" />
+    <Compile Include="Models\ResourceTask.cs" />
+    <Compile Include="Models\ResourceUser.cs" />
+    <Compile Include="Models\Repositories\IUserRepository.cs" />
+    <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\ReviewCriteria.cs" />
+    <Compile Include="Models\Services\ICourseService.cs" />
+    <Compile Include="Models\Services\Implementations\CourseService.cs" />
+    <Compile Include="Models\Services\Implementations\ReviewService.cs" />
+    <Compile Include="Models\Services\Implementations\SolutionService.cs" />
+    <Compile Include="Models\Services\Implementations\TaskService.cs" />
+    <Compile Include="Models\Services\Implementations\UserService.cs" />
+    <Compile Include="Models\Services\IReviewService.cs" />
+    <Compile Include="Models\Services\ISolutionService.cs" />
+    <Compile Include="Models\Services\ITaskService.cs" />
+    <Compile Include="Models\Services\IUserService.cs" />
+    <Compile Include="Models\Solution.cs" />
+    <Compile Include="Models\Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -238,7 +269,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
