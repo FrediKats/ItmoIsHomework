@@ -9,8 +9,8 @@ CREATE TABLE Criteria
     MaxPoint                INT                 NOT NULL,
 
     CONSTRAINT PK_CRITERIA                          PRIMARY KEY (CriteriaID),
-    CONSTRAINT FK_CRITERIA_TASK_ID                  FOREIGN KEY (TaskID) REFERENCES Task(TaskID),
+    CONSTRAINT FK_CRITERIA_TASK_ID                  FOREIGN KEY (TaskID) REFERENCES ResourceTask(TaskID),
     CONSTRAINT CH_CRITERIA_TITLE                    CHECK (LEN(Title) > 5),
-    CONSTRAINT CH_CRITERIA_CRITERIA_DESCRIPTION     CHECK (LEN(CritriaDescription) > 30),
+    CONSTRAINT CH_CRITERIA_CRITERIA_DESCRIPTION     CHECK (LEN(CriteriaDescription) > 30),
     CONSTRAINT CH_CRITERIA_MAX_POINT                CHECK (MaxPoint > 0)
 )
