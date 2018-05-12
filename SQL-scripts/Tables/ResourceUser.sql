@@ -2,13 +2,13 @@ DROP TABLE IF EXISTS ResourceUser
 GO
 CREATE TABLE ResourceUser
 (
-	UserID			INT				NOT NULL IDENTITY (1,1),
-	UserLogin		NVARCHAR(32)	NOT NULL,	--seems that 'login' & 'password' are keywords
-	Email			NVARCHAR(64)	NOT NULL,
-	UserPassword	NVARCHAR(64)	NOT NULL,
-	FirstName		NVARCHAR(32)	NOT NULL,
-	Lastname		NVARCHAR(32)	NOT NULL,
-	Bio				NVARCHAR(512)	NULL,		--or TEXT
+	UserID			UNIQUEIDENTIFIER	NOT NULL IDENTITY (1,1),
+	UserLogin		NVARCHAR(32)		NOT NULL,	--seems that 'login' & 'password' are keywords
+	Email			NVARCHAR(64)		NOT NULL,
+	UserPassword	NVARCHAR(64)		NOT NULL,
+	FirstName		NVARCHAR(32)		NOT NULL,
+	Lastname		NVARCHAR(32)		NOT NULL,
+	Bio				NVARCHAR(512)		NULL,		--or TEXT
 
 	CONSTRAINT PK_RESOURCE_USER					PRIMARY KEY (UserID),
 	CONSTRAINT CH_RESOURCE_USER_PASSWORD		CHECK (LEN(UserPassword) > 5),
