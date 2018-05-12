@@ -7,31 +7,31 @@ using System.Web.Http;
 
 namespace ReviewYourself.Controllers
 {
-    public class MyTempController : ApiController
+    public class CourseController : ApiController
     {
-        // GET: api/MyTemp
+        // GET: api/Course
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/MyTemp/5
+        // GET: api/Course/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/MyTemp
+        // POST: api/Course
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT: api/MyTemp/5
+        // PUT: api/Course/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE: api/MyTemp/5
+        // DELETE: api/Course/5
         public void Delete(int id)
         {
         }
