@@ -4,36 +4,43 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ReviewYourself.Models;
+using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Controllers
 {
     public class ReviewController : ApiController
     {
-        // GET: api/Review
-        public IEnumerable<string> Get()
+        // POST: Add/{token}
+        [HttpPost]
+        [Route("Add/{token}")]
+        public void Add([FromUri]Token token, [FromBody]Review review)
         {
-            return new string[] { "value1", "value2" };
+            throw new NotImplementedException();
         }
 
-        // GET: api/Review/5
-        public string Get(int id)
+        // GET: Get/{token}/{reviewId}
+        [HttpGet]
+        [Route("Get/{token}/{reviewId}")]
+        public Review Get([FromUri]Token token, [FromUri]Guid reviewId)
         {
-            return "value";
+            throw new NotImplementedException();
         }
 
-        // POST: api/Review
-        public void Post([FromBody]string value)
+        // GET: GetBySolution/{token}/{solutionId}
+        [HttpGet]
+        [Route("GetBySolution/{token}/{solutionId}")]
+        public IEnumerable<Review> GetBySolution([FromUri]Token token, [FromUri]Guid solutionId)
         {
+            throw new NotImplementedException();
         }
 
-        // PUT: api/Review/5
-        public void Put(int id, [FromBody]string value)
+        // DELETE: Delete/{token}/{reviewId}
+        [HttpDelete]
+        [Route("Delete/{token}/{reviewId}")]
+        public void Delete([FromUri]Guid token, [FromUri]Guid reviewId)
         {
-        }
-
-        // DELETE: api/Review/5
-        public void Delete(int id)
-        {
+            throw new NotImplementedException();
         }
     }
 }

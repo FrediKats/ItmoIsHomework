@@ -12,6 +12,9 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
+using ReviewYourself.Models;
+using ReviewYourself.Models.Tools;
+
 #if Handle_PageResultOfT
 using System.Web.Http.OData;
 #endif
@@ -39,11 +42,69 @@ namespace ReviewYourself.Areas.HelpPage
             //// Uncomment the following to use "sample string" as the sample for all actions that have string as the body parameter or return type.
             //// Also, the string arrays will be used for IEnumerable<string>. The sample objects will be serialized into different media type 
             //// formats by the available formatters.
-            //config.SetSampleObjects(new Dictionary<Type, object>
-            //{
-            //    {typeof(string), "sample string"},
-            //    {typeof(IEnumerable<string>), new string[]{"sample 1", "sample 2"}}
-            //});
+
+            ResourceUser user = new ResourceUser()
+            {
+                Id = Guid.NewGuid(),
+                Biography = "IM2STRN4DTWRLD",
+                Email = "yourmain@gmail.com",
+                FirstName = "Fredi",
+                LastName = "Fowler",
+                Login = "InredikaWb",
+                Password = "1tsT0C0mpl1c4t3d"
+            };
+            Course course = new Course()
+            {
+                Description = "It's UML time!",
+                Id = Guid.NewGuid(),
+                Mentor = user,
+                Title = "UML C2"
+            };
+            ResourceTask task = new ResourceTask()
+            {
+                CourseId = Guid.NewGuid(),
+                Description = "Make america greate again!",
+                Id = Guid.NewGuid(),
+                PostTime = DateTime.Today,
+                Title = "Very important task"
+            };
+            Solution solution = new Solution()
+            {
+                AuthorId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
+                PostTime = DateTime.Today,
+                Status = false,
+                TaskId = Guid.NewGuid(),
+                TextData = "Here is a plan..."
+            };
+            Review review = new Review()
+            {
+                AuthorId = Guid.NewGuid(),
+                PostTime = DateTime.Now,
+                Id = Guid.NewGuid(),
+                SolutionId = Guid.NewGuid()
+            };
+            RegistrationData reg = new RegistrationData()
+            {
+                Login = "login",
+                Password = "p4ssword",
+                FirstName = "Fredi",
+                LastName = "Fowler"
+            };
+            config.SetSampleObjects(new Dictionary<Type, object>
+            {
+                {typeof(string), "sample string"},
+                {typeof(Guid), Guid.NewGuid()},
+                {typeof(Course), course},
+                {typeof(Review), review},
+                {typeof(ResourceTask), task},
+                {typeof(ResourceUser), user},
+                {typeof(Solution), solution},
+                {typeof(Token), new Token {TokenUserId = Guid.NewGuid()}},
+                {typeof(AuthorizeData), new AuthorizeData() { Login = "login", Password = "p4ssw0rd"}},
+                {typeof(RegistrationData), reg},
+            });
+
 
             // Extend the following to provide factories for types not handled automatically (those lacking parameterless
             // constructors) or for which you prefer to use non-default property values. Line below provides a fallback
@@ -73,11 +134,11 @@ namespace ReviewYourself.Areas.HelpPage
 
             //// Uncomment the following to correct the sample request when the action expects an HttpRequestMessage with ObjectContent<string>.
             //// The sample will be generated as if the controller named "Values" and action named "Get" were having string as the body parameter.
-            //config.SetActualRequestType(typeof(string), "Values", "Get");
+            //config.SetActualRequestType(typeof(Token), "Values", "Get");
 
             //// Uncomment the following to correct the sample response when the action returns an HttpResponseMessage with ObjectContent<string>.
             //// The sample will be generated as if the controller named "Values" and action named "Post" were returning a string.
-            //config.SetActualResponseType(typeof(string), "Values", "Post");
+            //config.SetActualResponseType(typeof(Token), "Values", "Post");
         }
 
 #if Handle_PageResultOfT

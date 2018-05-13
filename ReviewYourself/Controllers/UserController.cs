@@ -4,36 +4,59 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ReviewYourself.Models;
+using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Controllers
 {
     public class UserController : ApiController
     {
-        // GET: api/User
-        public IEnumerable<string> Get()
+        // Post: Sign-in
+        [HttpPost]
+        [Route("Sign-in")]
+        public Token SignIn([FromBody]AuthorizeData authData)
         {
-            return new string[] { "value1", "value2" };
+            throw new NotImplementedException();
         }
 
-        // GET: api/User/5
-        public string Get(int id)
+        // Post: Sign-out
+        [HttpPost]
+        [Route("Sign-out")]
+        public void SignOut([FromBody]Token token)
         {
-            return "value";
+            throw new NotImplementedException();
         }
 
-        // POST: api/User
-        public void Post([FromBody]string value)
+        // Post: Sign-up
+        [HttpPost]
+        [Route("sign-up")]
+        public void SignUp([FromBody]RegistrationData registrationData)
         {
+            throw new NotImplementedException();
         }
 
-        // PUT: api/User/5
-        public void Put(int id, [FromBody]string value)
+        // GET: GetUser/{id}
+        [HttpGet]
+        [Route("GetUser/{id}")]
+        public ResourceUser GetUser([FromUri]Guid userId)
         {
+            throw new NotImplementedException();
         }
 
-        // DELETE: api/User/5
-        public void Delete(int id)
+        // GET: FindUser/{username}
+        [HttpGet]
+        [Route("FindUser/{username}")]
+        public ResourceUser FindUserByUsername([FromUri]string username)
         {
+            throw new NotImplementedException();
+        }
+
+        // POST: Update/{token}
+        [HttpPost]
+        [Route("Update/{token}")]
+        public void UpdateUser([FromUri]Token token, [FromBody]ResourceUser user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

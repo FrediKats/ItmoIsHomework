@@ -4,36 +4,38 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ReviewYourself.Models;
 
 namespace ReviewYourself.Controllers
 {
     public class TaskController : ApiController
     {
-        // GET: api/Task
-        public IEnumerable<string> Get()
+        [HttpPost]
+        [Route("Add/{token}")]
+        public void Add([FromUri]Token token, [FromBody]ResourceTask task)
         {
-            return new string[] { "value1", "value2" };
+            throw new NotImplementedException();
+        }
+        
+        [HttpGet]
+        [Route("Get/{token}/{taskId}")]
+        public ResourceTask Get([FromUri]Token token, [FromUri]Guid taskId)
+        {
+            throw new NotImplementedException();
         }
 
-        // GET: api/Task/5
-        public string Get(int id)
+        [HttpGet]
+        [Route("GetByCourse/{token}/{courseId}")]
+        public IEnumerable<ResourceTask> GetByCourse([FromUri]Token token, [FromUri]Guid courseId)
         {
-            return "value";
+            throw new NotImplementedException();
         }
 
-        // POST: api/Task
-        public void Post([FromBody]string value)
+        [HttpDelete]
+        [Route("Delete/{token}/{taskId}")]
+        public void DeleteCourse([FromUri]Guid token, [FromUri]Guid taskId)
         {
-        }
-
-        // PUT: api/Task/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/Task/5
-        public void Delete(int id)
-        {
+            throw new NotImplementedException();
         }
     }
 }
