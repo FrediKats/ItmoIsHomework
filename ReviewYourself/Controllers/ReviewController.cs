@@ -9,36 +9,32 @@ using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Controllers
 {
+    [RoutePrefix("api/reviews")]
     public class ReviewController : ApiController
     {
-        // POST: Add/{token}
         [HttpPost]
-        [Route("Add/{token}")]
+        [Route("Add")]
         public void Add([FromUri]Token token, [FromBody]Review review)
         {
             throw new NotImplementedException();
         }
-
-        // GET: Get/{token}/{reviewId}
         [HttpGet]
-        [Route("Get/{token}/{reviewId}")]
-        public Review Get([FromUri]Token token, [FromUri]Guid reviewId)
+        [Route("Get/{reviewId}")]
+        public Review Get(Guid reviewId, [FromUri]Token token)
         {
             throw new NotImplementedException();
         }
 
-        // GET: GetBySolution/{token}/{solutionId}
         [HttpGet]
-        [Route("GetBySolution/{token}/{solutionId}")]
-        public IEnumerable<Review> GetBySolution([FromUri]Token token, [FromUri]Guid solutionId)
+        [Route("GetBySolution/{solutionId}")]
+        public IEnumerable<Review> GetBySolution(Guid solutionId, [FromUri]Token token)
         {
             throw new NotImplementedException();
         }
 
-        // DELETE: Delete/{token}/{reviewId}
         [HttpDelete]
-        [Route("Delete/{token}/{reviewId}")]
-        public void Delete([FromUri]Guid token, [FromUri]Guid reviewId)
+        [Route("Delete/{reviewId}")]
+        public void Delete(Guid reviewId, [FromUri]Guid token)
         {
             throw new NotImplementedException();
         }

@@ -8,32 +8,33 @@ using ReviewYourself.Models;
 
 namespace ReviewYourself.Controllers
 {
+    [RoutePrefix("api/tasks")]
     public class TaskController : ApiController
     {
         [HttpPost]
-        [Route("Add/{token}")]
-        public void Add([FromUri]Token token, [FromBody]ResourceTask task)
+        //[Route("Add")]
+        public void Add([FromBody]ResourceTask task, [FromUri]Token token)
         {
             throw new NotImplementedException();
         }
         
         [HttpGet]
-        [Route("Get/{token}/{taskId}")]
-        public ResourceTask Get([FromUri]Token token, [FromUri]Guid taskId)
+        [Route("Get/{taskId}")]
+        public ResourceTask Get(Guid taskId, [FromUri]Token token)
         {
             throw new NotImplementedException();
         }
 
         [HttpGet]
-        [Route("GetByCourse/{token}/{courseId}")]
-        public IEnumerable<ResourceTask> GetByCourse([FromUri]Token token, [FromUri]Guid courseId)
+        [Route("GetByCourse/{courseId}")]
+        public IEnumerable<ResourceTask> GetByCourse(Guid courseId, [FromUri]Token token)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete]
-        [Route("Delete/{token}/{taskId}")]
-        public void DeleteCourse([FromUri]Guid token, [FromUri]Guid taskId)
+        [Route("{taskId}")]
+        public void DeleteCourse(Guid taskId, [FromUri]Guid token)
         {
             throw new NotImplementedException();
         }

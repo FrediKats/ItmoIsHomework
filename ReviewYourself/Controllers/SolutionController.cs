@@ -8,52 +8,47 @@ using ReviewYourself.Models;
 
 namespace ReviewYourself.Controllers
 {
+    [RoutePrefix("api/solutions")]
     public class SolutionController : ApiController
     {
-        // POST: Add/{token}
         [HttpPost]
-        [Route("Add/{token}")]
+        [Route("Add")]
         public void Add([FromUri]Token token, [FromBody]Solution solution)
         {
             throw new NotImplementedException();
         }
 
-        // GET: Get/{token}/{solutionId}
         [HttpGet]
-        [Route("Get/{token}/{solutionId}")]
-        public Solution Get([FromUri]Token token, [FromUri]Guid solutionId)
+        [Route("Get/{solutionId}")]
+        public Solution Get(Guid solutionId, [FromUri]Token token)
         {
             throw new NotImplementedException();
         }
 
-        // GET: GetByTask/{token}/{taskId}
         [HttpGet]
-        [Route("GetByTask/{token}/{taskId}")]
-        public IEnumerable<Solution> GetByTask([FromUri]Token token, [FromUri]Guid taskId)
+        [Route("GetByTask/{taskId}")]
+        public IEnumerable<Solution> GetByTask(Guid taskId, [FromUri]Token token)
         {
             throw new NotImplementedException();
         }
 
-        // DELETE: Delete/{token}/{solutionId}
         [HttpDelete]
-        [Route("Delete/{token}/{solutionId}")]
-        public void Delete([FromUri]Guid token, [FromUri]Guid solutionId)
+        [Route("Delete/{solutionId}")]
+        public void Delete(Guid solutionId, [FromUri]Guid token)
         {
             throw new NotImplementedException();
         }
 
-        // POST: Is-can-review/{token}/{solutionId}
         [HttpPost]
-        [Route("Is-can-review/{token}/{solutionId}")]
-        public bool IsCanReview([FromUri]Token token, [FromUri]Guid solutionId)
+        [Route("Is-can-review/{solutionId}")]
+        public bool IsCanReview(Guid solutionId, [FromUri]Token token)
         {
             throw new NotImplementedException();
         }
 
-        // POST: Resolve-solution/{token}/{solutionId}
         [HttpPost]
-        [Route("Resolve-solution/{token}/{solutionId}")]
-        public void ResolveSolution([FromUri]Token token, [FromUri]Guid solutionId, [FromBody]Review review)
+        [Route("Resolve-solution/{solutionId}")]
+        public void ResolveSolution(Guid solutionId, Review review, [FromUri]Token token)
         {
             throw new NotImplementedException();
         }

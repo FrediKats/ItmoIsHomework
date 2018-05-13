@@ -9,9 +9,9 @@ using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Controllers
 {
+    [RoutePrefix("api/users")]
     public class UserController : ApiController
     {
-        // Post: Sign-in
         [HttpPost]
         [Route("Sign-in")]
         public Token SignIn([FromBody]AuthorizeData authData)
@@ -19,7 +19,6 @@ namespace ReviewYourself.Controllers
             throw new NotImplementedException();
         }
 
-        // Post: Sign-out
         [HttpPost]
         [Route("Sign-out")]
         public void SignOut([FromBody]Token token)
@@ -27,7 +26,6 @@ namespace ReviewYourself.Controllers
             throw new NotImplementedException();
         }
 
-        // Post: Sign-up
         [HttpPost]
         [Route("sign-up")]
         public void SignUp([FromBody]RegistrationData registrationData)
@@ -35,25 +33,22 @@ namespace ReviewYourself.Controllers
             throw new NotImplementedException();
         }
 
-        // GET: GetUser/{id}
         [HttpGet]
         [Route("GetUser/{id}")]
-        public ResourceUser GetUser([FromUri]Guid userId)
+        public ResourceUser GetUser(Guid userId)
         {
             throw new NotImplementedException();
         }
 
-        // GET: FindUser/{username}
         [HttpGet]
-        [Route("FindUser/{username}")]
-        public ResourceUser FindUserByUsername([FromUri]string username)
+        [Route("FindByUsername/{username}")]
+        public ResourceUser FindByUsername(string username)
         {
             throw new NotImplementedException();
         }
 
-        // POST: Update/{token}
         [HttpPost]
-        [Route("Update/{token}")]
+        [Route("Update/")]
         public void UpdateUser([FromUri]Token token, [FromBody]ResourceUser user)
         {
             throw new NotImplementedException();
