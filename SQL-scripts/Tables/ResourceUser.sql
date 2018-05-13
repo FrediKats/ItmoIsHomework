@@ -3,7 +3,7 @@ GO
 CREATE TABLE ResourceUser
 (
     UserID          UNIQUEIDENTIFIER    NOT NULL,
-    UserLogin       NVARCHAR(32)        NOT NULL,   --seems that 'login' & 'password' are keywords
+    UserLogin       NVARCHAR(32)        NOT NULL,
     Email           NVARCHAR(64)        NOT NULL,
     UserPassword    NVARCHAR(64)        NOT NULL,
     FirstName       NVARCHAR(32)        NOT NULL,
@@ -11,6 +11,7 @@ CREATE TABLE ResourceUser
     Bio             NVARCHAR(512)       NULL,   --or TEXT
 
     CONSTRAINT PK_RESOURCE_USER                 PRIMARY KEY (UserID),
+    CONSTRAINT UN_RESOURCE_USER_USER_LOGIN      UNIQUE (UserLogin),
     CONSTRAINT CH_RESOURCE_USER_EMAIL           CHECK (Email LIKE '%@%.%'),
     CONSTRAINT CH_RESOURCE_USER_PASSWORD        CHECK (LEN(UserPassword) > 5),
     CONSTRAINT CH_RESOURCE_USER_FIRST_NAME      CHECK (LEN(FirstName) > 0),
