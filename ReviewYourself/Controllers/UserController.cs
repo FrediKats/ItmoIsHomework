@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ReviewYourself.Models;
+using ReviewYourself.Models.Services;
 using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Controllers
@@ -12,46 +13,56 @@ namespace ReviewYourself.Controllers
     [RoutePrefix("api/users")]
     public class UserController : ApiController
     {
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         [HttpPost]
         [Route("Sign-in")]
         public Token SignIn([FromBody]AuthorizeData authData)
         {
-            throw new NotImplementedException();
+            return _userService.SignIn(authData.Login, authData.Password);
         }
 
         [HttpPost]
         [Route("Sign-out")]
         public void SignOut([FromBody]Token token)
         {
-            throw new NotImplementedException();
+            _userService.SignOut(token);
         }
 
         [HttpPost]
         [Route("sign-up")]
         public void SignUp([FromBody]RegistrationData registrationData)
         {
-            throw new NotImplementedException();
+            //TODO: add other data
+            _userService.SignUp(registrationData.Login, registrationData.Password);
         }
 
         [HttpGet]
-        [Route("GetUser/{id}")]
+        [Route("{id}")]
         public ResourceUser GetUser(Guid userId)
         {
-            throw new NotImplementedException();
+            //TODO: Token?
+            return _userService.GetUser(userId);
         }
 
         [HttpGet]
         [Route("FindByUsername/{username}")]
         public ResourceUser FindByUsername(string username)
         {
-            throw new NotImplementedException();
+            //TODO: Token?
+            return _userService.FindUserByUsername(username);
         }
 
         [HttpPost]
         [Route("Update/")]
         public void UpdateUser([FromUri]Token token, [FromBody]ResourceUser user)
         {
-            throw new NotImplementedException();
+            _userService.UpdateUser(user, token);
         }
     }
 }

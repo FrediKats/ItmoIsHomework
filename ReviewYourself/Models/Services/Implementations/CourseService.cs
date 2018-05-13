@@ -1,10 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using ReviewYourself.Models.Repositories;
 
 namespace ReviewYourself.Models.Services.Implementations
 {
     public class CourseService : ICourseService
     {
+        private IUserRepository _userRepository;
+        private ICourseRepository _courseRepository;
+        private ITokenRepository _tokenRepository;
+        public CourseService(ICourseRepository courseRepository, IUserRepository userRepository, ITokenRepository tokenRepository)
+        {
+            _courseRepository = courseRepository;
+            _userRepository = userRepository;
+            _tokenRepository = tokenRepository;
+        }
         public void AddCourse(Course course, Token token)
         {
             throw new NotImplementedException();

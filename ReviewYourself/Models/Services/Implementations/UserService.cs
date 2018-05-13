@@ -1,10 +1,18 @@
 ﻿using System;
+using ReviewYourself.Models.Repositories;
 
 namespace ReviewYourself.Models.Services.Implementations
 {
     public class UserService : IUserService
     {
-        public Token SignIb(string login, string password)
+        private IUserRepository _userRepository;
+        private ITokenRepository _tokenRepository;
+        public UserService(IUserRepository userRepository, ITokenRepository tokenRepository)
+        {
+            _userRepository = userRepository;
+            _tokenRepository = tokenRepository;
+        }
+        public Token SignIn(string login, string password)
         {
             throw new NotImplementedException();
         }
@@ -14,7 +22,7 @@ namespace ReviewYourself.Models.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public void SignIn(string login, string password)
+        public void SignUp(string login, string password)
         {
             throw new NotImplementedException();
         }
