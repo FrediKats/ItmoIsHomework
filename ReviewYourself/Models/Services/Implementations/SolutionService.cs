@@ -6,7 +6,7 @@ namespace ReviewYourself.Models.Services.Implementations
 {
     public class SolutionService : ISolutionService
     {
-        private ISolutionRepository _solutionRepository;
+        private readonly ISolutionRepository _solutionRepository;
         private IReviewRepository _reviewRepository;
         private ITokenRepository _tokenRepository;
 
@@ -19,22 +19,22 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void CreateSolution(Solution solution, Token token)
         {
-            throw new NotImplementedException();
+            _solutionRepository.Create(solution);
         }
 
         public Solution GetSolution(Guid solutionId, Token token)
         {
-            throw new NotImplementedException();
+            return _solutionRepository.Read(solutionId);
         }
 
         public ICollection<Solution> GetSolutionByTask(Guid taskId, Token token)
         {
-            throw new NotImplementedException();
+            return _solutionRepository.ReadByTask(taskId);
         }
 
         public void DeleteSolution(Guid solutionId, Token token)
         {
-            throw new NotImplementedException();
+            _solutionRepository.Delete(solutionId);
         }
 
         public bool IsCanAddReview(Guid solutionId, Token token)
@@ -44,7 +44,7 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void ResolveSolution(Guid solutionId, Review review, Token token)
         {
-            throw new NotImplementedException();
+            _solutionRepository.ResolveSolution(solutionId);
         }
     }
 }

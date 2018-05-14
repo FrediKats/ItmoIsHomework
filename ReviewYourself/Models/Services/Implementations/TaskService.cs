@@ -6,7 +6,7 @@ namespace ReviewYourself.Models.Services.Implementations
 {
     public class TaskService : ITaskService
     {
-        private ITaskRepository _taskRepository;
+        private readonly ITaskRepository _taskRepository;
         private ITokenRepository _tokenRepository;
         public TaskService(ITaskRepository taskRepository, ITokenRepository tokenRepository)
         {
@@ -15,22 +15,22 @@ namespace ReviewYourself.Models.Services.Implementations
         }
         public void CreateTask(ResourceTask task, Token token)
         {
-            throw new NotImplementedException();
+            _taskRepository.Create(task);
         }
 
         public ResourceTask GetTask(Guid taskId, Token token)
         {
-            throw new NotImplementedException();
+            return _taskRepository.Read(taskId);
         }
 
         public ICollection<ResourceTask> GetTaskByCourse(Guid courseId, Token token)
         {
-            throw new NotImplementedException();
+            return _taskRepository.ReadByCourse(courseId);
         }
 
         public void DeleteTask(Guid taskId, Token token)
         {
-            throw new NotImplementedException();
+            _taskRepository.Delete(taskId);
         }
     }
 }
