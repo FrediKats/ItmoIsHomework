@@ -47,13 +47,13 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 return new ResourceUser
                 {
-                    Id = (Guid)reader["UserID"],
-                    Login = (string)reader["UserLogin"],
-                    Email = (string)reader["Email"],
-                    Password = (string)reader["UserPassword"],
-                    FirstName = (string)reader["FirstName"],
-                    LastName = (string)reader["LastName"],
-                    Biography = (string)reader["Bio"]
+                    Id = Guid.Parse(reader["UserID"].ToString()),
+                    Login = reader["UserLogin"].ToString(),
+                    Email = reader["Email"].ToString(),
+                    Password = reader["UserPassword"].ToString(),
+                    FirstName = reader["FirstName"].ToString(),
+                    LastName = reader["LastName"].ToString(),
+                    Biography = reader["Bio"].ToString()
                 };
             }
         }
@@ -75,13 +75,13 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 return new ResourceUser
                 {
-                    Id = (Guid)reader["UserID"],
-                    Login = (string)reader["UserLogin"],
-                    Email = (string)reader["Email"],
-                    Password = (string)reader["UserPassword"],
-                    FirstName = (string)reader["FirstName"],
-                    LastName = (string)reader["LastName"],
-                    Biography = (string)reader["Bio"]
+                    Id = Guid.Parse(reader["UserID"].ToString()),
+                    Login = reader["UserLogin"].ToString(),
+                    Email = reader["Email"].ToString(),
+                    Password = reader["UserPassword"].ToString(),
+                    FirstName = reader["FirstName"].ToString(),
+                    LastName = reader["LastName"].ToString(),
+                    Biography = reader["Bio"].ToString()
                 };
             }
         }
@@ -116,13 +116,13 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     courseMembers.Add(new ResourceUser
                     {
-                        Id = (Guid)reader["UserID"],
-                        Login = (string)reader["UserLogin"],
-                        Email = (string)reader["Email"],
-                        Password = (string)reader["UserPassword"],
-                        FirstName = (string)reader["FirstName"],
-                        LastName = (string)reader["LastName"],
-                        Biography = (string)reader["Bio"]
+                        Id = Guid.Parse(reader["UserID"].ToString()),
+                        Login = reader["UserLogin"].ToString(),
+                        Email = reader["Email"].ToString(),
+                        Password = reader["UserPassword"].ToString(),
+                        FirstName = reader["FirstName"].ToString(),
+                        LastName = reader["LastName"].ToString(),
+                        Biography = reader["Bio"].ToString()
                     });
                 }
 
@@ -141,6 +141,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     .SET("FirstName = {0}", user.FirstName)
                     ._("LastName = {0}", user.LastName)
                     ._("Bio = {0}", user.Biography)
+                    .WHERE("UserID = {0}", user.Id)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }
@@ -148,6 +149,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void Delete(ResourceUser user)
         {
+            //problems with foreign keys
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
