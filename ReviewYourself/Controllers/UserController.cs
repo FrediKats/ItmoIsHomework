@@ -39,23 +39,26 @@ namespace ReviewYourself.Controllers
         public void SignUp([FromBody]RegistrationData registrationData)
         {
             //TODO: add other data
-            _userService.SignUp(registrationData.Login, registrationData.Password);
+            _userService.SignUp(registrationData.Login, registrationData.Password, new ResourceUser()
+            {
+                FirstName = registrationData.FirstName,
+                Login = registrationData.Login,
+                LastName = registrationData.LastName
+            });
         }
 
         [HttpGet]
         [Route("{id}")]
-        public ResourceUser GetUser(Guid userId)
+        public ResourceUser GetUser(Guid userId,[FromUri]Token token)
         {
-            //TODO: Token?
-            return _userService.GetUser(userId);
+            return _userService.GetUser(userId, token);
         }
 
         [HttpGet]
         [Route("FindByUsername/{username}")]
-        public ResourceUser FindByUsername(string username)
+        public ResourceUser FindByUsername(string username, [FromUri]Token token)
         {
-            //TODO: Token?
-            return _userService.FindUserByUsername(username);
+            return _userService.FindUserByUsername(username, token);
         }
 
         [HttpPost]

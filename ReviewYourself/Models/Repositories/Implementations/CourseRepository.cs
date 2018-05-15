@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using DbExtensions;
 
@@ -9,15 +10,15 @@ namespace ReviewYourself.Models.Repositories.Implementations
     {
         private readonly string _connectionString;
 
-        public CourseRepository(string connectionString)
+        public CourseRepository(/*string connectionString*/)
         {
-            _connectionString = connectionString;
-            //_connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+            //_connectionString = connectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
         }
 
         public void Create(Course course)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -31,7 +32,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void CreateMember(Guid courseId, Guid userId)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -45,7 +46,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public Course Read(Guid courseId)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -80,7 +81,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public ICollection<Course> ReadByUser(Guid userId)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -89,10 +90,9 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     .FROM("Course")
                     .INNER_JOIN("({0}) ON Course.MentorID = ResourceUser.UserID", "ResourceUser")
                     .JOIN("({0}) ON Course.CourseID = CourseMembership.CourseID",
-                        SQL
-                        .SELECT("CourseID")
-                        .FROM("CourseMembership")
-                        .WHERE("CourseMembership.UserID = {0}", userId))
+                        SQL.SELECT("CourseID")
+                            .FROM("CourseMembership")
+                            .WHERE("CourseMembership.UserID = {0}", userId))
                     .ToCommand(connection)
                     .ExecuteReader();
 
@@ -122,9 +122,19 @@ namespace ReviewYourself.Models.Repositories.Implementations
             }
         }
 
+        public ICollection<ResourceUser> ReadMemberByCourse(Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICollection<ResourceUser> ReadInvitedByCourse(Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Course course)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -145,7 +155,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void DeleteMember(Guid courseId, Guid userId)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -156,6 +166,16 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }
+        }
+
+        public void AcceptInvite(Guid courseId, Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsMember(Guid courseId, Guid userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

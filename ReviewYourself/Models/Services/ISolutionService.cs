@@ -7,6 +7,7 @@ namespace ReviewYourself.Models.Services
     {
         void CreateSolution(Solution solution, Token token);
         Solution GetSolution(Guid solutionId, Token token);
+        Solution GetSolutionByTaskAndUser(Guid solutionId, Guid userId, Token token);
         ICollection<Solution> GetSolutionByTask(Guid taskId, Token token);
         void DeleteSolution(Guid solutionId, Token token);
 

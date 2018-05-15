@@ -10,6 +10,7 @@ namespace ReviewYourself.Models.Services
         void AcceptInvite(Guid courseId, Token token);
         Course GetCourse(Guid courseId, Token token);
         ICollection<Course> GetCourseCollectionByUser(Guid userId, Token token);
+        ICollection<Course> GetInviteCollectionByUser(Guid userId, Token token);
         void UpdateCourse(Course course, Token token);
         void DeleteCourse(Guid courseId, Token token);
         void DeleteMember(Guid courseId, Guid userId, Token token);

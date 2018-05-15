@@ -6,10 +6,10 @@ namespace ReviewYourself.Models.Services
     {
         Token SignIn(string login, string password);
         void SignOut(Token token);
-        //TODO: think about it
-        void SignUp(string login, string password);
-        ResourceUser GetUser(Guid userId);
-        ResourceUser FindUserByUsername(string username);
+        void SignUp(string login, string password, ResourceUser user);
+
+        ResourceUser GetUser(Guid userId, Token token);
+        ResourceUser FindUserByUsername(string username, Token token);
         void UpdateUser(ResourceUser user, Token token);
     }
 }

@@ -6,15 +6,18 @@ namespace ReviewYourself.Models.Services.Implementations
 {
     public class CourseService : ICourseService
     {
-        private readonly IUserRepository _userRepository;
         private readonly ICourseRepository _courseRepository;
         private readonly ITokenRepository _tokenRepository;
-        public CourseService(ICourseRepository courseRepository, IUserRepository userRepository, ITokenRepository tokenRepository)
+        private readonly IUserRepository _userRepository;
+
+        public CourseService(ICourseRepository courseRepository, IUserRepository userRepository,
+            ITokenRepository tokenRepository)
         {
             _courseRepository = courseRepository;
             _userRepository = userRepository;
             _tokenRepository = tokenRepository;
         }
+
         public void AddCourse(Course course, Token token)
         {
             //ResourceUser user = _tokenRepository.GetUserByToken(token);
@@ -83,6 +86,11 @@ namespace ReviewYourself.Models.Services.Implementations
             //}
 
             return _courseRepository.ReadByUser(userId);
+        }
+
+        public ICollection<Course> GetInviteCollectionByUser(Guid userId, Token token)
+        {
+            throw new NotImplementedException();
         }
 
         public void UpdateCourse(Course course, Token token)

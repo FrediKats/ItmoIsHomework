@@ -17,21 +17,28 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void CreateReview(Review review, Token token)
         {
-            ResourceUser user = _tokenRepository.GetUserByToken(token);
+            var user = _tokenRepository.GetUserByToken(token);
             if (user == null)
             {
                 throw new Exception();
             }
+
             if (review.AuthorId != user.Id)
             {
                 throw new Exception();
             }
+
             _reviewRepository.Create(review);
         }
 
         public Review GetReview(Guid reviewId, Token token)
         {
             return _reviewRepository.Read(reviewId);
+        }
+
+        public Review GetReviewBySolutionAndUser(Guid reviewId, Guid userId, Token token)
+        {
+            throw new NotImplementedException();
         }
 
         public ICollection<Review> GetReviewBySolution(Guid solutionId, Token token)

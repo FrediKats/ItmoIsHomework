@@ -8,11 +8,13 @@ namespace ReviewYourself.Models.Services.Implementations
     {
         private readonly ITaskRepository _taskRepository;
         private ITokenRepository _tokenRepository;
+
         public TaskService(ITaskRepository taskRepository, ITokenRepository tokenRepository)
         {
             _taskRepository = taskRepository;
             _tokenRepository = tokenRepository;
         }
+
         public void CreateTask(ResourceTask task, Token token)
         {
             _taskRepository.Create(task);

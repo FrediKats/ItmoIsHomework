@@ -10,7 +10,8 @@ namespace ReviewYourself.Models.Services.Implementations
         private IReviewRepository _reviewRepository;
         private ITokenRepository _tokenRepository;
 
-        public SolutionService(ISolutionRepository solutionRepository, IReviewRepository reviewRepository, ITokenRepository tokenRepository)
+        public SolutionService(ISolutionRepository solutionRepository, IReviewRepository reviewRepository,
+            ITokenRepository tokenRepository)
         {
             _solutionRepository = solutionRepository;
             _reviewRepository = reviewRepository;
@@ -25,6 +26,11 @@ namespace ReviewYourself.Models.Services.Implementations
         public Solution GetSolution(Guid solutionId, Token token)
         {
             return _solutionRepository.Read(solutionId);
+        }
+
+        public Solution GetSolutionByTaskAndUser(Guid solutionId, Guid userId, Token token)
+        {
+            throw new NotImplementedException();
         }
 
         public ICollection<Solution> GetSolutionByTask(Guid taskId, Token token)

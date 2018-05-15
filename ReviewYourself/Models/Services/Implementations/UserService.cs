@@ -5,13 +5,15 @@ namespace ReviewYourself.Models.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
         private readonly ITokenRepository _tokenRepository;
+        private readonly IUserRepository _userRepository;
+
         public UserService(IUserRepository userRepository, ITokenRepository tokenRepository)
         {
             _userRepository = userRepository;
             _tokenRepository = tokenRepository;
         }
+
         public Token SignIn(string login, string password)
         {
             //TODO: user info
@@ -26,20 +28,17 @@ namespace ReviewYourself.Models.Services.Implementations
         }
 
         //TODO: add userInfo
-        public void SignUp(string login, string password)
+        public void SignUp(string login, string password, ResourceUser user)
         {
             throw new NotImplementedException();
         }
 
-        public ResourceUser GetUser(Guid userId)
+        public ResourceUser GetUser(Guid userId, Token token)
         {
-            //TODO: Add token?
             return _userRepository.Read(userId);
-            throw new NotImplementedException();
-
         }
 
-        public ResourceUser FindUserByUsername(string username)
+        public ResourceUser FindUserByUsername(string username, Token token)
         {
             return _userRepository.ReadByUserName(username);
         }

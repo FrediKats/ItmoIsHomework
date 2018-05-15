@@ -10,21 +10,22 @@ namespace ReviewYourself.Models.Repositories.Implementations
     {
         private readonly string _connectionString;
 
-        public UserRepository(string connectionString)
+        public UserRepository( /*string connectionString*/)
         {
-            _connectionString = connectionString;
-            //_connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+            //_connectionString = connectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
         }
 
         public void Create(ResourceUser user)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
                 var insert = SQL
                     .INSERT_INTO("ResourceUser (UserID, UserLogin, Email, UserPassword, FirstName, LastName, Bio)")
-                    .VALUES(Guid.NewGuid(), user.Login, user.Email, user.Password, user.FirstName, user.LastName, user.Biography)
+                    .VALUES(Guid.NewGuid(), user.Login, user.Email, user.Password, user.FirstName, user.LastName,
+                        user.Biography)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }
@@ -32,7 +33,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public ResourceUser Read(Guid id)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -60,7 +61,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public ResourceUser ReadByUserName(string username)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -88,7 +89,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public ICollection<ResourceUser> ReadByCourse(Guid courseId)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -96,8 +97,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     .SELECT("*")
                     .FROM("ResourceUser")
                     .JOIN("({0}) ON ResourceUser.UserID = CourseMembership.UserID",
-                            SQL
-                            .SELECT("UserID")
+                        SQL.SELECT("UserID")
                             .FROM("Coursemembership")
                             .WHERE("CourseID = {0}", courseId)
                             ._("Permission > 0"))
@@ -132,7 +132,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void Update(ResourceUser user)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -150,12 +150,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
         public void Delete(ResourceUser user)
         {
             //problems with foreign keys
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
-                var delete = SQL.
-                    DELETE_FROM("ResourceUser")
+                var delete = SQL.DELETE_FROM("ResourceUser")
                     .WHERE("UserID = {0}", user.Id)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
