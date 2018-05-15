@@ -20,7 +20,7 @@ namespace ReviewYourself.Controllers
         }
 
         [HttpPost]
-        public void Add([FromUri]Token token, [FromBody]Course course)
+        public void Create([FromUri]Token token, [FromBody]Course course)
         {
             _courseService.AddCourse(course, token);
         }
@@ -44,6 +44,13 @@ namespace ReviewYourself.Controllers
         public Course Get(Guid courseId, [FromUri]Token token)
         {
             return _courseService.GetCourse(courseId, token);
+        }
+
+        [HttpGet]
+        [Route("GetByUser/")]
+        public IEnumerable<Course> GetByUser([FromUri]Token token)
+        {
+            return _courseService.GetCourseCollectionByUser(token);
         }
 
         [HttpGet]

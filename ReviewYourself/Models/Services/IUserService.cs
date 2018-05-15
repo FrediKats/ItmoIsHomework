@@ -8,6 +8,7 @@ namespace ReviewYourself.Models.Services
         void SignOut(Token token);
         void SignUp(string login, string password, ResourceUser user);
 
+        ResourceUser GetUser(Token token);
         ResourceUser GetUser(Guid userId, Token token);
         ResourceUser FindUserByUsername(string username, Token token);
         void UpdateUser(ResourceUser user, Token token);

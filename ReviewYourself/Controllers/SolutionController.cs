@@ -39,6 +39,14 @@ namespace ReviewYourself.Controllers
             return _solutionService.GetSolutionByTask(taskId, token);
         }
 
+        [HttpGet]
+        [Route("GetByTask/{taskId}/{userId")]
+        public Solution GetByTaskAndUser(Guid taskId, Guid userId, [FromUri]Token token)
+        {
+            return _solutionService.GetSolutionByTaskAndUser(taskId, userId, token);
+        }
+
+
         [HttpDelete]
         [Route("{solutionId}")]
         public void Delete(Guid solutionId, [FromUri]Token token)

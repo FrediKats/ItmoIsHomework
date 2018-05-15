@@ -48,6 +48,12 @@ namespace ReviewYourself.Controllers
         }
 
         [HttpGet]
+        public ResourceUser GetUser([FromUri]Token token)
+        {
+            return _userService.GetUser(token);
+        }
+
+        [HttpGet]
         [Route("{id}")]
         public ResourceUser GetUser(Guid userId,[FromUri]Token token)
         {

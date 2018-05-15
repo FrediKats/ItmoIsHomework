@@ -76,6 +76,16 @@ namespace ReviewYourself.Models.Services.Implementations
             return _courseRepository.Read(courseId);
         }
 
+        public ICollection<Course> GetCourseCollectionByUser(Token token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICollection<Course> GetInviteCollectionByUser(Token token)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<Course> GetCourseCollectionByUser(Guid userId, Token token)
         {
             //TODO: Admin rights

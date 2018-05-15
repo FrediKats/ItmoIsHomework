@@ -33,6 +33,11 @@ namespace ReviewYourself.Models.Services.Implementations
             throw new NotImplementedException();
         }
 
+        public ResourceUser GetUser(Token token)
+        {
+            throw new NotImplementedException();
+        }
+
         public ResourceUser GetUser(Guid userId, Token token)
         {
             return _userRepository.Read(userId);
