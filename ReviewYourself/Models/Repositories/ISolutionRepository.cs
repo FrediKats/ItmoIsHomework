@@ -12,5 +12,6 @@ namespace ReviewYourself.Models.Repositories
         void Delete(Guid solutionId);
 
         void ResolveSolution(Guid solutionId);
+        bool IsCanPostSolution(Guid taskId, Guid userId);
     }
 }

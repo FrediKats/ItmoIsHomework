@@ -98,9 +98,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CourseControllerTest.cs" />
+    <Compile Include="Controllers\TaskControllerTest.cs" />
+    <Compile Include="Controllers\SolutionControllerTest.cs" />
+    <Compile Include="Controllers\UserControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="Controllers\ValuesControllerTest.cs" />
+    <Compile Include="Tools\InstanceGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

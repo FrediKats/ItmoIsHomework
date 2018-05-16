@@ -7,7 +7,7 @@ namespace ReviewYourself.Models.Repositories
     {
         void Create(Review review);
         Review Read(Guid reviewId);
-        ICollection<Review> ReadBySolution(Guid solutionId);   
+        ICollection<Review> ReadBySolution(Guid solutionId);
         void Update(Review review);
         void Delete(Guid reviewId);
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ReviewYourself.Models
 {
@@ -6,6 +7,8 @@ namespace ReviewYourself.Models
     {
         public Guid Id { get; set; }
         public Guid CourseId { get; set; }
+        //TODO:
+        public ICollection<Criteria> CriteriaCollection { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime PostTime { get; set; }

@@ -20,7 +20,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             return new string(Enumerable.Repeat(chars, chars.Length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public void GenerateToken(Guid userId)
+        public Token GenerateToken(string username, string password)
         {
             throw new NotImplementedException();
         }

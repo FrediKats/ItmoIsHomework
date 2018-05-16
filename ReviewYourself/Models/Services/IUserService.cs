@@ -4,12 +4,13 @@ namespace ReviewYourself.Models.Services
 {
     public interface IUserService
     {
-        Token SignIb(string login, string password);
+        Token SignIn(string login, string password);
         void SignOut(Token token);
-        //TODO: think about it
-        void SignIn(string login, string password);
-        ResourceUser GetUser(Guid userId);
-        ResourceUser FindUserByUsername(string username);
+        void SignUp(string login, string password, ResourceUser user);
+
+        ResourceUser GetUser(Token token);
+        ResourceUser GetUser(Guid userId, Token token);
+        ResourceUser FindUserByUsername(string username, Token token);
         void UpdateUser(ResourceUser user, Token token);
     }
 }

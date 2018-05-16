@@ -34,5 +34,10 @@ namespace ReviewYourself.Models.Repositories.Implementations
         {
             throw new NotImplementedException();
         }
+
+        public bool IsCanPostSolution(Guid taskId, Guid userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
