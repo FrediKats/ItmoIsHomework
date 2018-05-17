@@ -57,5 +57,14 @@ namespace ReviewYourself.Tests.Tools
 
             };
         }
+
+        public static AuthorizeData GenerateAuth(RegistrationData regData)
+        {
+            return new AuthorizeData()
+            {
+                Login = regData.Login,
+                Password = regData.Password
+            };
+        }
     }
 }
