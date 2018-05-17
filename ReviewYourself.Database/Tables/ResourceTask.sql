@@ -1,3 +1,5 @@
+USE ReviewYourselfProjectdb
+GO
 DROP TABLE IF EXISTS ResourceTask
 GO
 CREATE TABLE ResourceTask

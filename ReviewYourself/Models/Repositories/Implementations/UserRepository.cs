@@ -9,11 +9,18 @@ namespace ReviewYourself.Models.Repositories.Implementations
     public class UserRepository : IUserRepository
     {
         private readonly string _connectionString;
-
-        public UserRepository( /*string connectionString*/)
+        public UserRepository(string connectionString)
         {
-            //_connectionString = connectionString;
+            _connectionString = connectionString;
+        }
+
+        public UserRepository()
+        {
+#if DEBUG
             _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+#else
+            _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
+#endif
         }
 
         public void Create(ResourceUser user)
@@ -46,6 +53,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 reader.Read();
 
+                //TODO: dont return password
                 return new ResourceUser
                 {
                     Id = Guid.Parse(reader["UserID"].ToString()),
@@ -87,6 +95,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             }
         }
 
+        //TODO: remove
         public ICollection<ResourceUser> ReadByCourse(Guid courseId)
         {
             using (var connection = new SqlConnection(_connectionString))

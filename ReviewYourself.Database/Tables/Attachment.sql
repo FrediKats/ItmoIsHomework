@@ -1,3 +1,5 @@
+USE ReviewYourselfProjectdb
+GO
 DROP TABLE IF EXISTS Attachment
 GO
 CREATE TABLE Attachment

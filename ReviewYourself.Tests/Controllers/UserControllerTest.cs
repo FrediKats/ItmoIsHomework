@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
 using ReviewYourself.Models.Repositories.Implementations;
 using ReviewYourself.Models.Services.Implementations;
@@ -11,10 +12,10 @@ namespace ReviewYourself.Tests.Controllers
     {
         private UserController _controller;
 
-        [ClassInitialize]
+        [TestInitialize]
         public void Initialize()
         {
-            _controller = new UserController(new UserService(new UserRepository(), new TokenRepository()));
+            _controller = new UserController(ServiceGenerator.GenerateUserService());
         }
 
         [TestMethod]

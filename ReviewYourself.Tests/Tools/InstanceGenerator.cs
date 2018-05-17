@@ -24,7 +24,8 @@ namespace ReviewYourself.Tests.Tools
                 FirstName = GenerateString(),
                 LastName = GenerateString(),
                 Login = GenerateString(),
-                Password = GenerateString()
+                Password = GenerateString(),
+                Email = GenerateString()
             };
         }
 

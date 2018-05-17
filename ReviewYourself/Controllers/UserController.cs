@@ -39,7 +39,9 @@ namespace ReviewYourself.Controllers
             {
                 FirstName = registrationData.FirstName,
                 Login = registrationData.Login,
-                LastName = registrationData.LastName
+                LastName = registrationData.LastName,
+                Password = registrationData.Password,
+                Email = registrationData.Email
             });
         }
 

@@ -31,8 +31,8 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void SignUp(string login, string password, ResourceUser user)
         {
+            //TODO: remove login and password
             _userRepository.Create(user);
-            throw new NotImplementedException();
         }
 
         public ResourceUser GetUser(Token token, Guid userId)
