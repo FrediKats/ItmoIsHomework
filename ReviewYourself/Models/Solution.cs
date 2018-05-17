@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlTypes;
 
 namespace ReviewYourself.Models
 {
@@ -10,6 +12,6 @@ namespace ReviewYourself.Models
         public string TextData { get; set; }
         public DateTime PostTime { get; set; }
         public bool Status { get; set; }
-        public byte[][] AttachmentCollection { get; set; }
+        public ICollection<SqlFileStream> AttachmentCollection { get; set; }
     }
 }
