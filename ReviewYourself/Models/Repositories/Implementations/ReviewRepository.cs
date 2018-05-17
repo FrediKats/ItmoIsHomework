@@ -20,6 +20,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
             throw new NotImplementedException();
         }
 
+        public Review ReadReviewBySolutionAndUser(Guid solutionId, Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Review review)
         {
             throw new NotImplementedException();

@@ -4,6 +4,6 @@
     {
         Token GenerateToken(string username, string login);
         void DisableToken(Token token);
-        ResourceUser GetUserByToken(Token token);
+        bool ValidateToken(Token token);
     }
 }

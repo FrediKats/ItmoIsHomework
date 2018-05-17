@@ -37,10 +37,10 @@ namespace ReviewYourself.Controllers
         }
 
         [HttpGet]
-        [Route("IsMember")]
-        public bool IsMember([FromUri] Token token)
+        [Route("IsMember/{courseId}")]
+        public bool IsMember(Guid courseId, [FromUri] Token token)
         {
-            return _courseService.IsMember(token);
+            return _courseService.IsMember(token, courseId);
         }
 
 

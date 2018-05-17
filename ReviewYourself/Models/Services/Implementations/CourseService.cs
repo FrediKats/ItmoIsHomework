@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ReviewYourself.Models.Repositories;
 
 namespace ReviewYourself.Models.Services.Implementations
@@ -20,134 +21,149 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void AddCourse(Token token, Course course)
         {
-            //ResourceUser user = _tokenRepository.GetUserByToken(token);
-            //if (user == null)
-            //{
-            //    throw new Exception();
-            //}
-            //if (course.Mentor.Id != user.Id)
-            //{
-            //    throw new Exception();
-            //}
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            if (course.Mentor.Id != token.UserId)
+            {
+                throw new Exception("Wrong mentorId");
+            }
 
             _courseRepository.Create(course);
         }
 
         public void InviteUser(Token token, string username, Guid courseId)
         {
-            //var user = _tokenRepository.GetUserByToken(token);
-            //var course = _courseRepository.Read(courseId);
-            var member = _userRepository.ReadByUserName(username);
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
 
-            //if (user == null || course == null || member == null)
-            //{
-            //    throw new Exception();
-            //}
+            var course = _courseRepository.Read(courseId);
+            if (course.Mentor.Id != token.UserId)
+            {
+                throw new Exception("User isn't mentor");
+            }
 
-            //if (course.Mentor.Id != user.Id)
-            //{
-            //    throw new Exception();
-            //}
+            var newMember = _userRepository.ReadByUserName(username);
 
-            _courseRepository.CreateMember(courseId, member.Id);
+            if (newMember == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            _courseRepository.CreateMember(courseId, newMember.Id);
         }
 
         public void AcceptInvite(Token token, Guid courseId)
         {
-            //var user = _tokenRepository.GetUserByToken(token);
-            //if (user == null)
-            //{
-            //    throw new Exception();
-            //}
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
 
-            throw new NotImplementedException();
+            var user = _courseRepository
+                .ReadInvitedByCourse(courseId)
+                .FirstOrDefault(u => u.Id == token.UserId);
+
+            if (user == null)
+            {
+                throw new Exception("User not invited");
+            }
+
+            _courseRepository.AcceptInvite(courseId, token.UserId);
         }
 
-        public bool IsMember(Token token)
+        public bool IsMember(Token token, Guid courseId)
         {
-            throw new NotImplementedException();
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            var user = _courseRepository
+                .ReadMemberByCourse(courseId)
+                .FirstOrDefault(u => u.Id == token.UserId);
+
+            return user != null;
         }
 
         public Course GetCourse(Token token, Guid courseId)
         {
-            //var user = _tokenRepository.GetUserByToken(token);
-            //var course = _courseRepository.Read(courseId);
-
-            //if (user == null || course == null)
-            //{
-            //    throw new Exception();
-            //}
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
 
             return _courseRepository.Read(courseId);
         }
 
         public ICollection<Course> GetCourseCollectionByUser(Token token, Guid userId)
         {
-            //TODO: Admin rights
-            //var user = _tokenRepository.GetUserByToken(token);
-            //if (user == null)
-            //{
-            //    throw new Exception();
-            //}
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
 
             return _courseRepository.ReadByUser(userId);
         }
 
         public ICollection<Course> GetInviteCollectionByUser(Token token, Guid userId)
         {
-            throw new NotImplementedException();
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            return _courseRepository.ReadInviteByUser(userId);
         }
 
         public void UpdateCourse(Token token, Course course)
         {
-            //var user = _tokenRepository.GetUserByToken(token);
-            //var mentor = _courseRepository.Read(course.Id).Mentor;
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
 
-            //if (user == null || course == null)
-            //{
-            //    throw new Exception();
-            //}
-
-            //if (user.Id != mentor.Id)
-            //{
-            //    throw new Exception();
-            //}
+            var resultCourse = _courseRepository.Read(course.Id);
+            if (resultCourse.Mentor.Id != token.UserId || resultCourse.Mentor.Id != course.Mentor.Id)
+            {
+                throw new Exception("User isn't mentor");
+            }
 
             _courseRepository.Update(course);
         }
 
         public void DeleteCourse(Token token, Guid courseId)
         {
-            //var user = _tokenRepository.GetUserByToken(token);
-            //var mentor = _courseRepository.Read(courseId)?.Mentor;
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
 
-            //if (user == null || mentor == null)
-            //{
-            //    throw new Exception();
-            //}
-
-            //if (user.Id != mentor.Id)
-            //{
-            //    throw new Exception();
-            //}
+            var resultCourse = _courseRepository.Read(courseId);
+            if (resultCourse.Mentor.Id != token.UserId)
+            {
+                throw new Exception("User isn't mentor");
+            }
 
             _courseRepository.Delete(courseId);
         }
 
         public void DeleteMember(Token token, Guid courseId, Guid userId)
         {
-            //var user = _tokenRepository.GetUserByToken(token);
-            //var mentor = _courseRepository.Read(courseId)?.Mentor;
+            if (_tokenRepository.ValidateToken(token))
+            {
+                throw new Exception("Wrong token info");
+            }
 
-            //if (user == null || mentor == null)
-            //{
-            //    throw new Exception();
-            //}
-
-            //if (user.Id != mentor.Id)
-            //{
-            //    throw new Exception();
-            //}
+            var resultCourse = _courseRepository.Read(courseId);
+            if (resultCourse.Mentor.Id != token.UserId)
+            {
+                throw new Exception("User isn't mentor");
+            }
 
             _courseRepository.DeleteMember(courseId, userId);
         }

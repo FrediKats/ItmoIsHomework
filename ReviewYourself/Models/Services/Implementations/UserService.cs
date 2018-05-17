@@ -16,35 +16,57 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public Token SignIn(string login, string password)
         {
-            //TODO: user info
-            //_tokenRepository.GetUserByToken();
-            throw new NotImplementedException();
+            return _tokenRepository.GenerateToken(login, password);
         }
 
         public void SignOut(Token token)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             _tokenRepository.DisableToken(token);
-            throw new NotImplementedException();
         }
 
-        //TODO: add userInfo
         public void SignUp(string login, string password, ResourceUser user)
         {
+            _userRepository.Create(user);
             throw new NotImplementedException();
         }
 
         public ResourceUser GetUser(Token token, Guid userId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _userRepository.Read(userId);
         }
 
         public ResourceUser FindUserByUsername(Token token, string username)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _userRepository.ReadByUserName(username);
         }
 
         public void UpdateUser(Token token, ResourceUser user)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            if (token.UserId != user.Id)
+            {
+                throw new Exception("Different userId and token");
+            }
+
             _userRepository.Update(user);
         }
     }

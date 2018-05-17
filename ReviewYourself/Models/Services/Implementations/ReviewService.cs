@@ -17,15 +17,9 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void CreateReview(Token token, Review review)
         {
-            var user = _tokenRepository.GetUserByToken(token);
-            if (user == null)
+            if (_tokenRepository.ValidateToken(token) == false)
             {
-                throw new Exception();
-            }
-
-            if (review.AuthorId != user.Id)
-            {
-                throw new Exception();
+                throw new Exception("Wrong token info");
             }
 
             _reviewRepository.Create(review);
@@ -33,21 +27,41 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public Review GetReview(Token token, Guid reviewId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _reviewRepository.Read(reviewId);
         }
 
         public Review GetReviewBySolutionAndUser(Token token, Guid solutionId, Guid userId)
         {
-            throw new NotImplementedException();
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            return _reviewRepository.ReadReviewBySolutionAndUser(solutionId, userId);
         }
 
         public ICollection<Review> GetReviewBySolution(Token token, Guid solutionId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _reviewRepository.ReadBySolution(solutionId);
         }
 
         public void DeleteReview(Token token, Guid reviewId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             _reviewRepository.Delete(reviewId);
         }
     }

@@ -30,7 +30,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public ResourceUser GetUserByToken(Token token)
+        public bool ValidateToken(Token token)
         {
             throw new NotImplementedException();
         }

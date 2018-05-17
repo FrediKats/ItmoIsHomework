@@ -122,6 +122,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
             }
         }
 
+        public ICollection<Course> ReadInviteByUser(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<ResourceUser> ReadMemberByCourse(Guid courseId)
         {
             throw new NotImplementedException();

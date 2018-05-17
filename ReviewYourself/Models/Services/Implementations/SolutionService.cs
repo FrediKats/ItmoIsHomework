@@ -7,8 +7,8 @@ namespace ReviewYourself.Models.Services.Implementations
     public class SolutionService : ISolutionService
     {
         private readonly ISolutionRepository _solutionRepository;
+        private readonly ITokenRepository _tokenRepository;
         private IReviewRepository _reviewRepository;
-        private ITokenRepository _tokenRepository;
 
         public SolutionService(ISolutionRepository solutionRepository, IReviewRepository reviewRepository,
             ITokenRepository tokenRepository)
@@ -20,26 +20,53 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void CreateSolution(Token token, Solution solution)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            //TODO: check if user in course
             _solutionRepository.Create(solution);
         }
 
         public Solution GetSolution(Token token, Guid solutionId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _solutionRepository.Read(solutionId);
         }
 
-        public Solution GetSolutionByTaskAndUser(Token token, Guid solutionId, Guid userId)
+        public Solution GetSolutionByTaskAndUser(Token token, Guid taskId, Guid userId)
         {
-            throw new NotImplementedException();
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            return _solutionRepository.ReadByTaskAndUser(taskId, userId);
         }
 
         public ICollection<Solution> GetSolutionByTask(Token token, Guid taskId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _solutionRepository.ReadByTask(taskId);
         }
 
         public void DeleteSolution(Token token, Guid solutionId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            //TODO: mentors rights
             _solutionRepository.Delete(solutionId);
         }
 
@@ -50,6 +77,11 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void ResolveSolution(Token token, Guid solutionId, Review review)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             _solutionRepository.ResolveSolution(solutionId);
         }
     }
