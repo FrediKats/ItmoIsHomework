@@ -20,31 +20,31 @@ namespace ReviewYourself.Controllers
         }
 
         [HttpPost]
-        //[Route("Add")]
+        [Route("Add")]
         public void Add([FromBody]ResourceTask task, [FromUri]Token token)
         {
-            _taskService.CreateTask(task, token);
+            _taskService.CreateTask(token, task);
         }
         
         [HttpGet]
-        [Route("{taskId}")]
+        [Route("GetById/{taskId}")]
         public ResourceTask Get(Guid taskId, [FromUri]Token token)
         {
-            return _taskService.GetTask(taskId, token);
+            return _taskService.GetTask(token, taskId);
         }
 
         [HttpGet]
         [Route("GetByCourse/{courseId}")]
         public IEnumerable<ResourceTask> GetByCourse(Guid courseId, [FromUri]Token token)
         {
-            return _taskService.GetTaskByCourse(courseId, token);
+            return _taskService.GetTaskListByCourse(token, courseId);
         }
 
         [HttpDelete]
-        [Route("{taskId}")]
+        [Route("Delete/{taskId}")]
         public void DeleteCourse(Guid taskId, [FromUri]Token token)
         {
-            _taskService.DeleteTask(taskId, token);
+            _taskService.DeleteTask(token, taskId);
         }
     }
 }

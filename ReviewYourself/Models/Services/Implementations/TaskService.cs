@@ -7,7 +7,7 @@ namespace ReviewYourself.Models.Services.Implementations
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _taskRepository;
-        private ITokenRepository _tokenRepository;
+        private readonly ITokenRepository _tokenRepository;
 
         public TaskService(ITaskRepository taskRepository, ITokenRepository tokenRepository)
         {
@@ -15,23 +15,45 @@ namespace ReviewYourself.Models.Services.Implementations
             _tokenRepository = tokenRepository;
         }
 
-        public void CreateTask(ResourceTask task, Token token)
+        public void CreateTask(Token token, ResourceTask task)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+            //TODO: request admins right
+
             _taskRepository.Create(task);
         }
 
-        public ResourceTask GetTask(Guid taskId, Token token)
+        public ResourceTask GetTask(Token token, Guid taskId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _taskRepository.Read(taskId);
         }
 
-        public ICollection<ResourceTask> GetTaskByCourse(Guid courseId, Token token)
+        public ICollection<ResourceTask> GetTaskListByCourse(Token token, Guid courseId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _taskRepository.ReadByCourse(courseId);
         }
 
-        public void DeleteTask(Guid taskId, Token token)
+        public void DeleteTask(Token token, Guid taskId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+            //TODO: request admins right
+
             _taskRepository.Delete(taskId);
         }
     }

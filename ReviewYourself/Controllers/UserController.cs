@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using ReviewYourself.Models;
 using ReviewYourself.Models.Services;
@@ -22,56 +18,58 @@ namespace ReviewYourself.Controllers
 
         [HttpPost]
         [Route("Sign-in")]
-        public Token SignIn([FromBody]AuthorizeData authData)
+        public Token SignIn([FromBody] AuthorizeData authData)
         {
             return _userService.SignIn(authData.Login, authData.Password);
         }
 
         [HttpPost]
         [Route("Sign-out")]
-        public void SignOut([FromBody]Token token)
+        public void SignOut([FromBody] Token token)
         {
             _userService.SignOut(token);
         }
 
         [HttpPost]
         [Route("sign-up")]
-        public void SignUp([FromBody]RegistrationData registrationData)
+        public void SignUp([FromBody] RegistrationData registrationData)
         {
             //TODO: add other data
-            _userService.SignUp(registrationData.Login, registrationData.Password, new ResourceUser()
+            _userService.SignUp(registrationData.Login, registrationData.Password, new ResourceUser
             {
                 FirstName = registrationData.FirstName,
                 Login = registrationData.Login,
-                LastName = registrationData.LastName
+                LastName = registrationData.LastName,
+                Password = registrationData.Password,
+                Email = registrationData.Email
             });
         }
 
         [HttpGet]
-        public ResourceUser GetUser([FromUri]Token token)
+        public ResourceUser GetUser([FromUri] Token token)
         {
-            return _userService.GetUser(token);
+            return _userService.GetUser(token, token.UserId);
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public ResourceUser GetUser(Guid userId,[FromUri]Token token)
+        [Route("GetById/{id}")]
+        public ResourceUser GetById(Guid userId, [FromUri] Token token)
         {
-            return _userService.GetUser(userId, token);
+            return _userService.GetUser(token, userId);
         }
 
         [HttpGet]
-        [Route("FindByUsername/{username}")]
-        public ResourceUser FindByUsername(string username, [FromUri]Token token)
+        [Route("GetByUsername/{username}")]
+        public ResourceUser GetByUsername(string username, [FromUri] Token token)
         {
-            return _userService.FindUserByUsername(username, token);
+            return _userService.GetUserByUsername(token, username);
         }
 
         [HttpPost]
-        [Route("Update/")]
-        public void UpdateUser([FromUri]Token token, [FromBody]ResourceUser user)
+        [Route("Update")]
+        public void UpdateUser([FromUri] Token token, [FromBody] ResourceUser user)
         {
-            _userService.UpdateUser(user, token);
+            _userService.UpdateUser(token, user);
         }
     }
 }

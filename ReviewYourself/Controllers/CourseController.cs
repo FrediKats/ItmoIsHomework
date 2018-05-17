@@ -1,84 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using ReviewYourself.Models;
 using ReviewYourself.Models.Services;
-using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Controllers
-{ 
+{
     [RoutePrefix("api/courses")]
     public class CourseController : ApiController
     {
         private readonly ICourseService _courseService;
+
         public CourseController(ICourseService courseService)
         {
             _courseService = courseService;
         }
 
         [HttpPost]
-        public void Create([FromUri]Token token, [FromBody]Course course)
+        public void Create([FromUri] Token token, [FromBody] Course course)
         {
-            _courseService.AddCourse(course, token);
+            _courseService.CreateCourse(token, course);
         }
 
         [HttpPost]
         [Route("Invite/{courseId}/{username}")]
-        public void InviteUser(Guid courseId, string username, [FromUri]Token token)
+        public void InviteUser(Guid courseId, string username, [FromUri] Token token)
         {
-            _courseService.InviteUser(username, courseId, token);
+            _courseService.InviteUser(token, username, courseId);
         }
 
         [HttpPost]
         [Route("Accept-Invite/{courseId}")]
-        public void AcceptInvite(Guid courseId, [FromUri]Token token)
+        public void AcceptInvite(Guid courseId, [FromUri] Token token)
         {
-            _courseService.AcceptInvite(courseId, token);
+            _courseService.AcceptInvite(token, courseId);
         }
 
         [HttpGet]
-        [Route("Get/{courseId}")]
-        public Course Get(Guid courseId, [FromUri]Token token)
+        [Route("IsMember/{courseId}")]
+        public bool IsMember(Guid courseId, [FromUri] Token token)
         {
-            return _courseService.GetCourse(courseId, token);
+            return _courseService.IsMember(token, courseId);
+        }
+
+
+        [HttpGet]
+        [Route("GetById/{courseId}")]
+        public Course GetById(Guid courseId, [FromUri] Token token)
+        {
+            return _courseService.GetCourse(token, courseId);
         }
 
         [HttpGet]
-        [Route("GetByUser/")]
-        public IEnumerable<Course> GetByUser([FromUri]Token token)
+        [Route("GetByUser")]
+        public IEnumerable<Course> GetByUser([FromUri] Token token)
         {
-            return _courseService.GetCourseCollectionByUser(token);
+            return _courseService.GetCourseListByUser(token, token.UserId);
         }
 
         [HttpGet]
         [Route("GetByUser/{userId}")]
-        public IEnumerable<Course> GetByUser(Guid userId, [FromUri]Token token)
+        public IEnumerable<Course> GetByUser(Guid userId, [FromUri] Token token)
         {
-            return _courseService.GetCourseCollectionByUser(userId, token);
+            return _courseService.GetCourseListByUser(token, userId);
+        }
+
+        [HttpGet]
+        [Route("GetInvitesByUser")]
+        public IEnumerable<Course> GetInvitesByUser([FromUri] Token token)
+        {
+            return _courseService.GetInviteListByUser(token, token.UserId);
         }
 
         [HttpPost]
         [Route("Update")]
-        public void Update([FromUri]Token token, [FromBody]Course course)
+        public void Update([FromUri] Token token, [FromBody] Course course)
         {
-            _courseService.UpdateCourse(course, token);
+            _courseService.UpdateCourse(token, course);
         }
 
         [HttpDelete]
-        [Route("{courseId}")]
-        public void Delete(Guid courseId, [FromUri]Token token)
+        [Route("Delete/{courseId}")]
+        public void Delete(Guid courseId, [FromUri] Token token)
         {
-            _courseService.DeleteCourse(courseId, token);
+            _courseService.DeleteCourse(token, courseId);
         }
 
         [HttpDelete]
         [Route("Delete-member/{courseId}/{userId}")]
-        public void DeleteMember(Guid courseId, Guid userId,[FromUri]Token token)
+        public void DeleteMember(Guid courseId, Guid userId, [FromUri] Token token)
         {
-            _courseService.DeleteMember(courseId, userId, token);
+            _courseService.DeleteMember(token, courseId, userId);
         }
     }
 }

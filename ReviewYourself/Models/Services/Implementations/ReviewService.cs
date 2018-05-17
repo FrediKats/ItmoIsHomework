@@ -15,39 +15,53 @@ namespace ReviewYourself.Models.Services.Implementations
             _tokenRepository = tokenRepository;
         }
 
-        public void CreateReview(Review review, Token token)
+        public void CreateReview(Token token, Review review)
         {
-            var user = _tokenRepository.GetUserByToken(token);
-            if (user == null)
+            if (_tokenRepository.ValidateToken(token) == false)
             {
-                throw new Exception();
-            }
-
-            if (review.AuthorId != user.Id)
-            {
-                throw new Exception();
+                throw new Exception("Wrong token info");
             }
 
             _reviewRepository.Create(review);
         }
 
-        public Review GetReview(Guid reviewId, Token token)
+        public Review GetReview(Token token, Guid reviewId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _reviewRepository.Read(reviewId);
         }
 
-        public Review GetReviewBySolutionAndUser(Guid reviewId, Guid userId, Token token)
+        public Review GetReviewBySolutionAndUser(Token token, Guid solutionId, Guid userId)
         {
-            throw new NotImplementedException();
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            return _reviewRepository.ReadReviewBySolutionAndUser(solutionId, userId);
         }
 
-        public ICollection<Review> GetReviewBySolution(Guid solutionId, Token token)
+        public ICollection<Review> GetReviewListBySolution(Token token, Guid solutionId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _reviewRepository.ReadBySolution(solutionId);
         }
 
-        public void DeleteReview(Guid reviewId, Token token)
+        public void DeleteReview(Token token, Guid reviewId)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             _reviewRepository.Delete(reviewId);
         }
     }

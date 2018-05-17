@@ -29,14 +29,11 @@ namespace ReviewYourself.Tests.Controllers
         public void TaskCreation()
         {
             var regData = InstanceGenerator.GenerateRegistration();
-            var authData = new AuthorizeData()
-            {
-                Login = regData.Login,
-                Password = regData.Password
-            };
-            _userController.SignUp(regData);
+            var authData = InstanceGenerator.GenerateAuth(regData);
             var course = InstanceGenerator.GenerateCourse();
             var task = InstanceGenerator.GenerateTask();
+
+            _userController.SignUp(regData);
             var token = _userController.SignIn(authData);
 
             _courseController.Create(token, course);
@@ -44,8 +41,11 @@ namespace ReviewYourself.Tests.Controllers
             task.CourseId = currentCourse.Id;
             _taskController.Add(task, token);
 
-            var resultTask = _taskController.GetByCourse(currentCourse.Id, token).First(t => t.Title == task.Title);
+            var resultTask = _taskController
+                .GetByCourse(currentCourse.Id, token)
+                .First(t => t.Title == task.Title && t.Description == task.Description);
 
+            Assert.IsNotNull(resultTask);
             Assert.AreEqual(resultTask.CourseId, course.Id);
             Assert.AreEqual(resultTask.Description, task.Description);
         }

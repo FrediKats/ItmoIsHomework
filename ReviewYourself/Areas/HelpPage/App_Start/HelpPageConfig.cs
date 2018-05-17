@@ -73,7 +73,7 @@ namespace ReviewYourself.Areas.HelpPage
                 AuthorId = Guid.NewGuid(),
                 Id = Guid.NewGuid(),
                 PostTime = DateTime.Today,
-                Status = false,
+                IsResolved = false,
                 TaskId = Guid.NewGuid(),
                 TextData = "Here is a plan..."
             };
@@ -100,7 +100,7 @@ namespace ReviewYourself.Areas.HelpPage
                 {typeof(ResourceTask), task},
                 {typeof(ResourceUser), user},
                 {typeof(Solution), solution},
-                {typeof(Token), new Token {TokenUserId = Guid.NewGuid()}},
+                {typeof(Token), new Token {TokenData = Guid.NewGuid()}},
                 {typeof(AuthorizeData), new AuthorizeData() { Login = "login", Password = "p4ssw0rd"}},
                 {typeof(RegistrationData), reg},
             });

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
 using ReviewYourself.Models.Repositories.Implementations;
 using ReviewYourself.Models.Services.Implementations;
-using ReviewYourself.Models.Tools;
 using ReviewYourself.Tests.Tools;
 
 namespace ReviewYourself.Tests.Controllers
@@ -13,42 +12,36 @@ namespace ReviewYourself.Tests.Controllers
     {
         private UserController _controller;
 
-        [ClassInitialize]
+        [TestInitialize]
         public void Initialize()
         {
-            _controller = new UserController(new UserService(new UserRepository(), new TokenRepository()));
+            _controller = new UserController(ServiceGenerator.GenerateUserService());
         }
 
         [TestMethod]
         public void SignUpTest()
         {
             var regData = InstanceGenerator.GenerateRegistration();
-            var authData = new AuthorizeData()
-            {
-                Login = regData.Login,
-                Password = regData.Password
-            };
+            var authData = InstanceGenerator.GenerateAuth(regData);
 
             _controller.SignUp(regData);
             var token = _controller.SignIn(authData);
 
             Assert.IsNotNull(token);
-            Assert.IsNotNull(token.TokenUserId);
+            Assert.IsNotNull(token.TokenData);
         }
 
         [TestMethod]
         public void ReadingUserTest()
         {
             var regData = InstanceGenerator.GenerateRegistration();
-            var authData = new AuthorizeData()
-            {
-                Login = regData.Login,
-                Password = regData.Password
-            };
+            var authData = InstanceGenerator.GenerateAuth(regData);
 
             _controller.SignUp(regData);
-            var userByUsername = _controller.FindByUsername(regData.Login, null);
-            var userById = _controller.GetUser(userByUsername.Id, null);
+            var token = _controller.SignIn(authData);
+
+            var userByUsername = _controller.GetByUsername(regData.Login, token);
+            var userById = _controller.GetById(userByUsername.Id, token);
 
             Assert.AreEqual(userByUsername.FirstName, userById.FirstName);
         }
@@ -57,20 +50,17 @@ namespace ReviewYourself.Tests.Controllers
         public void UpdateUserTest()
         {
             var regData = InstanceGenerator.GenerateRegistration();
-            var authData = new AuthorizeData()
-            {
-                Login = regData.Login,
-                Password = regData.Password
-            };
+            var authData = InstanceGenerator.GenerateAuth(regData);
 
             _controller.SignUp(regData);
-            var user = _controller.FindByUsername(regData.Login, null);
+            var token = _controller.SignIn(authData);
+
+            var user = _controller.GetByUsername(regData.Login, token);
             user.Biography = "New bio";
-            _controller.UpdateUser(null, user);
+            _controller.UpdateUser(token, user);
+            var updatedUser = _controller.GetByUsername(regData.Login, token);
 
-            var newUser = _controller.FindByUsername(regData.Login, null);
-
-            Assert.AreEqual(user.Biography, newUser.Biography);
+            Assert.AreEqual(user.Biography, updatedUser.Biography);
         }
     }
 }

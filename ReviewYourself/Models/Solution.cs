@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Collections.Generic;
 
 namespace ReviewYourself.Models
 {
@@ -11,7 +11,7 @@ namespace ReviewYourself.Models
         public Guid TaskId { get; set; }
         public string TextData { get; set; }
         public DateTime PostTime { get; set; }
-        public bool Status { get; set; }
+        public bool IsResolved { get; set; }
         public ICollection<SqlFileStream> AttachmentCollection { get; set; }
     }
 }

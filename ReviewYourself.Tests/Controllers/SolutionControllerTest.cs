@@ -31,32 +31,31 @@ namespace ReviewYourself.Tests.Controllers
         public void SolutionCreateTest()
         {
             var regData = InstanceGenerator.GenerateRegistration();
-            var authData = new AuthorizeData()
-            {
-                Login = regData.Login,
-                Password = regData.Password
-            };
-            _userController.SignUp(regData);
+            var authData = InstanceGenerator.GenerateAuth(regData);
             var course = InstanceGenerator.GenerateCourse();
-            var token = _userController.SignIn(authData);
-            var user = _userController.GetUser(token);
-            _courseController.Create(token, course);
-            var currentCourse = _courseController.GetByUser(token).First(c => c.Title == course.Title);
-
             var task = InstanceGenerator.GenerateTask();
+            var solution = InstanceGenerator.GenerateSolution();
+
+
+            _userController.SignUp(regData);
+            var token = _userController.SignIn(authData);
+            _courseController.Create(token, course);
+
+            var currentCourse = _courseController.GetByUser(token)
+                .First(c => c.Title == course.Title);
             task.CourseId = currentCourse.Id;
             _taskController.Add(task, token);
-            task = _taskController.GetByCourse(currentCourse.Id, token).First(t => t.Title == task.Title);
 
-            var solution = InstanceGenerator.GenerateSolution();
+            task = _taskController.GetByCourse(currentCourse.Id, token)
+                .First(t => t.Title == task.Title);
             solution.TaskId = task.Id;
             _solutionController.Add(token, solution);
 
-            //TODO: select solution ?
-            var resultSolution = _solutionController.GetByTaskAndUser(task.Id, user.Id, token);
+            var resultSolution = _solutionController.GetByTaskAndUser(task.Id, token.UserId, token);
 
+            Assert.IsNotNull(resultSolution);
             Assert.AreEqual(solution.PostTime, resultSolution.PostTime);
-            Assert.AreEqual(solution.Status, resultSolution.Status);
+            Assert.AreEqual(solution.IsResolved, resultSolution.IsResolved);
         }
     }
 }

@@ -9,11 +9,18 @@ namespace ReviewYourself.Models.Repositories.Implementations
     public class UserRepository : IUserRepository
     {
         private readonly string _connectionString;
-
-        public UserRepository( /*string connectionString*/)
+        public UserRepository(string connectionString)
         {
-            //_connectionString = connectionString;
+            _connectionString = connectionString;
+        }
+
+        public UserRepository()
+        {
+#if DEBUG
             _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+#else
+            _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
+#endif
         }
 
         public void Create(ResourceUser user)
@@ -46,6 +53,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 reader.Read();
 
+                //TODO: dont return password
                 return new ResourceUser
                 {
                     Id = Guid.Parse(reader["UserID"].ToString()),
@@ -86,7 +94,51 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 };
             }
         }
-        
+
+        //TODO: remove
+        public ICollection<ResourceUser> ReadByCourse(Guid courseId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var reader = SQL
+                    .SELECT("*")
+                    .FROM("ResourceUser")
+                    .JOIN("({0}) ON ResourceUser.UserID = CourseMembership.UserID",
+                        SQL.SELECT("UserID")
+                            .FROM("Coursemembership")
+                            .WHERE("CourseID = {0}", courseId)
+                            ._("Permission > 0"))
+                    .ToCommand(connection)
+                    .ExecuteReader();
+
+                /* if previous won't work you can use this
+                string selectExpression = $"SELECT * FROM ResourceUser WHERE UserID in (SELECT UserID FROM CourseMembership WHERE CourseID = '{courseId}' AND Permission > 0)";
+                SqlCommand read = new SqlCommand(selectExpression, connection);
+                SqlDataReader reader = read.ExecuteReader();
+                */
+
+                ICollection<ResourceUser> courseMembers = new List<ResourceUser>();
+
+                while (reader.Read())
+                {
+                    courseMembers.Add(new ResourceUser
+                    {
+                        Id = Guid.Parse(reader["UserID"].ToString()),
+                        Login = reader["UserLogin"].ToString(),
+                        Email = reader["Email"].ToString(),
+                        Password = reader["UserPassword"].ToString(),
+                        FirstName = reader["FirstName"].ToString(),
+                        LastName = reader["LastName"].ToString(),
+                        Biography = reader["Bio"].ToString()
+                    });
+                }
+
+                return courseMembers;
+            }
+        }
+
         public void Update(ResourceUser user)
         {
             using (var connection = new SqlConnection(_connectionString))

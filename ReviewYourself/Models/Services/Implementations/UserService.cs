@@ -16,40 +16,57 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public Token SignIn(string login, string password)
         {
-            //TODO: user info
-            //_tokenRepository.GetUserByToken();
-            throw new NotImplementedException();
+            return _tokenRepository.GenerateToken(login, password);
         }
 
         public void SignOut(Token token)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             _tokenRepository.DisableToken(token);
-            throw new NotImplementedException();
         }
 
-        //TODO: add userInfo
         public void SignUp(string login, string password, ResourceUser user)
         {
-            throw new NotImplementedException();
+            //TODO: remove login and password
+            _userRepository.Create(user);
         }
 
-        public ResourceUser GetUser(Token token)
+        public ResourceUser GetUser(Token token, Guid userId)
         {
-            throw new NotImplementedException();
-        }
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
 
-        public ResourceUser GetUser(Guid userId, Token token)
-        {
             return _userRepository.Read(userId);
         }
 
-        public ResourceUser FindUserByUsername(string username, Token token)
+        public ResourceUser GetUserByUsername(Token token, string username)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
             return _userRepository.ReadByUserName(username);
         }
 
-        public void UpdateUser(ResourceUser user, Token token)
+        public void UpdateUser(Token token, ResourceUser user)
         {
+            if (_tokenRepository.ValidateToken(token) == false)
+            {
+                throw new Exception("Wrong token info");
+            }
+
+            if (token.UserId != user.Id)
+            {
+                throw new Exception("Different userId and token");
+            }
+
             _userRepository.Update(user);
         }
     }

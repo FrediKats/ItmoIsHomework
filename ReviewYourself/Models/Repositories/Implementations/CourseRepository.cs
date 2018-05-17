@@ -10,7 +10,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
     {
         private readonly string _connectionString;
 
-        public CourseRepository(/*string connectionString*/)
+        public CourseRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        public CourseRepository()
         {
             //_connectionString = connectionString;
             _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
@@ -24,7 +28,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 var insert = SQL
                     .INSERT_INTO("Course (CourseID, Title, CourseDescription, MentorID)")
-                    .VALUES(course.Id, course.Title, course.Description, course.Mentor)
+                    .VALUES(course.Id, course.Title, course.Description, course.Mentor.Id)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }
@@ -85,16 +89,17 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Course")
-                    .INNER_JOIN("({0}) ON Course.MentorID = ResourceUser.UserID", "ResourceUser")
-                    .JOIN("({0}) ON Course.CourseID = CourseMembership.CourseID",
+                    .INNER_JOIN("ResourceUser ON Course.MentorID = ResourceUser.UserID")
+                    .JOIN("({0}) t0 ON Course.CourseID = t0.CourseID",
                         SQL.SELECT("CourseID")
                             .FROM("CourseMembership")
                             .WHERE("CourseMembership.UserID = {0}", userId))
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
+                    
+                var reader = command.ExecuteReader();
 
                 ICollection<Course> courseList = new List<Course>();
 
@@ -123,6 +128,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
         }
 
         public ICollection<ResourceUser> ReadMembersByCourse(Guid courseId)
+
+            throw new NotImplementedException();
+        }
+        {
+        public ICollection<Course> ReadInviteByUser(Guid userId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
