@@ -15,22 +15,22 @@ namespace ReviewYourself.Models.Services.Implementations
             _tokenRepository = tokenRepository;
         }
 
-        public void CreateTask(ResourceTask task, Token token)
+        public void CreateTask(Token token, ResourceTask task)
         {
             _taskRepository.Create(task);
         }
 
-        public ResourceTask GetTask(Guid taskId, Token token)
+        public ResourceTask GetTask(Token token, Guid taskId)
         {
             return _taskRepository.Read(taskId);
         }
 
-        public ICollection<ResourceTask> GetTaskByCourse(Guid courseId, Token token)
+        public ICollection<ResourceTask> GetTaskByCourse(Token token, Guid courseId)
         {
             return _taskRepository.ReadByCourse(courseId);
         }
 
-        public void DeleteTask(Guid taskId, Token token)
+        public void DeleteTask(Token token, Guid taskId)
         {
             _taskRepository.Delete(taskId);
         }

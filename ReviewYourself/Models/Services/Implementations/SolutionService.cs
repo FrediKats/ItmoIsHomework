@@ -18,37 +18,37 @@ namespace ReviewYourself.Models.Services.Implementations
             _tokenRepository = tokenRepository;
         }
 
-        public void CreateSolution(Solution solution, Token token)
+        public void CreateSolution(Token token, Solution solution)
         {
             _solutionRepository.Create(solution);
         }
 
-        public Solution GetSolution(Guid solutionId, Token token)
+        public Solution GetSolution(Token token, Guid solutionId)
         {
             return _solutionRepository.Read(solutionId);
         }
 
-        public Solution GetSolutionByTaskAndUser(Guid solutionId, Guid userId, Token token)
+        public Solution GetSolutionByTaskAndUser(Token token, Guid solutionId, Guid userId)
         {
             throw new NotImplementedException();
         }
 
-        public ICollection<Solution> GetSolutionByTask(Guid taskId, Token token)
+        public ICollection<Solution> GetSolutionByTask(Token token, Guid taskId)
         {
             return _solutionRepository.ReadByTask(taskId);
         }
 
-        public void DeleteSolution(Guid solutionId, Token token)
+        public void DeleteSolution(Token token, Guid solutionId)
         {
             _solutionRepository.Delete(solutionId);
         }
 
-        public bool IsCanAddReview(Guid solutionId, Token token)
+        public bool IsCanAddReview(Token token, Guid solutionId)
         {
             throw new NotImplementedException();
         }
 
-        public void ResolveSolution(Guid solutionId, Review review, Token token)
+        public void ResolveSolution(Token token, Guid solutionId, Review review)
         {
             _solutionRepository.ResolveSolution(solutionId);
         }

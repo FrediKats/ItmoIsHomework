@@ -18,7 +18,7 @@ namespace ReviewYourself.Models.Services.Implementations
             _tokenRepository = tokenRepository;
         }
 
-        public void AddCourse(Course course, Token token)
+        public void AddCourse(Token token, Course course)
         {
             //ResourceUser user = _tokenRepository.GetUserByToken(token);
             //if (user == null)
@@ -33,7 +33,7 @@ namespace ReviewYourself.Models.Services.Implementations
             _courseRepository.Create(course);
         }
 
-        public void InviteUser(string username, Guid courseId, Token token)
+        public void InviteUser(Token token, string username, Guid courseId)
         {
             //var user = _tokenRepository.GetUserByToken(token);
             //var course = _courseRepository.Read(courseId);
@@ -52,7 +52,7 @@ namespace ReviewYourself.Models.Services.Implementations
             _courseRepository.CreateMember(courseId, member.Id);
         }
 
-        public void AcceptInvite(Guid courseId, Token token)
+        public void AcceptInvite(Token token, Guid courseId)
         {
             //var user = _tokenRepository.GetUserByToken(token);
             //if (user == null)
@@ -63,7 +63,12 @@ namespace ReviewYourself.Models.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Course GetCourse(Guid courseId, Token token)
+        public bool IsMember(Token token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Course GetCourse(Token token, Guid courseId)
         {
             //var user = _tokenRepository.GetUserByToken(token);
             //var course = _courseRepository.Read(courseId);
@@ -76,17 +81,7 @@ namespace ReviewYourself.Models.Services.Implementations
             return _courseRepository.Read(courseId);
         }
 
-        public ICollection<Course> GetCourseCollectionByUser(Token token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<Course> GetInviteCollectionByUser(Token token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<Course> GetCourseCollectionByUser(Guid userId, Token token)
+        public ICollection<Course> GetCourseCollectionByUser(Token token, Guid userId)
         {
             //TODO: Admin rights
             //var user = _tokenRepository.GetUserByToken(token);
@@ -98,12 +93,12 @@ namespace ReviewYourself.Models.Services.Implementations
             return _courseRepository.ReadByUser(userId);
         }
 
-        public ICollection<Course> GetInviteCollectionByUser(Guid userId, Token token)
+        public ICollection<Course> GetInviteCollectionByUser(Token token, Guid userId)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateCourse(Course course, Token token)
+        public void UpdateCourse(Token token, Course course)
         {
             //var user = _tokenRepository.GetUserByToken(token);
             //var mentor = _courseRepository.Read(course.Id).Mentor;
@@ -121,7 +116,7 @@ namespace ReviewYourself.Models.Services.Implementations
             _courseRepository.Update(course);
         }
 
-        public void DeleteCourse(Guid courseId, Token token)
+        public void DeleteCourse(Token token, Guid courseId)
         {
             //var user = _tokenRepository.GetUserByToken(token);
             //var mentor = _courseRepository.Read(courseId)?.Mentor;
@@ -139,7 +134,7 @@ namespace ReviewYourself.Models.Services.Implementations
             _courseRepository.Delete(courseId);
         }
 
-        public void DeleteMember(Guid courseId, Guid userId, Token token)
+        public void DeleteMember(Token token, Guid courseId, Guid userId)
         {
             //var user = _tokenRepository.GetUserByToken(token);
             //var mentor = _courseRepository.Read(courseId)?.Mentor;

@@ -5,13 +5,13 @@ namespace ReviewYourself.Models.Services
 {
     public interface ISolutionService
     {
-        void CreateSolution(Solution solution, Token token);
-        Solution GetSolution(Guid solutionId, Token token);
-        Solution GetSolutionByTaskAndUser(Guid solutionId, Guid userId, Token token);
-        ICollection<Solution> GetSolutionByTask(Guid taskId, Token token);
-        void DeleteSolution(Guid solutionId, Token token);
+        void CreateSolution(Token token, Solution solution);
+        Solution GetSolution(Token token, Guid solutionId);
+        Solution GetSolutionByTaskAndUser(Token token, Guid solutionId, Guid userId);
+        ICollection<Solution> GetSolutionByTask(Token token, Guid taskId);
+        void DeleteSolution(Token token, Guid solutionId);
 
-        bool IsCanAddReview(Guid solutionId, Token token);
-        void ResolveSolution(Guid solutionId, Review review, Token token);
+        bool IsCanAddReview(Token token, Guid solutionId);
+        void ResolveSolution(Token token, Guid solutionId, Review review);
     }
 }

@@ -33,7 +33,7 @@ namespace ReviewYourself.Tests.Controllers
             var token = _controller.SignIn(authData);
 
             Assert.IsNotNull(token);
-            Assert.IsNotNull(token.TokenUserId);
+            Assert.IsNotNull(token.TokenData);
         }
 
         [TestMethod]
@@ -47,8 +47,8 @@ namespace ReviewYourself.Tests.Controllers
             };
 
             _controller.SignUp(regData);
-            var userByUsername = _controller.FindByUsername(regData.Login, null);
-            var userById = _controller.GetUser(userByUsername.Id, null);
+            var userByUsername = _controller.GetByUsername(regData.Login, null);
+            var userById = _controller.GetById(userByUsername.Id, null);
 
             Assert.AreEqual(userByUsername.FirstName, userById.FirstName);
         }
@@ -64,11 +64,11 @@ namespace ReviewYourself.Tests.Controllers
             };
 
             _controller.SignUp(regData);
-            var user = _controller.FindByUsername(regData.Login, null);
+            var user = _controller.GetByUsername(regData.Login, null);
             user.Biography = "New bio";
             _controller.UpdateUser(null, user);
 
-            var newUser = _controller.FindByUsername(regData.Login, null);
+            var newUser = _controller.GetByUsername(regData.Login, null);
 
             Assert.AreEqual(user.Biography, newUser.Biography);
         }

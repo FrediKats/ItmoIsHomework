@@ -5,9 +5,9 @@ namespace ReviewYourself.Models.Services
 {
     public interface ITaskService
     {
-        void CreateTask(ResourceTask task, Token token);
-        ResourceTask GetTask(Guid taskId, Token token);
-        ICollection<ResourceTask> GetTaskByCourse(Guid courseId, Token token);
-        void DeleteTask(Guid taskId, Token token);
+        void CreateTask(Token token, ResourceTask task);
+        ResourceTask GetTask(Token token, Guid taskId);
+        ICollection<ResourceTask> GetTaskByCourse(Token token, Guid courseId);
+        void DeleteTask(Token token, Guid taskId);
     }
 }

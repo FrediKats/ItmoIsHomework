@@ -5,17 +5,16 @@ namespace ReviewYourself.Models.Services
 {
     public interface ICourseService
     {
-        void AddCourse(Course course, Token token);
-        Course GetCourse(Guid courseId, Token token);
-        ICollection<Course> GetCourseCollectionByUser(Token token);
-        ICollection<Course> GetInviteCollectionByUser(Token token);
-        ICollection<Course> GetCourseCollectionByUser(Guid userId, Token token);
-        ICollection<Course> GetInviteCollectionByUser(Guid userId, Token token);
-        void UpdateCourse(Course course, Token token);
-        void DeleteCourse(Guid courseId, Token token);
-        void DeleteMember(Guid courseId, Guid userId, Token token);
+        void AddCourse(Token token, Course course);
+        Course GetCourse(Token token, Guid courseId);
+        ICollection<Course> GetCourseCollectionByUser(Token token, Guid userId);
+        ICollection<Course> GetInviteCollectionByUser(Token token, Guid userId);
+        void UpdateCourse(Token token, Course course);
+        void DeleteCourse(Token token, Guid courseId);
+        void DeleteMember(Token token, Guid courseId, Guid userId);
 
-        void InviteUser(string username, Guid courseId, Token token);
-        void AcceptInvite(Guid courseId, Token token);
+        void InviteUser(Token token, string username, Guid courseId);
+        void AcceptInvite(Token token, Guid courseId);
+        bool IsMember(Token token);
     }
 }

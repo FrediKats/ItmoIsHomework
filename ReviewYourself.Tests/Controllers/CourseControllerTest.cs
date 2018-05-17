@@ -68,7 +68,7 @@ namespace ReviewYourself.Tests.Controllers
 
             var mentorToken = _userController.SignIn(mentorAuth);
             var course = InstanceGenerator.GenerateCourse();
-            var student = _userController.FindByUsername(studentAuth.Login, mentorToken);
+            var student = _userController.GetByUsername(studentAuth.Login, mentorToken);
 
             _courseController.Create(mentorToken, course);
             var userCourseCollection = _courseController.GetByUser(mentorToken);

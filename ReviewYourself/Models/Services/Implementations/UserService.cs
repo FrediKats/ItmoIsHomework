@@ -33,22 +33,17 @@ namespace ReviewYourself.Models.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public ResourceUser GetUser(Token token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ResourceUser GetUser(Guid userId, Token token)
+        public ResourceUser GetUser(Token token, Guid userId)
         {
             return _userRepository.Read(userId);
         }
 
-        public ResourceUser FindUserByUsername(string username, Token token)
+        public ResourceUser FindUserByUsername(Token token, string username)
         {
             return _userRepository.ReadByUserName(username);
         }
 
-        public void UpdateUser(ResourceUser user, Token token)
+        public void UpdateUser(Token token, ResourceUser user)
         {
             _userRepository.Update(user);
         }

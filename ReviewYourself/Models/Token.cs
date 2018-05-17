@@ -4,6 +4,7 @@ namespace ReviewYourself.Models
 {
     public class Token
     {
-        public Guid TokenUserId { get; set; }
+        public Guid TokenData { get; set; }
+        public Guid UserId { get; set; }
     }
 }

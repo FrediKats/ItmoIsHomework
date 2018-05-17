@@ -10,6 +10,7 @@ namespace ReviewYourself.Models
         public string TextData { get; set; }
         public DateTime PostTime { get; set; }
         public bool Status { get; set; }
+        //TODO: far away future
         public byte[][] AttachmentCollection { get; set; }
     }
 }

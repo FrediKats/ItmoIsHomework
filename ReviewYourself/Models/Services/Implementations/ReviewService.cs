@@ -15,7 +15,7 @@ namespace ReviewYourself.Models.Services.Implementations
             _tokenRepository = tokenRepository;
         }
 
-        public void CreateReview(Review review, Token token)
+        public void CreateReview(Token token, Review review)
         {
             var user = _tokenRepository.GetUserByToken(token);
             if (user == null)
@@ -31,22 +31,22 @@ namespace ReviewYourself.Models.Services.Implementations
             _reviewRepository.Create(review);
         }
 
-        public Review GetReview(Guid reviewId, Token token)
+        public Review GetReview(Token token, Guid reviewId)
         {
             return _reviewRepository.Read(reviewId);
         }
 
-        public Review GetReviewBySolutionAndUser(Guid reviewId, Guid userId, Token token)
+        public Review GetReviewBySolutionAndUser(Token token, Guid solutionId, Guid userId)
         {
             throw new NotImplementedException();
         }
 
-        public ICollection<Review> GetReviewBySolution(Guid solutionId, Token token)
+        public ICollection<Review> GetReviewBySolution(Token token, Guid solutionId)
         {
             return _reviewRepository.ReadBySolution(solutionId);
         }
 
-        public void DeleteReview(Guid reviewId, Token token)
+        public void DeleteReview(Token token, Guid reviewId)
         {
             _reviewRepository.Delete(reviewId);
         }

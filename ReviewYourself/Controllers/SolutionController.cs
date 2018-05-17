@@ -22,28 +22,28 @@ namespace ReviewYourself.Controllers
         [HttpPost]
         public void Add([FromUri]Token token, [FromBody]Solution solution)
         {
-            _solutionService.CreateSolution(solution, token);
+            _solutionService.CreateSolution(token, solution);
         }
 
         [HttpGet]
         [Route("{solutionId}")]
         public Solution Get(Guid solutionId, [FromUri]Token token)
         {
-            return _solutionService.GetSolution(solutionId, token);
+            return _solutionService.GetSolution(token, solutionId);
         }
 
         [HttpGet]
         [Route("GetByTask/{taskId}")]
         public IEnumerable<Solution> GetByTask(Guid taskId, [FromUri]Token token)
         {
-            return _solutionService.GetSolutionByTask(taskId, token);
+            return _solutionService.GetSolutionByTask(token, taskId);
         }
 
         [HttpGet]
-        [Route("GetByTask/{taskId}/{userId")]
+        [Route("GetByTaskAndUser/{taskId}/{userId}")]
         public Solution GetByTaskAndUser(Guid taskId, Guid userId, [FromUri]Token token)
         {
-            return _solutionService.GetSolutionByTaskAndUser(taskId, userId, token);
+            return _solutionService.GetSolutionByTaskAndUser(token, taskId, userId);
         }
 
 
@@ -51,21 +51,21 @@ namespace ReviewYourself.Controllers
         [Route("{solutionId}")]
         public void Delete(Guid solutionId, [FromUri]Token token)
         {
-            _solutionService.DeleteSolution(solutionId, token);
+            _solutionService.DeleteSolution(token, solutionId);
         }
 
         [HttpPost]
         [Route("Is-can-review/{solutionId}")]
         public bool IsCanReview(Guid solutionId, [FromUri]Token token)
         {
-            return _solutionService.IsCanAddReview(solutionId, token);
+            return _solutionService.IsCanAddReview(token, solutionId);
         }
 
         [HttpPost]
         [Route("Resolve-solution/{solutionId}")]
         public void ResolveSolution(Guid solutionId, Review review, [FromUri]Token token)
         {
-            _solutionService.ResolveSolution(solutionId, review, token);
+            _solutionService.ResolveSolution(token, solutionId, review);
         }
     }
 }
