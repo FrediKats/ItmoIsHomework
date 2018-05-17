@@ -53,7 +53,7 @@ namespace ReviewYourself.Tests.Tools
             {
                 TextData = GenerateString(),
                 PostTime = DateTime.Today,
-                Status = true,
+                IsResolved = false,
 
             };
         }

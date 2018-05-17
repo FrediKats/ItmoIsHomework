@@ -37,7 +37,7 @@ namespace ReviewYourself.Controllers
         [Route("GetByCourse/{courseId}")]
         public IEnumerable<ResourceTask> GetByCourse(Guid courseId, [FromUri]Token token)
         {
-            return _taskService.GetTaskByCourse(token, courseId);
+            return _taskService.GetTaskListByCourse(token, courseId);
         }
 
         [HttpDelete]

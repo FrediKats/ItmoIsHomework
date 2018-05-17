@@ -9,7 +9,7 @@ namespace ReviewYourself.Models.Services
         void SignUp(string login, string password, ResourceUser user);
 
         ResourceUser GetUser(Token token, Guid userId);
-        ResourceUser FindUserByUsername(Token token, string username);
+        ResourceUser GetUserByUsername(Token token, string username);
         void UpdateUser(Token token, ResourceUser user);
     }
 }

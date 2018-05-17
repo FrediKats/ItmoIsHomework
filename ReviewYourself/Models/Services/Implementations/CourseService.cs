@@ -19,7 +19,7 @@ namespace ReviewYourself.Models.Services.Implementations
             _tokenRepository = tokenRepository;
         }
 
-        public void AddCourse(Token token, Course course)
+        public void CreateCourse(Token token, Course course)
         {
             if (_tokenRepository.ValidateToken(token))
             {
@@ -100,7 +100,7 @@ namespace ReviewYourself.Models.Services.Implementations
             return _courseRepository.Read(courseId);
         }
 
-        public ICollection<Course> GetCourseCollectionByUser(Token token, Guid userId)
+        public ICollection<Course> GetCourseListByUser(Token token, Guid userId)
         {
             if (_tokenRepository.ValidateToken(token))
             {
@@ -110,7 +110,7 @@ namespace ReviewYourself.Models.Services.Implementations
             return _courseRepository.ReadByUser(userId);
         }
 
-        public ICollection<Course> GetInviteCollectionByUser(Token token, Guid userId)
+        public ICollection<Course> GetInviteListByUser(Token token, Guid userId)
         {
             if (_tokenRepository.ValidateToken(token))
             {

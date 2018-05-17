@@ -5,10 +5,10 @@ namespace ReviewYourself.Models.Services
 {
     public interface ICourseService
     {
-        void AddCourse(Token token, Course course);
+        void CreateCourse(Token token, Course course);
         Course GetCourse(Token token, Guid courseId);
-        ICollection<Course> GetCourseCollectionByUser(Token token, Guid userId);
-        ICollection<Course> GetInviteCollectionByUser(Token token, Guid userId);
+        ICollection<Course> GetCourseListByUser(Token token, Guid userId);
+        ICollection<Course> GetInviteListByUser(Token token, Guid userId);
         void UpdateCourse(Token token, Course course);
         void DeleteCourse(Token token, Guid courseId);
         void DeleteMember(Token token, Guid courseId, Guid userId);

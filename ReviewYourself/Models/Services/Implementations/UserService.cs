@@ -45,7 +45,7 @@ namespace ReviewYourself.Models.Services.Implementations
             return _userRepository.Read(userId);
         }
 
-        public ResourceUser FindUserByUsername(Token token, string username)
+        public ResourceUser GetUserByUsername(Token token, string username)
         {
             if (_tokenRepository.ValidateToken(token) == false)
             {

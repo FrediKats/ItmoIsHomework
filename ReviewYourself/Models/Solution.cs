@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ReviewYourself.Models
 {
@@ -9,8 +10,8 @@ namespace ReviewYourself.Models
         public Guid TaskId { get; set; }
         public string TextData { get; set; }
         public DateTime PostTime { get; set; }
-        public bool Status { get; set; }
+        public bool IsResolved { get; set; }
         //TODO: far away future
-        public byte[][] AttachmentCollection { get; set; }
+        public ICollection<byte[]> AttachmentCollection { get; set; }
     }
 }
