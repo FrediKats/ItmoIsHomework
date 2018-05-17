@@ -127,12 +127,12 @@ namespace ReviewYourself.Models.Repositories.Implementations
             }
         }
 
-        public ICollection<ResourceUser> ReadMembersByCourse(Guid courseId)
-
+        public ICollection<Course> ReadInviteByUser(Guid userId)
+        {
             throw new NotImplementedException();
         }
-        {
-        public ICollection<Course> ReadInviteByUser(Guid userId)
+        
+        public ICollection<ResourceUser> ReadMembersByCourse(Guid courseId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {

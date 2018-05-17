@@ -25,7 +25,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 var insertSolution = SQL
                     .INSERT_INTO("Solution (SolutionID, AuthorID, TaskID, TextData, Posted, Resolved)")
-                    .VALUES(solution.Id, solution.AuthorId, solution.TaskId, solution.TextData, solution.PostTime, solution.Status)
+                    .VALUES(solution.Id, solution.AuthorId, solution.TaskId, solution.TextData, solution.PostTime, solution.IsResolved)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 
@@ -67,7 +67,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     TaskId = Guid.Parse(reader["TaskID"].ToString()),
                     TextData = reader["TextData"].ToString(),
                     PostTime = DateTime.Parse(reader["Posted"].ToString()),
-                    Status = bool.Parse(reader["Resolved"].ToString()),
+                    IsResolved = bool.Parse(reader["Resolved"].ToString()),
                     //AttachmentCollection = new List<SqlFileStream>()
                 };
 
@@ -111,7 +111,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                         TaskId = Guid.Parse(reader["TaskID"].ToString()),
                         TextData = reader["TextData"].ToString(),
                         PostTime = DateTime.Parse(reader["Posted"].ToString()),
-                        Status = bool.Parse(reader["Resolved"].ToString())
+                        IsResolved = bool.Parse(reader["Resolved"].ToString())
                     });
                 }
 
@@ -142,7 +142,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     TaskId = Guid.Parse(reader["TaskID"].ToString()),
                     TextData = reader["TextData"].ToString(),
                     PostTime = DateTime.Parse(reader["Posted"].ToString()),
-                    Status = bool.Parse(reader["Resolved"].ToString()),
+                    IsResolved = bool.Parse(reader["Resolved"].ToString()),
                     //AttachmentCollection = new List<SqlFileStream>()
                 };
 

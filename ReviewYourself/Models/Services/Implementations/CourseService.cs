@@ -84,7 +84,7 @@ namespace ReviewYourself.Models.Services.Implementations
             }
 
             var user = _courseRepository
-                .ReadMemberByCourse(courseId)
+                .ReadMembersByCourse(courseId)
                 .FirstOrDefault(u => u.Id == token.UserId);
 
             return user != null;
