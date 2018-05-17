@@ -96,11 +96,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     .ToCommand(connection)
                     .ExecuteReader();
 
-                ICollection<Course> courses = new List<Course>();
+                ICollection<Course> courseList = new List<Course>();
 
                 while (reader.Read())
                 {
-                    courses.Add(new Course
+                    courseList.Add(new Course
                     {
                         Id = Guid.Parse(reader["CourseID"].ToString()),
                         Title = reader["Title"].ToString(),
@@ -118,7 +118,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     });
                 }
 
-                return courses;
+                return courseList;
             }
         }
 
