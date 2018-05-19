@@ -7,7 +7,7 @@ namespace ReviewYourself.Models.Services
     {
         void CreateTask(Token token, ResourceTask task);
         ResourceTask GetTask(Token token, Guid taskId);
-        ICollection<ResourceTask> GetTaskByCourse(Token token, Guid courseId);
+        ICollection<ResourceTask> GetTaskListByCourse(Token token, Guid courseId);
         void DeleteTask(Token token, Guid taskId);
     }
 }

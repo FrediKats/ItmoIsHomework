@@ -36,7 +36,7 @@ namespace ReviewYourself.Models.Services.Implementations
             return _taskRepository.Read(taskId);
         }
 
-        public ICollection<ResourceTask> GetTaskByCourse(Token token, Guid courseId)
+        public ICollection<ResourceTask> GetTaskListByCourse(Token token, Guid courseId)
         {
             if (_tokenRepository.ValidateToken(token) == false)
             {

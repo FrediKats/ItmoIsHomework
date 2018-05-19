@@ -73,7 +73,7 @@ namespace ReviewYourself.Areas.HelpPage
                 AuthorId = Guid.NewGuid(),
                 Id = Guid.NewGuid(),
                 PostTime = DateTime.Today,
-                Status = false,
+                IsResolved = false,
                 TaskId = Guid.NewGuid(),
                 TextData = "Here is a plan..."
             };

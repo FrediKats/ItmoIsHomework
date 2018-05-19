@@ -49,7 +49,7 @@ namespace ReviewYourself.Models.Services.Implementations
             return _solutionRepository.ReadByTaskAndUser(taskId, userId);
         }
 
-        public ICollection<Solution> GetSolutionByTask(Token token, Guid taskId)
+        public ICollection<Solution> GetSolutionListByTask(Token token, Guid taskId)
         {
             if (_tokenRepository.ValidateToken(token) == false)
             {

@@ -8,7 +8,7 @@ namespace ReviewYourself.Models.Services
         void CreateSolution(Token token, Solution solution);
         Solution GetSolution(Token token, Guid solutionId);
         Solution GetSolutionByTaskAndUser(Token token, Guid solutionId, Guid userId);
-        ICollection<Solution> GetSolutionByTask(Token token, Guid taskId);
+        ICollection<Solution> GetSolutionListByTask(Token token, Guid taskId);
         void DeleteSolution(Token token, Guid solutionId);
 
         bool IsCanAddReview(Token token, Guid solutionId);

@@ -1,28 +1,55 @@
 ﻿using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
+using DbExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
     public class TokenRepository : ITokenRepository
     {
-        private static readonly string _randomString;
+        private string _connectionString;
 
-        static TokenRepository()
+        public static TokenRepository Create(string connectionString)
         {
-            _randomString = GenerateRandomString();
+            return new TokenRepository()
+            {
+                _connectionString =  connectionString
+            };
         }
 
-        private static string GenerateRandomString()
+        public TokenRepository()
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            Random random = new Random();
-
-            return new string(Enumerable.Repeat(chars, chars.Length).Select(s => s[random.Next(s.Length)]).ToArray());
+            _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
         }
 
         public Token GenerateToken(string username, string password)
         {
-            throw new NotImplementedException();
+            //TODO: get user from UseTable, check if password is same
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var reader = SQL
+                    .SELECT("UserId, UserPassword")
+                    .FROM("ResourceUser")
+                    .WHERE("UserLogin = {0}", username)
+                    .ToCommand(connection)
+                    .ExecuteReader();
+
+                //TODO: Exception if two or more results
+                reader.Read();
+
+                if (password != reader["UserPassword"].ToString())
+                    return null;
+
+                return new Token()
+                {
+                    TokenData = Guid.NewGuid(),
+                    UserId = Guid.Parse(reader["UserID"].ToString())
+                };
+            }
         }
 
         public void DisableToken(Token token)
@@ -32,6 +59,8 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public bool ValidateToken(Token token)
         {
+            //TODO: add validation
+            return true;
             throw new NotImplementedException();
         }
     }

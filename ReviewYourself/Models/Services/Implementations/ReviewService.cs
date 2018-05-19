@@ -45,7 +45,7 @@ namespace ReviewYourself.Models.Services.Implementations
             return _reviewRepository.ReadReviewBySolutionAndUser(solutionId, userId);
         }
 
-        public ICollection<Review> GetReviewBySolution(Token token, Guid solutionId)
+        public ICollection<Review> GetReviewListBySolution(Token token, Guid solutionId)
         {
             if (_tokenRepository.ValidateToken(token) == false)
             {

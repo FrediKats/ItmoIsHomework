@@ -36,7 +36,7 @@ namespace ReviewYourself.Controllers
         [Route("GetByTask/{taskId}")]
         public IEnumerable<Solution> GetByTask(Guid taskId, [FromUri]Token token)
         {
-            return _solutionService.GetSolutionByTask(token, taskId);
+            return _solutionService.GetSolutionListByTask(token, taskId);
         }
 
         [HttpGet]

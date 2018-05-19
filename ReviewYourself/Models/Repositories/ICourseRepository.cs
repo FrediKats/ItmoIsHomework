@@ -9,8 +9,8 @@ namespace ReviewYourself.Models.Repositories
         void CreateMember(Guid courseId, Guid userId);
         Course Read(Guid courseId);
         ICollection<Course> ReadByUser(Guid userId);
-        ICollection<Course> ReadInviteByUser(Guid userId);
-        ICollection<ResourceUser> ReadMemberByCourse(Guid courseId);
+        ICollection<Course> ReadInvitesByUser(Guid userId);
+        ICollection<ResourceUser> ReadMembersByCourse(Guid courseId);
         ICollection<ResourceUser> ReadInvitedByCourse(Guid courseId);
         void Update(Course course);
         void Delete(Guid courseId);

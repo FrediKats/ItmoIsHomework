@@ -19,9 +19,9 @@ namespace ReviewYourself.Models.Services.Implementations
             _tokenRepository = tokenRepository;
         }
 
-        public void AddCourse(Token token, Course course)
+        public void CreateCourse(Token token, Course course)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }
@@ -36,7 +36,7 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void InviteUser(Token token, string username, Guid courseId)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }
@@ -59,7 +59,7 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void AcceptInvite(Token token, Guid courseId)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }
@@ -78,13 +78,13 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public bool IsMember(Token token, Guid courseId)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }
 
             var user = _courseRepository
-                .ReadMemberByCourse(courseId)
+                .ReadMembersByCourse(courseId)
                 .FirstOrDefault(u => u.Id == token.UserId);
 
             return user != null;
@@ -92,7 +92,7 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public Course GetCourse(Token token, Guid courseId)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }
@@ -100,9 +100,9 @@ namespace ReviewYourself.Models.Services.Implementations
             return _courseRepository.Read(courseId);
         }
 
-        public ICollection<Course> GetCourseCollectionByUser(Token token, Guid userId)
+        public ICollection<Course> GetCourseListByUser(Token token, Guid userId)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }
@@ -110,19 +110,21 @@ namespace ReviewYourself.Models.Services.Implementations
             return _courseRepository.ReadByUser(userId);
         }
 
-        public ICollection<Course> GetInviteCollectionByUser(Token token, Guid userId)
+        public ICollection<Course> GetInviteListByUser(Token token, Guid userId)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }
 
-            return _courseRepository.ReadInviteByUser(userId);
+            return null;
+            //TODO: 
+            //return _courseRepository.ReadInviteByUser(userId);
         }
 
         public void UpdateCourse(Token token, Course course)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }
@@ -138,7 +140,7 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void DeleteCourse(Token token, Guid courseId)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }
@@ -154,7 +156,7 @@ namespace ReviewYourself.Models.Services.Implementations
 
         public void DeleteMember(Token token, Guid courseId, Guid userId)
         {
-            if (_tokenRepository.ValidateToken(token))
+            if (_tokenRepository.ValidateToken(token) == false)
             {
                 throw new Exception("Wrong token info");
             }

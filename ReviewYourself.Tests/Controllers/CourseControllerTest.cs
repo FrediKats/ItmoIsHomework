@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
 using ReviewYourself.Models.Repositories.Implementations;
@@ -13,12 +14,11 @@ namespace ReviewYourself.Tests.Controllers
         private CourseController _courseController;
         private UserController _userController;
 
-        [ClassInitialize]
+        [TestInitialize]
         public void Initialize()
         {
-            _courseController = new CourseController(new CourseService(new CourseRepository(),
-                new UserRepository(), new TokenRepository()));
-            _userController = new UserController(new UserService(new UserRepository(), new TokenRepository()));
+            _courseController = new CourseController(ServiceGenerator.GenerateCourseService());
+            _userController = new UserController(ServiceGenerator.GenerateUserService());
         }
 
         [TestMethod]
@@ -31,6 +31,7 @@ namespace ReviewYourself.Tests.Controllers
             _userController.SignUp(regData);
             var token = _userController.SignIn(authData);
             var user = _userController.GetUser(token);
+            course.Mentor = user;
 
             _courseController.Create(token, course);
             var userCourseCollection = _courseController.GetByUser(token);
@@ -54,6 +55,7 @@ namespace ReviewYourself.Tests.Controllers
 
             var mentorToken = _userController.SignIn(mentorAuth);
             var studentToken = _userController.SignIn(studentAuth);
+            course.Mentor = _userController.GetUser(mentorToken);
 
             _courseController.Create(mentorToken, course);
             var currentCourse = _courseController

@@ -8,7 +8,7 @@ namespace ReviewYourself.Models.Services
         void CreateReview(Token token, Review review);
         Review GetReview(Token token, Guid reviewId);
         Review GetReviewBySolutionAndUser(Token token, Guid solutionId, Guid userId);
-        ICollection<Review> GetReviewBySolution(Token token, Guid solutionId);
+        ICollection<Review> GetReviewListBySolution(Token token, Guid solutionId);
         void DeleteReview(Token token, Guid reviewId);
     }
 }

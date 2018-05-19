@@ -1,3 +1,5 @@
+USE ReviewYourselfProjectdb
+GO
 DROP TABLE IF EXISTS Solution
 GO
 CREATE TABLE Solution

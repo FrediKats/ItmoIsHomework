@@ -39,7 +39,9 @@ namespace ReviewYourself.Controllers
             {
                 FirstName = registrationData.FirstName,
                 Login = registrationData.Login,
-                LastName = registrationData.LastName
+                LastName = registrationData.LastName,
+                Password = registrationData.Password,
+                Email = registrationData.Email
             });
         }
 
@@ -60,7 +62,7 @@ namespace ReviewYourself.Controllers
         [Route("GetByUsername/{username}")]
         public ResourceUser GetByUsername(string username, [FromUri] Token token)
         {
-            return _userService.FindUserByUsername(token, username);
+            return _userService.GetUserByUsername(token, username);
         }
 
         [HttpPost]

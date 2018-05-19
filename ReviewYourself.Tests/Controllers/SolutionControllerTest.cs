@@ -55,7 +55,7 @@ namespace ReviewYourself.Tests.Controllers
 
             Assert.IsNotNull(resultSolution);
             Assert.AreEqual(solution.PostTime, resultSolution.PostTime);
-            Assert.AreEqual(solution.Status, resultSolution.Status);
+            Assert.AreEqual(solution.IsResolved, resultSolution.IsResolved);
         }
     }
 }

@@ -6,14 +6,21 @@ using DbExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
+    //TODO: don't use resharper here
     public class UserRepository : IUserRepository
     {
-        private readonly string _connectionString;
-
-        public UserRepository( /*string connectionString*/)
+        private string _connectionString;
+        public static UserRepository Create(string connectionString)
         {
-            //_connectionString = connectionString;
-            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+            return new UserRepository()
+            {
+                _connectionString =  connectionString
+            };
+        }
+
+        public UserRepository()
+        {
+            _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
         }
 
         public void Create(ResourceUser user)
@@ -24,8 +31,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 var insert = SQL
                     .INSERT_INTO("ResourceUser (UserID, UserLogin, Email, UserPassword, FirstName, LastName, Bio)")
-                    .VALUES(Guid.NewGuid(), user.Login, user.Email, user.Password, user.FirstName, user.LastName,
-                        user.Biography)
+                    .VALUES(Guid.NewGuid(), user.Login, user.Email, user.Password, user.FirstName, user.LastName, user.Biography)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }
@@ -51,7 +57,6 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     Id = Guid.Parse(reader["UserID"].ToString()),
                     Login = reader["UserLogin"].ToString(),
                     Email = reader["Email"].ToString(),
-                    Password = reader["UserPassword"].ToString(),
                     FirstName = reader["FirstName"].ToString(),
                     LastName = reader["LastName"].ToString(),
                     Biography = reader["Bio"].ToString()
@@ -79,54 +84,10 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     Id = Guid.Parse(reader["UserID"].ToString()),
                     Login = reader["UserLogin"].ToString(),
                     Email = reader["Email"].ToString(),
-                    Password = reader["UserPassword"].ToString(),
                     FirstName = reader["FirstName"].ToString(),
                     LastName = reader["LastName"].ToString(),
                     Biography = reader["Bio"].ToString()
                 };
-            }
-        }
-
-        public ICollection<ResourceUser> ReadByCourse(Guid courseId)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-
-                var reader = SQL
-                    .SELECT("*")
-                    .FROM("ResourceUser")
-                    .JOIN("({0}) ON ResourceUser.UserID = CourseMembership.UserID",
-                        SQL.SELECT("UserID")
-                            .FROM("Coursemembership")
-                            .WHERE("CourseID = {0}", courseId)
-                            ._("Permission > 0"))
-                    .ToCommand(connection)
-                    .ExecuteReader();
-
-                /* if previous won't work you can use this
-                string selectExpression = $"SELECT * FROM ResourceUser WHERE UserID in (SELECT UserID FROM CourseMembership WHERE CourseID = '{courseId}' AND Permission > 0)";
-                SqlCommand read = new SqlCommand(selectExpression, connection);
-                SqlDataReader reader = read.ExecuteReader();
-                */
-
-                ICollection<ResourceUser> courseMembers = new List<ResourceUser>();
-
-                while (reader.Read())
-                {
-                    courseMembers.Add(new ResourceUser
-                    {
-                        Id = Guid.Parse(reader["UserID"].ToString()),
-                        Login = reader["UserLogin"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        Password = reader["UserPassword"].ToString(),
-                        FirstName = reader["FirstName"].ToString(),
-                        LastName = reader["LastName"].ToString(),
-                        Biography = reader["Bio"].ToString()
-                    });
-                }
-
-                return courseMembers;
             }
         }
 

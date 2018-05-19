@@ -37,7 +37,7 @@ namespace ReviewYourself.Controllers
         [Route("GetBySolution/{solutionId}")]
         public IEnumerable<Review> GetBySolution(Guid solutionId, [FromUri]Token token)
         {
-            return _reviewService.GetReviewBySolution(token, solutionId);
+            return _reviewService.GetReviewListBySolution(token, solutionId);
         }
 
         [HttpGet]

@@ -1,3 +1,5 @@
+USE ReviewYourselfProjectdb
+GO
 DROP TABLE IF EXISTS Review
 GO
 CREATE TABLE Review
