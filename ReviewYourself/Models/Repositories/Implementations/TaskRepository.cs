@@ -8,11 +8,18 @@ namespace ReviewYourself.Models.Repositories.Implementations
 {
     public class TaskRepository : ITaskRepository
     {
-        private readonly string _connectionString;
+        private string _connectionString;
 
-        public TaskRepository(/*string connectionString*/)
+        public static TaskRepository Create(string connectionString)
         {
-            //_connectionString = connectionString;
+            return new TaskRepository()
+            {
+                _connectionString =  connectionString
+            };
+        }
+
+        public TaskRepository()
+        {
             _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
         }
 

@@ -8,20 +8,19 @@ namespace ReviewYourself.Models.Repositories.Implementations
 {
     public class TokenRepository : ITokenRepository
     {
-        private readonly string _connectionString;
+        private string _connectionString;
 
-        public TokenRepository(string connectionString)
+        public static TokenRepository Create(string connectionString)
         {
-            _connectionString = connectionString;
+            return new TokenRepository()
+            {
+                _connectionString =  connectionString
+            };
         }
 
         public TokenRepository()
         {
-#if DEBUG
-            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
-#else
             _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
-#endif
         }
 
         public Token GenerateToken(string username, string password)

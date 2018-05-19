@@ -117,7 +117,9 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
-            return _courseRepository.ReadInviteByUser(userId);
+            return null;
+            //TODO: 
+            //return _courseRepository.ReadInviteByUser(userId);
         }
 
         public void UpdateCourse(Token token, Course course)

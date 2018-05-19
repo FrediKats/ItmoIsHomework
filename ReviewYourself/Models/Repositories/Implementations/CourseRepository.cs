@@ -8,15 +8,18 @@ namespace ReviewYourself.Models.Repositories.Implementations
 {
     public class CourseRepository : ICourseRepository
     {
-        private readonly string _connectionString;
+        private string _connectionString;
 
-        public CourseRepository(string connectionString)
+        public static CourseRepository Create(string connectionString)
         {
-            _connectionString = connectionString;
+            return new CourseRepository()
+            {
+                _connectionString = connectionString
+            };
         }
+
         public CourseRepository()
         {
-            //_connectionString = connectionString;
             _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
         }
 

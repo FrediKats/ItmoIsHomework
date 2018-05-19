@@ -9,11 +9,18 @@ namespace ReviewYourself.Models.Repositories.Implementations
 {
     public class SolutionRepository : ISolutionRepository
     {
-        private readonly string _connectionString;
+        private string _connectionString;
 
-        public SolutionRepository(/*string connectionString*/)
+
+        public static SolutionRepository Create(string connectionString)
         {
-            //_connectionString = connectionString;
+            return new SolutionRepository()
+            {
+                _connectionString = connectionString
+            };
+        }
+        public SolutionRepository()
+        {
             _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
         }
 

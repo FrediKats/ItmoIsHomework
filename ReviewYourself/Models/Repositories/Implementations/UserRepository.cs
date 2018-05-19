@@ -9,19 +9,18 @@ namespace ReviewYourself.Models.Repositories.Implementations
     //TODO: don't use resharper here
     public class UserRepository : IUserRepository
     {
-        private readonly string _connectionString;
-        public UserRepository(string connectionString)
+        private string _connectionString;
+        public static UserRepository Create(string connectionString)
         {
-            _connectionString = connectionString;
+            return new UserRepository()
+            {
+                _connectionString =  connectionString
+            };
         }
 
         public UserRepository()
         {
-#if DEBUG
-            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
-#else
             _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
-#endif
         }
 
         public void Create(ResourceUser user)
