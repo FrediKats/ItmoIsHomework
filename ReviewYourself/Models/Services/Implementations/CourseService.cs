@@ -84,7 +84,7 @@ namespace ReviewYourself.Models.Services.Implementations
             }
 
             var user = _courseRepository
-                .ReadMemberByCourse(courseId)
+                .ReadMembersByCourse(courseId)
                 .FirstOrDefault(u => u.Id == token.UserId);
 
             return user != null;
@@ -117,7 +117,9 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
-            return _courseRepository.ReadInviteByUser(userId);
+            return null;
+            //TODO: 
+            //return _courseRepository.ReadInviteByUser(userId);
         }
 
         public void UpdateCourse(Token token, Course course)

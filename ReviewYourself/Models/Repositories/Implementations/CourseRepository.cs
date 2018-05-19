@@ -8,15 +8,18 @@ namespace ReviewYourself.Models.Repositories.Implementations
 {
     public class CourseRepository : ICourseRepository
     {
-        private readonly string _connectionString;
+        private string _connectionString;
 
-        public CourseRepository(string connectionString)
+        public static CourseRepository Create(string connectionString)
         {
-            _connectionString = connectionString;
+            return new CourseRepository()
+            {
+                _connectionString = connectionString
+            };
         }
+
         public CourseRepository()
         {
-            //_connectionString = connectionString;
             _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
         }
 
@@ -57,7 +60,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 var reader = SQL
                     .SELECT("*")
                     .FROM("Course")
-                    .INNER_JOIN("({0}) ON MentorID = UserID", "ResourceUser")
+                    .INNER_JOIN("ResourceUser ON MentorID = UserID")
                     .WHERE("CourseID = {0}", courseId)
                     .ToCommand(connection)
                     .ExecuteReader();
@@ -74,7 +77,6 @@ namespace ReviewYourself.Models.Repositories.Implementations
                         Id = Guid.Parse(reader["UserID"].ToString()),
                         Login = reader["UserLogin"].ToString(),
                         Email = reader["Email"].ToString(),
-                        Password = reader["UserPassword"].ToString(),
                         FirstName = reader["FirstName"].ToString(),
                         LastName = reader["LastName"].ToString(),
                         Biography = reader["Bio"].ToString()
@@ -89,24 +91,19 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var command = SQL
+                var reader = SQL
                     .SELECT("*")
                     .FROM("Course")
-                    .INNER_JOIN("ResourceUser ON Course.MentorID = ResourceUser.UserID")
-                    .JOIN("({0}) t0 ON Course.CourseID = t0.CourseID",
-                        SQL.SELECT("CourseID")
-                            .FROM("CourseMembership")
-                            .WHERE("CourseMembership.UserID = {0}", userId))
-                    .ToCommand(connection);
-                    
-                var reader = command.ExecuteReader();
+                    .INNER_JOIN("ResourceUser ON MentorID = UserID")
+                    .WHERE("MentorID = {0}", userId)
+                    .ToCommand(connection)
+                    .ExecuteReader();
 
-
-                ICollection<Course> courses = new List<Course>();
+                ICollection<Course> courseList = new List<Course>();
 
                 while (reader.Read())
                 {
-                    courses.Add(new Course
+                    courseList.Add(new Course
                     {
                         Id = Guid.Parse(reader["CourseID"].ToString()),
                         Title = reader["Title"].ToString(),
@@ -116,31 +113,166 @@ namespace ReviewYourself.Models.Repositories.Implementations
                             Id = Guid.Parse(reader["UserID"].ToString()),
                             Login = reader["UserLogin"].ToString(),
                             Email = reader["Email"].ToString(),
-                            Password = reader["UserPassword"].ToString(),
                             FirstName = reader["FirstName"].ToString(),
-                            LastName = reader["LastName"].ToString(),
-                            Biography = reader["Bio"].ToString()
+                            LastName = reader["LastName"].ToString()
                         }
                     });
                 }
 
-                return courses;
+                reader = SQL
+                    .SELECT("*")
+                    .FROM("Course")
+                    .INNER_JOIN("ResourceUser ON Course.MentorID = ResourceUser.UserID")
+                    .JOIN("({0}) t0 ON Course.CourseID = t0.CourseID",
+                        SQL.SELECT("CourseID")
+                            .FROM("CourseMembership")
+                            .WHERE("CourseMembership.UserID = {0}", userId))
+                            ._("Permission > {0}", 0)
+                    .ToCommand(connection)
+                    .ExecuteReader();
+
+                while (reader.Read())
+                {
+                    courseList.Add(new Course
+                    {
+                        Id = Guid.Parse(reader["CourseID"].ToString()),
+                        Title = reader["Title"].ToString(),
+                        Description = reader["CourseDescription"].ToString(),
+                        Mentor = new ResourceUser
+                        {
+                            Id = Guid.Parse(reader["UserID"].ToString()),
+                            Login = reader["UserLogin"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            FirstName = reader["FirstName"].ToString(),
+                            LastName = reader["LastName"].ToString()
+                        }
+                    });
+                }
+
+                return courseList;
             }
         }
 
-        public ICollection<Course> ReadInviteByUser(Guid userId)
+        public ICollection<Course> ReadInvitesByUser(Guid userId)
         {
-            throw new NotImplementedException();
-        }
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
 
-        public ICollection<ResourceUser> ReadMemberByCourse(Guid courseId)
+                var reader = SQL
+                    .SELECT("*")
+                    .FROM("Course")
+                    .INNER_JOIN("ResourceUser ON Course.MentorID = ResourceUser.UserID")
+                    .JOIN("({0}) t0 ON Course.CourseID = t0.CourseID",
+                        SQL.SELECT("CourseID")
+                            .FROM("CourseMembership")
+                            .WHERE("CourseMembership.UserID = {0}", userId))
+                            ._("Permission = {0}", 0)
+                    .ToCommand(connection)
+                    .ExecuteReader();
+
+                ICollection<Course> courseList = new List<Course>();
+
+                while (reader.Read())
+                {
+                    courseList.Add(new Course
+                    {
+                        Id = Guid.Parse(reader["CourseID"].ToString()),
+                        Title = reader["Title"].ToString(),
+                        Description = reader["CourseDescription"].ToString(),
+                        Mentor = new ResourceUser
+                        {
+                            Id = Guid.Parse(reader["UserID"].ToString()),
+                            Login = reader["UserLogin"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            FirstName = reader["FirstName"].ToString(),
+                            LastName = reader["LastName"].ToString()
+                        }
+                    });
+                }
+
+                return courseList;
+            }
+        }
+        
+        public ICollection<ResourceUser> ReadMembersByCourse(Guid courseId)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var reader = SQL
+                    .SELECT("*")
+                    .FROM("ResourceUser")
+                    .JOIN("({0}) ON ResourceUser.UserID = CourseMembership.UserID",
+                        SQL.SELECT("UserID")
+                            .FROM("Coursemembership")
+                            .WHERE("CourseID = {0}", courseId)
+                            ._("Permission > {0}", 0))
+                    .ToCommand(connection)
+                    .ExecuteReader();
+
+                /* if previous won't work you can use this
+                string selectExpression = $"SELECT * FROM ResourceUser WHERE UserID in (SELECT UserID FROM CourseMembership WHERE CourseID = '{courseId}' AND Permission > 0)";
+                SqlCommand read = new SqlCommand(selectExpression, connection);
+                SqlDataReader reader = read.ExecuteReader();
+                */
+
+                ICollection<ResourceUser> memberList = new List<ResourceUser>();
+
+                while (reader.Read())
+                {
+                    memberList.Add(new ResourceUser
+                    {
+                        Id = Guid.Parse(reader["UserID"].ToString()),
+                        Login = reader["UserLogin"].ToString(),
+                        Email = reader["Email"].ToString(),
+                        Password = reader["UserPassword"].ToString(),
+                        FirstName = reader["FirstName"].ToString(),
+                        LastName = reader["LastName"].ToString(),
+                        Biography = reader["Bio"].ToString()
+                    });
+                }
+
+                return memberList;
+            }
         }
 
         public ICollection<ResourceUser> ReadInvitedByCourse(Guid courseId)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var reader = SQL
+                    .SELECT("*")
+                    .FROM("ResourceUser")
+                    .JOIN("({0}) ON ResourceUser.UserID = CourseMembership.UserID",
+                        SQL.SELECT("UserID")
+                            .FROM("Coursemembership")
+                            .WHERE("CourseID = {0}", courseId)
+                            ._("Permission = {0}", 0))
+                    .ToCommand(connection)
+                    .ExecuteReader();
+
+                ICollection<ResourceUser> invitedList = new List<ResourceUser>();
+
+                while (reader.Read())
+                {
+                    invitedList.Add(new ResourceUser
+                    {
+                        Id = Guid.Parse(reader["UserID"].ToString()),
+                        Login = reader["UserLogin"].ToString(),
+                        Email = reader["Email"].ToString(),
+                        Password = reader["UserPassword"].ToString(),
+                        FirstName = reader["FirstName"].ToString(),
+                        LastName = reader["LastName"].ToString(),
+                        Biography = reader["Bio"].ToString()
+                    });
+                }
+
+                return invitedList;
+            }
         }
 
         public void Update(Course course)

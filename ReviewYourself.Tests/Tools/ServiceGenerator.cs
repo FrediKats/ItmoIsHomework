@@ -20,15 +20,15 @@ namespace ReviewYourself.Tests.Tools
         }
         public static UserService GenerateUserService()
         {
-            return new UserService(new UserRepository(ConnectionString),
-                new TokenRepository(ConnectionString));
+            return new UserService(UserRepository.Create(ConnectionString),
+                TokenRepository.Create(ConnectionString));
         }
 
         public static CourseService GenerateCourseService()
         {
-            return new CourseService(new CourseRepository(ConnectionString),
-                new UserRepository(ConnectionString),
-                new TokenRepository(ConnectionString));
+            return new CourseService(CourseRepository.Create(ConnectionString),
+                UserRepository.Create(ConnectionString),
+                TokenRepository.Create(ConnectionString));
         }
     }
 }
