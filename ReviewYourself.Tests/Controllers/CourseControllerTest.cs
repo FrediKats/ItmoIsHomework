@@ -26,20 +26,15 @@ namespace ReviewYourself.Tests.Controllers
         {
             var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
-            var course = InstanceGenerator.GenerateCourse();
 
             _userController.SignUp(regData);
             var token = _userController.SignIn(authData);
-            var user = _userController.GetUser(token);
-            course.Mentor = user;
 
-            _courseController.Create(token, course);
-            var userCourseCollection = _courseController.GetByUser(token);
-            var coursePreview = userCourseCollection.First(c => c.Title == course.Title);
-            var courseFullInfo = _courseController.GetById(coursePreview.Id, token);
+            var course = TemplateAction.CreateCourse(token, _courseController);
+            var courseFullInfo = _courseController.GetById(course.Id, token);
 
             Assert.IsNotNull(courseFullInfo);
-            Assert.AreEqual(courseFullInfo.Mentor.Id, user.Id);
+            Assert.AreEqual(courseFullInfo.Mentor.Id, token.UserId);
         }
 
         [TestMethod]
@@ -49,26 +44,19 @@ namespace ReviewYourself.Tests.Controllers
             var mentorAuth = InstanceGenerator.GenerateAuth(mentorReg);
             var studentReg = InstanceGenerator.GenerateUser();
             var studentAuth = InstanceGenerator.GenerateAuth(studentReg);
-            var course = InstanceGenerator.GenerateCourse();
 
             _userController.SignUp(mentorReg);
             _userController.SignUp(studentReg);
 
             var mentorToken = _userController.SignIn(mentorAuth);
             var studentToken = _userController.SignIn(studentAuth);
-            course.Mentor = _userController.GetUser(mentorToken);
 
-            _courseController.Create(mentorToken, course);
-            var currentCourse = _courseController
-                .GetByUser(mentorToken)
-                .First(c => c.Title == course.Title);
+            var course = TemplateAction.CreateCourse(mentorToken, _courseController);
 
-            Assert.IsNotNull(currentCourse);
-
-            _courseController.InviteUser(currentCourse.Id, studentAuth.Login, mentorToken);
+            _courseController.InviteUser(course.Id, studentAuth.Login, mentorToken);
             var returnedCourse = _courseController
                 .GetInvitesByUser(studentToken)
-                .First(c => c.Title == currentCourse.Title);
+                .First(c => c.Title == course.Title);
 
             Assert.IsNotNull(returnedCourse);
         }
@@ -80,23 +68,18 @@ namespace ReviewYourself.Tests.Controllers
             var mentorAuth = InstanceGenerator.GenerateAuth(mentorReg);
             var studentReg = InstanceGenerator.GenerateUser();
             var studentAuth = InstanceGenerator.GenerateAuth(studentReg);
-            var course = InstanceGenerator.GenerateCourse();
 
             _userController.SignUp(mentorReg);
             _userController.SignUp(studentReg);
 
             var mentorToken = _userController.SignIn(mentorAuth);
             var studentToken = _userController.SignIn(studentAuth);
-            course.Mentor = _userController.GetUser(mentorToken);
 
-            _courseController.Create(mentorToken, course);
-            var currentCourse = _courseController
-                .GetByUser(mentorToken)
-                .First(c => c.Title == course.Title);
+            var course = TemplateAction.CreateCourse(mentorToken, _courseController);
 
-            _courseController.InviteUser(currentCourse.Id, studentAuth.Login, mentorToken);
-            _courseController.AcceptInvite(currentCourse.Id, studentToken);
-            var isMember = _courseController.IsMember(currentCourse.Id, studentToken);
+            _courseController.InviteUser(course.Id, studentAuth.Login, mentorToken);
+            _courseController.AcceptInvite(course.Id, studentToken);
+            var isMember = _courseController.IsMember(course.Id, studentToken);
 
             Assert.IsTrue(isMember);
         }

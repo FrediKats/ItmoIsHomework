@@ -13,7 +13,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public ReviewRepository()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
         }
 
         public static ReviewRepository Create(string connectionString)
@@ -30,11 +30,12 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var insert = SQL
-                    .INSERT_INTO("Review (ReviewID, AuthorID, SolutionID, Posted)")
+                SQL.INSERT_INTO("Review (ReviewID, AuthorID, SolutionID, Posted)")
                     .VALUES(Guid.NewGuid(), review.AuthorId, review.SolutionId, DateTime.Now)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
+
+                //TODO: add ReviewCriteria
             }
         }
 

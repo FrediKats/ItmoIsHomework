@@ -26,11 +26,10 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
-            //TODO: create mentor here?
-            if (course.Mentor.Id != token.UserId)
+            course.Mentor = new ResourceUser()
             {
-                throw new Exception("Wrong mentorId");
-            }
+                Id = token.UserId
+            };
 
             _courseRepository.Create(course);
         }

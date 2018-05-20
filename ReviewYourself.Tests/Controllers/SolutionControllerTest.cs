@@ -31,30 +31,58 @@ namespace ReviewYourself.Tests.Controllers
         {
             var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
-            var course = InstanceGenerator.GenerateCourse();
-            var task = InstanceGenerator.GenerateTask();
-            var solution = InstanceGenerator.GenerateSolution();
-
 
             _userController.SignUp(regData);
             var token = _userController.SignIn(authData);
-            _courseController.Create(token, course);
 
-            var currentCourse = _courseController.GetByUser(token)
-                .First(c => c.Title == course.Title);
-            task.CourseId = currentCourse.Id;
-            _taskController.Add(task, token);
+            var course = TemplateAction.CreateCourse(token, _courseController);
+            var task = TemplateAction.CreateTask(token, course, _taskController);
+            var solution = TemplateAction.CreateSolution(token, task, _solutionController);
 
-            task = _taskController.GetByCourse(currentCourse.Id, token)
-                .First(t => t.Title == task.Title);
-            solution.TaskId = task.Id;
-            _solutionController.Add(token, solution);
+            Assert.IsNotNull(solution);
+            Assert.AreEqual(solution.TaskId, task.Id);
+            Assert.AreEqual(solution.AuthorId, token.UserId);
+        }
 
-            var resultSolution = _solutionController.GetByTaskAndUser(task.Id, token.UserId, token);
+        [TestMethod]
+        public void SolutionGetByUser()
+        {
+            var regData = InstanceGenerator.GenerateUser();
+            var authData = InstanceGenerator.GenerateAuth(regData);
 
-            Assert.IsNotNull(resultSolution);
-            Assert.AreEqual(solution.PostTime, resultSolution.PostTime);
-            //Assert.AreEqual(solution.IsResolved, resultSolution.IsResolved);
+            _userController.SignUp(regData);
+            var token = _userController.SignIn(authData);
+
+            var course = TemplateAction.CreateCourse(token, _courseController);
+            var task = TemplateAction.CreateTask(token, course, _taskController);
+            var solution = TemplateAction.CreateSolution(token, task, _solutionController);
+
+            var result = _solutionController.GetByTaskAndUser(task.Id, token.UserId, token);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.TaskId, task.Id);
+            Assert.AreEqual(result.AuthorId, token.UserId);
+        }
+
+        [TestMethod]
+        public void SolutionGetByTask()
+        {
+            var regData = InstanceGenerator.GenerateUser();
+            var authData = InstanceGenerator.GenerateAuth(regData);
+
+            _userController.SignUp(regData);
+            var token = _userController.SignIn(authData);
+
+            var course = TemplateAction.CreateCourse(token, _courseController);
+            var task = TemplateAction.CreateTask(token, course, _taskController);
+            var solution = TemplateAction.CreateSolution(token, task, _solutionController);
+
+            var result = _solutionController.GetByTask(task.Id, token)
+                .First(s => s.TextData == solution.TextData);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.TaskId, task.Id);
+            Assert.AreEqual(result.AuthorId, token.UserId);
         }
     }
 }

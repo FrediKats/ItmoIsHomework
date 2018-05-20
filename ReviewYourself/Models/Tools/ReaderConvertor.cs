@@ -61,7 +61,7 @@ namespace ReviewYourself.Models.Tools
                 AuthorId = Guid.Parse(reader[$"{prefix}AuthorID"].ToString()),
                 TaskId = Guid.Parse(reader[$"{prefix}TaskID"].ToString()),
                 TextData = reader.GetString($"{prefix}TextData"),
-                PostTime = reader.GetDateTime($"{prefix}Posted"),
+                PostTime = DateTime.Parse(reader[$"{prefix}Posted"].ToString()),
                 IsResolved = reader.GetBoolean($"{prefix}Resolved")
                 //AttachmentCollection = new List<SqlFileStream>()
             };

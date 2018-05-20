@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
+using ReviewYourself.Models;
 using ReviewYourself.Models.Repositories.Implementations;
 using ReviewYourself.Models.Services.Implementations;
 using ReviewYourself.Models.Tools;
@@ -25,31 +26,37 @@ namespace ReviewYourself.Tests.Controllers
         }
 
         [TestMethod]
-        public void TaskCreation()
+        public void TaskCreationTest()
         {
             var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
-            var course = InstanceGenerator.GenerateCourse();
-            var task = InstanceGenerator.GenerateTask();
 
             _userController.SignUp(regData);
             var token = _userController.SignIn(authData);
-            var user = _userController.GetUser(token);
-            //TODO: move mentor init to Service
-            course.Mentor = user;
+            var course = TemplateAction.CreateCourse(token, _courseController);
+            var task = TemplateAction.CreateTask(token, course, _taskController);
 
-            _courseController.Create(token, course);
-            var currentCourse = _courseController.GetByUser(token).First(c => c.Title == course.Title);
-            task.CourseId = currentCourse.Id;
-            _taskController.Add(task, token);
+            Assert.IsNotNull(task);
+            Assert.AreEqual(task.CourseId, course.Id);
+            Assert.AreEqual(task.Description, task.Description);
+        }
 
-            var resultTask = _taskController
-                .GetByCourse(currentCourse.Id, token)
-                .First(t => t.Title == task.Title && t.Description == task.Description);
+        [TestMethod]
+        public void TaskWithCriteriaCreateTest()
+        {
+            var regData = InstanceGenerator.GenerateUser();
+            var authData = InstanceGenerator.GenerateAuth(regData);
 
-            Assert.IsNotNull(resultTask);
-            Assert.AreEqual(resultTask.CourseId, currentCourse.Id);
-            Assert.AreEqual(resultTask.Description, task.Description);
+            _userController.SignUp(regData);
+            var token = _userController.SignIn(authData);
+            var course = TemplateAction.CreateCourse(token, _courseController);
+
+
+            var task = TemplateAction.CreateTaskWithCriteria(token, course, _taskController);
+
+            Assert.IsNotNull(task);
+            Assert.AreEqual(task.CourseId, course.Id);
+            Assert.AreEqual(task.Description, task.Description);
         }
     }
 }

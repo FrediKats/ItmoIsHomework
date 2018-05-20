@@ -21,7 +21,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public CourseRepository()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
         }
 
         public void Create(Course course)

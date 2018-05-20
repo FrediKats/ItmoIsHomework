@@ -34,7 +34,6 @@ namespace ReviewYourself.Controllers
         [Route("sign-up")]
         public void SignUp([FromBody] ResourceUser newUser)
         {
-            //TODO: add other data
             _userService.SignUp(newUser);
         }
 
