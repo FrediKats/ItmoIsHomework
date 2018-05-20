@@ -67,14 +67,37 @@ namespace ReviewYourself.Models.Tools
             };
         }
 
+        public static ReviewCriteria ToReviewCriteria(DbDataReader reader, string prefix = "")
+        {
+            return new ReviewCriteria
+            {
+                ReviewId = Guid.Parse(reader[$"{prefix}ReviewID"].ToString()),
+                CriteriaId = Guid.Parse(reader[$"{prefix}CriteriaID"].ToString()),
+                Rating = reader.GetInt32($"{prefix}Rating"),
+                Description = reader.GetStringOrNull($"{prefix}CriteriaDescription")
+            };
+        }
+
         public static Review ToReview(DbDataReader reader, string prefix = "")
         {
-            return new Review()
+            return new Review
             {
                 Id = Guid.Parse(reader[$"{prefix}SolutionID"].ToString()),
                 AuthorId = Guid.Parse(reader[$"{prefix}AuthorID"].ToString()),
                 SolutionId = Guid.Parse(reader[$"{prefix}SolutionID"].ToString()),
                 PostTime = reader.GetDateTime($"{prefix}Posted"),
+            };
+        }
+
+        public static Criteria ToCriteria(DbDataReader reader, string prefix = "")
+        {
+            return new Criteria
+            {
+                Id = Guid.Parse(reader[$"{prefix}CriteriaID"].ToString()),
+                TaskId = Guid.Parse(reader[$"{prefix}TaskID"].ToString()),
+                Title = reader.GetString($"{prefix}Title"),
+                Description = reader.GetStringOrNull($"{prefix}CriteriaDescription"),
+                MaxPoint = reader.GetInt32($"{prefix}MaxPoint")
             };
         }
     }

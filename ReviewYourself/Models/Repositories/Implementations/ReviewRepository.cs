@@ -30,12 +30,26 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
+                review.Id = Guid.NewGuid();
+
                 SQL.INSERT_INTO("Review (ReviewID, AuthorID, SolutionID, Posted)")
-                    .VALUES(Guid.NewGuid(), review.AuthorId, review.SolutionId, DateTime.Now)
+                    .VALUES(review.Id, review.AuthorId, review.SolutionId, DateTime.Now)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 
-                //TODO: add ReviewCriteria
+                var insertRating = new SqlBuilder();
+
+                foreach (var criteria in review.RateCollection)
+                {
+                    insertRating = insertRating
+                        .INSERT_INTO("ReviewCriteria (ReviewID, CriteriaID, Rating, CriteriaDescription)")
+                        .VALUES(review.Id, criteria.CriteriaId, criteria.Rating , criteria.Description)
+                        .Append(";");
+                }
+
+                insertRating
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
             }
         }
 
@@ -45,15 +59,34 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Review")
                     .WHERE("ReviewID = {0}", reviewId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                reader.Read();
-                var review = ReaderConvertor.ToReview(reader);
+                Review review;
+
+                using (var reader = command.ExecuteReader())
+                {
+                    reader.Read();
+                    review = ReaderConvertor.ToReview(reader);
+                }
+
+                command = SQL
+                    .SELECT("*")
+                    .FROM("ReviewCriteria")
+                    .WHERE("ReviewID = {0}", reviewId)
+                    .ToCommand(connection);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        review.RateCollection.Add(ReaderConvertor.ToReviewCriteria(reader));
+                    }
+                }
+
                 return review;
             }
         }
@@ -64,17 +97,20 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Review")
                     .WHERE("SolutionID = {0}", solutionId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                var reviewCollection = new List<Review>();
-                while (reader.Read())
+                ICollection<Review> reviewCollection = new List<Review>();
+
+                using (var reader = command.ExecuteReader())
                 {
-                    reviewCollection.Add(ReaderConvertor.ToReview(reader));
+                    while (reader.Read())
+                    {
+                        reviewCollection.Add(ReaderConvertor.ToReview(reader));
+                    }
                 }
 
                 return reviewCollection;
@@ -87,16 +123,35 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Review")
                     .WHERE("SolutionID = {0}", solutionId)
-                    .WHERE("AuthorID = {0}", userId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    ._("AuthorID = {0}", userId)
+                    .ToCommand(connection);
 
-                reader.Read();
-                var review = ReaderConvertor.ToReview(reader);
+                Review review;
+
+                using (var reader = command.ExecuteReader())
+                {
+                    reader.Read();
+                    review = ReaderConvertor.ToReview(reader);
+                }
+
+                command = SQL
+                    .SELECT("*")
+                    .FROM("ReviewCriteria")
+                    .WHERE("ReviewID = {0}", review.Id)
+                    .ToCommand(connection);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        review.RateCollection.Add(ReaderConvertor.ToReviewCriteria(reader));
+                    }
+                }
+
                 return review;
             }
         }

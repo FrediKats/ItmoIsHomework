@@ -231,23 +231,23 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 SqlDataReader reader = read.ExecuteReader();
                 */
 
-
                 ICollection<ResourceUser> memberList = new List<ResourceUser>();
+
                 using (var reader = command.ExecuteReader())
                 {
                     //TODO:
                     while (reader.Read())
                     {
-                        memberList.Add(new ResourceUser
-                        {
-                            Id = Guid.Parse(reader["UserID"].ToString()),
-                            Login = reader["UserLogin"].ToString(),
-                            Email = reader["Email"].ToString(),
-                            Password = reader["UserPassword"].ToString(),
-                            FirstName = reader["FirstName"].ToString(),
-                            LastName = reader["LastName"].ToString(),
-                            Biography = reader["Bio"].ToString()
-                        });
+                        memberList.Add(ReaderConvertor.ToUser(reader));
+                        //memberList.Add(new ResourceUser
+                        //{
+                        //    Id = Guid.Parse(reader["UserID"].ToString()),
+                        //    Login = reader["UserLogin"].ToString(),
+                        //    Email = reader["Email"].ToString(),
+                        //    FirstName = reader["FirstName"].ToString(),
+                        //    LastName = reader["LastName"].ToString(),
+                        //    Biography = reader["Bio"].ToString()
+                        //});
                     }
                 }
 
@@ -262,7 +262,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 connection.Open();
 
                 //TODO:
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("ResourceUser")
                     .JOIN("({0}) t0 ON ResourceUser.UserID = t0.UserID",
@@ -270,24 +270,26 @@ namespace ReviewYourself.Models.Repositories.Implementations
                             .FROM("Coursemembership")
                             .WHERE("CourseID = {0}", courseId)
                             ._("Permission = {0}", 0))
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
+                    
 
                 ICollection<ResourceUser> invitedList = new List<ResourceUser>();
 
-                while (reader.Read())
+                using (var reader = command.ExecuteReader())
                 {
-                    invitedList.Add(ReaderConvertor.ToUser(reader));
-                    //invitedList.Add(new ResourceUser
-                    //{
-                    //    Id = Guid.Parse(reader["UserID"].ToString()),
-                    //    Login = reader["UserLogin"].ToString(),
-                    //    Email = reader["Email"].ToString(),
-                    //    Password = reader["UserPassword"].ToString(),
-                    //    FirstName = reader["FirstName"].ToString(),
-                    //    LastName = reader["LastName"].ToString(),
-                    //    Biography = reader["Bio"].ToString()
-                    //});
+                    while (reader.Read())
+                    {
+                        invitedList.Add(ReaderConvertor.ToUser(reader));
+                        //invitedList.Add(new ResourceUser
+                        //{
+                        //    Id = Guid.Parse(reader["UserID"].ToString()),
+                        //    Login = reader["UserLogin"].ToString(),
+                        //    Email = reader["Email"].ToString(),
+                        //    FirstName = reader["FirstName"].ToString(),
+                        //    LastName = reader["LastName"].ToString(),
+                        //    Biography = reader["Bio"].ToString()
+                        //});
+                    }
                 }
 
                 return invitedList;
@@ -357,7 +359,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     .ToCommand(connection)
                     .ExecuteScalar();
 
-                return (int.Parse(permission.ToString()) == 1);
+                return (int.Parse(permission?.ToString() ?? "0") > 0);
             }
         }
     }

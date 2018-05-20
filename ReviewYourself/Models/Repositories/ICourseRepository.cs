@@ -15,7 +15,6 @@ namespace ReviewYourself.Models.Repositories
         void Update(Course course);
         void Delete(Guid courseId);
         void DeleteMember(Guid courseId, Guid userId);
-
         void AcceptInvite(Guid courseId, Guid userId);
         bool IsMember(Guid courseId, Guid userId);
     }

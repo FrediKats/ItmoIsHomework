@@ -49,7 +49,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             }
         }
 
-        public ResourceUser ReadByUserName(string username)
+        public ResourceUser ReadByUsername(string username)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -87,16 +87,16 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void Delete(ResourceUser user)
         {
-            //problems with foreign keys
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
+            throw new NotImplementedException();
+            //using (var connection = new SqlConnection(_connectionString))
+            //{
+            //    connection.Open();
 
-                SQL.DELETE_FROM("ResourceUser")
-                    .WHERE("UserID = {0}", user.Id)
-                    .ToCommand(connection)
-                    .ExecuteNonQuery();
-            }
+            //    SQL.DELETE_FROM("ResourceUser")
+            //        .WHERE("UserID = {0}", user.Id)
+            //        .ToCommand(connection)
+            //        .ExecuteNonQuery();
+            //}
         }
 
         public static UserRepository Create(string connectionString)

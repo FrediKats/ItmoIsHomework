@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using DbExtensions;
+using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
@@ -29,14 +30,10 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var insertTask = SQL
-                    .INSERT_INTO("ResourceTask (TaskID, CourseID, Title, TaskDescription, Posted)")
+                SQL.INSERT_INTO("ResourceTask (TaskID, CourseID, Title, TaskDescription, Posted)")
                     .VALUES(Guid.NewGuid(), task.CourseId, task.Title, task.Description, DateTime.UtcNow)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
-
-                if (task.CriteriaCollection == null)
-                    return;
 
                 var insertCriteria = new SqlBuilder();
 
@@ -61,43 +58,49 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("ResourceTask")
                     .WHERE("TaskID = {0}", id)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                reader.Read();
-                
-                var task = new ResourceTask
+                ResourceTask task;
+
+                using (var reader = command.ExecuteReader())
                 {
-                    Id = Guid.Parse(reader["TaskID"].ToString()),
-                    CourseId = Guid.Parse(reader["CourseID"].ToString()),
-                    CriteriaCollection = new List<Criteria>(),
-                    Title = reader["Title"].ToString(),
-                    Description = reader["TaskDescription"].ToString(),
-                    PostTime = DateTime.Parse(reader["Posted"].ToString())
-                };
+                    reader.Read();
+                    task = ReaderConvertor.ToTask(reader);
+                    //new ResourceTask
+                    //{
+                    //    Id = Guid.Parse(reader["TaskID"].ToString()),
+                    //    CourseId = Guid.Parse(reader["CourseID"].ToString()),
+                    //    CriteriaCollection = new List<Criteria>(),
+                    //    Title = reader["Title"].ToString(),
+                    //    Description = reader["TaskDescription"].ToString(),
+                    //    PostTime = DateTime.Parse(reader["Posted"].ToString())
+                    //};
+                }
 
-                reader = SQL
+                command = SQL
                     .SELECT("*")
                     .FROM("Criteria")
                     .WHERE("TaskID = {0}", id)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                while (reader.Read())
+                using (var reader = command.ExecuteReader())
                 {
-                    task.CriteriaCollection.Add(new Criteria
+                    while (reader.Read())
                     {
-                        Id = Guid.Parse(reader["CriteriaID"].ToString()),
-                        TaskId = Guid.Parse(reader["TaskID"].ToString()),
-                        Title = reader["Title"].ToString(),
-                        Description = reader["CriteriaDescription"].ToString(),
-                        MaxPoint = int.Parse(reader["MaxPoint"].ToString())
-                    });
-
+                        task.CriteriaCollection.Add(ReaderConvertor.ToCriteria(reader));
+                        //new Criteria
+                        //{
+                        //    Id = Guid.Parse(reader["CriteriaID"].ToString()),
+                        //    TaskId = Guid.Parse(reader["TaskID"].ToString()),
+                        //    Title = reader["Title"].ToString(),
+                        //    Description = reader["CriteriaDescription"].ToString(),
+                        //    MaxPoint = int.Parse(reader["MaxPoint"].ToString())
+                        //});
+                    }
                 }
 
                 return task;
@@ -110,25 +113,28 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("ResourceTask")
                     .WHERE("CourseID = {0}", courseId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
                 ICollection<ResourceTask> taskList = new List<ResourceTask>();
 
-                while (reader.Read())
+                using (var reader = command.ExecuteReader())
                 {
-                    taskList.Add(new ResourceTask
+                    while (reader.Read())
                     {
-                        Id = Guid.Parse(reader["TaskID"].ToString()),
-                        CourseId = Guid.Parse(reader["CourseID"].ToString()),
-                        Title = reader["Title"].ToString(),
-                        Description = reader["TaskDescription"].ToString(),
-                        PostTime = DateTime.Parse(reader["Posted"].ToString())
-                    });
+                        taskList.Add(ReaderConvertor.ToTask(reader));
+                        //new ResourceTask
+                        //{
+                        //    Id = Guid.Parse(reader["TaskID"].ToString()),
+                        //    CourseId = Guid.Parse(reader["CourseID"].ToString()),
+                        //    Title = reader["Title"].ToString(),
+                        //    Description = reader["TaskDescription"].ToString(),
+                        //    PostTime = DateTime.Parse(reader["Posted"].ToString())
+                        //});
+                    }
                 }
 
                 return taskList;

@@ -47,7 +47,7 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("User isn't mentor");
             }
 
-            var newMember = _userRepository.ReadByUserName(username);
+            var newMember = _userRepository.ReadByUsername(username);
 
             if (newMember == null)
             {

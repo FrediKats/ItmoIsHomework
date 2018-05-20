@@ -51,7 +51,7 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
-            return _userRepository.ReadByUserName(username);
+            return _userRepository.ReadByUsername(username);
         }
 
         public void UpdateUser(Token token, ResourceUser user)
