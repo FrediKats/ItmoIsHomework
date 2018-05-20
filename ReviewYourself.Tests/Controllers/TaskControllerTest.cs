@@ -16,7 +16,7 @@ namespace ReviewYourself.Tests.Controllers
         private CourseController _courseController;
         private UserController _userController;
 
-        [ClassInitialize]
+        [TestInitialize]
         public void Initialize()
         {
             _taskController = new TaskController(ServiceGenerator.GenerateTaskService());
@@ -34,6 +34,9 @@ namespace ReviewYourself.Tests.Controllers
 
             _userController.SignUp(regData);
             var token = _userController.SignIn(authData);
+            var user = _userController.GetUser(token);
+            //TODO: move mentor init to Service
+            course.Mentor = user;
 
             _courseController.Create(token, course);
             var currentCourse = _courseController.GetByUser(token).First(c => c.Title == course.Title);
@@ -45,7 +48,7 @@ namespace ReviewYourself.Tests.Controllers
                 .First(t => t.Title == task.Title && t.Description == task.Description);
 
             Assert.IsNotNull(resultTask);
-            Assert.AreEqual(resultTask.CourseId, course.Id);
+            Assert.AreEqual(resultTask.CourseId, currentCourse.Id);
             Assert.AreEqual(resultTask.Description, task.Description);
         }
     }

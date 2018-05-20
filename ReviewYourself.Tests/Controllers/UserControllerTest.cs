@@ -1,8 +1,5 @@
-﻿using System.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
-using ReviewYourself.Models.Repositories.Implementations;
-using ReviewYourself.Models.Services.Implementations;
 using ReviewYourself.Tests.Tools;
 
 namespace ReviewYourself.Tests.Controllers

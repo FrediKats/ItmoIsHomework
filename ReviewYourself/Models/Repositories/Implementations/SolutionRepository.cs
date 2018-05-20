@@ -32,7 +32,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 var insertSolution = SQL
                     .INSERT_INTO("Solution (SolutionID, AuthorID, TaskID, TextData, Posted, Resolved)")
-                    .VALUES(solution.Id, solution.AuthorId, solution.TaskId, solution.TextData, solution.PostTime, solution.IsResolved)
+                    .VALUES(Guid.NewGuid(), solution.AuthorId, solution.TaskId, solution.TextData, solution.PostTime, solution.IsResolved)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 

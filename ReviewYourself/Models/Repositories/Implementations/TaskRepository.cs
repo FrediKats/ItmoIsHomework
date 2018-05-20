@@ -31,15 +31,18 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 var insertTask = SQL
                     .INSERT_INTO("ResourceTask (TaskID, CourseID, Title, TaskDescription, Posted)")
-                    .VALUES(task.Id, task.CourseId, task.Title, task.Description, task.PostTime)
+                    .VALUES(Guid.NewGuid(), task.CourseId, task.Title, task.Description, task.PostTime)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 
                 var insertCriteria = SQL.INSERT_INTO("Criteria (CriteriaID, TaskID, Title, CriteriaDescription, MaxPoint)");
-                
+                if (task.CriteriaCollection == null)
+                    return;
+
+
                 foreach (var criteria in task.CriteriaCollection)
                 {
-                    insertCriteria = insertCriteria.VALUES(criteria.Id, criteria.TaskId, criteria.Title, criteria.Description, criteria.MaxPoint);
+                    insertCriteria = insertCriteria.VALUES(Guid.NewGuid(), criteria.TaskId, criteria.Title, criteria.Description, criteria.MaxPoint);
                 }
 
                 insertCriteria

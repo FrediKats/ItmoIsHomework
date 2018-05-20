@@ -16,7 +16,7 @@ namespace ReviewYourself.Tests.Controllers
         private CourseController _courseController;
         private UserController _userController;
 
-        [ClassInitialize]
+        [TestInitialize]
         public void Initialize()
         {
             _reviewController = new ReviewController(ServiceGenerator.GenerateReviewService());
