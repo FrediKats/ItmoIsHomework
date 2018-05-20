@@ -16,5 +16,6 @@ namespace ReviewYourself.Models.Services
         void InviteUser(Token token, string username, Guid courseId);
         void AcceptInvite(Token token, Guid courseId);
         bool IsMember(Token token, Guid courseId);
+        bool IsMentor(Token token, Guid courseId);
     }
 }

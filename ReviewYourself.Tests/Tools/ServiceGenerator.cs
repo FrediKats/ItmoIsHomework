@@ -13,6 +13,7 @@ namespace ReviewYourself.Tests.Tools
     {
         private static readonly string ConnectionString;
 
+
         static ServiceGenerator()
         {
             ConnectionString =
@@ -28,6 +29,25 @@ namespace ReviewYourself.Tests.Tools
         {
             return new CourseService(CourseRepository.Create(ConnectionString),
                 UserRepository.Create(ConnectionString),
+                TokenRepository.Create(ConnectionString));
+        }
+
+        public static TaskService GenerateTaskService()
+        {
+            return new TaskService(TaskRepository.Create(ConnectionString),
+                TokenRepository.Create(ConnectionString));
+        }
+
+        public static SolutionService GenerateSolutionService()
+        {
+            return new SolutionService(SolutionRepository.Create(ConnectionString),
+                ReviewRepository.Create(ConnectionString),
+                TokenRepository.Create(ConnectionString));
+        }
+
+        public static ReviewService GenerateReviewService()
+        {
+            return new ReviewService(ReviewRepository.Create(ConnectionString),
                 TokenRepository.Create(ConnectionString));
         }
     }

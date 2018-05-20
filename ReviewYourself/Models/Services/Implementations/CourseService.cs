@@ -26,6 +26,7 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
+            //TODO: create mentor here?
             if (course.Mentor.Id != token.UserId)
             {
                 throw new Exception("Wrong mentorId");
@@ -90,6 +91,12 @@ namespace ReviewYourself.Models.Services.Implementations
             return user != null;
         }
 
+        public bool IsMentor(Token token, Guid courseId)
+        {
+            var course = _courseRepository.Read(courseId);
+            return token.UserId == course.Mentor.Id;
+        }
+
         public Course GetCourse(Token token, Guid courseId)
         {
             if (_tokenRepository.ValidateToken(token) == false)
@@ -117,9 +124,7 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
-            return null;
-            //TODO: 
-            //return _courseRepository.ReadInviteByUser(userId);
+            return _courseRepository.ReadInvitesByUser(userId);
         }
 
         public void UpdateCourse(Token token, Course course)

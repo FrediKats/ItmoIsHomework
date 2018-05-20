@@ -24,7 +24,7 @@ namespace ReviewYourself.Tests.Controllers
         [TestMethod]
         public void IsCreatorMentorTest()
         {
-            var regData = InstanceGenerator.GenerateRegistration();
+            var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
             var course = InstanceGenerator.GenerateCourse();
 
@@ -44,9 +44,9 @@ namespace ReviewYourself.Tests.Controllers
         [TestMethod]
         public void InviteTest()
         {
-            var mentorReg = InstanceGenerator.GenerateRegistration();
+            var mentorReg = InstanceGenerator.GenerateUser();
             var mentorAuth = InstanceGenerator.GenerateAuth(mentorReg);
-            var studentReg = InstanceGenerator.GenerateRegistration();
+            var studentReg = InstanceGenerator.GenerateUser();
             var studentAuth = InstanceGenerator.GenerateAuth(studentReg);
             var course = InstanceGenerator.GenerateCourse();
 

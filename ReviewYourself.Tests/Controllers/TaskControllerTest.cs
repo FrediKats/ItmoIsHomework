@@ -19,16 +19,15 @@ namespace ReviewYourself.Tests.Controllers
         [ClassInitialize]
         public void Initialize()
         {
-            _taskController = new TaskController(new TaskService(new TaskRepository(), new TokenRepository()));
-            _courseController = new CourseController(new CourseService(new CourseRepository(),
-                new UserRepository(), new TokenRepository()));
-            _userController = new UserController(new UserService(new UserRepository(), new TokenRepository()));
+            _taskController = new TaskController(ServiceGenerator.GenerateTaskService());
+            _courseController = new CourseController(ServiceGenerator.GenerateCourseService());
+            _userController = new UserController(ServiceGenerator.GenerateUserService());
         }
 
         [TestMethod]
         public void TaskCreation()
         {
-            var regData = InstanceGenerator.GenerateRegistration();
+            var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
             var course = InstanceGenerator.GenerateCourse();
             var task = InstanceGenerator.GenerateTask();

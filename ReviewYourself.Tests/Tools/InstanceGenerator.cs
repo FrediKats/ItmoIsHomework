@@ -17,9 +17,9 @@ namespace ReviewYourself.Tests.Tools
             return new string(res);
         }
 
-        public static RegistrationData GenerateRegistration()
+        public static ResourceUser GenerateUser()
         {
-            return new RegistrationData()
+            return new ResourceUser()
             {
                 FirstName = GenerateString(),
                 LastName = GenerateString(),
@@ -59,7 +59,7 @@ namespace ReviewYourself.Tests.Tools
             };
         }
 
-        public static AuthorizeData GenerateAuth(RegistrationData regData)
+        public static AuthorizeData GenerateAuth(ResourceUser regData)
         {
             return new AuthorizeData()
             {

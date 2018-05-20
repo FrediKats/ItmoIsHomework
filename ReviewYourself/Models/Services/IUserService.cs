@@ -6,7 +6,7 @@ namespace ReviewYourself.Models.Services
     {
         Token SignIn(string login, string password);
         void SignOut(Token token);
-        void SignUp(string login, string password, ResourceUser user);
+        void SignUp(ResourceUser user);
 
         ResourceUser GetUser(Token token, Guid userId);
         ResourceUser GetUserByUsername(Token token, string username);
