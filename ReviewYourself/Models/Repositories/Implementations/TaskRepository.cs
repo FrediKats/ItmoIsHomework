@@ -20,7 +20,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public TaskRepository()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
         }
 
         public void Create(ResourceTask task)
@@ -31,15 +31,22 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 var insertTask = SQL
                     .INSERT_INTO("ResourceTask (TaskID, CourseID, Title, TaskDescription, Posted)")
-                    .VALUES(task.Id, task.CourseId, task.Title, task.Description, task.PostTime)
+                    .VALUES(Guid.NewGuid(), task.CourseId, task.Title, task.Description, DateTime.UtcNow)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 
-                var insertCriteria = SQL.INSERT_INTO("Criteria (CriteriaID, TaskID, Title, CriteriaDescription, MaxPoint)");
-                
+                if (task.CriteriaCollection == null)
+                    return;
+
+                var insertCriteria = new SqlBuilder();
+
                 foreach (var criteria in task.CriteriaCollection)
                 {
-                    insertCriteria = insertCriteria.VALUES(criteria.Id, criteria.TaskId, criteria.Title, criteria.Description, criteria.MaxPoint);
+                    insertCriteria = insertCriteria
+                        .INSERT_INTO("Criteria (CriteriaID, TaskID, Title, CriteriaDescription, MaxPoint)")
+                        .VALUES(Guid.NewGuid(), criteria.TaskId, criteria.Title, criteria.Description, criteria.MaxPoint)
+                        .Append(";");
+                    //insertCriteria = insertCriteria.VALUES(Guid.NewGuid(), criteria.TaskId, criteria.Title, criteria.Description, criteria.MaxPoint);
                 }
 
                 insertCriteria

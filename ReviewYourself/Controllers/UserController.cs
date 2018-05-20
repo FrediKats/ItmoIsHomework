@@ -32,17 +32,9 @@ namespace ReviewYourself.Controllers
 
         [HttpPost]
         [Route("sign-up")]
-        public void SignUp([FromBody] RegistrationData registrationData)
+        public void SignUp([FromBody] ResourceUser newUser)
         {
-            //TODO: add other data
-            _userService.SignUp(registrationData.Login, registrationData.Password, new ResourceUser
-            {
-                FirstName = registrationData.FirstName,
-                Login = registrationData.Login,
-                LastName = registrationData.LastName,
-                Password = registrationData.Password,
-                Email = registrationData.Email
-            });
+            _userService.SignUp(newUser);
         }
 
         [HttpGet]

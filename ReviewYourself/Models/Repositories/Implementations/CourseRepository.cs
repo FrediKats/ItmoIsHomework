@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using DbExtensions;
+using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
@@ -20,7 +21,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public CourseRepository()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
         }
 
         public void Create(Course course)
@@ -29,9 +30,8 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var insert = SQL
-                    .INSERT_INTO("Course (CourseID, Title, CourseDescription, MentorID)")
-                    .VALUES(course.Id, course.Title, course.Description, course.Mentor.Id)
+                SQL.INSERT_INTO("Course (CourseID, Title, CourseDescription, MentorID)")
+                    .VALUES(Guid.NewGuid(), course.Title, course.Description, course.Mentor.Id)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }
@@ -43,8 +43,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var insert = SQL
-                    .INSERT_INTO("CourseMembership (UserID, CourseID, Permission)")
+                SQL.INSERT_INTO("CourseMembership (UserID, CourseID, Permission)")
                     .VALUES(userId, courseId, 0)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
@@ -57,31 +56,40 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Course")
                     .INNER_JOIN("ResourceUser ON MentorID = UserID")
                     .WHERE("CourseID = {0}", courseId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                reader.Read();
-
-                return new Course
+                using (var reader = command.ExecuteReader())
                 {
-                    Id = Guid.Parse(reader["CourseID"].ToString()),
-                    Title = reader["Title"].ToString(),
-                    Description = reader["CourseDescription"].ToString(),
-                    Mentor = new ResourceUser
+                    reader.Read();
+
+                    var course = ReaderConvertor.ToCourse(reader);
+                    course.Mentor = new ResourceUser()
                     {
-                        Id = Guid.Parse(reader["UserID"].ToString()),
-                        Login = reader["UserLogin"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        FirstName = reader["FirstName"].ToString(),
-                        LastName = reader["LastName"].ToString(),
-                        Biography = reader["Bio"].ToString()
-                    }
-                };
+                        Id = Guid.Parse(reader["UserID"].ToString())
+                    };
+
+                    return course;
+                    //return new Course
+                    //{
+                    //    Id = Guid.Parse(reader["CourseID"].ToString()),
+                    //    Title = reader["Title"].ToString(),
+                    //    Description = reader["CourseDescription"].ToString(),
+                    //    Mentor = new ResourceUser
+                    //    {
+                    //        Id = Guid.Parse(reader["UserID"].ToString()),
+                    //        Login = reader["UserLogin"].ToString(),
+                    //        Email = reader["Email"].ToString(),
+                    //        FirstName = reader["FirstName"].ToString(),
+                    //        LastName = reader["LastName"].ToString(),
+                    //        Biography = reader["Bio"].ToString()
+                    //    }
+                    //};
+                }
             }
         }
 
@@ -90,63 +98,68 @@ namespace ReviewYourself.Models.Repositories.Implementations
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Course")
                     .INNER_JOIN("ResourceUser ON MentorID = UserID")
                     .WHERE("MentorID = {0}", userId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
                 ICollection<Course> courseList = new List<Course>();
 
-                while (reader.Read())
+                using (var reader = command.ExecuteReader())
                 {
-                    courseList.Add(new Course
+                    while (reader.Read())
                     {
-                        Id = Guid.Parse(reader["CourseID"].ToString()),
-                        Title = reader["Title"].ToString(),
-                        Description = reader["CourseDescription"].ToString(),
-                        Mentor = new ResourceUser
-                        {
-                            Id = Guid.Parse(reader["UserID"].ToString()),
-                            Login = reader["UserLogin"].ToString(),
-                            Email = reader["Email"].ToString(),
-                            FirstName = reader["FirstName"].ToString(),
-                            LastName = reader["LastName"].ToString()
-                        }
-                    });
+                        courseList.Add(ReaderConvertor.ToCourse(reader));
+                        //courseList.Add(new Course
+                        //{
+                        //    Id = Guid.Parse(reader["CourseID"].ToString()),
+                        //    Title = reader["Title"].ToString(),
+                        //    Description = reader["CourseDescription"].ToString(),
+                        //    Mentor = new ResourceUser
+                        //    {
+                        //        Id = Guid.Parse(reader["UserID"].ToString()),
+                        //        Login = reader["UserLogin"].ToString(),
+                        //        Email = reader["Email"].ToString(),
+                        //        FirstName = reader["FirstName"].ToString(),
+                        //        LastName = reader["LastName"].ToString()
+                        //    }
+                        //});
+                    }
                 }
 
-                reader = SQL
+                command = SQL
                     .SELECT("*")
                     .FROM("Course")
                     .INNER_JOIN("ResourceUser ON Course.MentorID = ResourceUser.UserID")
                     .JOIN("({0}) t0 ON Course.CourseID = t0.CourseID",
                         SQL.SELECT("CourseID")
                             .FROM("CourseMembership")
-                            .WHERE("CourseMembership.UserID = {0}", userId))
-                            ._("Permission > {0}", 0)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                            .WHERE("CourseMembership.UserID = {0}", userId)
+                    ._("Permission > 0"))
+                    .ToCommand(connection);
 
-                while (reader.Read())
+                using (var reader = command.ExecuteReader())
                 {
-                    courseList.Add(new Course
+                    while (reader.Read())
                     {
-                        Id = Guid.Parse(reader["CourseID"].ToString()),
-                        Title = reader["Title"].ToString(),
-                        Description = reader["CourseDescription"].ToString(),
-                        Mentor = new ResourceUser
-                        {
-                            Id = Guid.Parse(reader["UserID"].ToString()),
-                            Login = reader["UserLogin"].ToString(),
-                            Email = reader["Email"].ToString(),
-                            FirstName = reader["FirstName"].ToString(),
-                            LastName = reader["LastName"].ToString()
-                        }
-                    });
+                        courseList.Add(ReaderConvertor.ToCourse(reader));
+                        //courseList.Add(new Course
+                        //{
+                        //    Id = Guid.Parse(reader["CourseID"].ToString()),
+                        //    Title = reader["Title"].ToString(),
+                        //    Description = reader["CourseDescription"].ToString(),
+                        //    Mentor = new ResourceUser
+                        //    {
+                        //        Id = Guid.Parse(reader["UserID"].ToString()),
+                        //        Login = reader["UserLogin"].ToString(),
+                        //        Email = reader["Email"].ToString(),
+                        //        FirstName = reader["FirstName"].ToString(),
+                        //        LastName = reader["LastName"].ToString()
+                        //    }
+                        //});
+                    }
                 }
 
                 return courseList;
@@ -158,37 +171,39 @@ namespace ReviewYourself.Models.Repositories.Implementations
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Course")
                     .INNER_JOIN("ResourceUser ON Course.MentorID = ResourceUser.UserID")
                     .JOIN("({0}) t0 ON Course.CourseID = t0.CourseID",
                         SQL.SELECT("CourseID")
                             .FROM("CourseMembership")
-                            .WHERE("CourseMembership.UserID = {0}", userId))
-                            ._("Permission = {0}", 0)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                            .WHERE("CourseMembership.UserID = {0}", userId)
+                    ._("Permission = 0"))
+                    .ToCommand(connection);
 
                 ICollection<Course> courseList = new List<Course>();
 
-                while (reader.Read())
+                using (var reader = command.ExecuteReader())
                 {
-                    courseList.Add(new Course
+                    while (reader.Read())
                     {
-                        Id = Guid.Parse(reader["CourseID"].ToString()),
-                        Title = reader["Title"].ToString(),
-                        Description = reader["CourseDescription"].ToString(),
-                        Mentor = new ResourceUser
-                        {
-                            Id = Guid.Parse(reader["UserID"].ToString()),
-                            Login = reader["UserLogin"].ToString(),
-                            Email = reader["Email"].ToString(),
-                            FirstName = reader["FirstName"].ToString(),
-                            LastName = reader["LastName"].ToString()
-                        }
-                    });
+                        courseList.Add(ReaderConvertor.ToCourse(reader));
+                        //courseList.Add(new Course
+                        //{
+                        //    Id = Guid.Parse(reader["CourseID"].ToString()),
+                        //    Title = reader["Title"].ToString(),
+                        //    Description = reader["CourseDescription"].ToString(),
+                        //    Mentor = new ResourceUser
+                        //    {
+                        //        Id = Guid.Parse(reader["UserID"].ToString()),
+                        //        Login = reader["UserLogin"].ToString(),
+                        //        Email = reader["Email"].ToString(),
+                        //        FirstName = reader["FirstName"].ToString(),
+                        //        LastName = reader["LastName"].ToString()
+                        //    }
+                        //});
+                    }
                 }
 
                 return courseList;
@@ -200,17 +215,15 @@ namespace ReviewYourself.Models.Repositories.Implementations
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("ResourceUser")
-                    .JOIN("({0}) ON ResourceUser.UserID = CourseMembership.UserID",
+                    .JOIN("({0}) t0 ON ResourceUser.UserID = t0.UserID",
                         SQL.SELECT("UserID")
                             .FROM("Coursemembership")
                             .WHERE("CourseID = {0}", courseId)
                             ._("Permission > {0}", 0))
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
                 /* if previous won't work you can use this
                 string selectExpression = $"SELECT * FROM ResourceUser WHERE UserID in (SELECT UserID FROM CourseMembership WHERE CourseID = '{courseId}' AND Permission > 0)";
@@ -218,20 +231,24 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 SqlDataReader reader = read.ExecuteReader();
                 */
 
-                ICollection<ResourceUser> memberList = new List<ResourceUser>();
 
-                while (reader.Read())
+                ICollection<ResourceUser> memberList = new List<ResourceUser>();
+                using (var reader = command.ExecuteReader())
                 {
-                    memberList.Add(new ResourceUser
+                    //TODO:
+                    while (reader.Read())
                     {
-                        Id = Guid.Parse(reader["UserID"].ToString()),
-                        Login = reader["UserLogin"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        Password = reader["UserPassword"].ToString(),
-                        FirstName = reader["FirstName"].ToString(),
-                        LastName = reader["LastName"].ToString(),
-                        Biography = reader["Bio"].ToString()
-                    });
+                        memberList.Add(new ResourceUser
+                        {
+                            Id = Guid.Parse(reader["UserID"].ToString()),
+                            Login = reader["UserLogin"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            Password = reader["UserPassword"].ToString(),
+                            FirstName = reader["FirstName"].ToString(),
+                            LastName = reader["LastName"].ToString(),
+                            Biography = reader["Bio"].ToString()
+                        });
+                    }
                 }
 
                 return memberList;
@@ -244,10 +261,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
+                //TODO:
                 var reader = SQL
                     .SELECT("*")
                     .FROM("ResourceUser")
-                    .JOIN("({0}) ON ResourceUser.UserID = CourseMembership.UserID",
+                    .JOIN("({0}) t0 ON ResourceUser.UserID = t0.UserID",
                         SQL.SELECT("UserID")
                             .FROM("Coursemembership")
                             .WHERE("CourseID = {0}", courseId)
@@ -259,16 +277,17 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 while (reader.Read())
                 {
-                    invitedList.Add(new ResourceUser
-                    {
-                        Id = Guid.Parse(reader["UserID"].ToString()),
-                        Login = reader["UserLogin"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        Password = reader["UserPassword"].ToString(),
-                        FirstName = reader["FirstName"].ToString(),
-                        LastName = reader["LastName"].ToString(),
-                        Biography = reader["Bio"].ToString()
-                    });
+                    invitedList.Add(ReaderConvertor.ToUser(reader));
+                    //invitedList.Add(new ResourceUser
+                    //{
+                    //    Id = Guid.Parse(reader["UserID"].ToString()),
+                    //    Login = reader["UserLogin"].ToString(),
+                    //    Email = reader["Email"].ToString(),
+                    //    Password = reader["UserPassword"].ToString(),
+                    //    FirstName = reader["FirstName"].ToString(),
+                    //    LastName = reader["LastName"].ToString(),
+                    //    Biography = reader["Bio"].ToString()
+                    //});
                 }
 
                 return invitedList;
@@ -281,8 +300,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var update = SQL
-                    .UPDATE("Course")
+                SQL.UPDATE("Course")
                     .SET("Title = {0}", course.Title)
                     ._("CourseDescription = {0}", course.Description)
                     .WHERE("CourseID = {0}", course.Id)
@@ -302,8 +320,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var delete = SQL
-                    .DELETE_FROM("CourseMembership")
+                SQL.DELETE_FROM("CourseMembership")
                     .WHERE("UserID = {0}", userId)
                     ._("CourseID = {0}", courseId)
                     .ToCommand(connection)
@@ -313,12 +330,35 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void AcceptInvite(Guid courseId, Guid userId)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                SQL.UPDATE("CourseMembership")
+                    .SET("Permission = 1")
+                    .WHERE("UserID = {0}", userId)
+                    ._("CourseId = {0}", courseId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+            }
         }
 
         public bool IsMember(Guid courseId, Guid userId)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var permission = SQL
+                    .SELECT("Permission")
+                    .FROM("CourseMembership")
+                    .WHERE("UserID = {0}", userId)
+                    ._("CourseId = {0}", courseId)
+                    .ToCommand(connection)
+                    .ExecuteScalar();
+
+                return (int.Parse(permission.ToString()) == 1);
+            }
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
-using ReviewYourself.Models.Repositories.Implementations;
-using ReviewYourself.Models.Services.Implementations;
 using ReviewYourself.Tests.Tools;
 
 namespace ReviewYourself.Tests.Controllers
@@ -21,7 +18,7 @@ namespace ReviewYourself.Tests.Controllers
         [TestMethod]
         public void SignUpTest()
         {
-            var regData = InstanceGenerator.GenerateRegistration();
+            var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _controller.SignUp(regData);
@@ -34,7 +31,7 @@ namespace ReviewYourself.Tests.Controllers
         [TestMethod]
         public void ReadingUserTest()
         {
-            var regData = InstanceGenerator.GenerateRegistration();
+            var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _controller.SignUp(regData);
@@ -49,7 +46,7 @@ namespace ReviewYourself.Tests.Controllers
         [TestMethod]
         public void UpdateUserTest()
         {
-            var regData = InstanceGenerator.GenerateRegistration();
+            var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _controller.SignUp(regData);

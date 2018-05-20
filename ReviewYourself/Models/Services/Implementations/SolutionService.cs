@@ -8,6 +8,7 @@ namespace ReviewYourself.Models.Services.Implementations
     {
         private readonly ISolutionRepository _solutionRepository;
         private readonly ITokenRepository _tokenRepository;
+        //TODO: remove?
         private IReviewRepository _reviewRepository;
 
         public SolutionService(ISolutionRepository solutionRepository, IReviewRepository reviewRepository,
@@ -24,6 +25,8 @@ namespace ReviewYourself.Models.Services.Implementations
             {
                 throw new Exception("Wrong token info");
             }
+
+            solution.AuthorId = token.UserId;
 
             //TODO: check if user in course
             _solutionRepository.Create(solution);

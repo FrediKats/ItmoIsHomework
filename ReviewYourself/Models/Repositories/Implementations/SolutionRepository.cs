@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using DbExtensions;
+using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
@@ -21,7 +22,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
         }
         public SolutionRepository()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["SSConnection"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["AzureConnect"].ConnectionString;
         }
 
         public void Create(Solution solution)
@@ -32,23 +33,24 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 var insertSolution = SQL
                     .INSERT_INTO("Solution (SolutionID, AuthorID, TaskID, TextData, Posted, Resolved)")
-                    .VALUES(solution.Id, solution.AuthorId, solution.TaskId, solution.TextData, solution.PostTime, solution.IsResolved)
+                    .VALUES(Guid.NewGuid(), solution.AuthorId, solution.TaskId, solution.TextData, DateTime.UtcNow, 0)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 
-                var insertAttachment = SQL.INSERT_INTO("Attachment (AttachmentID, SolutionID, Document)");
-
-                if (solution.AttachmentCollection != null)
+                if (solution.AttachmentCollection == null)
                 {
-                    foreach (var attachment in solution.AttachmentCollection)
-                    {
-                        insertAttachment = insertAttachment.VALUES(Guid.NewGuid(), solution.Id, attachment);
-                    }
-
-                    insertAttachment
-                        .ToCommand(connection)
-                        .ExecuteNonQuery();
+                    return;
                 }
+
+                var insertAttachment = SQL.INSERT_INTO("Attachment (AttachmentID, SolutionID, Document)");
+                foreach (var attachment in solution.AttachmentCollection)
+                {
+                    insertAttachment = insertAttachment.VALUES(Guid.NewGuid(), solution.Id, attachment);
+                }
+
+                insertAttachment
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
             }
         }
 
@@ -67,28 +69,19 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 reader.Read();
 
-                var solution = new Solution
-                {
-                    Id = Guid.Parse(reader["SolutionID"].ToString()),
-                    AuthorId = Guid.Parse(reader["AuthorID"].ToString()),
-                    TaskId = Guid.Parse(reader["TaskID"].ToString()),
-                    TextData = reader["TextData"].ToString(),
-                    PostTime = DateTime.Parse(reader["Posted"].ToString()),
-                    IsResolved = bool.Parse(reader["Resolved"].ToString()),
-                    //AttachmentCollection = new List<SqlFileStream>()
-                };
+                var solution = ReaderConvertor.ToSolution(reader);
 
-                reader = SQL
-                    .SELECT("*")
-                    .FROM("Attachment")
-                    .WHERE("SolutionID = {0}", solutionId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                //reader = SQL
+                //    .SELECT("*")
+                //    .FROM("Attachment")
+                //    .WHERE("SolutionID = {0}", solutionId)
+                //    .ToCommand(connection)
+                //    .ExecuteReader();
 
-                while (reader.Read())
-                {
-                    //solution.AttachmentCollection.Add(new SqlFileStream());
-                }
+                //while (reader.Read())
+                //{
+                //    solution.AttachmentCollection.Add(new SqlFileStream());
+                //}
 
                 return solution;
             }
@@ -111,15 +104,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 while (reader.Read())
                 {
-                    solutionList.Add(new Solution
-                    {
-                        Id = Guid.Parse(reader["SolutionID"].ToString()),
-                        AuthorId = Guid.Parse(reader["AuthorID"].ToString()),
-                        TaskId = Guid.Parse(reader["TaskID"].ToString()),
-                        TextData = reader["TextData"].ToString(),
-                        PostTime = DateTime.Parse(reader["Posted"].ToString()),
-                        IsResolved = bool.Parse(reader["Resolved"].ToString())
-                    });
+                    solutionList.Add(ReaderConvertor.ToSolution(reader));
                 }
 
                 return solutionList;
@@ -142,28 +127,19 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 reader.Read();
 
-                var solution = new Solution
-                {
-                    Id = Guid.Parse(reader["SolutionID"].ToString()),
-                    AuthorId = Guid.Parse(reader["AuthorID"].ToString()),
-                    TaskId = Guid.Parse(reader["TaskID"].ToString()),
-                    TextData = reader["TextData"].ToString(),
-                    PostTime = DateTime.Parse(reader["Posted"].ToString()),
-                    IsResolved = bool.Parse(reader["Resolved"].ToString()),
-                    //AttachmentCollection = new List<SqlFileStream>()
-                };
+                var solution = ReaderConvertor.ToSolution(reader);
 
-                reader = SQL
-                    .SELECT("*")
-                    .FROM("Attachment")
-                    .WHERE("SolutionID = {0}", solution.Id)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                //reader = SQL
+                //    .SELECT("*")
+                //    .FROM("Attachment")
+                //    .WHERE("SolutionID = {0}", solution.Id)
+                //    .ToCommand(connection)
+                //    .ExecuteReader();
 
-                while (reader.Read())
-                {
-                    //solution.AttachmentCollection.Add(new SqlFileStream());
-                }
+                //while (reader.Read())
+                //{
+                //    //solution.AttachmentCollection.Add(new SqlFileStream());
+                //}
 
                 return solution;
             }
@@ -182,7 +158,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 var update = SQL
                     .UPDATE("Solution")
-                    .SET("Resolved = {0}", true)
+                    .SET("Resolved = {0}", 1)
                     .WHERE("SolutionID = {0}", solutionId)
                     .ToCommand(connection)
                     .ExecuteNonQuery();

@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using DbExtensions;
+using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
@@ -10,13 +10,6 @@ namespace ReviewYourself.Models.Repositories.Implementations
     public class UserRepository : IUserRepository
     {
         private string _connectionString;
-        public static UserRepository Create(string connectionString)
-        {
-            return new UserRepository()
-            {
-                _connectionString =  connectionString
-            };
-        }
 
         public UserRepository()
         {
@@ -29,8 +22,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var insert = SQL
-                    .INSERT_INTO("ResourceUser (UserID, UserLogin, Email, UserPassword, FirstName, LastName, Bio)")
+                SQL.INSERT_INTO("ResourceUser (UserID, UserLogin, Email, UserPassword, FirstName, LastName, Bio)")
                     .VALUES(Guid.NewGuid(), user.Login, user.Email, user.Password, user.FirstName, user.LastName, user.Biography)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
@@ -43,24 +35,17 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("ResourceUser")
                     .WHERE("UserID = {0}", id)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                reader.Read();
-
-                return new ResourceUser
+                using (var reader = command.ExecuteReader())
                 {
-                    Id = Guid.Parse(reader["UserID"].ToString()),
-                    Login = reader["UserLogin"].ToString(),
-                    Email = reader["Email"].ToString(),
-                    FirstName = reader["FirstName"].ToString(),
-                    LastName = reader["LastName"].ToString(),
-                    Biography = reader["Bio"].ToString()
-                };
+                    reader.Read();
+                    return ReaderConvertor.ToUser(reader);
+                }
             }
         }
 
@@ -70,24 +55,17 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("ResourceUser")
                     .WHERE("UserLogin = {0}", username)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                reader.Read();
-
-                return new ResourceUser
+                using (var reader = command.ExecuteReader())
                 {
-                    Id = Guid.Parse(reader["UserID"].ToString()),
-                    Login = reader["UserLogin"].ToString(),
-                    Email = reader["Email"].ToString(),
-                    FirstName = reader["FirstName"].ToString(),
-                    LastName = reader["LastName"].ToString(),
-                    Biography = reader["Bio"].ToString()
-                };
+                    reader.Read();
+                    return ReaderConvertor.ToUser(reader);
+                }
             }
         }
 
@@ -97,8 +75,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var update = SQL
-                    .UPDATE("ResourceUser")
+                SQL.UPDATE("ResourceUser")
                     .SET("FirstName = {0}", user.FirstName)
                     ._("LastName = {0}", user.LastName)
                     ._("Bio = {0}", user.Biography)
@@ -115,11 +92,19 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var delete = SQL.DELETE_FROM("ResourceUser")
+                SQL.DELETE_FROM("ResourceUser")
                     .WHERE("UserID = {0}", user.Id)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }
+        }
+
+        public static UserRepository Create(string connectionString)
+        {
+            return new UserRepository
+            {
+                _connectionString = connectionString
+            };
         }
     }
 }
