@@ -31,8 +31,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
+                solution.Id = Guid.NewGuid();
+                solution.PostTime = DateTime.UtcNow;
+
                 SQL.INSERT_INTO("Solution (SolutionID, AuthorID, TaskID, TextData, Posted, Resolved)")
-                    .VALUES(Guid.NewGuid(), solution.AuthorId, solution.TaskId, solution.TextData, DateTime.UtcNow, 0)
+                    .VALUES(solution.Id, solution.AuthorId, solution.TaskId, solution.TextData, solution.PostTime, 0)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 

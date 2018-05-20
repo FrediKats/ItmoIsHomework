@@ -22,8 +22,10 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
+                user.Id = Guid.NewGuid();
+
                 SQL.INSERT_INTO("ResourceUser (UserID, UserLogin, Email, UserPassword, FirstName, LastName, Bio)")
-                    .VALUES(Guid.NewGuid(), user.Login, user.Email, user.Password, user.FirstName, user.LastName, user.Biography)
+                    .VALUES(user.Id, user.Login, user.Email, user.Password, user.FirstName, user.LastName, user.Biography)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }

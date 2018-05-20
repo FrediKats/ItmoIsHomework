@@ -30,8 +30,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
+                task.Id = Guid.NewGuid();
+                task.PostTime = DateTime.UtcNow;
+
                 SQL.INSERT_INTO("ResourceTask (TaskID, CourseID, Title, TaskDescription, Posted)")
-                    .VALUES(Guid.NewGuid(), task.CourseId, task.Title, task.Description, DateTime.UtcNow)
+                    .VALUES(task.Id, task.CourseId, task.Title, task.Description, task.PostTime)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 
@@ -39,9 +42,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
                 foreach (var criteria in task.CriteriaCollection)
                 {
+                    criteria.Id = Guid.NewGuid();
+
                     insertCriteria = insertCriteria
                         .INSERT_INTO("Criteria (CriteriaID, TaskID, Title, CriteriaDescription, MaxPoint)")
-                        .VALUES(Guid.NewGuid(), criteria.TaskId, criteria.Title, criteria.Description, criteria.MaxPoint)
+                        .VALUES(criteria.Id, criteria.TaskId, criteria.Title, criteria.Description, criteria.MaxPoint)
                         .Append(";");
                     //insertCriteria = insertCriteria.VALUES(Guid.NewGuid(), criteria.TaskId, criteria.Title, criteria.Description, criteria.MaxPoint);
                 }

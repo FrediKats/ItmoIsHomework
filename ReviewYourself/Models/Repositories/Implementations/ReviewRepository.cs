@@ -31,9 +31,10 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 connection.Open();
 
                 review.Id = Guid.NewGuid();
+                review.PostTime = DateTime.UtcNow;
 
                 SQL.INSERT_INTO("Review (ReviewID, AuthorID, SolutionID, Posted)")
-                    .VALUES(review.Id, review.AuthorId, review.SolutionId, DateTime.Now)
+                    .VALUES(review.Id, review.AuthorId, review.SolutionId, review.PostTime)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 

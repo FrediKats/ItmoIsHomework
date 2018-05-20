@@ -1,5 +1,3 @@
-USE ReviewYourselfProjectdb
-GO
 DROP TABLE IF EXISTS Solution
 GO
 CREATE TABLE Solution
@@ -8,9 +6,9 @@ CREATE TABLE Solution
     AuthorID        UNIQUEIDENTIFIER    NOT NULL,
     TaskID          UNIQUEIDENTIFIER    NOT NULL,
     TextData        NVARCHAR(MAX)       NULL,
-    Posted          DATETIMEOFFSET      NOT NULL,
-    Resolved        BIT					NOT NULL,
-	
+    Posted          DATETIME2           NOT NULL,
+    Resolved        BINARY              NOT NULL,
+
     CONSTRAINT PK_SOLUTION              PRIMARY KEY (SolutionID),
     CONSTRAINT FK_SOLUTION_AUTHOR_ID    FOREIGN KEY (AuthorID) REFERENCES ResourceUser(UserID),
     CONSTRAINT FK_SOLUTION_TASK_ID      FOREIGN KEY (TaskID) REFERENCES ResourceTask(TaskID),

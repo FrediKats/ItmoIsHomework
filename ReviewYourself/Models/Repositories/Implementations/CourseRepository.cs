@@ -30,8 +30,10 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
+                course.Id = Guid.NewGuid();
+
                 SQL.INSERT_INTO("Course (CourseID, Title, CourseDescription, MentorID)")
-                    .VALUES(Guid.NewGuid(), course.Title, course.Description, course.Mentor.Id)
+                    .VALUES(course.Id, course.Title, course.Description, course.Mentor.Id)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }
