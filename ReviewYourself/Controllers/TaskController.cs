@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using ReviewYourself.Models;
 using ReviewYourself.Models.Services;
 
@@ -20,31 +17,67 @@ namespace ReviewYourself.Controllers
         }
 
         [HttpPost]
+        [ResponseType(typeof(void))]
         [Route("Add")]
-        public void Add([FromBody]ResourceTask task, [FromUri]Token token)
+        public IHttpActionResult Add([FromBody] ResourceTask task, [FromUri] Token token)
         {
-            _taskService.CreateTask(token, task);
-        }
-        
-        [HttpGet]
-        [Route("GetById/{taskId}")]
-        public ResourceTask Get(Guid taskId, [FromUri]Token token)
-        {
-            return _taskService.GetTask(token, taskId);
+            try
+            {
+                _taskService.CreateTask(token, task);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
-        [Route("GetByCourse/{courseId}")]
-        public IEnumerable<ResourceTask> GetByCourse(Guid courseId, [FromUri]Token token)
+        [ResponseType(typeof(ResourceTask))]
+        [Route("GetById/{taskId}")]
+        public IHttpActionResult Get(Guid taskId, [FromUri] Token token)
         {
-            return _taskService.GetTaskListByCourse(token, courseId);
+            try
+            {
+                var result = _taskService.GetTask(token, taskId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(ResourceTask[]))]
+        [Route("GetByCourse/{courseId}")]
+        public IHttpActionResult GetByCourse(Guid courseId, [FromUri] Token token)
+        {
+            try
+            {
+                var result = _taskService.GetTaskListByCourse(token, courseId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete]
+        [ResponseType(typeof(void))]
         [Route("Delete/{taskId}")]
-        public void DeleteCourse(Guid taskId, [FromUri]Token token)
+        public IHttpActionResult DeleteCourse(Guid taskId, [FromUri] Token token)
         {
-            _taskService.DeleteTask(token, taskId);
+            try
+            {
+                _taskService.DeleteTask(token, taskId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

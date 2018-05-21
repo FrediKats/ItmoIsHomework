@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http;
+using System.Web.Http.Results;
 using ReviewYourself.Controllers;
 using ReviewYourself.Models;
 
@@ -13,7 +15,9 @@ namespace ReviewYourself.Tests.Tools
             var course = InstanceGenerator.GenerateCourse();
 
             controller.Create(token, course);
-            var currentCourse = controller.GetByUser(token).First(c => c.Title == course.Title);
+            var currentCourse = controller.GetByUser(token)
+                .Cast<ICollection<Course>>()
+                .First(c => c.Title == course.Title);
             return currentCourse;
         }
 
@@ -26,6 +30,7 @@ namespace ReviewYourself.Tests.Tools
 
             var resultTask = controller
                 .GetByCourse(course.Id, token)
+                .Cast<ICollection<ResourceTask>>()
                 .First(t => t.Title == task.Title && t.Description == task.Description);
             return resultTask;
         }
@@ -49,6 +54,7 @@ namespace ReviewYourself.Tests.Tools
 
             var resultTask = controller
                 .GetByCourse(course.Id, token)
+                .Cast<ICollection<ResourceTask>>()
                 .First(t => t.Title == task.Title && t.Description == task.Description);
             return resultTask;
         }
@@ -60,8 +66,14 @@ namespace ReviewYourself.Tests.Tools
             controller.Add(token, solution);
 
             var resultSolution = controller.GetByTask(task.Id, token)
+                .Cast<ICollection<Solution>>()
                 .First(s => s.TextData == solution.TextData);
             return resultSolution;
+        }
+
+        public static T Cast<T>(this IHttpActionResult result)
+        {
+            return ((OkNegotiatedContentResult<T>)result).Content;
         }
     }
 }

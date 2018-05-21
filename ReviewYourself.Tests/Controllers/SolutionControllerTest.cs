@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http.Results;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
+using ReviewYourself.Models;
 using ReviewYourself.Models.Repositories.Implementations;
 using ReviewYourself.Models.Services.Implementations;
 using ReviewYourself.Models.Tools;
@@ -33,7 +36,7 @@ namespace ReviewYourself.Tests.Controllers
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _userController.SignUp(regData);
-            var token = _userController.SignIn(authData);
+            var token = _userController.SignIn(authData).Cast<Token>();
 
             var course = TemplateAction.CreateCourse(token, _courseController);
             var task = TemplateAction.CreateTask(token, course, _taskController);
@@ -51,13 +54,15 @@ namespace ReviewYourself.Tests.Controllers
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _userController.SignUp(regData);
-            var token = _userController.SignIn(authData);
+            var token = _userController.SignIn(authData).Cast<Token>();
 
             var course = TemplateAction.CreateCourse(token, _courseController);
             var task = TemplateAction.CreateTask(token, course, _taskController);
             var solution = TemplateAction.CreateSolution(token, task, _solutionController);
 
-            var result = _solutionController.GetByTaskAndUser(task.Id, token.UserId, token);
+            var result = _solutionController
+                .GetByTaskAndUser(task.Id, token.UserId, token)
+                .Cast<Solution>();
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.TaskId, task.Id);
@@ -71,13 +76,14 @@ namespace ReviewYourself.Tests.Controllers
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _userController.SignUp(regData);
-            var token = _userController.SignIn(authData);
+            var token = _userController.SignIn(authData).Cast<Token>();
 
             var course = TemplateAction.CreateCourse(token, _courseController);
             var task = TemplateAction.CreateTask(token, course, _taskController);
             var solution = TemplateAction.CreateSolution(token, task, _solutionController);
 
             var result = _solutionController.GetByTask(task.Id, token)
+                .Cast<ICollection<Solution>>()
                 .First(s => s.TextData == solution.TextData);
 
             Assert.IsNotNull(result);
