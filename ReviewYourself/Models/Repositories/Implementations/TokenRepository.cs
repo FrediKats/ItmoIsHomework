@@ -74,6 +74,8 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public bool ValidateToken(Token token)
         {
+            //TODO: 
+            return true;
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();

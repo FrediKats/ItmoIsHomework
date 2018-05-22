@@ -7,7 +7,7 @@ CREATE TABLE Solution
     TaskID          UNIQUEIDENTIFIER    NOT NULL,
     TextData        NVARCHAR(MAX)       NULL,
     Posted          DATETIME2           NOT NULL,
-    Resolved        BINARY              NOT NULL,
+    Resolved        BIT					NOT NULL,
 
     CONSTRAINT PK_SOLUTION              PRIMARY KEY (SolutionID),
     CONSTRAINT FK_SOLUTION_AUTHOR_ID    FOREIGN KEY (AuthorID) REFERENCES ResourceUser(UserID),

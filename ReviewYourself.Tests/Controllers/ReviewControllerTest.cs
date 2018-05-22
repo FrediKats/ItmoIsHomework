@@ -35,6 +35,7 @@ namespace ReviewYourself.Tests.Controllers
             var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
 
+            _userController.SignUp(regData);
             var token = _userController.SignIn(authData).Cast<Token>();
 
             var course = TemplateAction.CreateCourse(token, _courseController);

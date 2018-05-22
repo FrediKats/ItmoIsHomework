@@ -21,19 +21,19 @@ namespace ReviewYourself.Tests.Tools
             return currentCourse;
         }
 
-        public static ResourceTask CreateTask(Token token, Course course, TaskController controller)
-        {
-            var task = InstanceGenerator.GenerateTask();
+        //public static ResourceTask CreateTask(Token token, Course course, TaskController controller)
+        //{
+        //    var task = InstanceGenerator.GenerateTask();
 
-            task.CourseId = course.Id;
-            controller.Add(task, token);
+        //    task.CourseId = course.Id;
+        //    controller.Add(task, token);
 
-            var resultTask = controller
-                .GetByCourse(course.Id, token)
-                .Cast<ICollection<ResourceTask>>()
-                .First(t => t.Title == task.Title && t.Description == task.Description);
-            return resultTask;
-        }
+        //    var resultTask = controller
+        //        .GetByCourse(course.Id, token)
+        //        .Cast<ICollection<ResourceTask>>()
+        //        .First(t => t.Title == task.Title && t.Description == task.Description);
+        //    return resultTask;
+        //}
 
         public static ResourceTask CreateTaskWithCriteria(Token token, Course course, TaskController controller)
         {
@@ -56,7 +56,8 @@ namespace ReviewYourself.Tests.Tools
                 .GetByCourse(course.Id, token)
                 .Cast<ICollection<ResourceTask>>()
                 .First(t => t.Title == task.Title && t.Description == task.Description);
-            return resultTask;
+            var taskData = controller.Get(task.Id, token).Cast<ResourceTask>();
+            return taskData;
         }
 
         public static Solution CreateSolution(Token token, ResourceTask task, SolutionController controller)
