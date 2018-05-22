@@ -1,8 +1,7 @@
-﻿using System;
+﻿using DbExtensions;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using DbExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {

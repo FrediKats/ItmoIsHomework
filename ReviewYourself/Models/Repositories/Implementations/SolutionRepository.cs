@@ -169,7 +169,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             }
         }
 
-        public bool IsCanPostSolution(Guid taskId, Guid userId)
+        public bool CanPostSolution(Guid taskId, Guid userId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {

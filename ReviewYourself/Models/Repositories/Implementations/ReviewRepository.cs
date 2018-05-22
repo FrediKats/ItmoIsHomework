@@ -167,5 +167,29 @@ namespace ReviewYourself.Models.Repositories.Implementations
         {
             throw new NotImplementedException();
         }
+
+        public bool CanPostReview(Guid solutionId, Guid userId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var permission = SQL
+                    .SELECT("Permission")
+                    .FROM("CourseMembership")
+                    .JOIN("({0}) t ON CourseMembership.CourseID = t.CourseID",
+                        SQL.SELECT("CourseID")
+                            .FROM("ResourceTask")
+                            .JOIN("({0}) s ON ResourceTask.TaskID = s.TaskID",
+                                SQL.SELECT("TaskID")
+                                    .FROM("Solution")
+                                    .WHERE("SolutionID = {0}", solutionId)))
+                    .WHERE("UserID = {0}", userId)
+                    .ToCommand(connection)
+                    .ExecuteScalar();
+
+                return (int.Parse(permission?.ToString() ?? "0") > 0);
+            }
+        }
     }
 }
