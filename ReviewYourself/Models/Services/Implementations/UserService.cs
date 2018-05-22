@@ -29,9 +29,8 @@ namespace ReviewYourself.Models.Services.Implementations
             _tokenRepository.DisableToken(token);
         }
 
-        public void SignUp(string login, string password, ResourceUser user)
+        public void SignUp(ResourceUser user)
         {
-            //TODO: remove login and password
             _userRepository.Create(user);
         }
 
@@ -52,7 +51,7 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
-            return _userRepository.ReadByUserName(username);
+            return _userRepository.ReadByUsername(username);
         }
 
         public void UpdateUser(Token token, ResourceUser user)

@@ -1,8 +1,7 @@
-﻿using System.Configuration;
+﻿using System.Web.Http.Results;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
-using ReviewYourself.Models.Repositories.Implementations;
-using ReviewYourself.Models.Services.Implementations;
+using ReviewYourself.Models;
 using ReviewYourself.Tests.Tools;
 
 namespace ReviewYourself.Tests.Controllers
@@ -21,11 +20,11 @@ namespace ReviewYourself.Tests.Controllers
         [TestMethod]
         public void SignUpTest()
         {
-            var regData = InstanceGenerator.GenerateRegistration();
+            var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _controller.SignUp(regData);
-            var token = _controller.SignIn(authData);
+            var token = _controller.SignIn(authData).Cast<Token>();
 
             Assert.IsNotNull(token);
             Assert.IsNotNull(token.TokenData);
@@ -34,14 +33,14 @@ namespace ReviewYourself.Tests.Controllers
         [TestMethod]
         public void ReadingUserTest()
         {
-            var regData = InstanceGenerator.GenerateRegistration();
+            var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _controller.SignUp(regData);
-            var token = _controller.SignIn(authData);
 
-            var userByUsername = _controller.GetByUsername(regData.Login, token);
-            var userById = _controller.GetById(userByUsername.Id, token);
+            var token = _controller.SignIn(authData).Cast<Token>();
+            var userByUsername = _controller.GetByUsername(regData.Login, token).Cast<ResourceUser>();
+            var userById = _controller.GetById(userByUsername.Id, token).Cast<ResourceUser>();
 
             Assert.AreEqual(userByUsername.FirstName, userById.FirstName);
         }
@@ -49,16 +48,16 @@ namespace ReviewYourself.Tests.Controllers
         [TestMethod]
         public void UpdateUserTest()
         {
-            var regData = InstanceGenerator.GenerateRegistration();
+            var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _controller.SignUp(regData);
-            var token = _controller.SignIn(authData);
+            var token = _controller.SignIn(authData).Cast<Token>();
+            var user = _controller.GetByUsername(regData.Login, token).Cast<ResourceUser>();
 
-            var user = _controller.GetByUsername(regData.Login, token);
             user.Biography = "New bio";
             _controller.UpdateUser(token, user);
-            var updatedUser = _controller.GetByUsername(regData.Login, token);
+            var updatedUser = _controller.GetByUsername(regData.Login, token).Cast<ResourceUser>();
 
             Assert.AreEqual(user.Biography, updatedUser.Biography);
         }

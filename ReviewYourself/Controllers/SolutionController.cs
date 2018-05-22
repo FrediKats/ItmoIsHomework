@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using ReviewYourself.Models;
 using ReviewYourself.Models.Services;
 
@@ -20,52 +17,115 @@ namespace ReviewYourself.Controllers
         }
 
         [HttpPost]
-        public void Add([FromUri]Token token, [FromBody]Solution solution)
+        [ResponseType(typeof(void))]
+        public IHttpActionResult Add([FromUri] Token token, [FromBody] Solution solution)
         {
-            _solutionService.CreateSolution(token, solution);
+            try
+            {
+                _solutionService.CreateSolution(token, solution);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(Solution))]
         [Route("{solutionId}")]
-        public Solution Get(Guid solutionId, [FromUri]Token token)
+        public IHttpActionResult Get(Guid solutionId, [FromUri] Token token)
         {
-            return _solutionService.GetSolution(token, solutionId);
+            try
+            {
+                var result = _solutionService.GetSolution(token, solutionId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(Solution[]))]
         [Route("GetByTask/{taskId}")]
-        public IEnumerable<Solution> GetByTask(Guid taskId, [FromUri]Token token)
+        public IHttpActionResult GetByTask(Guid taskId, [FromUri] Token token)
         {
-            return _solutionService.GetSolutionListByTask(token, taskId);
+            try
+            {
+                var result = _solutionService.GetSolutionListByTask(token, taskId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(Solution))]
         [Route("GetByTaskAndUser/{taskId}/{userId}")]
-        public Solution GetByTaskAndUser(Guid taskId, Guid userId, [FromUri]Token token)
+        public IHttpActionResult GetByTaskAndUser(Guid taskId, Guid userId, [FromUri] Token token)
         {
-            return _solutionService.GetSolutionByTaskAndUser(token, taskId, userId);
+            try
+            {
+                var result = _solutionService.GetSolutionByTaskAndUser(token, taskId, userId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
         [HttpDelete]
+        [ResponseType(typeof(void))]
         [Route("{solutionId}")]
-        public void Delete(Guid solutionId, [FromUri]Token token)
+        public IHttpActionResult Delete(Guid solutionId, [FromUri] Token token)
         {
-            _solutionService.DeleteSolution(token, solutionId);
+            try
+            {
+                _solutionService.DeleteSolution(token, solutionId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
+        [ResponseType(typeof(bool))]
         [Route("Is-can-review/{solutionId}")]
-        public bool IsCanReview(Guid solutionId, [FromUri]Token token)
+        public IHttpActionResult IsCanReview(Guid solutionId, [FromUri] Token token)
         {
-            return _solutionService.IsCanAddReview(token, solutionId);
+            try
+            {
+                var result = _solutionService.IsCanAddReview(token, solutionId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
+        [ResponseType(typeof(void))]
         [Route("Resolve-solution/{solutionId}")]
-        public void ResolveSolution(Guid solutionId, Review review, [FromUri]Token token)
+        public IHttpActionResult ResolveSolution(Guid solutionId, Review review, [FromUri] Token token)
         {
-            _solutionService.ResolveSolution(token, solutionId, review);
+            try
+            {
+                _solutionService.ResolveSolution(token, solutionId, review);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

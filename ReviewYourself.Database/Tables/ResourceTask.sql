@@ -1,5 +1,3 @@
-USE ReviewYourselfProjectdb
-GO
 DROP TABLE IF EXISTS ResourceTask
 GO
 CREATE TABLE ResourceTask
@@ -8,7 +6,7 @@ CREATE TABLE ResourceTask
     CourseID            UNIQUEIDENTIFIER    NOT NULL,
     Title               NVARCHAR(64)        NOT NULL,
     TaskDescription     NVARCHAR(MAX)       NOT NULL, --or text
-    Posted              DATETIMEOFFSET      NOT NULL,
+    Posted              DATETIME2           NOT NULL,
 
     CONSTRAINT PK_RESOURCE_TASK                     PRIMARY KEY (TaskID),
     CONSTRAINT FK_RESOURCE_TASK_COURSE_ID           FOREIGN KEY (CourseID) REFERENCES Course(CourseID),

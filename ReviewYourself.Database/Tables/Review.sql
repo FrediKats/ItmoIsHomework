@@ -1,5 +1,3 @@
-USE ReviewYourselfProjectdb
-GO
 DROP TABLE IF EXISTS Review
 GO
 CREATE TABLE Review
@@ -7,7 +5,7 @@ CREATE TABLE Review
     ReviewID        UNIQUEIDENTIFIER    NOT NULL,
     AuthorID        UNIQUEIDENTIFIER    NOT NULL,
     SolutionID      UNIQUEIDENTIFIER    NOT NULL,
-    Posted          DATETIMEOFFSET      NOT NULL,
+    Posted          DATETIME2           NOT NULL,
 
     CONSTRAINT PK_REVIEW                PRIMARY KEY (ReviewID),
     CONSTRAINT FK_REVIEW_AUTHOR_ID      FOREIGN KEY (AuthorID) REFERENCES ResourceUser(UserID),

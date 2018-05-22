@@ -26,10 +26,10 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
-            if (course.Mentor.Id != token.UserId)
+            course.Mentor = new ResourceUser()
             {
-                throw new Exception("Wrong mentorId");
-            }
+                Id = token.UserId
+            };
 
             _courseRepository.Create(course);
         }
@@ -47,7 +47,7 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("User isn't mentor");
             }
 
-            var newMember = _userRepository.ReadByUserName(username);
+            var newMember = _userRepository.ReadByUsername(username);
 
             if (newMember == null)
             {
@@ -90,6 +90,12 @@ namespace ReviewYourself.Models.Services.Implementations
             return user != null;
         }
 
+        public bool IsMentor(Token token, Guid courseId)
+        {
+            var course = _courseRepository.Read(courseId);
+            return token.UserId == course.Mentor.Id;
+        }
+
         public Course GetCourse(Token token, Guid courseId)
         {
             if (_tokenRepository.ValidateToken(token) == false)
@@ -117,9 +123,7 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
-            return null;
-            //TODO: 
-            //return _courseRepository.ReadInviteByUser(userId);
+            return _courseRepository.ReadInvitesByUser(userId);
         }
 
         public void UpdateCourse(Token token, Course course)

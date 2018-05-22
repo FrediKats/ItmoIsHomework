@@ -1,5 +1,3 @@
-USE ReviewYourselfProjectdb
-GO
 DROP TABLE IF EXISTS Solution
 GO
 CREATE TABLE Solution
@@ -8,7 +6,7 @@ CREATE TABLE Solution
     AuthorID        UNIQUEIDENTIFIER    NOT NULL,
     TaskID          UNIQUEIDENTIFIER    NOT NULL,
     TextData        NVARCHAR(MAX)       NULL,
-    Posted          DATETIMEOFFSET      NOT NULL,
+    Posted          DATETIME2           NOT NULL,
     Resolved        BINARY              NOT NULL,
 
     CONSTRAINT PK_SOLUTION              PRIMARY KEY (SolutionID),

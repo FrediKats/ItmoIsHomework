@@ -22,6 +22,7 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
 
+            review.AuthorId = token.UserId;
             _reviewRepository.Create(review);
         }
 

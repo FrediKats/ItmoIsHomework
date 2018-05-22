@@ -22,7 +22,6 @@ namespace ReviewYourself.Models.Services.Implementations
                 throw new Exception("Wrong token info");
             }
             //TODO: request admins right
-
             _taskRepository.Create(task);
         }
 

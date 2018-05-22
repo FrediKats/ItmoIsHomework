@@ -1,7 +1,10 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Web.Http.Results;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
+using ReviewYourself.Models;
 using ReviewYourself.Models.Repositories.Implementations;
 using ReviewYourself.Models.Services.Implementations;
 using ReviewYourself.Tests.Tools;
@@ -22,54 +25,70 @@ namespace ReviewYourself.Tests.Controllers
         }
 
         [TestMethod]
-        public void IsCreatorMentorTest()
+        public void CreatorIsMentorTest()
         {
-            var regData = InstanceGenerator.GenerateRegistration();
+            var regData = InstanceGenerator.GenerateUser();
             var authData = InstanceGenerator.GenerateAuth(regData);
-            var course = InstanceGenerator.GenerateCourse();
 
             _userController.SignUp(regData);
-            var token = _userController.SignIn(authData);
-            var user = _userController.GetUser(token);
-            course.Mentor = user;
+            var token = _userController.SignIn(authData).Cast<Token>();
 
-            _courseController.Create(token, course);
-            var userCourseCollection = _courseController.GetByUser(token);
-            var currentCourse = userCourseCollection.FirstOrDefault(c => c.Title == course.Title);
+            var course = TemplateAction.CreateCourse(token, _courseController);
+            var courseFullInfo = _courseController.GetById(course.Id, token).Cast<Course>();
 
-            Assert.IsNotNull(currentCourse);
-            Assert.AreEqual(currentCourse.Mentor.Id, user.Id);
+            Assert.IsNotNull(courseFullInfo);
+            Assert.AreEqual(courseFullInfo.Mentor.Id, token.UserId);
         }
 
         [TestMethod]
         public void InviteTest()
         {
-            var mentorReg = InstanceGenerator.GenerateRegistration();
+            var mentorReg = InstanceGenerator.GenerateUser();
             var mentorAuth = InstanceGenerator.GenerateAuth(mentorReg);
-            var studentReg = InstanceGenerator.GenerateRegistration();
+            var studentReg = InstanceGenerator.GenerateUser();
             var studentAuth = InstanceGenerator.GenerateAuth(studentReg);
-            var course = InstanceGenerator.GenerateCourse();
 
             _userController.SignUp(mentorReg);
             _userController.SignUp(studentReg);
 
-            var mentorToken = _userController.SignIn(mentorAuth);
-            var studentToken = _userController.SignIn(studentAuth);
-            course.Mentor = _userController.GetUser(mentorToken);
+            var mentorToken = _userController.SignIn(mentorAuth).Cast<Token>();
+            var studentToken = _userController.SignIn(studentAuth).Cast<Token>();
 
-            _courseController.Create(mentorToken, course);
-            var currentCourse = _courseController
-                .GetByUser(mentorToken)
-                .First(c => c.Title == course.Title);
+            var course = TemplateAction.CreateCourse(mentorToken, _courseController);
 
-            Assert.IsNotNull(currentCourse);
-
-            _courseController.InviteUser(currentCourse.Id, studentAuth.Login, mentorToken);
+            _courseController.InviteUser(course.Id, studentAuth.Login, mentorToken);
             var returnedCourse = _courseController
                 .GetInvitesByUser(studentToken)
-                .First(c => c.Title == currentCourse.Title);
+                .Cast<ICollection<Course>>()
+                .First(c => c.Title == course.Title);
 
             Assert.IsNotNull(returnedCourse);
+        }
+
+        [TestMethod]
+        public void AcceptInviteTest()
+        {
+            var mentorReg = InstanceGenerator.GenerateUser();
+            var mentorAuth = InstanceGenerator.GenerateAuth(mentorReg);
+            var studentReg = InstanceGenerator.GenerateUser();
+            var studentAuth = InstanceGenerator.GenerateAuth(studentReg);
+
+            _userController.SignUp(mentorReg);
+            _userController.SignUp(studentReg);
+
+            var mentorToken = _userController.SignIn(mentorAuth).Cast<Token>();
+            var studentToken = _userController.SignIn(studentAuth).Cast<Token>();
+
+            var course = TemplateAction.CreateCourse(mentorToken, _courseController);
+
+            _courseController.InviteUser(course.Id, studentAuth.Login, mentorToken);
+            _courseController.AcceptInvite(course.Id, studentToken);
+
+            var isMember = _courseController
+                .IsMember(course.Id, studentToken)
+                .Cast<bool>();
+
+            Assert.IsTrue(isMember);
         }
     }
 }

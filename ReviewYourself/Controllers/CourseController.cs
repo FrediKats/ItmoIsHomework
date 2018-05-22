@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Http;
+using System.Web.Http.Description;
 using ReviewYourself.Models;
 using ReviewYourself.Models.Services;
 
@@ -17,80 +17,179 @@ namespace ReviewYourself.Controllers
         }
 
         [HttpPost]
-        public void Create([FromUri] Token token, [FromBody] Course course)
+        [ResponseType(typeof(void))]
+        public IHttpActionResult Create([FromUri] Token token, [FromBody] Course course)
         {
-            _courseService.CreateCourse(token, course);
+            try
+            {
+                _courseService.CreateCourse(token, course);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
+        [ResponseType(typeof(void))]
         [Route("Invite/{courseId}/{username}")]
-        public void InviteUser(Guid courseId, string username, [FromUri] Token token)
+        public IHttpActionResult InviteUser(Guid courseId, string username, [FromUri] Token token)
         {
-            _courseService.InviteUser(token, username, courseId);
+            try
+            {
+                _courseService.InviteUser(token, username, courseId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
+        [ResponseType(typeof(void))]
         [Route("Accept-Invite/{courseId}")]
-        public void AcceptInvite(Guid courseId, [FromUri] Token token)
+        public IHttpActionResult AcceptInvite(Guid courseId, [FromUri] Token token)
         {
-            _courseService.AcceptInvite(token, courseId);
+            try
+            {
+                _courseService.AcceptInvite(token, courseId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(bool))]
         [Route("IsMember/{courseId}")]
-        public bool IsMember(Guid courseId, [FromUri] Token token)
+        public IHttpActionResult IsMember(Guid courseId, [FromUri] Token token)
         {
-            return _courseService.IsMember(token, courseId);
+            try
+            {
+                var result = _courseService.IsMember(token, courseId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
         [HttpGet]
+        [ResponseType(typeof(Course))]
         [Route("GetById/{courseId}")]
-        public Course GetById(Guid courseId, [FromUri] Token token)
+        public IHttpActionResult GetById(Guid courseId, [FromUri] Token token)
         {
-            return _courseService.GetCourse(token, courseId);
+            try
+            {
+                var result = _courseService.GetCourse(token, courseId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(Course[]))]
         [Route("GetByUser")]
-        public IEnumerable<Course> GetByUser([FromUri] Token token)
+        public IHttpActionResult GetByUser([FromUri] Token token)
         {
-            return _courseService.GetCourseListByUser(token, token.UserId);
+            try
+            {
+                var result = _courseService.GetCourseListByUser(token, token.UserId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(Course[]))]
         [Route("GetByUser/{userId}")]
-        public IEnumerable<Course> GetByUser(Guid userId, [FromUri] Token token)
+        public IHttpActionResult GetByUser(Guid userId, [FromUri] Token token)
         {
-            return _courseService.GetCourseListByUser(token, userId);
+            try
+            {
+                var result = _courseService.GetCourseListByUser(token, userId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(Course[]))]
         [Route("GetInvitesByUser")]
-        public IEnumerable<Course> GetInvitesByUser([FromUri] Token token)
+        public IHttpActionResult GetInvitesByUser([FromUri] Token token)
         {
-            return _courseService.GetInviteListByUser(token, token.UserId);
+            try
+            {
+                var result = _courseService.GetInviteListByUser(token, token.UserId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
+        [ResponseType(typeof(void))]
         [Route("Update")]
-        public void Update([FromUri] Token token, [FromBody] Course course)
+        public IHttpActionResult Update([FromUri] Token token, [FromBody] Course course)
         {
-            _courseService.UpdateCourse(token, course);
+            try
+            {
+                _courseService.UpdateCourse(token, course);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete]
+        [ResponseType(typeof(void))]
         [Route("Delete/{courseId}")]
-        public void Delete(Guid courseId, [FromUri] Token token)
+        public IHttpActionResult Delete(Guid courseId, [FromUri] Token token)
         {
-            _courseService.DeleteCourse(token, courseId);
+            try
+            {
+                _courseService.DeleteCourse(token, courseId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete]
+        [ResponseType(typeof(void))]
         [Route("Delete-member/{courseId}/{userId}")]
-        public void DeleteMember(Guid courseId, Guid userId, [FromUri] Token token)
+        public IHttpActionResult DeleteMember(Guid courseId, Guid userId, [FromUri] Token token)
         {
-            _courseService.DeleteMember(token, courseId, userId);
+            try
+            {
+                _courseService.DeleteMember(token, courseId, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

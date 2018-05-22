@@ -1,5 +1,3 @@
-USE ReviewYourselfProjectdb
-GO
 DROP TABLE IF EXISTS ReviewCriteria
 GO
 CREATE TABLE ReviewCriteria
