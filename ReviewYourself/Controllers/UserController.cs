@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using System.Web.Http.Description;
 using ReviewYourself.Models;
 using ReviewYourself.Models.Services;
 using ReviewYourself.Models.Tools;
@@ -17,51 +18,113 @@ namespace ReviewYourself.Controllers
         }
 
         [HttpPost]
+        [ResponseType(typeof(Token))]
         [Route("Sign-in")]
-        public Token SignIn([FromBody] AuthorizeData authData)
+        public IHttpActionResult SignIn([FromBody] AuthorizeData authData)
         {
-            return _userService.SignIn(authData.Login, authData.Password);
+            try
+            {
+                var result = _userService.SignIn(authData.Login, authData.Password);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
+        [ResponseType(typeof(void))]
         [Route("Sign-out")]
-        public void SignOut([FromBody] Token token)
+        public IHttpActionResult SignOut([FromBody] Token token)
         {
-            _userService.SignOut(token);
+            try
+            {
+                _userService.SignOut(token);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
+        [ResponseType(typeof(void))]
         [Route("sign-up")]
-        public void SignUp([FromBody] ResourceUser newUser)
+        public IHttpActionResult SignUp([FromBody] ResourceUser newUser)
         {
-            _userService.SignUp(newUser);
+            try
+            {
+                _userService.SignUp(newUser);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
-        public ResourceUser GetUser([FromUri] Token token)
+        public IHttpActionResult GetUser([FromUri] Token token)
         {
-            return _userService.GetUser(token, token.UserId);
+            try
+            {
+                var result = _userService.GetUser(token, token.UserId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(ResourceUser))]
         [Route("GetById/{id}")]
-        public ResourceUser GetById(Guid userId, [FromUri] Token token)
+        public IHttpActionResult GetById(Guid userId, [FromUri] Token token)
         {
-            return _userService.GetUser(token, userId);
+            try
+            {
+                var result = _userService.GetUser(token, userId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(ResourceUser))]
         [Route("GetByUsername/{username}")]
-        public ResourceUser GetByUsername(string username, [FromUri] Token token)
+        public IHttpActionResult GetByUsername(string username, [FromUri] Token token)
         {
-            return _userService.GetUserByUsername(token, username);
+            try
+            {
+                var result = _userService.GetUserByUsername(token, username);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
+        [ResponseType(typeof(void))]
         [Route("Update")]
-        public void UpdateUser([FromUri] Token token, [FromBody] ResourceUser user)
+        public IHttpActionResult UpdateUser([FromUri] Token token, [FromBody] ResourceUser user)
         {
-            _userService.UpdateUser(token, user);
+            try
+            {
+                _userService.UpdateUser(token, user);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

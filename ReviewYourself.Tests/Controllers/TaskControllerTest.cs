@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web.Http.Results;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.Controllers;
 using ReviewYourself.Models;
@@ -32,9 +33,10 @@ namespace ReviewYourself.Tests.Controllers
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _userController.SignUp(regData);
-            var token = _userController.SignIn(authData);
+            var token = _userController.SignIn(authData).Cast<Token>();
+
             var course = TemplateAction.CreateCourse(token, _courseController);
-            var task = TemplateAction.CreateTask(token, course, _taskController);
+            var task = TemplateAction.CreateTaskWithCriteria(token, course, _taskController);
 
             Assert.IsNotNull(task);
             Assert.AreEqual(task.CourseId, course.Id);
@@ -48,10 +50,8 @@ namespace ReviewYourself.Tests.Controllers
             var authData = InstanceGenerator.GenerateAuth(regData);
 
             _userController.SignUp(regData);
-            var token = _userController.SignIn(authData);
+            var token = _userController.SignIn(authData).Cast<Token>();
             var course = TemplateAction.CreateCourse(token, _courseController);
-
-
             var task = TemplateAction.CreateTaskWithCriteria(token, course, _taskController);
 
             Assert.IsNotNull(task);

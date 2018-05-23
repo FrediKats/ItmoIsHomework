@@ -72,4 +72,7 @@
     <None Include="CheckDB.sql" />
     <None Include="DropDB.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\Token.sql" />
+  </ItemGroup>
 </Project>

@@ -43,6 +43,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 foreach (var criteria in task.CriteriaCollection)
                 {
                     criteria.Id = Guid.NewGuid();
+                    criteria.TaskId = task.Id;
 
                     insertCriteria = insertCriteria
                         .INSERT_INTO("Criteria (CriteriaID, TaskID, Title, CriteriaDescription, MaxPoint)")
@@ -92,6 +93,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     .WHERE("TaskID = {0}", id)
                     .ToCommand(connection);
 
+                task.CriteriaCollection = new List<Criteria>();
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())

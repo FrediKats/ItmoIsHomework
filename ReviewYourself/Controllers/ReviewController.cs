@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using ReviewYourself.Models;
 using ReviewYourself.Models.Services;
-using ReviewYourself.Models.Tools;
 
 namespace ReviewYourself.Controllers
 {
@@ -21,37 +17,82 @@ namespace ReviewYourself.Controllers
         }
 
         [HttpPost]
-        public void Add([FromUri]Token token, [FromBody]Review review)
+        [ResponseType(typeof(void))]
+        public IHttpActionResult Add([FromUri] Token token, [FromBody] Review review)
         {
-            _reviewService.CreateReview(token, review);
+            try
+            {
+                _reviewService.CreateReview(token, review);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(Review))]
         [Route("{reviewId}")]
-        public Review Get(Guid reviewId, [FromUri]Token token)
+        public IHttpActionResult Get(Guid reviewId, [FromUri] Token token)
         {
-            return _reviewService.GetReview(token, reviewId);
+            try
+            {
+                var result = _reviewService.GetReview(token, reviewId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(Review[]))]
         [Route("GetBySolution/{solutionId}")]
-        public IEnumerable<Review> GetBySolution(Guid solutionId, [FromUri]Token token)
+        public IHttpActionResult GetBySolution(Guid solutionId, [FromUri] Token token)
         {
-            return _reviewService.GetReviewListBySolution(token, solutionId);
+            try
+            {
+                var result = _reviewService.GetReviewListBySolution(token, solutionId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
+        [ResponseType(typeof(Review))]
         [Route("GetBySolutionANdUser/{solutionId}/{userId}")]
-        public Review GetBySolutionAndUser(Guid solutionId, Guid userId, [FromUri] Token token)
+        public IHttpActionResult GetBySolutionAndUser(Guid solutionId, Guid userId, [FromUri] Token token)
         {
-            return _reviewService.GetReviewBySolutionAndUser(token, solutionId, userId);
+            try
+            {
+                var result = _reviewService.GetReviewBySolutionAndUser(token, solutionId, userId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete]
+        [ResponseType(typeof(void))]
         [Route("{reviewId}")]
-        public void Delete(Guid reviewId, [FromUri]Token token)
+        public IHttpActionResult Delete(Guid reviewId, [FromUri] Token token)
         {
-            _reviewService.DeleteReview(token, reviewId);
+            try
+            {
+                _reviewService.DeleteReview(token, reviewId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
