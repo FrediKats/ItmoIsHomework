@@ -82,7 +82,7 @@ namespace ReviewYourself.Models.Tools
         {
             return new Review
             {
-                Id = Guid.Parse(reader[$"{prefix}SolutionID"].ToString()),
+                Id = Guid.Parse(reader[$"{prefix}ReviewID"].ToString()),
                 AuthorId = Guid.Parse(reader[$"{prefix}AuthorID"].ToString()),
                 SolutionId = Guid.Parse(reader[$"{prefix}SolutionID"].ToString()),
                 PostTime = reader.GetDateTime($"{prefix}Posted"),

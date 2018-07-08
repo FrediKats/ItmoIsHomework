@@ -74,6 +74,9 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     review = ReaderConvertor.ToReview(reader);
                 }
 
+                review.RateCollection = new List<ReviewCriteria>();
+
+
                 command = SQL
                     .SELECT("*")
                     .FROM("ReviewCriteria")
