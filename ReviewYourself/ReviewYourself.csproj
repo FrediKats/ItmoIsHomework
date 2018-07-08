@@ -252,6 +252,7 @@
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\Tools\AuthorizeData.cs" />
     <Compile Include="Models\Tools\ReaderConvertor.cs" />
+    <Compile Include="Models\Tools\Extensions\Extensions.cs" />
     <Compile Include="Models\Tools\RegistrationData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
