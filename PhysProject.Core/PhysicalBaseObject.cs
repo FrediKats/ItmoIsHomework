@@ -7,7 +7,6 @@ namespace PhysProject.Core
 {
     public abstract class PhysicalBaseObject
     {
-        #region Public
         //public readonly List<CustomChart> GraphicList = new List<CustomChart>();
 
         public List<CustomSeries> SeriesList = new List<CustomSeries>();
@@ -88,14 +87,10 @@ namespace PhysProject.Core
             get { return _speedVector; }
             set { _newSpeedVector = value; }
         }
-        #endregion
 
-        #region Private
         private TwoDimesional _speedVector, _newSpeedVector;
         private TwoDimesional _position;
-        #endregion
 
-        #region Protected
         protected PhysicalBaseObject(PhysicalField field, double size, TwoDimesional position, TwoDimesional speedVector)
         {
             MaterialObject = Tool.GenerateEllipse(size);
@@ -111,7 +106,6 @@ namespace PhysProject.Core
         {
             return;
         }
-        #endregion
 
     }
 }

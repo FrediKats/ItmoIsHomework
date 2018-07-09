@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject", "PhisProject\PhysProject.csproj", "{3A6B409D-5931-4C7A-ABFD-AB6E42BAFA60}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject.Core", "PhysProject.Core\PhysProject.Core.csproj", "{87360350-079A-41A1-8D2B-30E277A3DA46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject.Inredika", "PhysProject.Inredika\PhysProject.Inredika.csproj", "{FBC35149-B4D8-48C6-ADE4-5199F66FD3BC}"
@@ -13,16 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject.MaxwellDistribu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysProject.Malinin", "PhysProject.Malinin\PhysProject.Malinin.csproj", "{DDCB44F1-379A-4B76-A729-BCA60362C95A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhisSource.Core", "PhisSource.Core\PhisSource.Core.csproj", "{394D8595-C36C-420E-A212-A6B7663A47FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3A6B409D-5931-4C7A-ABFD-AB6E42BAFA60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A6B409D-5931-4C7A-ABFD-AB6E42BAFA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A6B409D-5931-4C7A-ABFD-AB6E42BAFA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A6B409D-5931-4C7A-ABFD-AB6E42BAFA60}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87360350-079A-41A1-8D2B-30E277A3DA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{87360350-079A-41A1-8D2B-30E277A3DA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87360350-079A-41A1-8D2B-30E277A3DA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{DDCB44F1-379A-4B76-A729-BCA60362C95A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDCB44F1-379A-4B76-A729-BCA60362C95A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDCB44F1-379A-4B76-A729-BCA60362C95A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{394D8595-C36C-420E-A212-A6B7663A47FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{394D8595-C36C-420E-A212-A6B7663A47FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{394D8595-C36C-420E-A212-A6B7663A47FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{394D8595-C36C-420E-A212-A6B7663A47FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

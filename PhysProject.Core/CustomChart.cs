@@ -7,7 +7,6 @@ namespace PhysProject.Core
 {
     public class CustomChart
     {
-        #region Public
         public readonly PlotModel Model;
 
         public CustomChart(PlotView plotView)
@@ -64,11 +63,8 @@ namespace PhysProject.Core
         {
             Model.InvalidatePlot(true);
         }
-        #endregion
 
-        #region Private
         private PlotView _plotView;
         private OxyPlot.Axes.LinearAxis _axisY, _axisX;
-        #endregion
     }
 }
