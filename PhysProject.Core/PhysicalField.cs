@@ -9,7 +9,6 @@ namespace PhysProject.Core
 {
     public class PhysicalField
     {
-        #region Public
         public List<PhysicalBaseObject> PhysicalObjects = new List<PhysicalBaseObject>();
         public readonly Canvas FieldCanvas;
 
@@ -52,9 +51,7 @@ namespace PhysProject.Core
             }
             PhysicalObjects = new List<PhysicalBaseObject>();
         }
-        #endregion
 
-        #region Private
         private readonly DispatcherTimer _systemTime = new DispatcherTimer();
         private readonly int _timePerTick;
         private List<Line> _lines = new List<Line>();
@@ -79,6 +76,5 @@ namespace PhysProject.Core
                 }
             }
         }
-        #endregion
     }
 }

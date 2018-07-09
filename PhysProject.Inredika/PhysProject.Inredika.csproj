@@ -102,8 +102,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PhisSource.Core\PhisSource.Core.csproj">
+      <Project>{394d8595-c36c-420e-a212-a6b7663a47fa}</Project>
+      <Name>PhisSource.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PhysProject.Core\PhysProject.Core.csproj">
-      <Project>{87360350-079a-41a1-8d2b-30e277a3da46}</Project>
+      <Project>{87360350-079A-41A1-8D2B-30E277A3DA46}</Project>
       <Name>PhysProject.Core</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace PhysProject.Source
+namespace PhisSource.Core.Tools
 {
-    public static class Tool
+    public static class Generator
     {
-        public static double Distance(TwoDimesional f, TwoDimesional s)
-        {
-            return  Math.Sqrt(Math.Pow(f.X - s.X, 2) + Math.Pow(f.Y - s.Y, 2));
-        }
-
         public static Ellipse GenerateEllipse(double size)
         {
             return new Ellipse()
@@ -36,7 +30,7 @@ namespace PhysProject.Source
             };
         }
 
-        public static Line GenerateLine(TwoDimesional f, TwoDimesional s)
+        public static Line GenerateLine(TwoDimensional f, TwoDimensional s)
         {
             return GenerateLine(f.X, f.Y, s.X, s.Y);
         }

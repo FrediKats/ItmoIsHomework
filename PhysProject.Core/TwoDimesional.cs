@@ -8,7 +8,7 @@
         {
             X = x;
             Y = y;
-        }
+        }   
 
         public TwoDimesional(TwoDimesional td)
         {

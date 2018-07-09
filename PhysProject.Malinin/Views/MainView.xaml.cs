@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using OxyPlot.Wpf;
-using PhysProject.Core;
+using PhisSource.Core;
 using PhysProject.Malinin.Models;
 
 namespace PhysProject.Malinin.Views
@@ -29,15 +29,16 @@ namespace PhysProject.Malinin.Views
 			UpdateUserInterface();
 		}
 
-		private PhysicalField _field;
-		//private Graphic _gr1, _gr2;
-		int _objectsCount = 0;
+        private ExecuteField _field;
+        //private Graphic _gr1, _gr2;
+        int _objectsCount = 0;
 
 		void UpdateUserInterface()
 		{
-			_field = new PhysicalField(MainCanvas, 20);
-			SetGraphics();
-			ButtonStart.Click += _field.Start;
+            _field = new ExecuteField(30, MainCanvas);
+            SetGraphics();
+		    ButtonStart.Click += (sender, args) => _field.Start();
+
 		}
 
 		void SetGraphics()
@@ -61,8 +62,8 @@ namespace PhysProject.Malinin.Views
 			double vx = v * Math.Cos(a);
 			double vy = v * Math.Sin(a);
 
-			BalistModel newBall = new BalistModel(_field, 5,
-				new TwoDimesional(100, int.Parse(TextBoxH.Text) + 2.5), new TwoDimesional(vx, vy), a, _objectsCount);
+			BalistModel newBall = new BalistModel(20,
+				new TwoDimensional(100, int.Parse(TextBoxH.Text) + 2.5), new TwoDimensional(vx, vy), a, _objectsCount);
 
 			//newBall.AddGraphic(_gr1);
 			//newBall.AddGraphic(_gr2);

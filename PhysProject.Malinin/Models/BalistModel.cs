@@ -1,23 +1,25 @@
 ﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
-using PhysProject.Core;
+using PhisSource.Core;
 
 namespace PhysProject.Malinin.Models
 {
 	public class BalistModel : PhysicalBaseObject
 	{
-		private TwoDimesional _stPos;
+		private TwoDimensional _stPos;
 		private TextBlock _view;
 		private double _Vprev = 0, _At, _An, a1;
 		private bool flag = true;
 		int i;
 
-		public BalistModel(PhysicalField field, double size, TwoDimesional position, TwoDimesional speedVector, double a, int i1) : base(field, size, position, speedVector)
+		public BalistModel(/*PhysicalField field, */double size, TwoDimensional position, TwoDimensional speedVector, double a, int i1) : base(position, speedVector, size)
         {
 			_stPos = position;
 			a1 = a;
 			i = i1;
-		}
+        }
 		public void SetCoord(TextBlock Coord)
 		{
 			_view = Coord;
@@ -25,9 +27,10 @@ namespace PhysProject.Malinin.Models
 
 		protected override void CustomConduct()
 		{
-			TwoDimesional sv = SpeedVector;
+            TwoDimensional sv = SpeedVector;
+		    var position = PositionList.Last();
 
-			if (_view != null)
+            if (_view != null)
 			{
 				double _V, _X1, _Y1;
 				_X1 = SpeedVector.X;
@@ -58,7 +61,7 @@ namespace PhysProject.Malinin.Models
 				}
 				if (flag == true)
 				{
-					_view.Text = $"X:{Math.Round((Position.X - 100), 2)} м\nY:{Math.Round((Position.Y), 2)} м\n" +
+					_view.Text = $"X:{Math.Round((position.X - 100), 2)} м\nY:{Math.Round((position.Y), 2)} м\n" +
 							   $"A(tan):{Math.Round(_At, 2)} м/с2\n" +
 							   $"A(norm):{Math.Round(_An, 2)} м/с2\n" +
 							   $"V:{Math.Round(_V, 2)} м/с\n";
@@ -67,19 +70,9 @@ namespace PhysProject.Malinin.Models
 				}
 			}
 
-			AccelerationDirection = new TwoDimesional(0, -9.81);
-
-
-			//TODO Unavaliable now
-			//if ((Position.Y >= Size / 2) && (flag == true))
-			//{
-			//	if (GraphicList.Count >= 1)
-			//	{
-			//		GraphicList[0].AddPoint(0, Field.CurrentTime - TimeAdded, _At);
-			//		GraphicList[1].AddPoint(0, Field.CurrentTime - TimeAdded, _An);
-			//	}
-			//}
-			if (Position.Y < Size / 2)
+			AccelerationDirection = new TwoDimensional(0, -9.81);
+            
+			if (position.Y < ObjectSize / 2)
 			{
 				flag = false;
 				StopMoving();
