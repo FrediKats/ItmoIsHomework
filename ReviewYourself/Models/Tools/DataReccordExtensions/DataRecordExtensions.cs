@@ -2,9 +2,9 @@
 using System;
 using System.Data;
 
-namespace ReviewYourself.Models.Tools.Extensions
+namespace ReviewYourself.Models.Tools.DataRecordExtensions
 {
-    public static class Extensions
+    public static class DataRecordExtensions
     {
         public static Guid GetGuid(this IDataRecord record, string name)
         {
@@ -17,7 +17,8 @@ namespace ReviewYourself.Models.Tools.Extensions
             {
                 Id = record.GetGuid("CourseID"),
                 Title = record.GetString("Title"),
-                Description = record.GetStringOrNull("CourseDescription")
+                Description = record.GetStringOrNull("CourseDescription"),
+                Mentor = new ResourceUser { Id = record.GetGuid("MentorID") }
             };
         }
 

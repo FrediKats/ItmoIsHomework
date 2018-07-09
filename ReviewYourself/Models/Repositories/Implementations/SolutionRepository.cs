@@ -4,14 +4,13 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using DbExtensions;
-using ReviewYourself.Models.Tools;
+using ReviewYourself.Models.Tools.DataRecordExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
     public class SolutionRepository : ISolutionRepository
     {
         private string _connectionString;
-
 
         public static SolutionRepository Create(string connectionString)
         {
@@ -74,7 +73,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    return ReaderConvertor.ToSolution(reader);
+                    return reader.GetSolution();
                 }
 
                 //reader = SQL
@@ -109,7 +108,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     while (reader.Read())
                     {
-                        solutionList.Add(ReaderConvertor.ToSolution(reader));
+                        solutionList.Add(reader.GetSolution());
                     }
                 }
 
@@ -133,7 +132,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    return ReaderConvertor.ToSolution(reader);
+                    return reader.GetSolution();
                 }
 
                 //reader = SQL

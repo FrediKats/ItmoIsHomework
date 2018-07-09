@@ -2,6 +2,7 @@
 using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using ReviewYourself.Models.Tools.DataRecordExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
@@ -47,7 +48,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                     token = new Token()
                     {
                         TokenData = Guid.NewGuid(),
-                        UserId = Guid.Parse(reader["UserID"].ToString())
+                        UserId = reader.GetGuid("UserID") // Guid.Parse(reader["UserID"].ToString())
                     };
                 }
 

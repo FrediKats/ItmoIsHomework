@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using DbExtensions;
-using ReviewYourself.Models.Tools;
+using ReviewYourself.Models.Tools.DataRecordExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
@@ -71,7 +71,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    review = ReaderConvertor.ToReview(reader);
+                    review = reader.GetReview();
                 }
 
                 review.RateCollection = new List<ReviewCriteria>();
@@ -87,7 +87,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     while (reader.Read())
                     {
-                        review.RateCollection.Add(ReaderConvertor.ToReviewCriteria(reader));
+                        review.RateCollection.Add(reader.GetReviewCriteria());
                     }
                 }
 
@@ -113,7 +113,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     while (reader.Read())
                     {
-                        reviewCollection.Add(ReaderConvertor.ToReview(reader));
+                        reviewCollection.Add(reader.GetReview());
                     }
                 }
 
@@ -139,7 +139,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    review = ReaderConvertor.ToReview(reader);
+                    review = reader.GetReview();
                 }
 
                 command = SQL
@@ -152,7 +152,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     while (reader.Read())
                     {
-                        review.RateCollection.Add(ReaderConvertor.ToReviewCriteria(reader));
+                        review.RateCollection.Add(reader.GetReviewCriteria());
                     }
                 }
 
