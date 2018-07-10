@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using PhysProject.Core;
+using PhisSource.Core.Models;
 
 namespace PhysProject.MaxwellDIstribution.Views
 {
@@ -22,7 +22,7 @@ namespace PhysProject.MaxwellDIstribution.Views
 	{
 		private double temperature_1 = 100, mass_1 = 16, temperature_2 = 200, mass_2 = 12;
 		private const double k = 1.38, R = 8.31;
-		private CustomChart _chart;
+		private BaseChart _chart;
 		private Func<double, double> Distribution_1, Distribution_2;
 		public MainView()
 		{
@@ -34,11 +34,9 @@ namespace PhysProject.MaxwellDIstribution.Views
 
 		void Draw()
 		{
-			_chart = new CustomChart(Graphic);
+			_chart = new BaseChart(Graphic, "Velocity", "F(v)");
 			_chart.AddFunctionSeries(Distribution_1, 0, 10000, 1);
 			_chart.AddFunctionSeries(Distribution_2, 0, 10000, 1);
-			_chart.SetAxisTitle("Velocity", "F(v)");
-			//_chart.SetAxisTitle("Швиткiсть", "Probabity");
 		}
 		void UpdateData()
 		{

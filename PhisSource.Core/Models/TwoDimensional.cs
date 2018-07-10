@@ -1,9 +1,10 @@
-﻿namespace PhisSource.Core
+﻿namespace PhisSource.Core.Models
 {
     public class TwoDimensional
     {
-        public readonly double X;
-        public readonly double Y;
+        //TODO: readonly?
+        public double X;
+        public double Y;
 
         public TwoDimensional(double x, double y)
         {

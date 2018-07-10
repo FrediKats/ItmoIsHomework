@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using OxyPlot.Wpf;
 using PhisSource.Core;
+using PhisSource.Core.Models;
 using PhysProject.Malinin.Models;
 
 namespace PhysProject.Malinin.Views
@@ -30,28 +31,14 @@ namespace PhysProject.Malinin.Views
 		}
 
         private ExecuteField _field;
-        //private Graphic _gr1, _gr2;
+        //TODO: Понять что это такое
         int _objectsCount = 0;
 
 		void UpdateUserInterface()
 		{
             _field = new ExecuteField(30, MainCanvas);
-            SetGraphics();
 		    ButtonStart.Click += (sender, args) => _field.Start();
 
-		}
-
-		void SetGraphics()
-		{
-			//_gr1 = new Graphic(gr1);
-			//_gr2 = new Graphic(gr2);
-			LineSeries series_At = new LineSeries(), series_An = new LineSeries();
-
-			//_gr1.Model.Series.Add(series_At);
-			//_gr1.SetAxisTitle("Время, мс", "At, м/с2");
-
-			//_gr2.Model.Series.Add(series_An);
-			//_gr2.SetAxisTitle("Время, мс", "An, м/с2");
 		}
 
 		public void CreateObjectTrigger(object sender, RoutedEventArgs e)
@@ -63,15 +50,21 @@ namespace PhysProject.Malinin.Views
 			double vy = v * Math.Sin(a);
 
 			BalistModel newBall = new BalistModel(20,
-				new TwoDimensional(100, int.Parse(TextBoxH.Text) + 2.5), new TwoDimensional(vx, vy), a, _objectsCount);
+				new TwoDimensional(100, int.Parse(TextBoxH.Text)), new TwoDimensional(vx, vy), a, _objectsCount);
 
-			//newBall.AddGraphic(_gr1);
-			//newBall.AddGraphic(_gr2);
 			newBall.SetCoord(Coords);
-			newBall.IsWayDraw = true;
+			//newBall.IsWayDraw = true;
 
 			_field.AddObject(newBall);
 			_objectsCount++;
+
+            BaseChart topChart = new BaseChart(gr1, "time, ticks", "y");
+		    SingleAxisSeries topSeries = new SingleAxisSeries(topChart, "Y Position");
+            BaseChart botChart = new BaseChart(gr2, "time, ticks", "v");
+		    SingleAxisSeries velocitySeries = new SingleAxisSeries(botChart, "Velocity");
+
+            newBall.OnPositionChanged += (o, args) => { topSeries.AddPoint(args.CurrentPosition.Y); };
+            newBall.OnSpeedChanged += (o, args) => { velocitySeries.AddPoint(args.CurrentPosition.Y); };
 		}
 	}
 }
