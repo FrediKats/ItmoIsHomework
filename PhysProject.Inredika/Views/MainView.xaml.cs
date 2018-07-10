@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using OxyPlot;
-using PhysProject.Core;
+using PhisSource.Core.Models;
 using PhysProject.Inredika.Models;
 
 namespace PhysProject.Inredika.Views
@@ -22,8 +22,8 @@ namespace PhysProject.Inredika.Views
 	/// </summary>
 	public partial class MainView : Window
 	{
-		public CustomChart ChartTop, ChartBot;
-		private PhysicalField _field;
+		public BaseChart ChartTop, ChartBot;
+		private ExecuteField _field;
 
 		public MainView()
 		{
@@ -32,13 +32,13 @@ namespace PhysProject.Inredika.Views
 
 			ButtonCreateSpring.Click += GetSpringData;
 			ButtonCreateTicker.Click += GetTickerData;
-			ButtonStart.Click += _field.Start;
-			ButtonClean.Click += CleanCanvas;
+		    ButtonStart.Click += (sender, args) => _field.Start();
+            ButtonClean.Click += CleanCanvas;
 		}
 
 		void InitialCanvas()
 		{
-			_field = new PhysicalField(InterfaceCanvas, 20);
+			_field = new ExecuteField(20, InterfaceCanvas);
 			Line border = new Line()
 			{
 				Name = "border",
@@ -69,10 +69,8 @@ namespace PhysProject.Inredika.Views
 			_field.FieldCanvas.Children.Add(lineTrackerSec);
 
 
-			ChartTop = new CustomChart(PlotViewTop);
-			ChartTop.SetAxisTitle("Время, мс", "");
-			ChartBot = new CustomChart(PlotViewBot);
-			ChartBot.SetAxisTitle("Время, мс", "");
+			ChartTop = new BaseChart(PlotViewTop, "Время, мс", "");
+			ChartBot = new BaseChart(PlotViewBot, "Время, мс", "");
 
 			ChartBot.Model.DefaultColors[0] = OxyColors.Magenta;
 			ChartBot.Model.DefaultColors[1] = OxyColors.Navy;
@@ -98,12 +96,12 @@ namespace PhysProject.Inredika.Views
 			{
 				_spring.DeleteSpring();
 			}
-			_spring = new SpringModel(_field, new TwoDimesional(300, 100), mass, coefK, deltaX, coefC);
+			_spring = new SpringModel(_field, new TwoDimensional(300, 100), mass, coefK, deltaX, coefC);
 			_field.AddObject(_spring);
-			_spring.SeriesList.Add(new CustomSeries(ChartTop));
-			_spring.SeriesList.Add(new CustomSeries(ChartBot));
-			_spring.SeriesList[0]._series.Title = "Координата Y";
-			_spring.SeriesList[1]._series.Title = "Скорость по Y";
+			//_spring.SeriesList.Add(new CustomSeries(ChartTop));
+			//_spring.SeriesList.Add(new CustomSeries(ChartBot));
+			//_spring.SeriesList[0]._series.Title = "Координата Y";
+			//_spring.SeriesList[1]._series.Title = "Скорость по Y";
 		}
 
 		private List<TickerModel> _tickerList = new List<TickerModel>();
@@ -117,14 +115,14 @@ namespace PhysProject.Inredika.Views
 
 		void StartTicker(double length, double angle)
 		{
-			TickerModel _ticker = new TickerModel(_field, new TwoDimesional(150, 0), length, angle);
+			TickerModel _ticker = new TickerModel(_field, new TwoDimensional(150, 0), length, angle);
 			_field.AddObject(_ticker);
 			_tickerList.Add(_ticker);
-			_ticker.SeriesList.Add(new CustomSeries(ChartTop));
-			_ticker.SeriesList.Add(new CustomSeries(ChartBot));
+			//_ticker.SeriesList.Add(new CustomSeries(ChartTop));
+			//_ticker.SeriesList.Add(new CustomSeries(ChartBot));
 
-			_ticker.SeriesList[0]._series.Title = "Координата X";
-			_ticker.SeriesList[1]._series.Title = "Скорость по X";
+			//_ticker.SeriesList[0]._series.Title = "Координата X";
+			//_ticker.SeriesList[1]._series.Title = "Скорость по X";
 
 		}
 
@@ -137,7 +135,7 @@ namespace PhysProject.Inredika.Views
 			_tickerList = new List<TickerModel>();
 			_spring?.DeleteSpring();
 			_spring = null;
-			_field.Stop(sender, e);
+			_field.Stop();
 		}
 	}
 }

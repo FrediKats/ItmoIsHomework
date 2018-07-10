@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using PhisSource.Core;
+using PhisSource.Core.Models;
 
 namespace PhysProject.Malinin.Models
 {
