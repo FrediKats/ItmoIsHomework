@@ -1,4 +1,4 @@
-﻿namespace PhisSource.Core.Models
+﻿namespace PhysicsSource.Core.Models
 {
     public class TwoDimensional
     {

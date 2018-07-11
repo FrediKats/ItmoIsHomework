@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace PhisSource.Core.Models
+namespace PhysicsSource.Core.Models
 {
     public class ExecuteField
     {
-        public readonly List<PhysicalBaseObject> PhysicalObjects = new List<PhysicalBaseObject>();
+        private readonly DispatcherTimer _systemTime = new DispatcherTimer();
+        private readonly int _timePerTick;
         public readonly Canvas FieldCanvas;
+        public readonly List<PhysicalBaseObject> PhysicalObjects = new List<PhysicalBaseObject>();
 
         public ExecuteField(int timePerTick, Canvas fieldCanvas)
         {
@@ -43,23 +45,13 @@ namespace PhisSource.Core.Models
         public void ClearCanvas()
         {
             //TODO: OnChildrenRemove
-            foreach (PhysicalBaseObject obj in PhysicalObjects)
-            {
-                FieldCanvas.Children.Remove(obj.MaterialObject);
-            }
+            foreach (var obj in PhysicalObjects) FieldCanvas.Children.Remove(obj.MaterialObject);
             PhysicalObjects.Clear();
         }
 
-        //TODO: use Stopwatch /Или нет?
-        private readonly DispatcherTimer _systemTime = new DispatcherTimer();
-        private readonly int _timePerTick;
-
         private void FieldUpdate(object sender, EventArgs e)
         {
-            foreach (PhysicalBaseObject obj in PhysicalObjects)
-            {
-                obj.UpdateMoveDirection(_timePerTick);
-            }
+            foreach (var obj in PhysicalObjects) obj.UpdateMoveDirection(_timePerTick);
         }
     }
 }

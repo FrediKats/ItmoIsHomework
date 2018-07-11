@@ -1,7 +1,7 @@
 ﻿using System;
-using PhisSource.Core.Models;
+using PhysicsSource.Core.Models;
 
-namespace PhisSource.Core.Tools
+namespace PhysicsSource.Core.Tools
 {
     public static class Extensions
     {
