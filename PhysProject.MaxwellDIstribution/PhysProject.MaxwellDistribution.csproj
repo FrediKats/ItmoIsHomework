@@ -104,9 +104,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PhisSource.Core\PhisSource.Core.csproj">
+    <ProjectReference Include="..\PhisSource.Core\PhysicsSource.Core.csproj">
       <Project>{394d8595-c36c-420e-a212-a6b7663a47fa}</Project>
-      <Name>PhisSource.Core</Name>
+      <Name>PhysicsSource.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

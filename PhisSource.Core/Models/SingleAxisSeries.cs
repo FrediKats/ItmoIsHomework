@@ -1,9 +1,9 @@
-﻿namespace PhisSource.Core.Models
+﻿namespace PhysicsSource.Core.Models
 {
     public class SingleAxisSeries
     {
         private readonly BaseSeries _baseSeries;
-        private int _pointCount = 0;
+        private int _pointCount;
 
         public SingleAxisSeries(BaseChart chart, string title)
         {

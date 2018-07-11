@@ -7,8 +7,8 @@
     <ProjectGuid>{394D8595-C36C-420E-A212-A6B7663A47FA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PhisSource.Core</RootNamespace>
-    <AssemblyName>PhisSource.Core</AssemblyName>
+    <RootNamespace>PhysicsSource.Core</RootNamespace>
+    <AssemblyName>PhysicsSource.Core</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

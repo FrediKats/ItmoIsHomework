@@ -1,26 +1,26 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
-using PhisSource.Core.Models;
+using PhysicsSource.Core.Models;
 
-namespace PhisSource.Core.Tools
+namespace PhysicsSource.Core.Tools
 {
     public static class Generator
     {
         public static Ellipse GenerateEllipse(double size)
         {
-            return new Ellipse()
+            return new Ellipse
             {
                 Height = size,
                 Width = size,
                 StrokeThickness = 1,
-                Stroke = new SolidColorBrush() { Color = Colors.Navy },
-                Fill = new SolidColorBrush() { Color = Colors.Yellow }
+                Stroke = new SolidColorBrush {Color = Colors.Navy},
+                Fill = new SolidColorBrush {Color = Colors.Yellow}
             };
         }
 
         public static Line GenerateLine(double x1, double y1, double x2, double y2)
         {
-            return new Line()
+            return new Line
             {
                 X1 = x1,
                 Y1 = y1,

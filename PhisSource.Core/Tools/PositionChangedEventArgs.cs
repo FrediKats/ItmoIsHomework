@@ -1,8 +1,9 @@
 ﻿using System;
-using PhisSource.Core.Models;
+using PhysicsSource.Core.Models;
 
-namespace PhisSource.Core.Tools
+namespace PhysicsSource.Core.Tools
 {
+    //toDO: rename to ... ParameterChanged?
     public class PositionChangedEventArgs : EventArgs
     {
         public PositionChangedEventArgs(TwoDimensional previousPosition, TwoDimensional currentPosition)
@@ -13,6 +14,5 @@ namespace PhisSource.Core.Tools
 
         public TwoDimensional PreviousPosition { get; }
         public TwoDimensional CurrentPosition { get; }
-
     }
 }

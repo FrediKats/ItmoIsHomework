@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Shapes;
-using PhisSource.Core.Tools;
+using PhysicsSource.Core.Tools;
 
-namespace PhisSource.Core.Models
+namespace PhysicsSource.Core.Models
 {
     public abstract class PhysicalBaseObject
     {
@@ -13,14 +13,12 @@ namespace PhisSource.Core.Models
         public event EventHandler<PositionChangedEventArgs> OnSpeedChanged; 
         public event EventHandler<PositionChangedEventArgs> OnAccelerationChanged;
 
-        public List<TwoDimensional> PositionList { get; } = new List<TwoDimensional>();
-
         public TwoDimensional CurrentPosition
         {
             get => _position;
             set
             {
-                var last = PositionList.LastOrDefault();
+                var last = _position;
                 _position = value;
                 OnPositionChanged?.Invoke(this, new PositionChangedEventArgs(last, value));
             }
@@ -67,11 +65,11 @@ namespace PhisSource.Core.Models
         protected PhysicalBaseObject(TwoDimensional position, TwoDimensional speedVector, double size)
         {
             ObjectSize = size;
-            MaterialObject = Tools.Generator.GenerateEllipse(ObjectSize);
+            MaterialObject = Generator.GenerateEllipse(ObjectSize);
             SpeedVector = speedVector;
 
-            CurrentPosition = position;
-            OnPositionChanged?.Invoke(this, new PositionChangedEventArgs(null, PositionList.Last()));
+            //TODO: нужно ли тут тригерить событие?
+            _position = position;
         }
 
         public void UpdateMoveDirection(int timePassed)

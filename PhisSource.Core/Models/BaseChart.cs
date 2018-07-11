@@ -1,9 +1,12 @@
 ﻿using System;
 using OxyPlot;
+using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.Wpf;
+using LinearAxis = OxyPlot.Axes.LinearAxis;
+using LineSeries = OxyPlot.Series.LineSeries;
 
-namespace PhisSource.Core.Models
+namespace PhysicsSource.Core.Models
 {
     public class BaseChart
     {
@@ -17,21 +20,22 @@ namespace PhisSource.Core.Models
             Model.Axes.Clear();
             CleanChart();
 
-            var axisX = new OxyPlot.Axes.LinearAxis()
+            var axisX = new LinearAxis
             {
-                Position = OxyPlot.Axes.AxisPosition.Bottom,
+                Position = AxisPosition.Bottom,
                 Title = xAxesName
             };
             Model.Axes.Add(axisX);
 
-            var axisY = new OxyPlot.Axes.LinearAxis()
+            var axisY = new LinearAxis
             {
-                Position = OxyPlot.Axes.AxisPosition.Left,
+                Position = AxisPosition.Left,
                 Title = yAxesName
             };
             Model.Axes.Add(axisY);
         }
-        public void AddChart(OxyPlot.Series.LineSeries series)
+
+        public void AddChart(LineSeries series)
         {
             Model.Series.Add(series);
         }
@@ -42,7 +46,7 @@ namespace PhisSource.Core.Models
             UpdateModel();
         }
 
-        public void AddPoint(OxyPlot.Series.LineSeries series, double x, double y)
+        public void AddPoint(LineSeries series, double x, double y)
         {
             series.Points.Add(new DataPoint(x, y));
             UpdateModel();
@@ -58,6 +62,5 @@ namespace PhisSource.Core.Models
         {
             Model.InvalidatePlot(true);
         }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using OxyPlot.Series;
 
-namespace PhisSource.Core.Models
+namespace PhysicsSource.Core.Models
 {
     public class BaseSeries
     {
@@ -21,7 +21,7 @@ namespace PhisSource.Core.Models
 
         public void AddPoint(double x, double y)
         {
-            _chart.AddPoint(_series, x, y); 
+            _chart.AddPoint(_series, x, y);
         }
     }
 }
