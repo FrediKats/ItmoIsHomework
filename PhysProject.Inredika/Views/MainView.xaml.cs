@@ -105,7 +105,7 @@ namespace PhysProject.Inredika.Views
         private void StartSpring(double mass, double coefK, double deltaX, double coefC)
         {
             if (_spring != null) _spring.DeleteSpring();
-            _spring = new SpringModel(_field, new TwoDimensional(300, 100), mass, coefK, deltaX, coefC);
+            _spring = new SpringModel(_field, new TwoDimensional(300, Height - 100), mass, coefK, deltaX, coefC);
             _field.AddObject(_spring);
             //_spring.SeriesList.Add(new CustomSeries(ChartTop));
             //_spring.SeriesList.Add(new CustomSeries(ChartBot));
@@ -115,7 +115,7 @@ namespace PhysProject.Inredika.Views
 
         private void StartTicker(double length, double angle)
         {
-            var _ticker = new TickerModel(_field, new TwoDimensional(150, 0), length, angle);
+            var _ticker = new TickerModel(_field, new TwoDimensional(150, Height), length, angle);
             _field.AddObject(_ticker);
             _tickerList.Add(_ticker);
             //_ticker.SeriesList.Add(new CustomSeries(ChartTop));

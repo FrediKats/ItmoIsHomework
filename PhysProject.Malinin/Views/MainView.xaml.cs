@@ -12,36 +12,31 @@ namespace PhysProject.Malinin.Views
     {
         private ExecuteField _field;
 
-        //TODO: Понять что это такое
-        private int _objectsCount;
-
         public MainView()
         {
             InitializeComponent();
-            //Config.WindowHeight = (int)Height;
             UpdateUserInterface();
         }
 
         public void CreateObjectTrigger(object sender, RoutedEventArgs e)
         {
             var v = double.Parse(TextBoxV.Text);
-            var a = double.Parse(TextBoxA.Text) / 180 * Math.PI;
+            var angelDirection = double.Parse(TextBoxA.Text) / 180 * Math.PI;
 
-            var vx = v * Math.Cos(a);
-            var vy = v * Math.Sin(a);
+            var vx = v * Math.Cos(angelDirection);
+            var vy = v * Math.Sin(angelDirection);
 
             var newBall = new BalistModel(20,
-                new TwoDimensional(100, int.Parse(TextBoxH.Text)), new TwoDimensional(vx, vy), a, _objectsCount);
+                new TwoDimensional(100, int.Parse(TextBoxH.Text)),
+                new TwoDimensional(vx, vy),
+                angelDirection);
 
-            newBall.SetCoord(Coords);
-            //newBall.IsWayDraw = true;
-
+            newBall.AssignOutputBox(CoordsTextBlock);
             _field.AddObject(newBall);
-            _objectsCount++;
 
-            var topChart = new BaseChart(gr1, "time, ticks", "y");
+            var topChart = new BaseChart(this.TopChart, "time, ticks", "y");
             var topSeries = new SingleAxisSeries(topChart, "Y Position");
-            var botChart = new BaseChart(gr2, "time, ticks", "v");
+            var botChart = new BaseChart(BottomChart, "time, ticks", "v");
             var velocitySeries = new SingleAxisSeries(botChart, "Velocity");
 
             newBall.OnPositionChanged += (o, args) => { topSeries.AddPoint(args.CurrentPosition.Y); };

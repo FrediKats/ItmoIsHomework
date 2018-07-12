@@ -1,73 +1,61 @@
 ﻿using System;
 using System.Windows.Controls;
 using PhysicsSource.Core.Models;
+using PhysicsSource.Core.Tools;
 
 namespace PhysProject.Malinin.Models
 {
     public class BalistModel : PhysicalBaseObject
     {
-        //TODO: refactoring
-        private readonly double a1;
-        private TwoDimensional _stPos;
-        private TextBlock _view;
-        private double _Vprev, _At, _An;
-        private bool flag = true;
-        private int i;
+        private readonly double _angelDirection;
+        private bool _isActive = true;
+        private bool _isFirst = true;
+        private TextBlock _textBlock;
 
         public BalistModel(double size, TwoDimensional position, TwoDimensional speedVector,
-            double a, int i1) : base(position, speedVector, size)
+            double angelDirection) : base(position, speedVector, size)
         {
-            _stPos = position;
-            a1 = a;
-            i = i1;
+            _angelDirection = angelDirection;
         }
 
-        public void SetCoord(TextBlock Coord)
+        public void AssignOutputBox(TextBlock outputTextBlock)
         {
-            _view = Coord;
+            _textBlock = outputTextBlock;
         }
 
         protected override void CustomConduct()
         {
-            var sv = SpeedVector;
-            var position = CurrentPosition;
-
-            if (_view != null)
+            if (_isActive == false) return;
+            if (CurrentPosition.Y < ObjectSize / 2)
             {
-                double _V, _X1, _Y1;
-                _X1 = SpeedVector.X;
-                _Y1 = SpeedVector.Y;
-
-                if (_Vprev == 0)
-                {
-                    _Vprev = Math.Sqrt(SpeedVector.X * SpeedVector.X + SpeedVector.Y * SpeedVector.Y);
-                    _At = 9.81 * Math.Sin(a1);
-                    _An = Math.Sqrt(9.81 * 9.81 - _At * _At);
-                    if (_An < 0.000000000001) _An = 0;
-                    _V = _Vprev;
-                }
-                else
-                {
-                    // _Vprev = _V;
-                    _V = Math.Sqrt(_X1 * _X1 + _Y1 * _Y1);
-                    _An = _X1 / _V * 9.81;
-                    if (_An < 0.000000000001) _An = 0;
-                    _At = Math.Sqrt(9.81 * 9.81 - _An * _An);
-                }
-
-                if (flag)
-                    _view.Text = $"X:{Math.Round(position.X - 100, 2)} м\nY:{Math.Round(position.Y, 2)} м\n" +
-                                 $"A(tan):{Math.Round(_At, 2)} м/с2\n" +
-                                 $"A(norm):{Math.Round(_An, 2)} м/с2\n" +
-                                 $"V:{Math.Round(_V, 2)} м/с\n";
+                _isActive = false;
+                StopMoving();
             }
 
             AccelerationDirection = new TwoDimensional(0, -9.81);
 
-            if (position.Y < ObjectSize / 2)
+            if (_textBlock != null)
             {
-                flag = false;
-                StopMoving();
+                double accelerationX;
+                double accelerationY;
+                if (_isFirst)
+                {
+                    _isFirst = false;
+                    accelerationY = 9.81 * Math.Sin(_angelDirection);
+                    accelerationX = Math.Sqrt(9.81 * 9.81 - accelerationY * accelerationY);
+                }
+                else
+                {
+                    accelerationX = SpeedVector.X / SpeedVector.VectorLength() * 9.81;
+                    accelerationY = Math.Sqrt(9.81 * 9.81 - accelerationX * accelerationX);
+                }
+                
+
+                _textBlock.Text = $"X:{Math.Round(CurrentPosition.X - 100, 2)} м\n"
+                                  + $"Y:{Math.Round(CurrentPosition.Y, 2)} м\n"
+                                  + $"A(tan):{Math.Round(accelerationY, 2)} м/с2\n"
+                                  + $"A(norm):{Math.Round(accelerationX, 2)} м/с2\n"
+                                  + $"V:{Math.Round(SpeedVector.VectorLength(), 2)} м/с\n";
             }
         }
     }
