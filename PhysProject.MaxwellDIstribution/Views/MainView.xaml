@@ -183,7 +183,6 @@
             Text="Null"
             TextWrapping="Wrap" />
         <TextBlock
-            x:Name="GraphName1"
             Canvas.Left="71"
             Canvas.Top="478"
             Width="153"
@@ -191,7 +190,6 @@
             Text="Graph 1"
             TextWrapping="Wrap" />
         <TextBlock
-            x:Name="GraphName2"
             Canvas.Left="356"
             Canvas.Top="478"
             Width="153"
@@ -199,14 +197,12 @@
             Text="Graph 2"
             TextWrapping="Wrap" />
         <TextBlock
-            x:Name="GraphPointer1"
             Canvas.Left="71"
             Canvas.Top="62"
             Height="39"
             Text="Graph 1"
             TextWrapping="Wrap" />
         <TextBlock
-            x:Name="GraphPointer2"
             Canvas.Left="71"
             Canvas.Top="249"
             Height="39"
