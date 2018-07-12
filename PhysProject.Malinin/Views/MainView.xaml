@@ -16,11 +16,11 @@
     <Canvas x:Name="MainCanvas" Margin="0,0,0,0">
 
         <TextBlock
-            x:Name="EllipseData"
             Canvas.Left="622"
             Canvas.Top="20"
             Width="92"
-            TextWrapping="Wrap"><Run Text="Введите" /><Run Text=" " /><Run Text="данные" /></TextBlock>
+            Text="Введите данные"
+            TextWrapping="Wrap" />
         <TextBox
             x:Name="TextBoxV"
             Canvas.Top="56"
@@ -61,36 +61,36 @@
             Canvas.Right="600"
             Width="96"
             Height="24"
-            TextWrapping="Wrap"><Run Text="Скорость" /><Run Text=", м/с" /></TextBlock>
+            Text="Скорость, м/с"
+            TextWrapping="Wrap" />
         <TextBlock
             Canvas.Top="83"
             Canvas.Right="600"
             Width="96"
             Height="24"
-            TextWrapping="Wrap"><Run Text="Угол" /><Run Text=", град" /></TextBlock>
+            Text="Угол, град"
+            TextWrapping="Wrap" />
         <TextBlock
             Canvas.Top="112"
             Canvas.Right="600"
             Width="96"
             Height="24"
-            TextWrapping="Wrap"><Run Text="Высота" /><Run Text=", м" /></TextBlock>
-        <Line
-            x:Name="dnishe"
-            Stroke="Black"
-            StrokeThickness="2" />
+            Text="Высота, м"
+            TextWrapping="Wrap" />
+        <Line Stroke="Black" StrokeThickness="2" />
         <TextBlock
-            x:Name="Coords"
+            x:Name="CoordsTextBlock"
             Canvas.Top="222"
             Canvas.Right="500"
             TextWrapping="Wrap" />
         <oxy:PlotView
-            x:Name="gr2"
+            x:Name="BottomChart"
             Canvas.Top="350"
             Canvas.Right="10"
             Width="400"
             Height="300" />
         <oxy:PlotView
-            x:Name="gr1"
+            x:Name="TopChart"
             Canvas.Top="20"
             Canvas.Right="10"
             Width="400"

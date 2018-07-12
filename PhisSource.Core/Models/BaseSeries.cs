@@ -1,16 +1,16 @@
 ﻿using OxyPlot.Series;
 
-namespace PhysProject.Core
+namespace PhysicsSource.Core.Models
 {
-    public class CustomSeries
+    public class BaseSeries
     {
-        private CustomChart _chart;
-        public LineSeries _series;
+        private readonly BaseChart _chart;
+        private readonly LineSeries _series;
 
-        public CustomSeries(CustomChart chart)
+        public BaseSeries(BaseChart chart, string title)
         {
             _chart = chart;
-            _series = new LineSeries();
+            _series = new LineSeries {Title = title};
             _chart.Model.Series.Add(_series);
         }
 

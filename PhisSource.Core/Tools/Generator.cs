@@ -1,31 +1,26 @@
-﻿using System;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Shapes;
+using PhysicsSource.Core.Models;
 
-namespace PhysProject.Core
+namespace PhysicsSource.Core.Tools
 {
-    public static class Tool
+    public static class Generator
     {
-        public static double Distance(TwoDimesional f, TwoDimesional s)
-        {
-            return  Math.Sqrt(Math.Pow(f.X - s.X, 2) + Math.Pow(f.Y - s.Y, 2));
-        }
-
         public static Ellipse GenerateEllipse(double size)
         {
-            return new Ellipse()
+            return new Ellipse
             {
                 Height = size,
                 Width = size,
                 StrokeThickness = 1,
-                Stroke = new SolidColorBrush() { Color = Colors.Navy },
-                Fill = new SolidColorBrush() { Color = Colors.Yellow }
+                Stroke = new SolidColorBrush {Color = Colors.Navy},
+                Fill = new SolidColorBrush {Color = Colors.Yellow}
             };
         }
 
         public static Line GenerateLine(double x1, double y1, double x2, double y2)
         {
-            return new Line()
+            return new Line
             {
                 X1 = x1,
                 Y1 = y1,
@@ -36,7 +31,7 @@ namespace PhysProject.Core
             };
         }
 
-        public static Line GenerateLine(TwoDimesional f, TwoDimesional s)
+        public static Line GenerateLine(TwoDimensional f, TwoDimensional s)
         {
             return GenerateLine(f.X, f.Y, s.X, s.Y);
         }

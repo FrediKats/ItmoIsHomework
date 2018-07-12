@@ -1,76 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using OxyPlot.Wpf;
-using PhysProject.Core;
+using PhysicsSource.Core.Models;
 using PhysProject.Malinin.Models;
 
 namespace PhysProject.Malinin.Views
 {
-	/// <summary>
-	/// Логика взаимодействия для MainView.xaml
-	/// </summary>
-	public partial class MainView : Window
-	{
-		public MainView()
-		{
-			InitializeComponent();
-			//Config.WindowHeight = (int)Height;
-			UpdateUserInterface();
-		}
+    /// <summary>
+    ///     Логика взаимодействия для MainView.xaml
+    /// </summary>
+    public partial class MainView : Window
+    {
+        private ExecuteField _field;
 
-		private PhysicalField _field;
-		//private Graphic _gr1, _gr2;
-		int _objectsCount = 0;
+        public MainView()
+        {
+            InitializeComponent();
+            UpdateUserInterface();
+        }
 
-		void UpdateUserInterface()
-		{
-			_field = new PhysicalField(MainCanvas, 20);
-			SetGraphics();
-			ButtonStart.Click += _field.Start;
-		}
+        public void CreateObjectTrigger(object sender, RoutedEventArgs e)
+        {
+            var v = double.Parse(TextBoxV.Text);
+            var angelDirection = double.Parse(TextBoxA.Text) / 180 * Math.PI;
 
-		void SetGraphics()
-		{
-			//_gr1 = new Graphic(gr1);
-			//_gr2 = new Graphic(gr2);
-			LineSeries series_At = new LineSeries(), series_An = new LineSeries();
+            var vx = v * Math.Cos(angelDirection);
+            var vy = v * Math.Sin(angelDirection);
 
-			//_gr1.Model.Series.Add(series_At);
-			//_gr1.SetAxisTitle("Время, мс", "At, м/с2");
+            var newBall = new BalistModel(20,
+                new TwoDimensional(100, int.Parse(TextBoxH.Text)),
+                new TwoDimensional(vx, vy),
+                angelDirection);
 
-			//_gr2.Model.Series.Add(series_An);
-			//_gr2.SetAxisTitle("Время, мс", "An, м/с2");
-		}
+            newBall.AssignOutputBox(CoordsTextBlock);
+            _field.AddObject(newBall);
 
-		public void CreateObjectTrigger(object sender, RoutedEventArgs e)
-		{
-			double v = double.Parse(TextBoxV.Text);
-			double a = double.Parse(TextBoxA.Text) / 180 * Math.PI;
+            var topChart = new BaseChart(this.TopChart, "time, ticks", "y");
+            var topSeries = new SingleAxisSeries(topChart, "Y Position");
+            var botChart = new BaseChart(BottomChart, "time, ticks", "v");
+            var velocitySeries = new SingleAxisSeries(botChart, "Velocity");
 
-			double vx = v * Math.Cos(a);
-			double vy = v * Math.Sin(a);
+            newBall.OnPositionChanged += (o, args) => { topSeries.AddPoint(args.CurrentPosition.Y); };
+            newBall.OnSpeedChanged += (o, args) => { velocitySeries.AddPoint(args.CurrentPosition.Y); };
+        }
 
-			BalistModel newBall = new BalistModel(_field, 5,
-				new TwoDimesional(100, int.Parse(TextBoxH.Text) + 2.5), new TwoDimesional(vx, vy), a, _objectsCount);
-
-			//newBall.AddGraphic(_gr1);
-			//newBall.AddGraphic(_gr2);
-			newBall.SetCoord(Coords);
-			newBall.IsWayDraw = true;
-
-			_field.AddObject(newBall);
-			_objectsCount++;
-		}
-	}
+        private void UpdateUserInterface()
+        {
+            _field = new ExecuteField(30, MainCanvas);
+            ButtonStart.Click += (sender, args) => _field.Start();
+        }
+    }
 }
