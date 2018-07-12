@@ -52,7 +52,6 @@ namespace PhysicsSource.Core.Models
         public int TotalExecutingTime { get; private set; }
         public bool IsStopped = false;
 
-        private TwoDimensional _newSpeedVector;
         private TwoDimensional _speedVector;
         private TwoDimensional _accelerationDirection;
         private TwoDimensional _position;
@@ -80,18 +79,12 @@ namespace PhysicsSource.Core.Models
             }
 
             TotalExecutingTime += timePassed;
-            _newSpeedVector = null;
             CustomConduct();
 
-            if (_newSpeedVector != null)
-            {
-                SpeedVector = _newSpeedVector;
-            }
             if (AccelerationDirection != null)
             {
                 SpeedVector += (AccelerationDirection * timePassed / 1000);
             }
-
 
             //TODO: /1000 ??
             CurrentPosition = CurrentPosition + (SpeedVector * timePassed / 1000);

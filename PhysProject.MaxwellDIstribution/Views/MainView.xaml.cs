@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using PhysicsSource.Core.Models;
 
 namespace PhysProject.MaxwellDIstribution.Views
@@ -9,15 +11,21 @@ namespace PhysProject.MaxwellDIstribution.Views
     /// </summary>
     public partial class MainView : Window
     {
-        private const double k = 1.38, R = 8.31;
         private BaseChart _chart;
-        private Func<double, double> Distribution_1, Distribution_2;
-        private double temperature_1 = 100, mass_1 = 16, temperature_2 = 200, mass_2 = 12;
+        private const double R = 8.31;
+        private Func<double, double> _firstDistributionFunction, _secondDistributionFunction;
+        private double TemperatureFirst { get; set; } = 100;
+        private double MassFirst { get; set; } = 16;
+        private double TemperatureSecond { get; set; } = 200;
+        private double MassSecond { get; set; } = 12;
 
         public MainView()
         {
             InitializeComponent();
-            UpdateData();
+            _chart = new BaseChart(Graphic, "", "");
+
+            InitializeFirstValue();
+            InitializeSecondValue();
             GraphDraw();
             Draw();
         }
@@ -25,95 +33,97 @@ namespace PhysProject.MaxwellDIstribution.Views
         private void Draw()
         {
             _chart = new BaseChart(Graphic, "Velocity", "F(v)");
-            _chart.AddFunctionSeries(Distribution_1, 0, 10000, 1);
-            _chart.AddFunctionSeries(Distribution_2, 0, 10000, 1);
+            _chart.CleanChart();
+
+            GenerateDistributionFunction(MassFirst, TemperatureFirst);
+            GenerateDistributionFunction(MassSecond, TemperatureSecond);
+            _chart.AddFunctionSeries(_firstDistributionFunction, 0, 10000, 1);
+            _chart.AddFunctionSeries(_secondDistributionFunction, 0, 10000, 1);
+            _chart.UpdateModel();
         }
 
-        private void UpdateData()
+        private void InitializeValue(Slider temperatureSlider, Slider massSlider)
         {
-            SliderTemperature1.Minimum = 0;
-            SliderTemperature1.Maximum = 1000;
-            SliderTemperature1.TickFrequency = 10;
-            SliderTemperature1.IsSnapToTickEnabled = true;
+            temperatureSlider.Minimum = 0;
+            temperatureSlider.Maximum = 1000;
+            temperatureSlider.TickFrequency = 10;
+            temperatureSlider.IsSnapToTickEnabled = true;
+
+            massSlider.Minimum = 1;
+            massSlider.Maximum = 400;
+            massSlider.TickFrequency = 1;
+            massSlider.IsSnapToTickEnabled = true;
+        }
+
+        private void UpdateUi(Slider temperatureSlider, Slider massSlider, TextBlock firstBlock, TextBlock secondBlock, TextBlock thirdBlock)
+        {
+            firstBlock.Text = $"{Math.Sqrt(2 * temperatureSlider.Value * R * 1000 / massSlider.Value):F}";
+            secondBlock.Text =
+                $"{2 * Math.Sqrt(2 * temperatureSlider.Value * R * 1000 / (Math.PI * massSlider.Value)):F}";
+            thirdBlock.Text =
+                $"{Math.Sqrt(3 * temperatureSlider.Value * R * 1000 / massSlider.Value):F}";
+        }
+
+        private void InitializeFirstValue()
+        {
+            InitializeValue(SliderTemperature1, SliderMass1);
             SliderTemperature1.ValueChanged += delegate
             {
-                ValueTemperature1.Text = SliderTemperature1.Value.ToString();
-                temperature_1 = SliderTemperature1.Value;
-                Stat1Value1.Text = $"{Math.Sqrt(2 * SliderTemperature1.Value * R * 1000 / SliderMass1.Value):F}";
-                Stat1Value2.Text =
-                    $"{2 * Math.Sqrt(2 * SliderTemperature1.Value * R * 1000 / (Math.PI * SliderMass1.Value)):F}";
-                Stat1Value3.Text =
-                    $"{Math.Sqrt(3 * SliderTemperature1.Value * R * 1000 / SliderMass1.Value):F}";
+                ValueTemperature1.Text = SliderTemperature1.Value.ToString(CultureInfo.InvariantCulture);
+                TemperatureFirst = SliderTemperature1.Value;
+
+                _firstDistributionFunction = GenerateDistributionFunction(MassFirst, TemperatureFirst);
+                UpdateUi(SliderTemperature1, SliderMass1, Stat1Value1, Stat1Value2, Stat1Value3);
                 Draw();
             };
-            SliderTemperature2.Minimum = 0;
-            SliderTemperature2.Maximum = 1000;
-            SliderTemperature2.TickFrequency = 10;
-            SliderTemperature2.IsSnapToTickEnabled = true;
-            SliderTemperature2.ValueChanged += delegate
-            {
-                ValueTemperature2.Text = SliderTemperature2.Value.ToString();
-                temperature_2 = SliderTemperature2.Value;
-                Stat2Value1.Text = $"{Math.Sqrt(2 * SliderTemperature2.Value * R * 1000 / SliderMass2.Value):F}";
-                Stat2Value2.Text =
-                    $"{2 * Math.Sqrt(2 * SliderTemperature2.Value * R * 1000 / (Math.PI * SliderMass2.Value)):F}";
-                Stat2Value3.Text =
-                    $"{Math.Sqrt(3 * SliderTemperature2.Value * R * 1000 / SliderMass2.Value):F}";
-                Draw();
-            };
-            SliderMass1.Maximum = 400;
-            SliderMass1.Minimum = 1;
-            SliderMass1.TickFrequency = 1;
-            SliderMass1.IsSnapToTickEnabled = true;
             SliderMass1.ValueChanged += delegate
             {
-                ValueMass1.Text = SliderMass1.Value.ToString();
-                mass_1 = SliderMass1.Value;
-                Stat1Value1.Text = $"{Math.Sqrt(2 * SliderTemperature1.Value * R * 1000 / SliderMass1.Value):F}";
-                Stat1Value2.Text =
-                    $"{2 * Math.Sqrt(2 * SliderTemperature1.Value * R * 1000 / (Math.PI * SliderMass1.Value)):F}";
-                Stat1Value3.Text =
-                    $"{Math.Sqrt(3 * SliderTemperature1.Value * R * 1000 / SliderMass1.Value):F}";
+                ValueMass1.Text = SliderMass1.Value.ToString(CultureInfo.InvariantCulture);
+                MassFirst = SliderMass1.Value;
+
+                _firstDistributionFunction = GenerateDistributionFunction(MassFirst, TemperatureFirst);
+                UpdateUi(SliderTemperature1, SliderMass1, Stat1Value1, Stat1Value2, Stat1Value3);
                 Draw();
             };
-            SliderMass2.Maximum = 400;
-            SliderMass2.Minimum = 1;
-            SliderMass2.TickFrequency = 1;
-            SliderMass2.IsSnapToTickEnabled = true;
+        }
+
+        private void InitializeSecondValue()
+        {
+            InitializeValue(SliderTemperature2, SliderMass2);
+            SliderTemperature2.ValueChanged += delegate
+            {
+                ValueTemperature2.Text = SliderTemperature2.Value.ToString(CultureInfo.InvariantCulture);
+                TemperatureSecond = SliderTemperature2.Value;
+
+                _secondDistributionFunction = GenerateDistributionFunction(MassSecond, TemperatureSecond);
+                UpdateUi(SliderTemperature2, SliderMass2, Stat2Value1, Stat2Value2, Stat2Value3);
+                Draw();
+            };
             SliderMass2.ValueChanged += delegate
             {
-                ValueMass2.Text = SliderMass2.Value.ToString();
-                mass_2 = SliderMass2.Value;
-                Stat2Value1.Text = $"{Math.Sqrt(2 * SliderTemperature2.Value * R * 1000 / SliderMass2.Value):F}";
-                Stat2Value2.Text =
-                    $"{2 * Math.Sqrt(2 * SliderTemperature2.Value * R * 1000 / (Math.PI * SliderMass2.Value)):F}";
-                Stat2Value3.Text =
-                    $"{Math.Sqrt(3 * SliderTemperature2.Value * R * 1000 / SliderMass2.Value):F}";
-                ;
+                ValueMass2.Text = SliderMass2.Value.ToString(CultureInfo.InvariantCulture);
+                MassSecond = SliderMass2.Value;
+
+                _secondDistributionFunction = GenerateDistributionFunction(MassSecond, TemperatureSecond);
+                UpdateUi(SliderTemperature2, SliderMass2, Stat2Value1, Stat2Value2, Stat2Value3);
                 Draw();
             };
         }
 
         private void GraphDraw()
         {
-            Distribution_1 = delegate(double velocity)
+            _firstDistributionFunction = GenerateDistributionFunction(MassFirst, TemperatureFirst);
+            _secondDistributionFunction = GenerateDistributionFunction(MassSecond, TemperatureSecond);
+        }
+
+        private Func<double, double> GenerateDistributionFunction(double mass, double temperature)
+        {
+            return (velocity) =>
             {
-                /*return 4 * Math.PI * Math.Pow(mass_1 / (2 * Math.PI * k * temperature_1 * 1.66 * Math.Pow(10, 4)), 1.5) * velocity *
-                       velocity *
-                       Math.Pow(Math.E, -1 * mass_1 * velocity * velocity / (2 * k * Math.Pow(10, 4) * 1.66 * temperature_1));*/
-                return 4 * Math.PI * Math.Pow(mass_1 * 1.2 * 0.0001 / (2 * Math.PI * temperature_1), 1.5) *
+                return 4 * Math.PI * Math.Pow(mass * 1.2 * 0.0001 / (2 * Math.PI * temperature), 1.5) *
                        velocity * velocity *
                        Math.Pow(Math.E,
-                           -1 * mass_1 * velocity * velocity * 1.2 * 0.0001 / (2 * temperature_1));
-                //return 4 * Math.PI * Math.Pow(mass / (2 * Math.PI * k * 1.66 * Math.Pow(10, 4)), 1.5) * velocity * velocity *
-                //       Math.Pow(Math.E, -mass * velocity * velocity / (2 * k * Math.Pow(10, 4)* 1.66 * temperature));
-            };
-            Distribution_2 = delegate(double velocity)
-            {
-                return 4 * Math.PI * Math.Pow(mass_2 * 1.2 * 0.0001 / (2 * Math.PI * temperature_2), 1.5) *
-                       velocity * velocity *
-                       Math.Pow(Math.E,
-                           -1 * mass_2 * velocity * velocity * 1.2 * 0.0001 / (2 * temperature_2));
+                           -1 * mass * velocity * velocity * 1.2 * 0.0001 / (2 * temperature));
             };
         }
     }
