@@ -8,7 +8,7 @@ CREATE TABLE ResourceUser
     UserPassword    NVARCHAR(64)        NOT NULL,
     FirstName       NVARCHAR(32)        NOT NULL,
     LastName        NVARCHAR(32)        NOT NULL,
-    Bio             NVARCHAR(512)       NULL,   --or TEXT
+    Bio             NVARCHAR(512)       NULL,
 
     CONSTRAINT PK_RESOURCE_USER                 PRIMARY KEY (UserID),
     CONSTRAINT UN_RESOURCE_USER_USER_LOGIN      UNIQUE (UserLogin),

@@ -4,7 +4,7 @@ CREATE TABLE Course
 (
     CourseID            UNIQUEIDENTIFIER    NOT NULL,
     Title               NVARCHAR(64)        NOT NULL,
-    CourseDescription   NVARCHAR(512)       NULL,   --or text
+    CourseDescription   NVARCHAR(512)       NULL,
     MentorID            UNIQUEIDENTIFIER    NOT NULL,
 
     CONSTRAINT PK_COURSE                        PRIMARY KEY (CourseID),

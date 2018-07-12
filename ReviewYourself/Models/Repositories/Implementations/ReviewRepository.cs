@@ -168,7 +168,20 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void Delete(Guid reviewId)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                SQL.DELETE_FROM("ReviewCriteria")
+                    .WHERE("ReviewID = {0}", reviewId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+
+                SQL.DELETE_FROM("Review")
+                    .WHERE("ReviewID = {0}", reviewId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+            }
         }
 
         public bool CanPostReview(Guid solutionId, Guid userId)

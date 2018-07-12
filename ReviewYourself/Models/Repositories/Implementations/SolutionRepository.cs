@@ -151,7 +151,25 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void Delete(Guid solutionId)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                SQL.DELETE_FROM("Attachment")
+                    .WHERE("SolutionID = {0}", solutionId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+
+                SQL.DELETE_FROM("Review")
+                    .WHERE("SolutionID = {0}", solutionId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+
+                SQL.DELETE_FROM("Solution")
+                    .WHERE("SolutionID = {0}", solutionId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+            }
         }
 
         public void ResolveSolution(Guid solutionId)

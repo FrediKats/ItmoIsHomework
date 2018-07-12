@@ -251,7 +251,6 @@
     <Compile Include="Models\Solution.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\Tools\AuthorizeData.cs" />
-    <Compile Include="Models\Tools\ReaderConvertor.cs" />
     <Compile Include="Models\Tools\DataReccordExtensions\DataRecordExtensions.cs" />
     <Compile Include="Models\Tools\RegistrationData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
