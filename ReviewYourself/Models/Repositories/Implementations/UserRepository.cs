@@ -2,11 +2,10 @@
 using System.Configuration;
 using System.Data.SqlClient;
 using DbExtensions;
-using ReviewYourself.Models.Tools;
+using ReviewYourself.Models.Tools.DataRecordExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
-    //TODO: don't use resharper here
     public class UserRepository : IUserRepository
     {
         private string _connectionString;
@@ -22,8 +21,10 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
+                user.Id = Guid.NewGuid();
+
                 SQL.INSERT_INTO("ResourceUser (UserID, UserLogin, Email, UserPassword, FirstName, LastName, Bio)")
-                    .VALUES(Guid.NewGuid(), user.Login, user.Email, user.Password, user.FirstName, user.LastName, user.Biography)
+                    .VALUES(user.Id, user.Login, user.Email, user.Password, user.FirstName, user.LastName, user.Biography)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
             }
@@ -44,12 +45,12 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    return ReaderConvertor.ToUser(reader);
+                    return reader.GetResourceUser();
                 }
             }
         }
 
-        public ResourceUser ReadByUserName(string username)
+        public ResourceUser ReadByUsername(string username)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -64,7 +65,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    return ReaderConvertor.ToUser(reader);
+                    return reader.GetResourceUser();
                 }
             }
         }
@@ -87,16 +88,16 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void Delete(ResourceUser user)
         {
-            //problems with foreign keys
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
+            throw new NotImplementedException();
+            //using (var connection = new SqlConnection(_connectionString))
+            //{
+            //    connection.Open();
 
-                SQL.DELETE_FROM("ResourceUser")
-                    .WHERE("UserID = {0}", user.Id)
-                    .ToCommand(connection)
-                    .ExecuteNonQuery();
-            }
+            //    SQL.DELETE_FROM("ResourceUser")
+            //        .WHERE("UserID = {0}", user.Id)
+            //        .ToCommand(connection)
+            //        .ExecuteNonQuery();
+            //}
         }
 
         public static UserRepository Create(string connectionString)

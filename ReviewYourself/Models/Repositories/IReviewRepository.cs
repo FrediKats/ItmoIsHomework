@@ -9,6 +9,7 @@ namespace ReviewYourself.Models.Repositories
         Review Read(Guid reviewId);
         ICollection<Review> ReadBySolution(Guid solutionId);
         Review ReadReviewBySolutionAndUser(Guid solutionId, Guid userId);
+        bool CanPostReview(Guid solutionId, Guid userId);
         void Update(Review review);
         void Delete(Guid reviewId);
     }

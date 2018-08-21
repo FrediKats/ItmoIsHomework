@@ -4,14 +4,13 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using DbExtensions;
-using ReviewYourself.Models.Tools;
+using ReviewYourself.Models.Tools.DataRecordExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
     public class SolutionRepository : ISolutionRepository
     {
         private string _connectionString;
-
 
         public static SolutionRepository Create(string connectionString)
         {
@@ -31,21 +30,26 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var insertSolution = SQL
-                    .INSERT_INTO("Solution (SolutionID, AuthorID, TaskID, TextData, Posted, Resolved)")
-                    .VALUES(Guid.NewGuid(), solution.AuthorId, solution.TaskId, solution.TextData, DateTime.UtcNow, 0)
+                solution.Id = Guid.NewGuid();
+                solution.PostTime = DateTime.UtcNow;
+
+                SQL.INSERT_INTO("Solution (SolutionID, AuthorID, TaskID, TextData, Posted, Resolved)")
+                    .VALUES(solution.Id, solution.AuthorId, solution.TaskId, solution.TextData, solution.PostTime, 0)
                     .ToCommand(connection)
                     .ExecuteNonQuery();
 
-                if (solution.AttachmentCollection == null)
-                {
-                    return;
-                }
+                if (solution.AttachmentCollection == null) return;
 
-                var insertAttachment = SQL.INSERT_INTO("Attachment (AttachmentID, SolutionID, Document)");
+                var insertAttachment = new SqlBuilder();
+                //var insertAttachment = SQL.INSERT_INTO("Attachment (AttachmentID, SolutionID, Document)");
+
                 foreach (var attachment in solution.AttachmentCollection)
                 {
-                    insertAttachment = insertAttachment.VALUES(Guid.NewGuid(), solution.Id, attachment);
+                    insertAttachment = insertAttachment
+                        .INSERT_INTO("Attachment (AttachmentID, SolutionID, Document)")
+                        .VALUES(Guid.NewGuid(), solution.Id, attachment)
+                        .Append(";");
+                    //insertAttachment = insertAttachment.VALUES(Guid.NewGuid(), solution.Id, attachment);
                 }
 
                 insertAttachment
@@ -60,16 +64,17 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Solution")
                     .WHERE("SolutionID = {0}", solutionId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                reader.Read();
-
-                var solution = ReaderConvertor.ToSolution(reader);
+                using (var reader = command.ExecuteReader())
+                {
+                    reader.Read();
+                    return reader.GetSolution();
+                }
 
                 //reader = SQL
                 //    .SELECT("*")
@@ -82,8 +87,6 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 //{
                 //    solution.AttachmentCollection.Add(new SqlFileStream());
                 //}
-
-                return solution;
             }
         }
 
@@ -93,18 +96,20 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Solution")
                     .WHERE("TaskID = {0}", taskId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
                 ICollection<Solution> solutionList = new List<Solution>();
 
-                while (reader.Read())
+                using (var reader = command.ExecuteReader())
                 {
-                    solutionList.Add(ReaderConvertor.ToSolution(reader));
+                    while (reader.Read())
+                    {
+                        solutionList.Add(reader.GetSolution());
+                    }
                 }
 
                 return solutionList;
@@ -117,17 +122,18 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("*")
                     .FROM("Solution")
                     .WHERE("TaskID = {0}", taskId)
                     ._("AuthorID = {0}", userId)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                reader.Read();
-
-                var solution = ReaderConvertor.ToSolution(reader);
+                using (var reader = command.ExecuteReader())
+                {
+                    reader.Read();
+                    return reader.GetSolution();
+                }
 
                 //reader = SQL
                 //    .SELECT("*")
@@ -140,14 +146,30 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 //{
                 //    //solution.AttachmentCollection.Add(new SqlFileStream());
                 //}
-
-                return solution;
             }
         }
 
         public void Delete(Guid solutionId)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                SQL.DELETE_FROM("Attachment")
+                    .WHERE("SolutionID = {0}", solutionId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+
+                SQL.DELETE_FROM("Review")
+                    .WHERE("SolutionID = {0}", solutionId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+
+                SQL.DELETE_FROM("Solution")
+                    .WHERE("SolutionID = {0}", solutionId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+            }
         }
 
         public void ResolveSolution(Guid solutionId)
@@ -156,8 +178,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
             {
                 connection.Open();
 
-                var update = SQL
-                    .UPDATE("Solution")
+                SQL.UPDATE("Solution")
                     .SET("Resolved = {0}", 1)
                     .WHERE("SolutionID = {0}", solutionId)
                     .ToCommand(connection)
@@ -165,9 +186,25 @@ namespace ReviewYourself.Models.Repositories.Implementations
             }
         }
 
-        public bool IsCanPostSolution(Guid taskId, Guid userId)
+        public bool CanPostSolution(Guid taskId, Guid userId)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var permission = SQL
+                    .SELECT("Permission")
+                    .FROM("CourseMembership")
+                    .JOIN("({0}) res ON CourseMembership.CourseID = res.CourseID",
+                        SQL.SELECT("CourseID")
+                            .FROM("ResourceTask")
+                            .WHERE("TaskID = {0}", taskId))
+                    .WHERE("UserID = {0}", userId)
+                    .ToCommand(connection)
+                    .ExecuteScalar();
+
+                return (int.Parse(permission?.ToString() ?? "0") > 0);
+            }
         }
     }
 }

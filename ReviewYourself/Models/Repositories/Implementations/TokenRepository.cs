@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DbExtensions;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using DbExtensions;
+using ReviewYourself.Models.Tools.DataRecordExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
@@ -25,43 +25,72 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public Token GenerateToken(string username, string password)
         {
-            //TODO: get user from UseTable, check if password is same
+            //TODO: get user from UserTable, check if password is same
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
-                var reader = SQL
+                var command = SQL
                     .SELECT("UserId, UserPassword")
                     .FROM("ResourceUser")
                     .WHERE("UserLogin = {0}", username)
-                    .ToCommand(connection)
-                    .ExecuteReader();
+                    .ToCommand(connection);
 
-                //TODO: Exception if two or more results
-                reader.Read();
+                Token token;
 
-                if (password != reader["UserPassword"].ToString())
-                    return null;
-
-                return new Token()
+                using (var reader = command.ExecuteReader())
                 {
-                    TokenData = Guid.NewGuid(),
-                    UserId = Guid.Parse(reader["UserID"].ToString())
-                };
+                    reader.Read();
+
+                    if (password != reader.GetString("UserPassword")) return null;
+
+                    token = new Token()
+                    {
+                        TokenData = Guid.NewGuid(),
+                        UserId = reader.GetGuid("UserID") // Guid.Parse(reader["UserID"].ToString())
+                    };
+                }
+
+                SQL.INSERT_INTO("Token (TokenData, UserID)")
+                    .VALUES(token.TokenData, token.UserId);
+
+                return token;
             }
         }
 
         public void DisableToken(Token token)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                SQL.DELETE_FROM("Token")
+                    .WHERE("TokenData = {0}", token.TokenData)
+                    ._("UserID = {0}", token.UserId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+            }
         }
 
         public bool ValidateToken(Token token)
         {
-            //TODO: add validation
+            //TODO: 
             return true;
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var count = SQL
+                    .SELECT("Count(*)")
+                    .FROM("Token")
+                    .WHERE("TokenData = {0}", token.TokenData)
+                    ._("UserID = {0}", token.UserId)
+                    .ToCommand(connection)
+                    .ExecuteScalar();
+
+                return int.Parse(count.ToString()) == 1;
+            }
         }
     }
 }

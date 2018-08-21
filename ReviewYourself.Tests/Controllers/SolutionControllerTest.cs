@@ -39,7 +39,7 @@ namespace ReviewYourself.Tests.Controllers
             var token = _userController.SignIn(authData).Cast<Token>();
 
             var course = TemplateAction.CreateCourse(token, _courseController);
-            var task = TemplateAction.CreateTask(token, course, _taskController);
+            var task = TemplateAction.CreateTaskWithCriteria(token, course, _taskController);
             var solution = TemplateAction.CreateSolution(token, task, _solutionController);
 
             Assert.IsNotNull(solution);
@@ -57,7 +57,7 @@ namespace ReviewYourself.Tests.Controllers
             var token = _userController.SignIn(authData).Cast<Token>();
 
             var course = TemplateAction.CreateCourse(token, _courseController);
-            var task = TemplateAction.CreateTask(token, course, _taskController);
+            var task = TemplateAction.CreateTaskWithCriteria(token, course, _taskController);
             var solution = TemplateAction.CreateSolution(token, task, _solutionController);
 
             var result = _solutionController
@@ -79,7 +79,7 @@ namespace ReviewYourself.Tests.Controllers
             var token = _userController.SignIn(authData).Cast<Token>();
 
             var course = TemplateAction.CreateCourse(token, _courseController);
-            var task = TemplateAction.CreateTask(token, course, _taskController);
+            var task = TemplateAction.CreateTaskWithCriteria(token, course, _taskController);
             var solution = TemplateAction.CreateSolution(token, task, _solutionController);
 
             var result = _solutionController.GetByTask(task.Id, token)

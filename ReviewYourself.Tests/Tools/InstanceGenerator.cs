@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ReviewYourself.Models;
 using ReviewYourself.Models.Tools;
@@ -44,7 +45,16 @@ namespace ReviewYourself.Tests.Tools
             {
                 Description = GenerateString(),
                 PostTime = DateTime.Today,
-                Title = GenerateString()
+                Title = GenerateString(),
+                CriteriaCollection = new List<Criteria>
+                {
+                    new Criteria()
+                    {
+                        Description = GenerateString(),
+                        MaxPoint = 10,
+                        Title = GenerateString(),
+                    }
+                }
             };
         }
 

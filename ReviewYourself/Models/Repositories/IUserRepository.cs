@@ -7,7 +7,7 @@ namespace ReviewYourself.Models.Repositories
     {
         void Create(ResourceUser user);
         ResourceUser Read(Guid id);
-        ResourceUser ReadByUserName(string username);
+        ResourceUser ReadByUsername(string username);
         void Update(ResourceUser user);
         void Delete(ResourceUser user);
     }

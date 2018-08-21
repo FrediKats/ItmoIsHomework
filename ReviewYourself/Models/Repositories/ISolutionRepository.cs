@@ -10,8 +10,7 @@ namespace ReviewYourself.Models.Repositories
         ICollection<Solution> ReadByTask(Guid taskId);
         Solution ReadByTaskAndUser(Guid taskId, Guid userId);
         void Delete(Guid solutionId);
-
         void ResolveSolution(Guid solutionId);
-        bool IsCanPostSolution(Guid taskId, Guid userId);
+        bool CanPostSolution(Guid taskId, Guid userId);
     }
 }
