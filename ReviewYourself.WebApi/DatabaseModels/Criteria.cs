@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReviewYourself.Core.DatabaseModels
+namespace ReviewYourself.WebApi.DatabaseModels
 {
     public class Criteria
     {

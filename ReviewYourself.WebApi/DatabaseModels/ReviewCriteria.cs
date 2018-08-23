@@ -1,7 +1,7 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace ReviewYourself.Core.DatabaseModels
+namespace ReviewYourself.WebApi.DatabaseModels
 {
     public class ReviewCriteria
     {

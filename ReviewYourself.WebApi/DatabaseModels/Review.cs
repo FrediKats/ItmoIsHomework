@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ReviewYourself.Core.DatabaseModels
+namespace ReviewYourself.WebApi.DatabaseModels
 {
     public class Review
     {
@@ -10,7 +10,7 @@ namespace ReviewYourself.Core.DatabaseModels
         public ICollection<ReviewCriteria> Evaluations { get; set; }
 
         public Guid AuthorId { get; set; }
-        public Member Author { get; set; }
+        public User Author { get; set; }
 
         public Guid SolutionId { get; set; }
         public Solution Solution { get; set; }

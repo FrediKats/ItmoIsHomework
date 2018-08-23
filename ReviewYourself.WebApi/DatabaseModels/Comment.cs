@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReviewYourself.Core.DatabaseModels
+namespace ReviewYourself.WebApi.DatabaseModels
 {
     public class Comment
     {
@@ -9,6 +9,6 @@ namespace ReviewYourself.Core.DatabaseModels
         public DateTime PostTime { get; set; }
 
         public Guid AuthorId { get; set; }
-        public Member Author { get; set; }
+        public User Author { get; set; }
     }
 }

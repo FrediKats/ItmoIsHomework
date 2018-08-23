@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ReviewYourself.Core.DatabaseModels
+namespace ReviewYourself.WebApi.DatabaseModels
 {
     public class Announcing
     {
@@ -15,6 +15,6 @@ namespace ReviewYourself.Core.DatabaseModels
         public Course Course { get; set; }
 
         public Guid AuthorId { get; set; }
-        public Member Author { get; set; }
+        public User Author { get; set; }
     }
 }

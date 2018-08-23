@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
 
-namespace ReviewYourself.Core.DatabaseModels
+namespace ReviewYourself.WebApi.DatabaseModels
 {
     public class Solution
     {
@@ -12,7 +10,8 @@ namespace ReviewYourself.Core.DatabaseModels
         public bool IsResolved { get; set; }
 
         public Guid AuthorId { get; set; }
-        public Member Author { get; set; }
+        public User Author { get; set; }
+
 
         public Guid CourseTaskId { get; set; }
         public CourseTask CourseTask { get; set; }

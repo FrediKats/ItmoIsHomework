@@ -1,13 +1,13 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using ReviewYourself.Core.Models;
+using System.ComponentModel.DataAnnotations;
+using ReviewYourself.WebApi.Models;
 
-namespace ReviewYourself.Core.DatabaseModels
+namespace ReviewYourself.WebApi.DatabaseModels
 {
-    public class MemberType
+    public class Participation
     {
         public Guid MemberId { get; set; }
-        public Member Member { get; set; }
+        public User User { get; set; }
 
         public Guid CourseId { get; set; }
         public Course Course { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace ReviewYourself.Core.Models
+﻿namespace ReviewYourself.WebApi.Models
 {
     public enum MemberPermission
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace ReviewYourself.Core.DatabaseModels
+namespace ReviewYourself.WebApi.DatabaseModels
 {
     //TODO: add attributes
-    public class Member
+    public class User
     {
         public Guid Id { get; set; }
         public string Login { get; set; }
