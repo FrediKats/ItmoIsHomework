@@ -5,10 +5,10 @@
         //TODO: additional info about user
         void RegisterMember(string login, string password);
         //TODO: implement
-        //void DisableToken(Token token);
+        //void LogOut(Token token);
 
         //TODO: implement
         //Token LogIn(User user);
-        bool IsUsernameExist(string username);
+        bool IsUsernameAvaliable(string username);
     }
 }

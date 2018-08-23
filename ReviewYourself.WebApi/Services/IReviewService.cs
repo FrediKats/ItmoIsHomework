@@ -8,8 +8,8 @@ namespace ReviewYourself.WebApi.Services
     {
         void CreateReview(Review review, Guid executorId);
         Review GetReview(Guid reviewId, Guid executorId);
-        Review GetReviewBySolutionAndUser(Guid reviewId, Guid userId, Guid executorId);
-        ICollection<Review> GetReviewsBySolution(Guid reviewId, Guid executorId);
+        Review GetReviewBySolutionAndUser(Guid solutionId, Guid userId, Guid executorId);
+        ICollection<Review> GetReviewsBySolution(Guid solutionId, Guid executorId);
         void DeleteReview(Guid reviewId, Guid executorId);
     }
 }

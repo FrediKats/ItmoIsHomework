@@ -8,7 +8,7 @@ namespace ReviewYourself.WebApi.Services
     {
         void CreateSolution(Solution solution, Guid executor);
         Solution GetSolution(Guid solutionId, Guid executorId);
-        Solution GetSolutionByTaskAndUser(Guid solutionId, Guid userId, Guid executorId);
+        Solution GetUserSolution(Guid taskId, Guid userId, Guid executorId);
         ICollection<Solution> GetSolutionsByTask(Guid taskId, Guid executor);
         void DeleteSolution(Guid solutionId, Guid executorId);
 
