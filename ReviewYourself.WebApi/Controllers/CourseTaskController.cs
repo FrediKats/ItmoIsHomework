@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
@@ -10,7 +6,7 @@ using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/CourseTask")]
     [ApiController]
     public class CourseTaskController : ControllerBase
     {
@@ -21,7 +17,7 @@ namespace ReviewYourself.WebApi.Controllers
             _courseTaskService = courseTaskService;
         }
 
-        [HttpGet]
+        [HttpPost("Create")]
         public ActionResult Create([FromBody] CourseTask review, [FromRoute] Token token)
         {
             _courseTaskService.Create(review, token.UserId);
@@ -40,7 +36,7 @@ namespace ReviewYourself.WebApi.Controllers
             return Ok(_courseTaskService.GetTaskInCourse(courseId, token.UserId));
         }
 
-        [HttpDelete("{id}")]
+        [HttpGet("Delete/{id}")]
         public void Delete(Guid id, [FromRoute] Token token)
         {
             _courseTaskService.Delete(id, token.UserId);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using ReviewYourself.WebApi.Models;
 
 namespace ReviewYourself.WebApi.DatabaseModels
@@ -11,7 +10,7 @@ namespace ReviewYourself.WebApi.DatabaseModels
 
         public Guid CourseId { get; set; }
         public Course Course { get; set; }
-        
+
         public MemberPermission Permission { get; set; }
     }
 }

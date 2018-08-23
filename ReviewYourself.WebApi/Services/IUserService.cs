@@ -5,9 +5,9 @@ namespace ReviewYourself.WebApi.Services
 {
     public interface IUserService
     {
-        User GetUser(Guid userId);
-        User GetUser(string username);
-        void UpdateUser(User user, Guid executorId);
-        void DisableUser(Guid userId, Guid executorId);
+        User Get(Guid userId);
+        User Get(string username);
+        void Update(User user, Guid executorId);
+        void Disable(Guid userId, Guid executorId);
     }
 }

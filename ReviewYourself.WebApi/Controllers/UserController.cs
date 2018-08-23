@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
@@ -21,28 +17,28 @@ namespace ReviewYourself.WebApi.Controllers
             _userService = userService;
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public ActionResult<User> Get(Guid id)
         {
-            return _userService.GetUser(id);
+            return _userService.Get(id);
         }
 
-        [HttpGet]
-        public ActionResult<User> Get([FromBody]string username)
+        [HttpGet("Find/{username}")]
+        public ActionResult<User> Get(string username)
         {
-            return _userService.GetUser(username);
+            return _userService.Get(username);
         }
 
-        [HttpPost]
-        public void Update([FromBody] User user, [FromRoute]Token token)
+        [HttpPost("Update")]
+        public void Update([FromBody] User user, [FromRoute] Token token)
         {
-            _userService.UpdateUser(user, token.UserId);
+            _userService.Update(user, token.UserId);
         }
 
-        [HttpPost("id")]
-        public void Delete(Guid id, [FromRoute]Token token)
+        [HttpGet("Delete/{id}")]
+        public void Delete(Guid id, [FromRoute] Token token)
         {
-            _userService.DisableUser(id, token.UserId);
+            _userService.Disable(id, token.UserId);
         }
     }
 }

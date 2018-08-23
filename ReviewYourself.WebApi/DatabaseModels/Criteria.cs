@@ -8,7 +8,7 @@ namespace ReviewYourself.WebApi.DatabaseModels
         public string Title { get; set; }
         public string Description { get; set; }
         public int MaxPoint { get; set; }
-        
+
         public Guid CourseTaskId { get; set; }
         public CourseTask CourseTask { get; set; }
     }

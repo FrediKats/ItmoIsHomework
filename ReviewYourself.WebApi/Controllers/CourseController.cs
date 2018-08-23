@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
@@ -10,49 +7,47 @@ using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Course")]
     [ApiController]
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
+
         public CourseController(ICourseService courseService)
         {
             _courseService = courseService;
         }
 
-        [HttpPost]
-        [ProducesResponseType(200, Type = typeof(Course))]
-        public Course Create([FromBody]Course course,[FromRoute]Token token)
+        [HttpPost("Create")]
+        public ActionResult<Course> Create([FromBody] Course course, [FromRoute] Token token)
         {
-            return _courseService.CreateCourse(course, token.UserId);
+            return _courseService.Create(course, token.UserId);
         }
 
         [HttpGet("id")]
-        [ProducesResponseType(200, Type = typeof(Course))]
-        public Course Get(Guid id)
+        public ActionResult<Course> Get(Guid id)
         {
-            return _courseService.GetCourse(id);
+            return _courseService.Get(id);
         }
 
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(Course))]
-        public ActionResult<ICollection<Course>> Find([FromRoute]string courseName)
+        [HttpGet("Find")]
+        public ActionResult<ICollection<Course>> Find([FromRoute] string courseName)
         {
             return Ok(_courseService.FindCourses(courseName));
         }
 
-        [HttpPost]
-        [ProducesResponseType(200, Type = typeof(void))]
-        public void Update([FromBody] Course course, [FromRoute]Token token)
+        [HttpPost("Update")]
+        public ActionResult Update([FromBody] Course course, [FromRoute] Token token)
         {
-            _courseService.UpdateCourse(course, token.UserId);
+            _courseService.Update(course, token.UserId);
+            return Ok();
         }
 
-        [HttpDelete("{id}")]
-        [ProducesResponseType(200, Type = typeof(void))]
-        public void Delete(Guid id, [FromRoute]Token token)
+        [HttpGet("Delete/{id}")]
+        public ActionResult Delete(Guid id, [FromRoute] Token token)
         {
-            _courseService.DeleteCourse(id, token.UserId);
+            _courseService.Delete(id, token.UserId);
+            return Ok();
         }
     }
 }

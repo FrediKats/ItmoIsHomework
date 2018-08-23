@@ -6,10 +6,10 @@ namespace ReviewYourself.WebApi.Services
 {
     public interface IReviewService
     {
-        void CreateReview(Review review, Guid executorId);
-        Review GetReview(Guid reviewId, Guid executorId);
+        void Create(Review review, Guid executorId);
+        Review Get(Guid reviewId, Guid executorId);
         Review GetReviewBySolutionAndUser(Guid solutionId, Guid userId, Guid executorId);
         ICollection<Review> GetReviewsBySolution(Guid solutionId, Guid executorId);
-        void DeleteReview(Guid reviewId, Guid executorId);
+        void Delete(Guid reviewId, Guid executorId);
     }
 }

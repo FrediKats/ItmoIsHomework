@@ -6,11 +6,11 @@ namespace ReviewYourself.WebApi.Services
 {
     public interface ISolutionService
     {
-        void CreateSolution(Solution solution, Guid executor);
-        Solution GetSolution(Guid solutionId, Guid executorId);
+        void Create(Solution solution, Guid executor);
+        Solution Get(Guid solutionId, Guid executorId);
         Solution GetUserSolution(Guid taskId, Guid userId, Guid executorId);
         ICollection<Solution> GetSolutionsByTask(Guid taskId, Guid executor);
-        void DeleteSolution(Guid solutionId, Guid executorId);
+        void Delete(Guid solutionId, Guid executorId);
 
         //void ResolveSolution(Guid solutionId, Guid executorId);
     }

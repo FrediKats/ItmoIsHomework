@@ -8,7 +8,9 @@ namespace ReviewYourself.WebApi.DatabaseModels
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+
         public DateTime PostTime { get; set; }
+
         //TODO:
         public ICollection<Criteria> Criterias { get; set; }
         public ICollection<Solution> Solutions { get; set; }

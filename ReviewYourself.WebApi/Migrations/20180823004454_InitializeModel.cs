@@ -8,21 +8,18 @@ namespace ReviewYourself.WebApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
+                "Courses",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Courses", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Members",
-                columns: table => new
+                "Members",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Login = table.Column<string>(nullable: true),
@@ -32,14 +29,11 @@ namespace ReviewYourself.WebApi.Migrations
                     LastName = table.Column<string>(nullable: true),
                     Biography = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Members", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Members", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Announcing",
-                columns: table => new
+                "Announcing",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
@@ -52,22 +46,22 @@ namespace ReviewYourself.WebApi.Migrations
                 {
                     table.PrimaryKey("PK_Announcing", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Announcing_Members_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Members",
-                        principalColumn: "Id",
+                        "FK_Announcing_Members_AuthorId",
+                        x => x.AuthorId,
+                        "Members",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Announcing_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
+                        "FK_Announcing_Courses_CourseId",
+                        x => x.CourseId,
+                        "Courses",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CourseTasks",
-                columns: table => new
+                "CourseTasks",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
@@ -80,22 +74,22 @@ namespace ReviewYourself.WebApi.Migrations
                 {
                     table.PrimaryKey("PK_CourseTasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CourseTasks_Members_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Members",
-                        principalColumn: "Id",
+                        "FK_CourseTasks_Members_AuthorId",
+                        x => x.AuthorId,
+                        "Members",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CourseTasks_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
+                        "FK_CourseTasks_Courses_CourseId",
+                        x => x.CourseId,
+                        "Courses",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MemberTypes",
-                columns: table => new
+                "MemberTypes",
+                table => new
                 {
                     MemberId = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: true),
@@ -104,24 +98,24 @@ namespace ReviewYourself.WebApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MemberTypes", x => new { x.CourseId, x.MemberId });
+                    table.PrimaryKey("PK_MemberTypes", x => new {x.CourseId, x.MemberId});
                     table.ForeignKey(
-                        name: "FK_MemberTypes_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
+                        "FK_MemberTypes_Courses_CourseId",
+                        x => x.CourseId,
+                        "Courses",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MemberTypes_Members_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Members",
-                        principalColumn: "Id",
+                        "FK_MemberTypes_Members_UserId",
+                        x => x.UserId,
+                        "Members",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
+                "Comments",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Content = table.Column<string>(nullable: true),
@@ -134,28 +128,28 @@ namespace ReviewYourself.WebApi.Migrations
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Announcing_AnnouncingId",
-                        column: x => x.AnnouncingId,
-                        principalTable: "Announcing",
-                        principalColumn: "Id",
+                        "FK_Comments_Announcing_AnnouncingId",
+                        x => x.AnnouncingId,
+                        "Announcing",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comments_Members_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Members",
-                        principalColumn: "Id",
+                        "FK_Comments_Members_AuthorId",
+                        x => x.AuthorId,
+                        "Members",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comments_CourseTasks_CourseTaskId",
-                        column: x => x.CourseTaskId,
-                        principalTable: "CourseTasks",
-                        principalColumn: "Id",
+                        "FK_Comments_CourseTasks_CourseTaskId",
+                        x => x.CourseTaskId,
+                        "CourseTasks",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Criterias",
-                columns: table => new
+                "Criterias",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
@@ -167,16 +161,16 @@ namespace ReviewYourself.WebApi.Migrations
                 {
                     table.PrimaryKey("PK_Criterias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Criterias_CourseTasks_CourseTaskId",
-                        column: x => x.CourseTaskId,
-                        principalTable: "CourseTasks",
-                        principalColumn: "Id",
+                        "FK_Criterias_CourseTasks_CourseTaskId",
+                        x => x.CourseTaskId,
+                        "CourseTasks",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Solutions",
-                columns: table => new
+                "Solutions",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     TextData = table.Column<string>(nullable: true),
@@ -189,22 +183,22 @@ namespace ReviewYourself.WebApi.Migrations
                 {
                     table.PrimaryKey("PK_Solutions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Solutions_Members_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Members",
-                        principalColumn: "Id",
+                        "FK_Solutions_Members_AuthorId",
+                        x => x.AuthorId,
+                        "Members",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Solutions_CourseTasks_CourseTaskId",
-                        column: x => x.CourseTaskId,
-                        principalTable: "CourseTasks",
-                        principalColumn: "Id",
+                        "FK_Solutions_CourseTasks_CourseTaskId",
+                        x => x.CourseTaskId,
+                        "CourseTasks",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reviews",
-                columns: table => new
+                "Reviews",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     PostTime = table.Column<DateTime>(nullable: false),
@@ -215,22 +209,22 @@ namespace ReviewYourself.WebApi.Migrations
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Members_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Members",
-                        principalColumn: "Id",
+                        "FK_Reviews_Members_AuthorId",
+                        x => x.AuthorId,
+                        "Members",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reviews_Solutions_SolutionId",
-                        column: x => x.SolutionId,
-                        principalTable: "Solutions",
-                        principalColumn: "Id",
+                        "FK_Reviews_Solutions_SolutionId",
+                        x => x.SolutionId,
+                        "Solutions",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReviewCriterias",
-                columns: table => new
+                "ReviewCriterias",
+                table => new
                 {
                     ReviewId = table.Column<Guid>(nullable: false),
                     CriteriaId = table.Column<Guid>(nullable: false),
@@ -239,123 +233,123 @@ namespace ReviewYourself.WebApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReviewCriterias", x => new { x.CriteriaId, x.ReviewId });
+                    table.PrimaryKey("PK_ReviewCriterias", x => new {x.CriteriaId, x.ReviewId});
                     table.ForeignKey(
-                        name: "FK_ReviewCriterias_Criterias_CriteriaId",
-                        column: x => x.CriteriaId,
-                        principalTable: "Criterias",
-                        principalColumn: "Id",
+                        "FK_ReviewCriterias_Criterias_CriteriaId",
+                        x => x.CriteriaId,
+                        "Criterias",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ReviewCriterias_Reviews_ReviewId",
-                        column: x => x.ReviewId,
-                        principalTable: "Reviews",
-                        principalColumn: "Id",
+                        "FK_ReviewCriterias_Reviews_ReviewId",
+                        x => x.ReviewId,
+                        "Reviews",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Announcing_AuthorId",
-                table: "Announcing",
-                column: "AuthorId");
+                "IX_Announcing_AuthorId",
+                "Announcing",
+                "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Announcing_CourseId",
-                table: "Announcing",
-                column: "CourseId");
+                "IX_Announcing_CourseId",
+                "Announcing",
+                "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_AnnouncingId",
-                table: "Comments",
-                column: "AnnouncingId");
+                "IX_Comments_AnnouncingId",
+                "Comments",
+                "AnnouncingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_AuthorId",
-                table: "Comments",
-                column: "AuthorId");
+                "IX_Comments_AuthorId",
+                "Comments",
+                "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_CourseTaskId",
-                table: "Comments",
-                column: "CourseTaskId");
+                "IX_Comments_CourseTaskId",
+                "Comments",
+                "CourseTaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseTasks_AuthorId",
-                table: "CourseTasks",
-                column: "AuthorId");
+                "IX_CourseTasks_AuthorId",
+                "CourseTasks",
+                "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseTasks_CourseId",
-                table: "CourseTasks",
-                column: "CourseId");
+                "IX_CourseTasks_CourseId",
+                "CourseTasks",
+                "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Criterias_CourseTaskId",
-                table: "Criterias",
-                column: "CourseTaskId");
+                "IX_Criterias_CourseTaskId",
+                "Criterias",
+                "CourseTaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MemberTypes_UserId",
-                table: "MemberTypes",
-                column: "UserId");
+                "IX_MemberTypes_UserId",
+                "MemberTypes",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReviewCriterias_ReviewId",
-                table: "ReviewCriterias",
-                column: "ReviewId");
+                "IX_ReviewCriterias_ReviewId",
+                "ReviewCriterias",
+                "ReviewId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_AuthorId",
-                table: "Reviews",
-                column: "AuthorId");
+                "IX_Reviews_AuthorId",
+                "Reviews",
+                "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_SolutionId",
-                table: "Reviews",
-                column: "SolutionId");
+                "IX_Reviews_SolutionId",
+                "Reviews",
+                "SolutionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Solutions_AuthorId",
-                table: "Solutions",
-                column: "AuthorId");
+                "IX_Solutions_AuthorId",
+                "Solutions",
+                "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Solutions_CourseTaskId",
-                table: "Solutions",
-                column: "CourseTaskId");
+                "IX_Solutions_CourseTaskId",
+                "Solutions",
+                "CourseTaskId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comments");
+                "Comments");
 
             migrationBuilder.DropTable(
-                name: "MemberTypes");
+                "MemberTypes");
 
             migrationBuilder.DropTable(
-                name: "ReviewCriterias");
+                "ReviewCriterias");
 
             migrationBuilder.DropTable(
-                name: "Announcing");
+                "Announcing");
 
             migrationBuilder.DropTable(
-                name: "Criterias");
+                "Criterias");
 
             migrationBuilder.DropTable(
-                name: "Reviews");
+                "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Solutions");
+                "Solutions");
 
             migrationBuilder.DropTable(
-                name: "CourseTasks");
+                "CourseTasks");
 
             migrationBuilder.DropTable(
-                name: "Members");
+                "Members");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                "Courses");
         }
     }
 }

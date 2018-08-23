@@ -6,7 +6,7 @@ using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Solution")]
     [ApiController]
     public class SolutionController : ControllerBase
     {
@@ -17,17 +17,17 @@ namespace ReviewYourself.WebApi.Controllers
             _solutionService = solutionService;
         }
 
-        [HttpGet]
+        [HttpPost("Create")]
         public ActionResult Create([FromBody] Solution review, [FromRoute] Token token)
         {
-            _solutionService.CreateSolution(review, token.UserId);
+            _solutionService.Create(review, token.UserId);
             return Ok();
         }
 
         [HttpGet("{id}")]
         public ActionResult<Solution> Get(Guid id, [FromRoute] Token token)
         {
-            return _solutionService.GetSolution(id, token.UserId);
+            return _solutionService.Get(id, token.UserId);
         }
 
         [HttpGet("UserSolution/{solutionId}/{userId}")]
@@ -42,10 +42,10 @@ namespace ReviewYourself.WebApi.Controllers
             return Ok(_solutionService.GetSolutionsByTask(taskId, token.UserId));
         }
 
-        [HttpDelete("{id}")]
+        [HttpGet("Delete/{id}")]
         public void Delete(Guid id, [FromRoute] Token token)
         {
-            _solutionService.DeleteSolution(id, token.UserId);
+            _solutionService.Delete(id, token.UserId);
         }
     }
 }

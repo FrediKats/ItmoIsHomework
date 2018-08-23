@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace ReviewYourself.WebApi.DatabaseModels
 {
@@ -13,6 +12,5 @@ namespace ReviewYourself.WebApi.DatabaseModels
 
         public int Rating { get; set; }
         public string Description { get; set; }
-
     }
 }
