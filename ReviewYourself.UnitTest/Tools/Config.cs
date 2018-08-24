@@ -1,4 +1,4 @@
-﻿namespace ReviewYourself.UnitTest
+﻿namespace ReviewYourself.UnitTest.Tools
 {
     public class Config
     {

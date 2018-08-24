@@ -7,7 +7,7 @@ using ReviewYourself.WebApi.Services;
 namespace ReviewYourself.UnitTest.Services
 {
     [TestClass]
-    public class CourseServiceTest
+    public class CourseTaskServiceTest
     {
         private IAuthorizationService _authorizationService;
         private ICourseService _courseService;

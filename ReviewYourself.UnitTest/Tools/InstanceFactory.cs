@@ -1,8 +1,9 @@
 ﻿using System;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
+using ReviewYourself.WebApi.Services;
 
-namespace ReviewYourself.UnitTest
+namespace ReviewYourself.UnitTest.Tools
 {
     public static class InstanceFactory
     {
@@ -44,6 +45,17 @@ namespace ReviewYourself.UnitTest
         public static AuthorizeData AuthorizeData(RegistrationData data)
         {
             throw new NotImplementedException();
+        }
+
+        public static Token RegisteredUserToken()
+        {
+            var authorizationService = ServiceFactory.AuthorizationService();
+
+            var regData = RegistrationData();
+            var authData = AuthorizeData(regData);
+            authorizationService.RegisterMember(regData);
+            var token = authorizationService.LogIn(authData);
+            return token;
         }
     }
 }

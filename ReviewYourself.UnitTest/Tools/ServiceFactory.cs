@@ -1,7 +1,7 @@
 ﻿using System;
 using ReviewYourself.WebApi.Services;
 
-namespace ReviewYourself.UnitTest
+namespace ReviewYourself.UnitTest.Tools
 {
     public static class ServiceFactory
     {
