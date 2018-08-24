@@ -59,7 +59,7 @@ namespace ReviewYourself.WebApi.Controllers
             return Ok(_memberService.GetUserInvitations(userId));
         }
 
-        [HttpGet("Members/{courseId}")]
+        [HttpGet("Users/{courseId}")]
         public ActionResult<ICollection<User>> GetMembers(Guid courseId)
         {
             return Ok(_memberService.GetMembers(courseId));

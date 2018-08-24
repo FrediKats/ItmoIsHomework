@@ -10,8 +10,8 @@ using ReviewYourself.WebApi.Tools;
 namespace ReviewYourself.WebApi.Migrations
 {
     [DbContext(typeof(PeerReviewContext))]
-    [Migration("20180823004454_InitializeModel")]
-    partial class InitializeModel
+    [Migration("20180824205944_update-v1")]
+    partial class updatev1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,18 @@ namespace ReviewYourself.WebApi.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Announcing");
+                });
+
+            modelBuilder.Entity("ReviewYourself.WebApi.DatabaseModels.AuthorizeData", b =>
+                {
+                    b.Property<string>("Login")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Password");
+
+                    b.HasKey("Login");
+
+                    b.ToTable("AuthorizeDatas");
                 });
 
             modelBuilder.Entity("ReviewYourself.WebApi.DatabaseModels.Comment", b =>
@@ -222,8 +234,6 @@ namespace ReviewYourself.WebApi.Migrations
 
                     b.Property<string>("Login");
 
-                    b.Property<string>("Password");
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -282,7 +292,7 @@ namespace ReviewYourself.WebApi.Migrations
             modelBuilder.Entity("ReviewYourself.WebApi.DatabaseModels.Participation", b =>
                 {
                     b.HasOne("ReviewYourself.WebApi.DatabaseModels.Course", "Course")
-                        .WithMany("Users")
+                        .WithMany("Members")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict);
 

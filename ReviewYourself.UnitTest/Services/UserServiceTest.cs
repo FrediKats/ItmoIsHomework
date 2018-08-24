@@ -21,8 +21,8 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void GetUser()
         {
-            var token = InstanceFactory.RegisteredUserToken();
-            var user = _userService.Get(token.UserId);
+            var token = InstanceFactory.AuthorizedUserId();
+            var user = _userService.Get(token);
 
             Assert.IsNotNull(user);
         }
@@ -30,11 +30,11 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void GetByName()
         {
-            var token = InstanceFactory.RegisteredUserToken();
-            var userById = _userService.Get(token.UserId);
+            var token = InstanceFactory.AuthorizedUserId();
+            var userById = _userService.Get(token);
             var userByName = _userService.Get(userById.Login);
 
-            Assert.AreEqual(token.UserId, userByName.Id);
+            Assert.AreEqual(token, userByName.Id);
         }
 
         [TestMethod]

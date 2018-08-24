@@ -25,16 +25,16 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void CreateReview()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token.UserId);
-            var solution = InstanceFactory.Solution(token.UserId, courseTask.Id);
-            solution = _solutionService.Create(solution, token.UserId);
+            course = _courseService.Create(course, token);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, token);
+            var solution = InstanceFactory.Solution(token, courseTask.Id);
+            solution = _solutionService.Create(solution, token);
 
-            var review = InstanceFactory.Review(token.UserId, solution.Id, courseTask);
-            var createdReview = _reviewService.Create(review, token.UserId);
+            var review = InstanceFactory.Review(token, solution.Id, courseTask);
+            var createdReview = _reviewService.Create(review, token);
 
             Assert.IsNotNull(createdReview);
         }
@@ -42,57 +42,57 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void GetReview()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token.UserId);
-            var solution = InstanceFactory.Solution(token.UserId, courseTask.Id);
-            solution = _solutionService.Create(solution, token.UserId);
+            course = _courseService.Create(course, token);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, token);
+            var solution = InstanceFactory.Solution(token, courseTask.Id);
+            solution = _solutionService.Create(solution, token);
 
-            var review = InstanceFactory.Review(token.UserId, solution.Id, courseTask);
-            var createdReview = _reviewService.Create(review, token.UserId);
-            var reviewById = _reviewService.Get(createdReview.Id, token.UserId);
+            var review = InstanceFactory.Review(token, solution.Id, courseTask);
+            var createdReview = _reviewService.Create(review, token);
+            var reviewById = _reviewService.Get(createdReview.Id, token);
 
             Assert.IsNotNull(reviewById);
-            Assert.AreEqual(token.UserId, reviewById.AuthorId);
+            Assert.AreEqual(token, reviewById.AuthorId);
             Assert.AreEqual(solution.Id, reviewById.SolutionId);
         }
 
         [TestMethod]
         public void GetSolutionReviews()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token.UserId);
-            var solution = InstanceFactory.Solution(token.UserId, courseTask.Id);
-            solution = _solutionService.Create(solution, token.UserId);
+            course = _courseService.Create(course, token);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, token);
+            var solution = InstanceFactory.Solution(token, courseTask.Id);
+            solution = _solutionService.Create(solution, token);
 
-            var review = InstanceFactory.Review(token.UserId, solution.Id, courseTask);
-            var createdReview = _reviewService.Create(review, token.UserId);
-            var reviews = _reviewService.GetReviewsBySolution(solution.Id, token.UserId);
+            var review = InstanceFactory.Review(token, solution.Id, courseTask);
+            var createdReview = _reviewService.Create(review, token);
+            var reviews = _reviewService.GetReviewsBySolution(solution.Id, token);
 
             Assert.IsNotNull(reviews);
-            Assert.AreEqual(1, reviews.Count(r => r.AuthorId == token.UserId));
+            Assert.AreEqual(1, reviews.Count(r => r.AuthorId == token));
         }
 
         [TestMethod]
         public void DeleteReviewTest()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token.UserId);
-            var solution = InstanceFactory.Solution(token.UserId, courseTask.Id);
-            solution = _solutionService.Create(solution, token.UserId);
+            course = _courseService.Create(course, token);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, token);
+            var solution = InstanceFactory.Solution(token, courseTask.Id);
+            solution = _solutionService.Create(solution, token);
 
-            var review = InstanceFactory.Review(token.UserId, solution.Id, courseTask);
-            review = _reviewService.Create(review, token.UserId);
-            _reviewService.Delete(review.Id, token.UserId);
-            var deletedReview = _reviewService.Get(review.Id, token.UserId);
+            var review = InstanceFactory.Review(token, solution.Id, courseTask);
+            review = _reviewService.Create(review, token);
+            _reviewService.Delete(review.Id, token);
+            var deletedReview = _reviewService.Get(review.Id, token);
 
             Assert.IsNull(deletedReview);
         }

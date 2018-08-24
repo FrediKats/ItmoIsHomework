@@ -32,15 +32,15 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpPost("Login")]
-        public ActionResult<Token> Login([FromBody] AuthorizeData data)
+        public ActionResult<(string Token, Guid UserId)> Login([FromBody] AuthorizeData data)
         {
             return _authService.LogIn(data);
         }
 
         [HttpGet("CheckUsername")]
-        public ActionResult<bool> IsUsernameAvaliable([FromRoute] string username)
+        public ActionResult<bool> IsUsernameAvailable([FromRoute] string username)
         {
-            return _authService.IsUsernameAvaliable(username);
+            return _authService.IsUsernameAvailable(username);
         }
     }
 }

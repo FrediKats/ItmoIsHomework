@@ -16,7 +16,7 @@ namespace ReviewYourself.WebApi.Tools
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseTask> CourseTasks { get; set; }
         public DbSet<Criteria> Criterias { get; set; }
-        public DbSet<User> Members { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Participation> MemberTypes { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewCriteria> ReviewCriterias { get; set; }

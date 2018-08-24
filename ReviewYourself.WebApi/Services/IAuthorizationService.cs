@@ -1,15 +1,14 @@
-﻿using ReviewYourself.WebApi.DatabaseModels;
+﻿using System;
+using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
 
 namespace ReviewYourself.WebApi.Services
 {
     public interface IAuthorizationService
     {
-        void RegisterMember(RegistrationData registrationData);
-        //TODO: implement
-        //void LogOut(Token token);
-
-        Token LogIn(AuthorizeData authData);
-        bool IsUsernameAvaliable(string username);
+        (string Token, Guid UserId) RegisterMember(RegistrationData data);
+        void LogOut(Token token);
+        (string Token, Guid UserId) LogIn(AuthorizeData authData);
+        bool IsUsernameAvailable(string username);
     }
 }

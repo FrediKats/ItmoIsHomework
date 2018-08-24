@@ -18,7 +18,7 @@ namespace ReviewYourself.WebApi.Migrations
                 constraints: table => { table.PrimaryKey("PK_Courses", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                "Members",
+                "Users",
                 table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -48,7 +48,7 @@ namespace ReviewYourself.WebApi.Migrations
                     table.ForeignKey(
                         "FK_Announcing_Members_AuthorId",
                         x => x.AuthorId,
-                        "Members",
+                        "Users",
                         "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -76,7 +76,7 @@ namespace ReviewYourself.WebApi.Migrations
                     table.ForeignKey(
                         "FK_CourseTasks_Members_AuthorId",
                         x => x.AuthorId,
-                        "Members",
+                        "Users",
                         "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -108,7 +108,7 @@ namespace ReviewYourself.WebApi.Migrations
                     table.ForeignKey(
                         "FK_MemberTypes_Members_UserId",
                         x => x.UserId,
-                        "Members",
+                        "Users",
                         "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -136,7 +136,7 @@ namespace ReviewYourself.WebApi.Migrations
                     table.ForeignKey(
                         "FK_Comments_Members_AuthorId",
                         x => x.AuthorId,
-                        "Members",
+                        "Users",
                         "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -185,7 +185,7 @@ namespace ReviewYourself.WebApi.Migrations
                     table.ForeignKey(
                         "FK_Solutions_Members_AuthorId",
                         x => x.AuthorId,
-                        "Members",
+                        "Users",
                         "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -211,7 +211,7 @@ namespace ReviewYourself.WebApi.Migrations
                     table.ForeignKey(
                         "FK_Reviews_Members_AuthorId",
                         x => x.AuthorId,
-                        "Members",
+                        "Users",
                         "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -346,7 +346,7 @@ namespace ReviewYourself.WebApi.Migrations
                 "CourseTasks");
 
             migrationBuilder.DropTable(
-                "Members");
+                "Users");
 
             migrationBuilder.DropTable(
                 "Courses");

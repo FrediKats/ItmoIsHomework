@@ -43,6 +43,18 @@ namespace ReviewYourself.WebApi.Migrations
                 b.ToTable("Announcing");
             });
 
+            modelBuilder.Entity("ReviewYourself.WebApi.DatabaseModels.AuthorizeData", b =>
+            {
+                b.Property<string>("Login")
+                    .ValueGeneratedOnAdd();
+
+                b.Property<string>("Password");
+
+                b.HasKey("Login");
+
+                b.ToTable("AuthorizeDatas");
+            });
+
             modelBuilder.Entity("ReviewYourself.WebApi.DatabaseModels.Comment", b =>
             {
                 b.Property<Guid>("Id")
@@ -220,11 +232,9 @@ namespace ReviewYourself.WebApi.Migrations
 
                 b.Property<string>("Login");
 
-                b.Property<string>("Password");
-
                 b.HasKey("Id");
 
-                b.ToTable("Members");
+                b.ToTable("Users");
             });
 
             modelBuilder.Entity("ReviewYourself.WebApi.DatabaseModels.Announcing", b =>

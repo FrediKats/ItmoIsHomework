@@ -1,8 +1,11 @@
-﻿namespace ReviewYourself.WebApi.DatabaseModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ReviewYourself.WebApi.DatabaseModels
 {
     public class AuthorizeData
     {
-        public string Login { get; set; }
+        [Key] public string Login { get; set; }
+
         public string Password { get; set; }
     }
 }

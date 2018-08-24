@@ -21,44 +21,44 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void CreateTask()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
+            course = _courseService.Create(course, token);
 
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            var createdTask = _courseTaskService.Create(courseTask, token.UserId);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            var createdTask = _courseTaskService.Create(courseTask, token);
 
             Assert.IsNotNull(createdTask);
-            Assert.AreEqual(token.UserId, createdTask.AuthorId);
+            Assert.AreEqual(token, createdTask.AuthorId);
             Assert.AreEqual(course.Id, createdTask.CourseId);
         }
 
         [TestMethod]
         public void GetTaskById()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
+            course = _courseService.Create(course, token);
 
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            var createdTask = _courseTaskService.Create(courseTask, token.UserId);
-            var taskById = _courseTaskService.Get(createdTask.Id, token.UserId);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            var createdTask = _courseTaskService.Create(courseTask, token);
+            var taskById = _courseTaskService.Get(createdTask.Id, token);
 
             Assert.IsNotNull(taskById);
-            Assert.AreEqual(token.UserId, taskById.AuthorId);
+            Assert.AreEqual(token, taskById.AuthorId);
             Assert.AreEqual(course.Id, taskById.CourseId);
         }
 
         [TestMethod]
         public void GetTaskInCourse()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
+            course = _courseService.Create(course, token);
 
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            var createdTask = _courseTaskService.Create(courseTask, token.UserId);
-            var taskInList = _courseTaskService.GetTaskInCourse(course.Id, token.UserId);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            var createdTask = _courseTaskService.Create(courseTask, token);
+            var taskInList = _courseTaskService.GetTaskInCourse(course.Id, token);
 
             Assert.AreEqual(1, taskInList.Count(t => t.Id == createdTask.Id));
         }
@@ -66,14 +66,14 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void DeleteTask()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
+            course = _courseService.Create(course, token);
 
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            var createdTask = _courseTaskService.Create(courseTask, token.UserId);
-            _courseTaskService.Delete(createdTask.Id, token.UserId);
-            var taskInList = _courseTaskService.Get(createdTask.Id, token.UserId);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            var createdTask = _courseTaskService.Create(courseTask, token);
+            _courseTaskService.Delete(createdTask.Id, token);
+            var taskInList = _courseTaskService.Get(createdTask.Id, token);
 
             Assert.IsNull(taskInList);
         }

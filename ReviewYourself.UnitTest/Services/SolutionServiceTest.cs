@@ -23,86 +23,86 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void CreateSolution()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token.UserId);
+            course = _courseService.Create(course, token);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, token);
 
-            var solution = InstanceFactory.Solution(token.UserId, courseTask.Id);
-            var createdSolution = _solutionService.Create(solution, token.UserId);
+            var solution = InstanceFactory.Solution(token, courseTask.Id);
+            var createdSolution = _solutionService.Create(solution, token);
 
             Assert.IsNotNull(createdSolution);
-            Assert.AreEqual(token.UserId, createdSolution.AuthorId);
+            Assert.AreEqual(token, createdSolution.AuthorId);
             Assert.AreEqual(courseTask.Id, createdSolution.CourseTaskId);
         }
 
         [TestMethod]
         public void GetSolution()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token.UserId);
+            course = _courseService.Create(course, token);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, token);
 
-            var solution = InstanceFactory.Solution(token.UserId, courseTask.Id);
-            var createdSolution = _solutionService.Create(solution, token.UserId);
-            var newSolution = _solutionService.Get(createdSolution.Id, token.UserId);
+            var solution = InstanceFactory.Solution(token, courseTask.Id);
+            var createdSolution = _solutionService.Create(solution, token);
+            var newSolution = _solutionService.Get(createdSolution.Id, token);
 
             Assert.IsNotNull(newSolution);
-            Assert.AreEqual(token.UserId, newSolution.AuthorId);
+            Assert.AreEqual(token, newSolution.AuthorId);
             Assert.AreEqual(courseTask.Id, newSolution.CourseTaskId);
         }
 
         [TestMethod]
         public void GetUserSolution()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token.UserId);
+            course = _courseService.Create(course, token);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, token);
 
-            var solution = InstanceFactory.Solution(token.UserId, courseTask.Id);
-            var createdSolution = _solutionService.Create(solution, token.UserId);
-            var newSolution = _solutionService.GetUserSolution(courseTask.Id, token.UserId, token.UserId);
+            var solution = InstanceFactory.Solution(token, courseTask.Id);
+            var createdSolution = _solutionService.Create(solution, token);
+            var newSolution = _solutionService.GetUserSolution(courseTask.Id, token, token);
 
             Assert.IsNotNull(newSolution);
-            Assert.AreEqual(token.UserId, newSolution.AuthorId);
+            Assert.AreEqual(token, newSolution.AuthorId);
             Assert.AreEqual(courseTask.Id, newSolution.CourseTaskId);
         }
 
         [TestMethod]
         public void GetTaskSolution()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token.UserId);
+            course = _courseService.Create(course, token);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, token);
 
-            var solution = InstanceFactory.Solution(token.UserId, courseTask.Id);
-            var createdSolution = _solutionService.Create(solution, token.UserId);
-            var newSolution = _solutionService.GetSolutionsByTask(courseTask.Id, token.UserId);
+            var solution = InstanceFactory.Solution(token, courseTask.Id);
+            var createdSolution = _solutionService.Create(solution, token);
+            var newSolution = _solutionService.GetSolutionsByTask(courseTask.Id, token);
 
             Assert.IsNotNull(newSolution);
-            Assert.AreEqual(1, newSolution.Count(s => s.AuthorId == token.UserId));
+            Assert.AreEqual(1, newSolution.Count(s => s.AuthorId == token));
         }
 
         [TestMethod]
         public void DeleteSolution()
         {
-            var token = InstanceFactory.RegisteredUserToken();
+            var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token.UserId);
-            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token.UserId);
+            course = _courseService.Create(course, token);
+            var courseTask = InstanceFactory.CourseTask(token, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, token);
 
-            var solution = InstanceFactory.Solution(token.UserId, courseTask.Id);
-            solution = _solutionService.Create(solution, token.UserId);
-            _solutionService.Delete(solution.Id, token.UserId);
-            var deletedSolution = _solutionService.Get(solution.Id, token.UserId);
+            var solution = InstanceFactory.Solution(token, courseTask.Id);
+            solution = _solutionService.Create(solution, token);
+            _solutionService.Delete(solution.Id, token);
+            var deletedSolution = _solutionService.Get(solution.Id, token);
 
             Assert.IsNull(deletedSolution);
         }

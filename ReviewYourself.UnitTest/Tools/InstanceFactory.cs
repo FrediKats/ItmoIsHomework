@@ -46,15 +46,13 @@ namespace ReviewYourself.UnitTest.Tools
             throw new NotImplementedException();
         }
 
-        public static Token RegisteredUserToken()
+        public static Guid AuthorizedUserId()
         {
             var authorizationService = ServiceFactory.AuthorizationService();
 
             var regData = RegistrationData();
-            var authData = AuthorizeData(regData);
-            authorizationService.RegisterMember(regData);
-            var token = authorizationService.LogIn(authData);
-            return token;
+            var userId = authorizationService.RegisterMember(regData).UserId;
+            return userId;
         }
     }
 }

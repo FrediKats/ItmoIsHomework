@@ -41,7 +41,7 @@ namespace ReviewYourself.UnitTest.Services
         {
             var regData = InstanceFactory.RegistrationData();
             _authorizationService.RegisterMember(regData);
-            Assert.IsFalse(_authorizationService.IsUsernameAvaliable(regData.Login));
+            Assert.IsFalse(_authorizationService.IsUsernameAvailable(regData.Login));
         }
     }
 }
