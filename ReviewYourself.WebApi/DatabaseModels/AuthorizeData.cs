@@ -1,4 +1,4 @@
-﻿namespace ReviewYourself.WebApi.Models
+﻿namespace ReviewYourself.WebApi.DatabaseModels
 {
     public class AuthorizeData
     {

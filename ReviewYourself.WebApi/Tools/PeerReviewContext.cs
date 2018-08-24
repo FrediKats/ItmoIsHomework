@@ -11,6 +11,7 @@ namespace ReviewYourself.WebApi.Tools
         }
 
         public DbSet<Announcing> Announcing { get; set; }
+        public DbSet<AuthorizeData> AuthorizeDatas { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseTask> CourseTasks { get; set; }
