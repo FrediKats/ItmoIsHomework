@@ -25,21 +25,12 @@ namespace ReviewYourself.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddJsonOptions(options =>
-                {
-                    var camelResolver = new CamelCasePropertyNamesContractResolver();
-                    options.SerializerSettings.ContractResolver = camelResolver;
-                });
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddScoped<IJwtTokenFactory, JwtTokenFactory>();
 
             services.AddDbContext<PeerReviewContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionString:LocalDb"]));
-
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<PeerReviewContext>()
-                .AddDefaultTokenProviders();
 
             services.AddAuthentication(options =>
                 {

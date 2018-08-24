@@ -32,7 +32,7 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpPost("Login")]
-        public ActionResult<(string Token, Guid UserId)> Login([FromBody] AuthorizeData data)
+        public ActionResult<Token> Login([FromBody] AuthorizeData data)
         {
             return _authService.LogIn(data);
         }

@@ -8,7 +8,7 @@ namespace ReviewYourself.WebApi.Tools
 {
     public class JwtTokenFactory : IJwtTokenFactory
     {
-        private const string Key = "some_of_my_key";
+        private const string Key = "q7fs8DDw823hSyaNYCKsa02";
 
         public string CreateJwtToken(Guid id)
         {

@@ -10,8 +10,8 @@ using ReviewYourself.WebApi.Tools;
 namespace ReviewYourself.WebApi.Migrations
 {
     [DbContext(typeof(PeerReviewContext))]
-    [Migration("20180824205944_update-v1")]
-    partial class updatev1
+    [Migration("20180824230648_BaseMigration")]
+    partial class BaseMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,6 +219,17 @@ namespace ReviewYourself.WebApi.Migrations
                     b.ToTable("Solutions");
                 });
 
+            modelBuilder.Entity("ReviewYourself.WebApi.DatabaseModels.Token", b =>
+                {
+                    b.Property<Guid>("UserId");
+
+                    b.Property<string>("AccessToken");
+
+                    b.HasKey("UserId", "AccessToken");
+
+                    b.ToTable("Tokens");
+                });
+
             modelBuilder.Entity("ReviewYourself.WebApi.DatabaseModels.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -236,7 +247,11 @@ namespace ReviewYourself.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("Login")
+                        .IsUnique()
+                        .HasFilter("[Login] IS NOT NULL");
+
+                    b.ToTable("UsersTable");
                 });
 
             modelBuilder.Entity("ReviewYourself.WebApi.DatabaseModels.Announcing", b =>

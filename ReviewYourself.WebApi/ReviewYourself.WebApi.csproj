@@ -19,6 +19,10 @@
     <Compile Remove="Migrations\20180822222049_InitialCreate.Designer.cs" />
     <Compile Remove="Migrations\20180822222740_InitialCreate.cs" />
     <Compile Remove="Migrations\20180822222740_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20180824205944_update-v1.cs" />
+    <Compile Remove="Migrations\20180824205944_update-v1.Designer.cs" />
+    <Compile Remove="Migrations\20180824225855_BaseMigration.cs" />
+    <Compile Remove="Migrations\20180824225855_BaseMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +37,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.2.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.4" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
 
@@ -38,12 +39,22 @@ namespace ReviewYourself.UnitTest.Tools
 
         public static RegistrationData RegistrationData()
         {
-            throw new NotImplementedException();
+            return new RegistrationData()
+            {
+                Login = GenerateString(),
+                FirstName = GenerateString(),
+                LastName = GenerateString(),
+                Password = GenerateString()
+            };
         }
 
         public static AuthorizeData AuthorizeData(RegistrationData data)
         {
-            throw new NotImplementedException();
+            return new AuthorizeData()
+            {
+                Login = data.Login,
+                Password = data.Password
+            };
         }
 
         public static Guid AuthorizedUserId()
@@ -53,6 +64,15 @@ namespace ReviewYourself.UnitTest.Tools
             var regData = RegistrationData();
             var userId = authorizationService.RegisterMember(regData).UserId;
             return userId;
+        }
+
+        private static readonly Random Random = new Random();
+        private static string GenerateString(int size = 15)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            var res = Enumerable.Range(1, size).Select(s => chars[Random.Next(chars.Length)]).ToArray();
+            return new string(res);
         }
     }
 }

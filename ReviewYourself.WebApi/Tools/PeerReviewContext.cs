@@ -21,14 +21,19 @@ namespace ReviewYourself.WebApi.Tools
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewCriteria> ReviewCriterias { get; set; }
         public DbSet<Solution> Solutions { get; set; }
+        public DbSet<Token> Tokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Participation>()
                 .HasKey(mt => new {mt.CourseId, mt.MemberId});
-
             modelBuilder.Entity<ReviewCriteria>()
                 .HasKey(rc => new {rc.CriteriaId, rc.ReviewId});
+            modelBuilder.Entity<Token>()
+                .HasKey(t => new {t.UserId, t.AccessToken});
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Login)
+                .IsUnique();
 
             //TODO: fix cascade delete
             var cascadeFKs = modelBuilder.Model.GetEntityTypes()

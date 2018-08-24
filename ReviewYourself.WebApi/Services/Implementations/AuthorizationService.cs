@@ -1,68 +1,68 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.AspNetCore.Identity;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Tools;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace ReviewYourself.WebApi.Services.Implementations
 {
     public class AuthorizationService : IAuthorizationService
     {
         private readonly PeerReviewContext _context;
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IJwtTokenFactory _tokenFactory;
-        private readonly UserManager<IdentityUser> _userManager;
 
         public AuthorizationService(PeerReviewContext context,
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
             IJwtTokenFactory tokenFactory)
         {
             _context = context;
-            _signInManager = signInManager;
-            _userManager = userManager;
             _tokenFactory = tokenFactory;
         }
 
-        public (string Token, Guid UserId) RegisterMember(RegistrationData data)
+        public Token RegisterMember(RegistrationData data)
         {
-            var user = new IdentityUser(data.Login);
-            var result = _userManager.CreateAsync(user, data.Password).Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().ToString());
-            }
-
-            _signInManager.SignInAsync(user, true);
-            var token = _tokenFactory.CreateJwtToken(Guid.Parse(user.Id));
-
-            _context.Users.Add(ToUser(data, Guid.Parse(user.Id)));
-            _context.AuthorizeDatas.Add(new AuthorizeData {Login = data.Login, Password = data.Password});
-            _context.SaveChanges();
-
-            return (token, Guid.Parse(user.Id));
-        }
-
-        public void LogOut(Token token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public (string Token, Guid UserId) LogIn(AuthorizeData authData)
-        {
-            var result = _signInManager.PasswordSignInAsync(
-                    authData.Login, authData.Password, false, false)
-                .Result;
-
-            if (!result.Succeeded)
+            if (IsUsernameAvailable(data.Login))
             {
                 throw new Exception();
             }
 
-            var user = _userManager.FindByNameAsync(authData.Login).Result;
-            var token = _tokenFactory.CreateJwtToken(Guid.Parse(user.Id));
-            return (token, Guid.Parse(user.Id));
+
+            var user = ToUser(data);
+            _context.Users.Add(user);
+            _context.AuthorizeDatas.Add(new AuthorizeData {Login = data.Login, Password = data.Password});
+            var jwtToken = _tokenFactory.CreateJwtToken(user.Id);
+            var token = new Token() {AccessToken = jwtToken, UserId = user.Id};
+            _context.Tokens.Add(token);
+            _context.SaveChanges();
+
+            return token;
+        }
+
+        public void LogOut(Token token)
+        {
+            var tokenToRemove = _context.Tokens
+                .First(t => t.AccessToken == token.AccessToken);
+            _context.Tokens.Remove(tokenToRemove);
+
+            _context.SaveChanges();
+        }
+
+        public Token LogIn(AuthorizeData authData)
+        {
+            if (_context.AuthorizeDatas.Any(ad => ad.Login == authData.Login
+                                                  && ad.Password == authData.Password))
+            {
+                var user = _context.Users
+                    .First(u => u.Login == authData.Login);
+                var jwtToken = _tokenFactory.CreateJwtToken(user.Id);
+                var token = new Token() { AccessToken = jwtToken, UserId = user.Id };
+                _context.Tokens.Add(token);
+                return token;
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
         public bool IsUsernameAvailable(string username)
@@ -70,11 +70,10 @@ namespace ReviewYourself.WebApi.Services.Implementations
             return _context.Users.Any(u => u.Login == username);
         }
 
-        private User ToUser(RegistrationData data, Guid id)
+        private User ToUser(RegistrationData data)
         {
             return new User
             {
-                Id = id,
                 Login = data.Login,
                 Email = data.Email,
                 FirstName = data.FirstName,
