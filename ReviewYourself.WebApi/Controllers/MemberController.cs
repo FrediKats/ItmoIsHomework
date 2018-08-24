@@ -18,10 +18,10 @@ namespace ReviewYourself.WebApi.Controllers
             _memberService = memberService;
         }
 
-        [HttpGet("SendStudentInvitation/{courseId}/{targetId}")]
+        [HttpGet("SendMemberInvitation/{courseId}/{targetId}")]
         public ActionResult SendStudentInvitation(Guid courseId, Guid targetId, [FromRoute] Token token)
         {
-            _memberService.SendStudentInvitation(courseId, targetId, token.UserId);
+            _memberService.SendMemberInvitation(courseId, targetId, token.UserId);
             return Ok();
         }
 

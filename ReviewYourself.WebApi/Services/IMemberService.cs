@@ -6,7 +6,7 @@ namespace ReviewYourself.WebApi.Services
 {
     public interface IMemberService
     {
-        void SendStudentInvitation(Guid courseId, Guid targetId, Guid executorId);
+        void SendMemberInvitation(Guid courseId, Guid targetId, Guid executorId);
         void SendMentorInvitation(Guid courseId, Guid targetId, Guid executorId);
         void AcceptInvite(Guid courseId, Guid executorId);
         void DenyInvite(Guid courseId, Guid executorId);

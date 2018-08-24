@@ -1,7 +1,6 @@
 ﻿using System;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
-using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.UnitTest.Tools
 {
