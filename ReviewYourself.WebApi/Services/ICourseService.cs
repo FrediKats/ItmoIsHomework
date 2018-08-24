@@ -7,7 +7,6 @@ namespace ReviewYourself.WebApi.Services
     public interface ICourseService
     {
         Course Create(Course course, Guid executorId);
-
         Course Get(Guid courseId);
         ICollection<Course> FindCourses(string courseName);
         void Update(Course course, Guid executorId);

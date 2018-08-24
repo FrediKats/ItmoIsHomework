@@ -20,12 +20,12 @@ namespace ReviewYourself.WebApi.Controllers
         [HttpPost("Register")]
         public ActionResult Register([FromBody] RegistrationData data)
         {
-            _authService.RegisterMember(data.Login, data.Password);
-            throw new NotImplementedException();
+            _authService.RegisterMember(data);
+            return Ok();
         }
 
         [HttpGet("Logout")]
-        public ActionResult Logout([FromRoute]Token token)
+        public ActionResult Logout([FromRoute] Token token)
         {
             throw new NotImplementedException();
         }
@@ -33,7 +33,7 @@ namespace ReviewYourself.WebApi.Controllers
         [HttpPost("Login")]
         public ActionResult<Token> Login([FromBody] AuthorizeData data)
         {
-            throw new NotImplementedException();
+            return _authService.LogIn(data);
         }
 
         [HttpGet("CheckUsername")]
