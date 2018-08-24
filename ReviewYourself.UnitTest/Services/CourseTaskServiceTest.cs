@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.UnitTest.Tools;
 using ReviewYourself.WebApi.Services;
@@ -10,80 +9,73 @@ namespace ReviewYourself.UnitTest.Services
     public class CourseTaskServiceTest
     {
         private ICourseService _courseService;
+        private ICourseTaskService _courseTaskService;
 
         [TestInitialize]
         public void Init()
         {
             _courseService = ServiceFactory.CourseService();
+            _courseTaskService = ServiceFactory.CourseTaskService();
         }
 
         [TestMethod]
-        public void CreateTest()
+        public void CreateTask()
         {
             var token = InstanceFactory.RegisteredUserToken();
             var course = InstanceFactory.Course();
+            course = _courseService.Create(course, token.UserId);
 
-            var createdCourse = _courseService.Create(course, token.UserId);
-            Assert.AreNotEqual(createdCourse.Id, Guid.Empty);
+            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
+            var createdTask = _courseTaskService.Create(courseTask, token.UserId);
+
+            Assert.IsNotNull(createdTask);
+            Assert.AreEqual(token.UserId, createdTask.AuthorId);
+            Assert.AreEqual(course.Id, createdTask.CourseId);
         }
 
         [TestMethod]
-        public void GetById()
+        public void GetTaskById()
         {
             var token = InstanceFactory.RegisteredUserToken();
             var course = InstanceFactory.Course();
+            course = _courseService.Create(course, token.UserId);
 
-            var createdCourse = _courseService.Create(course, token.UserId);
-            var courseById = _courseService.Get(createdCourse.Id);
-            Assert.IsNotNull(courseById);
+            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
+            var createdTask = _courseTaskService.Create(courseTask, token.UserId);
+            var taskById = _courseTaskService.Get(createdTask.Id, token.UserId);
+
+            Assert.IsNotNull(taskById);
+            Assert.AreEqual(token.UserId, taskById.AuthorId);
+            Assert.AreEqual(course.Id, taskById.CourseId);
         }
 
         [TestMethod]
-        public void GetByName()
+        public void GetTaskInCourse()
         {
             var token = InstanceFactory.RegisteredUserToken();
             var course = InstanceFactory.Course();
+            course = _courseService.Create(course, token.UserId);
 
-            var createdCourse = _courseService.Create(course, token.UserId);
-            var courseByName = _courseService.FindCourses(createdCourse.Title);
+            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
+            var createdTask = _courseTaskService.Create(courseTask, token.UserId);
+            var taskInList = _courseTaskService.GetTaskInCourse(course.Id, token.UserId);
 
-            Assert.AreEqual(1, courseByName.Count(c => c.Id == createdCourse.Id));
+            Assert.AreEqual(1, taskInList.Count(t => t.Id == createdTask.Id));
         }
 
         [TestMethod]
-        public void UpdateCourse()
+        public void DeleteTask()
         {
             var token = InstanceFactory.RegisteredUserToken();
             var course = InstanceFactory.Course();
+            course = _courseService.Create(course, token.UserId);
 
-            throw new NotImplementedException();
-        }
+            var courseTask = InstanceFactory.CourseTask(token.UserId, course.Id);
+            var createdTask = _courseTaskService.Create(courseTask, token.UserId);
+            _courseTaskService.Delete(createdTask.Id, token.UserId);
+            var taskInList = _courseTaskService.Get(createdTask.Id, token.UserId);
 
-        [TestMethod]
-        public void DeleteCourse()
-        {
-            var token = InstanceFactory.RegisteredUserToken();
-            var course = InstanceFactory.Course();
-
-            var createdCourse = _courseService.Create(course, token.UserId);
-            _courseService.Delete(createdCourse.Id, token.UserId);
-            var deletedCourse = _courseService.Get(createdCourse.Id);
-
-            Assert.IsNull(deletedCourse);
-        }
-
-        [TestMethod]
-        public void DeleteCourse_WithoutPermission()
-        {
-            var token = InstanceFactory.RegisteredUserToken();
-            var otherUser = InstanceFactory.RegisteredUserToken();
-            var course = InstanceFactory.Course();
-
-            var createdCourse = _courseService.Create(course, token.UserId);
-            _courseService.Delete(createdCourse.Id, otherUser.UserId);
-            var deletedCourse = _courseService.Get(createdCourse.Id);
-
-            Assert.IsNotNull(deletedCourse);
+            Assert.IsNull(taskInList);
         }
     }
 }
