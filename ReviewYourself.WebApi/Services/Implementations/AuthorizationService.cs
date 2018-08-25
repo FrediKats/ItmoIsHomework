@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Data;
 using System.Linq;
+using System.Security.Authentication;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Tools;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace ReviewYourself.WebApi.Services.Implementations
 {
@@ -21,17 +21,18 @@ namespace ReviewYourself.WebApi.Services.Implementations
 
         public Token RegisterMember(RegistrationData data)
         {
-            if (IsUsernameAvailable(data.Login))
+            if (IsUsernameAvailable(data.Login) == false)
             {
-                throw new Exception();
+                throw new DuplicateNameException(data.Login);
             }
 
-
-            var user = ToUser(data);
+            var user = data.ToUser();
             _context.Users.Add(user);
-            _context.AuthorizeDatas.Add(new AuthorizeData {Login = data.Login, Password = data.Password});
             var jwtToken = _tokenFactory.CreateJwtToken(user.Id);
-            var token = new Token() {AccessToken = jwtToken, UserId = user.Id};
+            var token = new Token {AccessToken = jwtToken, UserId = user.Id};
+            var authData = new AuthorizeData {Login = data.Login, Password = data.Password};
+
+            _context.AuthorizeDatas.Add(authData);
             _context.Tokens.Add(token);
             _context.SaveChanges();
 
@@ -49,36 +50,25 @@ namespace ReviewYourself.WebApi.Services.Implementations
 
         public Token LogIn(AuthorizeData authData)
         {
-            if (_context.AuthorizeDatas.Any(ad => ad.Login == authData.Login
-                                                  && ad.Password == authData.Password))
+            if (!_context.AuthorizeDatas.Any(ad => ad.Login == authData.Login
+                                                   && ad.Password == authData.Password))
             {
-                var user = _context.Users
-                    .First(u => u.Login == authData.Login);
-                var jwtToken = _tokenFactory.CreateJwtToken(user.Id);
-                var token = new Token() { AccessToken = jwtToken, UserId = user.Id };
-                _context.Tokens.Add(token);
-                return token;
+                throw new AuthenticationException("Invalid login or password");
             }
-            else
-            {
-                throw new Exception();
-            }
+
+            var user = _context.Users.First(u => u.Login == authData.Login);
+            var jwtToken = _tokenFactory.CreateJwtToken(user.Id);
+            var token = new Token {AccessToken = jwtToken, UserId = user.Id};
+
+            _context.Tokens.Add(token);
+            _context.SaveChanges();
+
+            return token;
         }
 
         public bool IsUsernameAvailable(string username)
         {
-            return _context.Users.Any(u => u.Login == username);
-        }
-
-        private User ToUser(RegistrationData data)
-        {
-            return new User
-            {
-                Login = data.Login,
-                Email = data.Email,
-                FirstName = data.FirstName,
-                LastName = data.LastName
-            };
+            return _context.Users.Any(u => u.Login == username) == false;
         }
     }
 }

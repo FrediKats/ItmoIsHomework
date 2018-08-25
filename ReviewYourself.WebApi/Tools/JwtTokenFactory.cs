@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
@@ -8,16 +9,29 @@ namespace ReviewYourself.WebApi.Tools
 {
     public class JwtTokenFactory : IJwtTokenFactory
     {
-        private const string Key = "q7fs8DDw823hSyaNYCKsa02";
+        private static readonly Random Random = new Random((int) DateTime.UtcNow.Ticks);
 
         public string CreateJwtToken(Guid id)
         {
-            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
-                claims: CreateClaimsIdentityFor(id.ToString()).Claims,
-                expires: DateTime.Now.Add(TimeSpan.FromMinutes(60)),
-                signingCredentials: CreateSigningCredentials(Key),
-                notBefore: DateTime.Now
-            ));
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentException();
+            }
+
+            return new JwtSecurityTokenHandler()
+                .WriteToken(new JwtSecurityToken(
+                    claims: CreateClaimsIdentityFor(id.ToString()).Claims,
+                    expires: DateTime.Now.Add(TimeSpan.FromMinutes(60)),
+                    signingCredentials: CreateSigningCredentials(GenerateKey()),
+                    notBefore: DateTime.Now
+                ));
+        }
+
+        private static string GenerateKey(int size = 23)
+        {
+            const string chars = "qwertyuiopasdfghjklzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var res = Enumerable.Range(1, size).Select(s => chars[Random.Next(chars.Length)]).ToArray();
+            return new string(res);
         }
 
         private static SigningCredentials CreateSigningCredentials(string key)

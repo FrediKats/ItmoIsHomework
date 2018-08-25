@@ -1,5 +1,4 @@
-﻿using System;
-using ReviewYourself.WebApi.DatabaseModels;
+﻿using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
 
 namespace ReviewYourself.WebApi.Services

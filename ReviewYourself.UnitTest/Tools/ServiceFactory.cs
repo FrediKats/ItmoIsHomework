@@ -8,6 +8,16 @@ namespace ReviewYourself.UnitTest.Tools
 {
     public static class ServiceFactory
     {
+        private static readonly IAuthorizationService _authorizationService;
+        private static ICourseService _courseService;
+        private static ICourseTaskService _courseTaskService;
+        private static IMemberService _memberService;
+
+        static ServiceFactory()
+        {
+            _authorizationService = new AuthorizationService(Options(), new JwtTokenFactory());
+        }
+
         private static PeerReviewContext Options()
         {
             var builder = new DbContextOptionsBuilder();
@@ -18,17 +28,17 @@ namespace ReviewYourself.UnitTest.Tools
 
         public static IAuthorizationService AuthorizationService()
         {
-            return new AuthorizationService(Options(), new JwtTokenFactory());
+            return _authorizationService;
         }
 
         public static ICourseService CourseService()
         {
-            throw new NotImplementedException();
+            return _courseService;
         }
 
         public static ICourseTaskService CourseTaskService()
         {
-            throw new NotImplementedException();
+            return _courseTaskService;
         }
 
         public static IMemberService MemberService()

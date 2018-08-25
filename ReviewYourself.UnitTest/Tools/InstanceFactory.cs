@@ -7,6 +7,8 @@ namespace ReviewYourself.UnitTest.Tools
 {
     public static class InstanceFactory
     {
+        private static readonly Random Random = new Random((int) DateTime.UtcNow.Ticks);
+
         public static Course Course()
         {
             throw new NotImplementedException();
@@ -39,7 +41,7 @@ namespace ReviewYourself.UnitTest.Tools
 
         public static RegistrationData RegistrationData()
         {
-            return new RegistrationData()
+            return new RegistrationData
             {
                 Login = GenerateString(),
                 FirstName = GenerateString(),
@@ -50,7 +52,7 @@ namespace ReviewYourself.UnitTest.Tools
 
         public static AuthorizeData AuthorizeData(RegistrationData data)
         {
-            return new AuthorizeData()
+            return new AuthorizeData
             {
                 Login = data.Login,
                 Password = data.Password
@@ -66,10 +68,9 @@ namespace ReviewYourself.UnitTest.Tools
             return userId;
         }
 
-        private static readonly Random Random = new Random();
         private static string GenerateString(int size = 15)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string chars = "qwertyuiopasdfghjklzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
             var res = Enumerable.Range(1, size).Select(s => chars[Random.Next(chars.Length)]).ToArray();
             return new string(res);

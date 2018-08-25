@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Authentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.UnitTest.Tools;
 using ReviewYourself.WebApi.Services;
@@ -8,10 +9,9 @@ namespace ReviewYourself.UnitTest.Services
     [TestClass]
     public class AuthorizationServiceTest
     {
-        private IAuthorizationService _authorizationService;
+        private static readonly IAuthorizationService _authorizationService;
 
-        [TestInitialize]
-        public void Init()
+        static AuthorizationServiceTest()
         {
             _authorizationService = ServiceFactory.AuthorizationService();
         }
@@ -24,7 +24,7 @@ namespace ReviewYourself.UnitTest.Services
         }
 
         [TestMethod]
-        public void LogIn()
+        public void LogIn_Correct()
         {
             var regData = InstanceFactory.RegistrationData();
             var auth = InstanceFactory.AuthorizeData(regData);
@@ -37,7 +37,19 @@ namespace ReviewYourself.UnitTest.Services
         }
 
         [TestMethod]
-        public void UsernameAvaliable_False()
+        public void LogIn_IncorrectPassword()
+        {
+            var regData = InstanceFactory.RegistrationData();
+            var auth = InstanceFactory.AuthorizeData(regData);
+            auth.Password = "new_wrong_password";
+
+            _authorizationService.RegisterMember(regData);
+
+            Assert.ThrowsException<AuthenticationException>(() => _authorizationService.LogIn(auth));
+        }
+
+        [TestMethod]
+        public void UsernameAvailable_False()
         {
             var regData = InstanceFactory.RegistrationData();
             _authorizationService.RegisterMember(regData);

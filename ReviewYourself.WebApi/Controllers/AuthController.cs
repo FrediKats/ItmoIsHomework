@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Services;
@@ -28,7 +27,8 @@ namespace ReviewYourself.WebApi.Controllers
         [HttpGet("Logout")]
         public ActionResult Logout([FromRoute] Token token)
         {
-            throw new NotImplementedException();
+            _authService.LogOut(token);
+            return Ok();
         }
 
         [HttpPost("Login")]
