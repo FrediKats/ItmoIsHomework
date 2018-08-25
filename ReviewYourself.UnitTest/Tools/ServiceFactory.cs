@@ -8,17 +8,14 @@ namespace ReviewYourself.UnitTest.Tools
 {
     public static class ServiceFactory
     {
-        private static readonly IAuthorizationService _authorizationService;
-        private static ICourseService _courseService;
-        private static ICourseTaskService _courseTaskService;
-        private static IMemberService _memberService;
-
         static ServiceFactory()
         {
-            _authorizationService = new AuthorizationService(Options(), new JwtTokenFactory());
+            var context = CreateContext();
+            AuthorizationService = new AuthorizationService(context, new JwtTokenFactory());
+            UserService = new UserService(context);
         }
 
-        private static PeerReviewContext Options()
+        private static PeerReviewContext CreateContext()
         {
             var builder = new DbContextOptionsBuilder();
             builder.UseSqlServer(Config.ConnectionString);
@@ -26,39 +23,12 @@ namespace ReviewYourself.UnitTest.Tools
             return context;
         }
 
-        public static IAuthorizationService AuthorizationService()
-        {
-            return _authorizationService;
-        }
-
-        public static ICourseService CourseService()
-        {
-            return _courseService;
-        }
-
-        public static ICourseTaskService CourseTaskService()
-        {
-            return _courseTaskService;
-        }
-
-        public static IMemberService MemberService()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static IReviewService ReviewService()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static ISolutionService SolutionService()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static IUserService UserService()
-        {
-            throw new NotImplementedException();
-        }
+        public static IAuthorizationService AuthorizationService { get; }
+        public static ICourseService CourseService { get; }
+        public static ICourseTaskService CourseTaskService { get; }
+        public static IMemberService MemberService { get; }
+        public static IReviewService ReviewService { get; }
+        public static ISolutionService SolutionService { get; }
+        public static IUserService UserService { get; }
     }
 }

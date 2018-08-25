@@ -14,8 +14,8 @@ namespace ReviewYourself.UnitTest.Services
         [TestInitialize]
         public void Init()
         {
-            _courseService = ServiceFactory.CourseService();
-            _courseTaskService = ServiceFactory.CourseTaskService();
+            _courseService = ServiceFactory.CourseService;
+            _courseTaskService = ServiceFactory.CourseTaskService;
         }
 
         [TestMethod]

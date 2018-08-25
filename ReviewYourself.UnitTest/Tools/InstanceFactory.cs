@@ -11,7 +11,11 @@ namespace ReviewYourself.UnitTest.Tools
 
         public static Course Course()
         {
-            throw new NotImplementedException();
+            return new Course()
+            {
+                Title = GenerateString(),
+                Description = GenerateString()
+            };
         }
 
         public static CourseTask CourseTask(Guid authorId, Guid courseId)
@@ -46,7 +50,8 @@ namespace ReviewYourself.UnitTest.Tools
                 Login = GenerateString(),
                 FirstName = GenerateString(),
                 LastName = GenerateString(),
-                Password = GenerateString()
+                Password = GenerateString(),
+                Email = GenerateString()
             };
         }
 
@@ -61,14 +66,14 @@ namespace ReviewYourself.UnitTest.Tools
 
         public static Guid AuthorizedUserId()
         {
-            var authorizationService = ServiceFactory.AuthorizationService();
+            var authorizationService = ServiceFactory.AuthorizationService;
 
             var regData = RegistrationData();
             var userId = authorizationService.RegisterMember(regData).UserId;
             return userId;
         }
 
-        private static string GenerateString(int size = 15)
+        public static string GenerateString(int size = 15)
         {
             const string chars = "qwertyuiopasdfghjklzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 

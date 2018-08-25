@@ -9,18 +9,18 @@ namespace ReviewYourself.UnitTest.Services
     [TestClass]
     public class AuthorizationServiceTest
     {
-        private static readonly IAuthorizationService _authorizationService;
+        private static readonly IAuthorizationService AuthorizationService;
 
         static AuthorizationServiceTest()
         {
-            _authorizationService = ServiceFactory.AuthorizationService();
+            AuthorizationService = ServiceFactory.AuthorizationService;
         }
 
         [TestMethod]
         public void RegistrationTest()
         {
             var regData = InstanceFactory.RegistrationData();
-            _authorizationService.RegisterMember(regData);
+            AuthorizationService.RegisterMember(regData);
         }
 
         [TestMethod]
@@ -29,8 +29,8 @@ namespace ReviewYourself.UnitTest.Services
             var regData = InstanceFactory.RegistrationData();
             var auth = InstanceFactory.AuthorizeData(regData);
 
-            _authorizationService.RegisterMember(regData);
-            var token = _authorizationService.LogIn(auth);
+            AuthorizationService.RegisterMember(regData);
+            var token = AuthorizationService.LogIn(auth);
 
             Assert.IsNotNull(token);
             Assert.AreNotEqual(token.UserId, Guid.Empty);
@@ -43,17 +43,17 @@ namespace ReviewYourself.UnitTest.Services
             var auth = InstanceFactory.AuthorizeData(regData);
             auth.Password = "new_wrong_password";
 
-            _authorizationService.RegisterMember(regData);
+            AuthorizationService.RegisterMember(regData);
 
-            Assert.ThrowsException<AuthenticationException>(() => _authorizationService.LogIn(auth));
+            Assert.ThrowsException<AuthenticationException>(() => AuthorizationService.LogIn(auth));
         }
 
         [TestMethod]
         public void UsernameAvailable_False()
         {
             var regData = InstanceFactory.RegistrationData();
-            _authorizationService.RegisterMember(regData);
-            Assert.IsFalse(_authorizationService.IsUsernameAvailable(regData.Login));
+            AuthorizationService.RegisterMember(regData);
+            Assert.IsFalse(AuthorizationService.IsUsernameAvailable(regData.Login));
         }
     }
 }

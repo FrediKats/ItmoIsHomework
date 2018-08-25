@@ -14,8 +14,8 @@ namespace ReviewYourself.UnitTest.Services
         [TestInitialize]
         public void Init()
         {
-            _authorizationService = ServiceFactory.AuthorizationService();
-            _userService = ServiceFactory.UserService();
+            _authorizationService = ServiceFactory.AuthorizationService;
+            _userService = ServiceFactory.UserService;
         }
 
         [TestMethod]
@@ -40,7 +40,13 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void Update()
         {
-            throw new NotImplementedException();
+            var token = InstanceFactory.AuthorizedUserId();
+            var user = _userService.Get(token);
+            var newName = InstanceFactory.GenerateString();
+            user.FirstName = newName;
+            _userService.Update(user, token);
+            var updatedUser = _userService.Get(token);
+            Assert.AreEqual(newName, updatedUser.FirstName);
         }
 
         [TestMethod]
