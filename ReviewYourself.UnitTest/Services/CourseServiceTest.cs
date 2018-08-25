@@ -9,10 +9,9 @@ namespace ReviewYourself.UnitTest.Services
     [TestClass]
     public class CourseServiceTest
     {
-        private ICourseService _courseService;
+        private static readonly ICourseService _courseService;
 
-        [TestInitialize]
-        public void Init()
+        static CourseServiceTest()
         {
             _courseService = ServiceFactory.CourseService;
         }
@@ -56,7 +55,13 @@ namespace ReviewYourself.UnitTest.Services
             var token = InstanceFactory.AuthorizedUserId();
             var course = InstanceFactory.Course();
 
-            throw new NotImplementedException();
+            var createdCourse = _courseService.Create(course, token);
+            var newTitle = InstanceFactory.GenerateString();
+            createdCourse.Title = newTitle;
+            _courseService.Update(createdCourse, token);
+            var updatedCourse = _courseService.Create(course, token);
+
+            Assert.AreEqual(newTitle, updatedCourse.Title);
         }
 
         [TestMethod]

@@ -8,21 +8,18 @@ namespace ReviewYourself.UnitTest.Services
     [TestClass]
     public class UserServiceTest
     {
-        private IAuthorizationService _authorizationService;
-        private IUserService _userService;
+        private static readonly IUserService UserService;
 
-        [TestInitialize]
-        public void Init()
+        static UserServiceTest()
         {
-            _authorizationService = ServiceFactory.AuthorizationService;
-            _userService = ServiceFactory.UserService;
+            UserService = ServiceFactory.UserService;
         }
 
         [TestMethod]
         public void GetUser()
         {
             var token = InstanceFactory.AuthorizedUserId();
-            var user = _userService.Get(token);
+            var user = UserService.Get(token);
 
             Assert.IsNotNull(user);
         }
@@ -31,8 +28,8 @@ namespace ReviewYourself.UnitTest.Services
         public void GetByName()
         {
             var token = InstanceFactory.AuthorizedUserId();
-            var userById = _userService.Get(token);
-            var userByName = _userService.Get(userById.Login);
+            var userById = UserService.Get(token);
+            var userByName = UserService.Get(userById.Login);
 
             Assert.AreEqual(token, userByName.Id);
         }
@@ -41,11 +38,11 @@ namespace ReviewYourself.UnitTest.Services
         public void Update()
         {
             var token = InstanceFactory.AuthorizedUserId();
-            var user = _userService.Get(token);
+            var user = UserService.Get(token);
             var newName = InstanceFactory.GenerateString();
             user.FirstName = newName;
-            _userService.Update(user, token);
-            var updatedUser = _userService.Get(token);
+            UserService.Update(user, token);
+            var updatedUser = UserService.Get(token);
             Assert.AreEqual(newName, updatedUser.FirstName);
         }
 

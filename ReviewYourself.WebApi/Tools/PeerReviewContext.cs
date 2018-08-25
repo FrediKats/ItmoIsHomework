@@ -16,12 +16,12 @@ namespace ReviewYourself.WebApi.Tools
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseTask> CourseTasks { get; set; }
         public DbSet<Criteria> Criterias { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Participation> MemberTypes { get; set; }
+        public DbSet<Participation> Participations { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewCriteria> ReviewCriterias { get; set; }
         public DbSet<Solution> Solutions { get; set; }
         public DbSet<Token> Tokens { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

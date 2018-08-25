@@ -12,6 +12,7 @@ namespace ReviewYourself.UnitTest.Tools
         {
             var context = CreateContext();
             AuthorizationService = new AuthorizationService(context, new JwtTokenFactory());
+            CourseService = new CourseService(context);
             UserService = new UserService(context);
         }
 
