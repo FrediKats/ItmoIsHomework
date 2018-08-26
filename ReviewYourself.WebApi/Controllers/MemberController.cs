@@ -17,17 +17,10 @@ namespace ReviewYourself.WebApi.Controllers
             _memberService = memberService;
         }
 
-        [HttpGet("SendMemberInvitation/{courseId}/{targetId}")]
+        [HttpGet("SendInvite/{courseId}/{targetId}")]
         public ActionResult SendStudentInvitation(Guid courseId, Guid targetId, [FromRoute] Token token)
         {
-            _memberService.SendMemberInvitation(courseId, targetId, token.UserId);
-            return Ok();
-        }
-
-        [HttpGet("SendMentorInvitation/{courseId}/{targetId}")]
-        public ActionResult SendMentorInvitation(Guid courseId, Guid targetId, [FromRoute] Token token)
-        {
-            _memberService.SendMentorInvitation(courseId, targetId, token.UserId);
+            _memberService.SendInvite(courseId, targetId, token.UserId);
             return Ok();
         }
 

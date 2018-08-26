@@ -11,7 +11,7 @@ namespace ReviewYourself.UnitTest.Tools
 
         public static Course Course()
         {
-            return new Course()
+            return new Course
             {
                 Title = GenerateString(),
                 Description = GenerateString()
@@ -20,12 +20,31 @@ namespace ReviewYourself.UnitTest.Tools
 
         public static CourseTask CourseTask(Guid authorId, Guid courseId)
         {
-            throw new NotImplementedException();
+            return new CourseTask
+            {
+                AuthorId = authorId,
+                CourseId = courseId,
+                Description = GenerateString(),
+                PostTime = DateTime.UtcNow
+                //TODO: fix criterias adding
+                //Criterias = new List<Criteria> { Criteria(), Criteria(),Criteria()}
+            };
         }
 
         public static Criteria Criteria(Guid courseTaskId)
         {
-            throw new NotImplementedException();
+            return new Criteria
+            {
+                Description = GenerateString(),
+                CourseTaskId = courseTaskId,
+                Title = GenerateString(),
+                MaxPoint = Random.Next(100)
+            };
+        }
+
+        public static Criteria Criteria()
+        {
+            return Criteria(Guid.Empty);
         }
 
         public static Review Review(Guid authorId, Guid solutionId, CourseTask courseTask)
@@ -35,7 +54,13 @@ namespace ReviewYourself.UnitTest.Tools
 
         public static Solution Solution(Guid authorId, Guid courseTaskId)
         {
-            throw new NotImplementedException();
+            return new Solution
+            {
+                AuthorId = authorId,
+                CourseTaskId = courseTaskId,
+                TextData = GenerateString(),
+                PostTime = DateTime.UtcNow
+            };
         }
 
         public static User User()

@@ -26,21 +26,7 @@ namespace ReviewYourself.UnitTest.Services
             var course = InstanceFactory.Course();
 
             var createdCourse = _courseService.Create(course, creator);
-            _memberService.SendMemberInvitation(createdCourse.Id, otherUser, creator);
-            var invites = _memberService.GetUserInvitations(otherUser);
-
-            Assert.IsTrue(invites.Any(c => c.Id == createdCourse.Id));
-        }
-
-        [TestMethod]
-        public void InviteMentor()
-        {
-            var creator = InstanceFactory.AuthorizedUserId();
-            var otherUser = InstanceFactory.AuthorizedUserId();
-            var course = InstanceFactory.Course();
-
-            var createdCourse = _courseService.Create(course, creator);
-            _memberService.SendMentorInvitation(createdCourse.Id, otherUser, creator);
+            _memberService.SendInvite(createdCourse.Id, otherUser, creator);
             var invites = _memberService.GetUserInvitations(otherUser);
 
             Assert.IsTrue(invites.Any(c => c.Id == createdCourse.Id));
@@ -54,7 +40,7 @@ namespace ReviewYourself.UnitTest.Services
             var course = InstanceFactory.Course();
 
             var createdCourse = _courseService.Create(course, creator);
-            _memberService.SendMentorInvitation(createdCourse.Id, otherUser, creator);
+            _memberService.SendInvite(createdCourse.Id, otherUser, creator);
             _memberService.AcceptInvite(createdCourse.Id, otherUser);
 
             Assert.IsTrue(_memberService.IsMember(createdCourse.Id, otherUser));
@@ -68,7 +54,7 @@ namespace ReviewYourself.UnitTest.Services
             var course = InstanceFactory.Course();
 
             var createdCourse = _courseService.Create(course, creator);
-            _memberService.SendMentorInvitation(createdCourse.Id, otherUser, creator);
+            _memberService.SendInvite(createdCourse.Id, otherUser, creator);
             _memberService.AcceptInvite(createdCourse.Id, otherUser);
             var courses = _memberService.GetUserCourses(otherUser);
 
@@ -83,7 +69,7 @@ namespace ReviewYourself.UnitTest.Services
             var course = InstanceFactory.Course();
 
             var createdCourse = _courseService.Create(course, creator);
-            _memberService.SendMentorInvitation(createdCourse.Id, otherUser, creator);
+            _memberService.SendInvite(createdCourse.Id, otherUser, creator);
             _memberService.DenyInvite(createdCourse.Id, otherUser);
             var invites = _memberService.GetUserInvitations(otherUser);
 
@@ -98,7 +84,7 @@ namespace ReviewYourself.UnitTest.Services
             var course = InstanceFactory.Course();
 
             var createdCourse = _courseService.Create(course, creator);
-            _memberService.SendMentorInvitation(createdCourse.Id, otherUser, creator);
+            _memberService.SendInvite(createdCourse.Id, otherUser, creator);
             _memberService.AcceptInvite(createdCourse.Id, otherUser);
             var members = _memberService.GetMembers(otherUser);
 
@@ -125,7 +111,7 @@ namespace ReviewYourself.UnitTest.Services
             var course = InstanceFactory.Course();
 
             var createdCourse = _courseService.Create(course, creator);
-            _memberService.SendMentorInvitation(createdCourse.Id, otherUser, creator);
+            _memberService.SendInvite(createdCourse.Id, otherUser, creator);
             _memberService.AcceptInvite(createdCourse.Id, otherUser);
             _memberService.MakeMentor(createdCourse.Id, otherUser, creator);
 
@@ -140,7 +126,7 @@ namespace ReviewYourself.UnitTest.Services
             var course = InstanceFactory.Course();
 
             var createdCourse = _courseService.Create(course, creator);
-            _memberService.SendMentorInvitation(createdCourse.Id, otherUser, creator);
+            _memberService.SendInvite(createdCourse.Id, otherUser, creator);
             _memberService.AcceptInvite(createdCourse.Id, otherUser);
             _memberService.MakeMentor(createdCourse.Id, otherUser, creator);
             var mentors = _memberService.GetMentors(createdCourse.Id);
@@ -156,7 +142,7 @@ namespace ReviewYourself.UnitTest.Services
             var course = InstanceFactory.Course();
 
             var createdCourse = _courseService.Create(course, creator);
-            _memberService.SendMentorInvitation(createdCourse.Id, otherUser, creator);
+            _memberService.SendInvite(createdCourse.Id, otherUser, creator);
             _memberService.AcceptInvite(createdCourse.Id, otherUser);
             _memberService.DeleteMember(createdCourse.Id, otherUser, creator);
 

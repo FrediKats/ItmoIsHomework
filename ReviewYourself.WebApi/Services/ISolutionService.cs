@@ -6,7 +6,7 @@ namespace ReviewYourself.WebApi.Services
 {
     public interface ISolutionService
     {
-        Solution Create(Solution solution, Guid executor);
+        Solution Create(Solution solution, Guid executorId);
         Solution Get(Guid solutionId, Guid executorId);
         Solution GetUserSolution(Guid taskId, Guid userId, Guid executorId);
         ICollection<Solution> GetSolutionsByTask(Guid taskId, Guid executor);

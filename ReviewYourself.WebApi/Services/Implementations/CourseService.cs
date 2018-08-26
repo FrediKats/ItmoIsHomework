@@ -20,7 +20,8 @@ namespace ReviewYourself.WebApi.Services.Implementations
         public Course Create(Course course, Guid executorId)
         {
             _context.Courses.Add(course);
-            var partition = new Participation() {CourseId = course.Id, MemberId = executorId, Permission = MemberPermission.Creator};
+            var partition = new Participation
+                {CourseId = course.Id, MemberId = executorId, Permission = MemberPermission.Creator};
             _context.Participations.Add(partition);
             _context.SaveChanges();
 
