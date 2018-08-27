@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.UnitTest.Tools;
 using ReviewYourself.WebApi.Services;
@@ -33,6 +34,20 @@ namespace ReviewYourself.UnitTest.Services
         }
 
         [TestMethod]
+        public void InviteMember_AlreadyInvited()
+        {
+            var creator = InstanceFactory.AuthorizedUserId();
+            var otherUser = InstanceFactory.AuthorizedUserId();
+            var course = InstanceFactory.Course();
+
+            var createdCourse = _courseService.Create(course, creator);
+            _memberService.SendInvite(createdCourse.Id, otherUser, creator);
+
+            Assert.ThrowsException<InvalidOperationException>(()
+                => _memberService.SendInvite(createdCourse.Id, otherUser, creator));
+        }
+
+        [TestMethod]
         public void AcceptInvite_IsMember()
         {
             var creator = InstanceFactory.AuthorizedUserId();
@@ -62,7 +77,7 @@ namespace ReviewYourself.UnitTest.Services
         }
 
         [TestMethod]
-        public void DenyInvite_NoInvite()
+        public void DenyInvite()
         {
             var creator = InstanceFactory.AuthorizedUserId();
             var otherUser = InstanceFactory.AuthorizedUserId();
@@ -73,7 +88,19 @@ namespace ReviewYourself.UnitTest.Services
             _memberService.DenyInvite(createdCourse.Id, otherUser);
             var invites = _memberService.GetUserInvitations(otherUser);
 
-            Assert.IsTrue(invites.Any(c => c.Id == createdCourse.Id));
+            Assert.IsFalse(invites.Any(c => c.Id == createdCourse.Id));
+        }
+
+        [TestMethod]
+        public void DenyInvite_ExceptionNoInvite()
+        {
+            var creator = InstanceFactory.AuthorizedUserId();
+            var otherUser = InstanceFactory.AuthorizedUserId();
+            var course = InstanceFactory.Course();
+
+            var createdCourse = _courseService.Create(course, creator);
+            Assert.ThrowsException<Exception>(()
+                => _memberService.DenyInvite(createdCourse.Id, otherUser));
         }
 
         [TestMethod]
@@ -86,7 +113,7 @@ namespace ReviewYourself.UnitTest.Services
             var createdCourse = _courseService.Create(course, creator);
             _memberService.SendInvite(createdCourse.Id, otherUser, creator);
             _memberService.AcceptInvite(createdCourse.Id, otherUser);
-            var members = _memberService.GetMembers(otherUser);
+            var members = _memberService.GetMembers(createdCourse.Id);
 
             Assert.IsTrue(members.Any(c => c.Id == otherUser));
         }
@@ -98,7 +125,7 @@ namespace ReviewYourself.UnitTest.Services
             var course = InstanceFactory.Course();
 
             var createdCourse = _courseService.Create(course, creator);
-            var members = _memberService.GetMentors(creator);
+            var members = _memberService.GetMentors(createdCourse.Id);
 
             Assert.IsTrue(members.Any(c => c.Id == creator));
         }
@@ -135,7 +162,7 @@ namespace ReviewYourself.UnitTest.Services
         }
 
         [TestMethod]
-        public void DeleteMember_IsNotMember()
+        public void DeleteMember()
         {
             var creator = InstanceFactory.AuthorizedUserId();
             var otherUser = InstanceFactory.AuthorizedUserId();

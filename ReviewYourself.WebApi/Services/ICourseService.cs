@@ -9,7 +9,7 @@ namespace ReviewYourself.WebApi.Services
         Course Create(Course course, Guid executorId);
         Course Get(Guid courseId);
         ICollection<Course> FindCourses(string courseName);
-        void Update(Course course, Guid executorId);
+        Course Update(Course course, Guid executorId);
         void Delete(Guid courseId, Guid executorId);
     }
 }

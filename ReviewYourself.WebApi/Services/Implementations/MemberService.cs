@@ -32,6 +32,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
         {
             var participation = _context.Participations
                 .FirstOrDefault(p => p.MemberId == executorId && p.CourseId == courseId);
+
             if (participation == null)
             {
                 throw new ArgumentException("Invite not found");
@@ -45,6 +46,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
             if (participation.Permission == MemberPermission.Invited)
             {
                 participation.Permission = MemberPermission.Member;
+                _context.Participations.Update(participation);
                 _context.SaveChanges();
             }
             else
@@ -57,6 +59,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
         {
             var participation = _context.Participations
                 .FirstOrDefault(p => p.MemberId == executorId && p.CourseId == courseId);
+
             if (participation == null)
             {
                 throw new ArgumentException("Invite not found");
@@ -82,7 +85,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
         {
             return _context.Participations
                 .Where(p => p.MemberId == userId && p.Permission != MemberPermission.Invited)
-                .Select(p => p.Course)
+                .Join(_context.Courses, p => p.CourseId, c => c.Id, (p, c) => c)
                 .ToList();
         }
 
@@ -90,15 +93,18 @@ namespace ReviewYourself.WebApi.Services.Implementations
         {
             return _context.Participations
                 .Where(p => p.MemberId == userId && p.Permission == MemberPermission.Invited)
-                .Select(p => p.Course)
+                .Join(_context.Courses, p => p.MemberId, c => c.Id, (p, c) => c)
                 .ToList();
         }
 
         public ICollection<User> GetMembers(Guid courseId)
         {
             return _context.Participations
-                .Where(p => p.CourseId == courseId && p.Permission != MemberPermission.Invited)
-                .Select(p => p.User)
+                .Where(p => p.CourseId == courseId &&
+                            (p.Permission == MemberPermission.Member
+                             || p.Permission == MemberPermission.Mentor
+                             || p.Permission == MemberPermission.Creator))
+                .Join(_context.Users, p => p.MemberId, u => u.Id, (p, u) => u)
                 .ToList();
         }
 
@@ -108,7 +114,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
                 .Where(p => p.CourseId == courseId &&
                             (p.Permission == MemberPermission.Mentor
                              || p.Permission == MemberPermission.Creator))
-                .Select(p => p.User)
+                .Join(_context.Users, p => p.MemberId, u => u.Id, (p, u) => u)
                 .ToList();
         }
 
@@ -116,6 +122,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
         {
             return _context.Participations
                 .Any(p => p.CourseId == courseId &&
+                          p.MemberId == memberId &&
                           (p.Permission == MemberPermission.Mentor
                            || p.Permission == MemberPermission.Creator));
         }
@@ -123,15 +130,20 @@ namespace ReviewYourself.WebApi.Services.Implementations
         public bool IsMember(Guid courseId, Guid memberId)
         {
             return _context.Participations
-                .Any(p => p.CourseId == courseId && p.Permission != MemberPermission.Invited);
+                .Any(p => p.CourseId == courseId &&
+                          p.MemberId == memberId &&
+                          (p.Permission == MemberPermission.Member
+                           || p.Permission == MemberPermission.Mentor
+                           || p.Permission == MemberPermission.Creator));
         }
 
         public void MakeMentor(Guid courseId, Guid targetId, Guid executorId)
         {
             var participation = _context.Participations
                 .FirstOrDefault(p => p.MemberId == executorId && p.CourseId == courseId);
+
             if (participation == null
-                || participation.Permission != MemberPermission.Invited)
+                || participation.Permission == MemberPermission.Invited)
             {
                 throw new ArgumentException("No such member");
             }
@@ -144,6 +156,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
             if (participation.Permission == MemberPermission.Member)
             {
                 participation.Permission = MemberPermission.Mentor;
+                _context.Participations.Update(participation);
                 _context.SaveChanges();
             }
         }

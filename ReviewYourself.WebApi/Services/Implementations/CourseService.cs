@@ -21,7 +21,11 @@ namespace ReviewYourself.WebApi.Services.Implementations
         {
             _context.Courses.Add(course);
             var partition = new Participation
-                {CourseId = course.Id, MemberId = executorId, Permission = MemberPermission.Creator};
+            {
+                CourseId = course.Id,
+                MemberId = executorId,
+                Permission = MemberPermission.Creator
+            };
             _context.Participations.Add(partition);
             _context.SaveChanges();
 
@@ -41,7 +45,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
             return courses;
         }
 
-        public void Update(Course course, Guid executorId)
+        public Course Update(Course course, Guid executorId)
         {
             //TODO: check if executorId is admin
             var currentCourse = _context.Courses.Find(course.Id);
@@ -53,6 +57,8 @@ namespace ReviewYourself.WebApi.Services.Implementations
 
             _context.Courses.Update(course);
             _context.SaveChanges();
+
+            return course;
         }
 
         public void Delete(Guid courseId, Guid executorId)
