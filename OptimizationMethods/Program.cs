@@ -8,6 +8,7 @@ namespace Lab1
         {
             Console.WriteLine(MinimumSearch.BinarySearch(x => Math.Pow(x - 5, 2), -1, 6, 0.001));
             Console.WriteLine(MinimumSearch.GoldenRatio(x => Math.Pow(x - 5, 2), -1, 6, 0.001));
+            Console.WriteLine(MinimumSearch.FibonacciMethod(x => Math.Pow(x - 5, 2), -1, 6, 0.001));
         }
     }
 }
