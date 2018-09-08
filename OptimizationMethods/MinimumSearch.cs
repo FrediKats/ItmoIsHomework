@@ -6,7 +6,7 @@ namespace Lab1
 {
     public static class MinimumSearch
     {
-        public static double Phi => (Math.Sqrt(5) + 1) / 2;
+        private static double PHI => (Math.Sqrt(5) + 1) / 2;
 
         public static double BinarySearch(Func<double, double> function, double left, double right, double epsilon)
         {
@@ -31,33 +31,15 @@ namespace Lab1
                 }
             }
 
-            return (right + left) / 2;
+            return (left + right) / 2;
         }
 
         public static double GoldenRatio(Func<double, double> function, double left, double right, double epsilon)
         {
-            double x1 = default;
-            double x2 = default;
-            double f1 = default;
-            double f2 = default;
-
-            if (right - left >= epsilon)
-            {
-                x1 = left + (right - left) * (3 - Math.Sqrt(5)) / 2;
-                x2 = left + (right - left) * (Math.Sqrt(5) - 1) / 2;
-
-                f1 = function(x1);
-                f2 = function(x2);
-
-                if (f1 >= f2)
-                {
-                    left = x1;
-                }
-                else
-                {
-                    right = x2;
-                }
-            }
+            double x1 = left + (right - left) * (3 - Math.Sqrt(5)) / 2;
+            double x2 = left + (right - left) * (Math.Sqrt(5) - 1) / 2;
+            double f1 = function(x1);
+            double f2 = function(x2);
 
             while (right - left >= epsilon)
             {
@@ -102,12 +84,8 @@ namespace Lab1
             double f1 = function(x1);
             double f2 = function(x2);
 
-            Console.WriteLine($"left = {left}, x1 = {x1}, x2 = {x2}, right = {right}");
-
             while (++k != n)
             {
-                Console.WriteLine(k);
-
                 if (f1 > f2)
                 {
                     left = x1;
@@ -129,7 +107,7 @@ namespace Lab1
             return (left + right) / 2;
         }
 
-        private static int FibonacciOrder(int number) => number == 0 ? 0 : (int)Math.Round((Math.Log(number) + Math.Log(5) / 2) / Math.Log(Phi));
+        private static int FibonacciOrder(int number) => number == 0 ? 0 : (int)Math.Round((Math.Log(number) + Math.Log(5) / 2) / Math.Log(PHI));
 
         //private static int FibonacciNumber(int n) => (int)Math.Round((Math.Pow(Phi, n) - Math.Pow(-Phi, -n)) / (2 * Phi - 1));
     }

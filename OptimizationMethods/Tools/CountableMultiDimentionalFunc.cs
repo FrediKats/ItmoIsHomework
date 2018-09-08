@@ -5,7 +5,7 @@ namespace Lab1.Tools
 {
     public class CountableMultiDimensionalFunc
     {
-        public CountableMultiDimensionalFunc(ScalarField<double> function, List<double> startPoint, double functionEpsilon, List<double> parameterEpsilon)
+        public CountableMultiDimensionalFunc(Func<double[], double> function, List<double> startPoint, double functionEpsilon, List<double> parameterEpsilon)
         {
             _function = function;
             StartPoint = startPoint;
@@ -13,10 +13,10 @@ namespace Lab1.Tools
             ParameterEpsilon = parameterEpsilon;
         }
 
-        private readonly ScalarField<double> _function;
+        private readonly Func<double[], double> _function;
         private int _callCount;
 
-        public ScalarField<double> Function
+        public Func<double[], double> Function
         {
             get
             {
