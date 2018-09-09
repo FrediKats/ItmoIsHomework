@@ -7,14 +7,21 @@ namespace Lab1
 {
     public static class MultidimentionalMinimumSearch
     {
-        public static IEnumerable<double> GradientDescent(Func<double[], double> field, double[] point, double functionEpsilon, double[] parameterEpsilons)
+        public static double[] GradientDescent(Func<double[], double> field, double[] point, double functionEpsilon, double[] parameterEpsilons)
         {
             if (point.Length != parameterEpsilons.Length) throw new ArgumentException();
 
-            double[] gradient = Gradient(field, point, parameterEpsilons);
-            double[] direction = UnitVector(gradient);
+            double lambda = 1;
 
-            return null;
+            while(true)
+            {
+                double[] gradient = Gradient(field, point, parameterEpsilons);
+                double[] direction = UnitVector(gradient);
+
+                point = point.Zip(direction, (x, y) => x - y * lambda).ToArray();
+            }
+
+            return point;
         }
 
         private static double[] Gradient(Func<double[], double> field, double[] point, double[] parameterEpsilons)
@@ -28,6 +35,8 @@ namespace Lab1
                 gradient[i] = NumericalDifferentiation(field, point, i, parameterEpsilons[i]);
             }
 
+            gradient.ToList().ForEach(Console.WriteLine);
+
             return gradient;
         }
 
@@ -39,13 +48,13 @@ namespace Lab1
             double[][] coeffs = new double[number][];
             coeffs[0] = new double[number];
 
-            double value = point[variable];
-            double left = point[variable] -= (number / 2) * epsilon;
+            double[] tmpPoint = point.Select(x => x).ToArray();
+            double left = tmpPoint[variable] -= (number / 2) * epsilon;
 
             for (int i = 0; i < coeffs[0].Length; i++)
             {
-                point[variable] = left + epsilon * i;
-                coeffs[0][i] = field(point);
+                tmpPoint[variable] = left + epsilon * i;
+                coeffs[0][i] = field(tmpPoint);
             }
 
             for (int i = 1; i < coeffs.Length; i++)
@@ -58,7 +67,7 @@ namespace Lab1
                 }
             }
 
-            double t = (value - left) / epsilon;
+            double t = (point[variable] - left) / epsilon;
 
             return (coeffs[1][0] + coeffs[2][0] * (2 * t - 1) / 2 + coeffs[3][0] * (3 * Math.Pow(t, 2) - 6 * t + 2) / 6 + coeffs[4][0] * (2 * Math.Pow(t, 3) - 9 * Math.Pow(t, 2) + 11 * t - 3) / 12) / epsilon;
         }

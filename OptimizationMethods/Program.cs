@@ -21,7 +21,10 @@ namespace Lab1
             Console.WriteLine(MinimumSearch.BinarySearch(func, -1, 6, 0.001));
             Console.WriteLine(MinimumSearch.GoldenRatio(func, -1, 6, 0.001));
             Console.WriteLine(MinimumSearch.FibonacciMethod(func, -1, 6, 0.001));
-            Console.WriteLine(MultidimentionalMinimumSearch.GradientDescent(field, new double[] { 1, 5, 2 }, 0.1, new double[] { 0.1, 0.1, 0.1 }));
+
+            MultidimentionalMinimumSearch.GradientDescent(field, new double[] { 1, 5, 2 }, 0.1, new double[] { 0.1, 0.1, 0.1 })
+                                         .ToList()
+                                         .ForEach(Console.WriteLine);
         }
     }
 }
