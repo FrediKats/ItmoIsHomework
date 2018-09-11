@@ -11,14 +11,32 @@ namespace Lab1
         {
             if (point.Length != parameterEpsilons.Length) throw new ArgumentException();
 
-            double lambda = 1;
+            double lambda = Math.Sqrt(3) * parameterEpsilons.Min();
+            double prevFunc = field(point);
+            bool completed = false;
 
-            while(true)
+            while (!completed)
             {
                 double[] gradient = Gradient(field, point, parameterEpsilons);
                 double[] direction = UnitVector(gradient);
 
+                double[] prevPoint = point;
+
                 point = point.Zip(direction, (x, y) => x - y * lambda).ToArray();
+
+                double func = field(point);
+
+                Console.WriteLine(func);
+                Console.WriteLine("-----");
+                point.ToList().ForEach(Console.WriteLine);
+                Console.WriteLine("-----");
+
+                completed = Math.Abs(func - prevFunc) < functionEpsilon ||
+                            point.Zip(prevPoint, (po, pr) => Math.Abs(po - pr))
+                                 .Zip(parameterEpsilons, (diff, eps) => diff < eps)
+                                 .All(i => i);
+
+                prevFunc = func;
             }
 
             return point;
@@ -34,8 +52,6 @@ namespace Lab1
             {
                 gradient[i] = NumericalDifferentiation(field, point, i, parameterEpsilons[i]);
             }
-
-            gradient.ToList().ForEach(Console.WriteLine);
 
             return gradient;
         }
