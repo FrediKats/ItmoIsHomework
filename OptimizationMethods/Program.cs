@@ -32,7 +32,7 @@ namespace Lab1
                                          .ToList()
                                          .ForEach(Console.WriteLine);
 
-            MultidimentionalMinimumSearch.DirectSearch(x => x[0] * x[0] * x[1] + 5, new double[] { -2, -1 }, new double[] { 2, 1 }, 0.1)
+            MultidimentionalMinimumSearch.DirectSearch(x => x[0] * x[1] + 5, new double[] { -2, -1 }, new double[] { 2, 1 }, 0.1)
                                         .ToList()
                                         .ForEach(Console.WriteLine);
         }
