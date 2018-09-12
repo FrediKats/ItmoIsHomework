@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Lab1.Tools
+namespace Lab1.Models
 {
     public class CountableMultiDimensionalFunc
     {
-        public CountableMultiDimensionalFunc(Func<double[], double> function, List<double> startPoint, double functionEpsilon, List<double> parameterEpsilon)
+        public CountableMultiDimensionalFunc(Func<double[], double> function, double[] startPoint, double functionEpsilon, double[] parameterEpsilon)
         {
             _function = function;
             StartPoint = startPoint;
@@ -13,9 +14,14 @@ namespace Lab1.Tools
             ParameterEpsilon = parameterEpsilon;
         }
 
+        public void IncIteration()
+        {
+            _iterationCount++;
+        }
+
         private readonly Func<double[], double> _function;
         private int _callCount;
-
+        private int _iterationCount;
         public Func<double[], double> Function
         {
             get
@@ -25,9 +31,12 @@ namespace Lab1.Tools
             }
         }
 
+        public int IterationCount => _iterationCount;
         public int CallCount => _callCount;
-        public List<double> StartPoint { get; }
+        public double[] StartPoint { get; set; }
         public double FunctionEpsilon { get; }
-        public List<double> ParameterEpsilon { get; }
+        public double[] ParameterEpsilon { get; }
+
+
     }
 }

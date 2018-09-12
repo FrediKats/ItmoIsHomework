@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Lab1.Models;
 
 namespace Lab1
 {
@@ -32,6 +33,34 @@ namespace Lab1
             }
 
             return (left + right) / 2;
+        }
+
+        public static double BinarySearch(CountableFunc funcData)
+        {
+            double delta = 0.8 * funcData.Epsilon / 2;
+
+            while (funcData.Right - funcData.Left >= funcData.Epsilon)
+            {
+                double x1 = (funcData.Left + funcData.Right) / 2 - delta;
+                double x2 = (funcData.Left + funcData.Right) / 2 + delta;
+
+                double f1 = funcData.Function(x1);
+                double f2 = funcData.Function(x2);
+
+                if (f1 <= f2)
+                {
+                    funcData.Right = x2;
+                }
+
+                if (f1 >= f2)
+                {
+                    funcData.Left = x1;
+                }
+
+                funcData.SaveData();
+            }
+
+            return (funcData.Left + funcData.Right) / 2;
         }
 
         public static double GoldenRatio(Func<double, double> function, double left, double right, double epsilon)

@@ -2,11 +2,45 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Lab1.Models;
 
 namespace Lab1
 {
     public static class MultidimentionalMinimumSearch
     {
+        public static double[] GradientDescent(CountableMultiDimensionalFunc funcData)
+        {
+            if (funcData.StartPoint.Length != funcData.ParameterEpsilon.Length) throw new ArgumentException();
+            var point = funcData.StartPoint;
+
+            double lambda = Math.Sqrt(3) * funcData.ParameterEpsilon.Min();
+            double prevFunc = funcData.Function(point);
+            bool completed = false;
+
+            while (!completed)
+            {
+                funcData.IncIteration();
+
+                double[] gradient = Gradient(funcData.Function, point, funcData.ParameterEpsilon);
+                double[] direction = UnitVector(gradient);
+
+                double[] prevPoint = point;
+
+                point = point.Zip(direction, (x, y) => x - y * lambda).ToArray();
+
+                double func = funcData.Function(point);
+
+                completed = Math.Abs(func - prevFunc) < funcData.FunctionEpsilon ||
+                            point.Zip(prevPoint, (po, pr) => Math.Abs(po - pr))
+                                .Zip(funcData.ParameterEpsilon, (diff, eps) => diff < eps)
+                                .All(i => i);
+
+                prevFunc = func;
+            }
+
+            return point;
+        }
+
         public static double[] GradientDescent(Func<double[], double> field, double[] point, double functionEpsilon, double[] parameterEpsilons)
         {
             if (point.Length != parameterEpsilons.Length) throw new ArgumentException();
@@ -33,8 +67,8 @@ namespace Lab1
 
                 completed = Math.Abs(func - prevFunc) < functionEpsilon ||
                             point.Zip(prevPoint, (po, pr) => Math.Abs(po - pr))
-                                 .Zip(parameterEpsilons, (diff, eps) => diff < eps)
-                                 .All(i => i);
+                                .Zip(parameterEpsilons, (diff, eps) => diff < eps)
+                                .All(i => i);
 
                 prevFunc = func;
             }
