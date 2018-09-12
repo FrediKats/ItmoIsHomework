@@ -26,11 +26,6 @@ namespace Lab1
 
                 double func = field(point);
 
-                Console.WriteLine(func);
-                Console.WriteLine("-----");
-                point.ToList().ForEach(Console.WriteLine);
-                Console.WriteLine("-----");
-
                 completed = Math.Abs(func - prevFunc) < functionEpsilon ||
                             point.Zip(prevPoint, (po, pr) => Math.Abs(po - pr))
                                  .Zip(parameterEpsilons, (diff, eps) => diff < eps)
@@ -92,6 +87,25 @@ namespace Lab1
         {
             double norm = Math.Sqrt(coords.Sum(x => x * x));
             return coords.Select(x => x / norm).ToArray();
+        }
+
+        public static double[] DirectSearch(Func<double[], double> field, double[] point, double[] direction, double epsilon)
+        {
+            var div = point.Zip(direction, (p, d) => p / d);
+            if (!div.All(x => x == div.First())) throw new ArgumentException();
+
+            double[] unitDirection = UnitVector(direction);
+            Func<double, double> rotatedfield = p => field(ConvertCoordinate(p, unitDirection));
+            double newPoint = Math.Sqrt(point.Select(x => x * x).Sum());
+            Console.WriteLine($"old = {field(point)}, new = {rotatedfield(newPoint)}");
+
+            var linearAnswer = MinimumSearch.DirectSearch(rotatedfield, newPoint, epsilon);
+            return ConvertCoordinate(linearAnswer, unitDirection);
+        }
+
+        private static double[] ConvertCoordinate(double linearCoord, double[] direction)
+        {
+            return direction.Select(x => x * linearCoord).ToArray();
         }
     }
 }
