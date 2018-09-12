@@ -91,15 +91,18 @@ namespace Lab1
 
         public static double[] DirectSearch(Func<double[], double> field, double[] point, double[] direction, double epsilon)
         {
+            //TODO: 0 / 0 must be valid
             var div = point.Zip(direction, (p, d) => p / d);
             if (!div.All(x => x == div.First())) throw new ArgumentException();
 
             double[] unitDirection = UnitVector(direction);
             Func<double, double> rotatedfield = p => field(ConvertCoordinate(p, unitDirection));
-            double newPoint = Math.Sqrt(point.Select(x => x * x).Sum());
+            double newPoint = (direction.ToList().Find(x => x != 0) == point.ToList().Find(x => x != 0) ? 1 : -1)
+                                * Math.Sqrt(point.Select(x => x * x).Sum());
             Console.WriteLine($"old = {field(point)}, new = {rotatedfield(newPoint)}");
 
             var linearAnswer = MinimumSearch.DirectSearch(rotatedfield, newPoint, epsilon);
+            Console.WriteLine(linearAnswer);
             return ConvertCoordinate(linearAnswer, unitDirection);
         }
 
