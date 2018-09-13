@@ -29,7 +29,8 @@ namespace Lab1
 
                 Dimensions prevPoint = point;
 
-                point = point.NewGradientPoint(direction, lambda);
+                //point = point.NewGradientPoint(direction, lambda);
+                point = MultidimensionalMinimumSearch.DirectSearch(funcData.Function, funcData.StartPoint, direction, funcData.FunctionEpsilon);
 
                 double func = funcData.Function(point);
 
@@ -122,25 +123,19 @@ namespace Lab1
 
         public static Dimensions DirectSearch(Func<Dimensions, double> field, Dimensions point, Dimensions direction, double epsilon)
         {
-            //TODO:
-            //if (point.EqualsValues(direction))
-            //    throw new ArgumentException();
+            if (direction.Coords.All(x => x == 0))
+                throw new ArgumentException();
 
             Dimensions unitDirection = UnitVector(direction);
-            Func<double, double> rotatedField = p => field(ConvertCoordinate(p, unitDirection));
+            Func<double, double> rotatedField = p => field(ConvertCoordinate(p, unitDirection, point));
+            var linearAnswer = MinimumSearch.DirectSearch(rotatedField, 0, epsilon);
 
-            double newPoint = point.GetDirection(direction) * point.Sqrt();
-            Console.WriteLine($"old = {field(point)}, new = {rotatedField(newPoint)}");
-
-            var linearAnswer = MinimumSearch.DirectSearch(rotatedField, newPoint, epsilon);
-            Console.WriteLine(linearAnswer);
-            return ConvertCoordinate(linearAnswer, unitDirection);
+            return ConvertCoordinate(linearAnswer, unitDirection, point);
         }
 
-        private static Dimensions ConvertCoordinate(double linearCoord, Dimensions direction)
+        private static Dimensions ConvertCoordinate(double linearCoord, Dimensions direction, Dimensions shift)
         {
-            direction.Coords = direction.Coords.Select(x => x * linearCoord).ToArray();
-            return direction;
+            return new Dimensions(direction.Coords.Zip(shift.Coords, (x, y) => x * linearCoord + y));
         }
     }
 }

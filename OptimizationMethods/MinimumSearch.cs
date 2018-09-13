@@ -79,7 +79,7 @@ namespace Lab1
             double f2 = funcData.Function(x2);
 
             int k = fib.Last - 2;
-            while (k >= 1)
+            while (k > 1)
             {
                 if (f1 > f2)
                 {

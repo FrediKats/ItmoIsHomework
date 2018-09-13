@@ -35,7 +35,7 @@ namespace Lab1
 
             MultidimensionalMinimumSearch.GradientDescent(
                     new CountableMultiDimensionalFunc(field,
-                    new Dimensions(new[] { 1.0, 5.0, 2.0 }), 
+                    new Dimensions(new[] { 1.0, 5.0, 2.0 }),
                     0.1,
                     new Dimensions(new[] { 0.1, 0.1, 0.1 })))
                 .Coords
@@ -44,9 +44,9 @@ namespace Lab1
 
             MultidimensionalMinimumSearch.DirectSearch(
                     x => x[0] * x[1] + 5,
-                    new Dimensions(new double[] { -2, -1 }),
-                    new Dimensions(new double[] { 2, 1 }),
-                    0.1)
+                    new Dimensions(new double[] { 1, -2 }),
+                    new Dimensions(new double[] { 3, 1 }),
+                    0.001)
                 .Coords
                 .ToList()
                 .ForEach(Console.WriteLine);

@@ -6,16 +6,6 @@ namespace Lab1.Tools
 {
     public static class Extensions
     {
-        public static bool EqualsValues(this Dimensions point, Dimensions direction)
-        {
-            //TODO: 0 / 0 must be valid
-            var div = point
-                .Coords
-                .Zip(direction.Coords, (p, d) => p / d)
-                .Select(v => double.IsNaN(v) ? v : v);
-            return div.All(x => x == div.First());
-        }
-
         //TODO: rename
         public static int GetDirection(this Dimensions point, Dimensions direction)
         {
@@ -29,7 +19,7 @@ namespace Lab1.Tools
             }
         }
 
-        public static double Sqrt(this Dimensions point)
+        public static double Norm(this Dimensions point)
         {
             return Math.Sqrt(point.Coords.Select(x => x * x).Sum());
         }
