@@ -6,7 +6,7 @@ namespace Lab1.Models
 {
     public class CountableMultiDimensionalFunc
     {
-        public CountableMultiDimensionalFunc(Func<double[], double> function, double[] startPoint, double functionEpsilon, double[] parameterEpsilon)
+        public CountableMultiDimensionalFunc(Func<Dimensions, double> function, Dimensions startPoint, double functionEpsilon, Dimensions parameterEpsilon)
         {
             _function = function;
             StartPoint = startPoint;
@@ -19,10 +19,10 @@ namespace Lab1.Models
             _iterationCount++;
         }
 
-        private readonly Func<double[], double> _function;
+        private readonly Func<Dimensions, double> _function;
         private int _callCount;
         private int _iterationCount;
-        public Func<double[], double> Function
+        public Func<Dimensions, double> Function
         {
             get
             {
@@ -33,9 +33,9 @@ namespace Lab1.Models
 
         public int IterationCount => _iterationCount;
         public int CallCount => _callCount;
-        public double[] StartPoint { get; set; }
+        public Dimensions StartPoint { get; set; }
         public double FunctionEpsilon { get; }
-        public double[] ParameterEpsilon { get; }
+        public Dimensions ParameterEpsilon { get; }
 
 
     }
