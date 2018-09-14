@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using Lab1.Models;
 using Lab1.Tools;
@@ -9,76 +7,45 @@ namespace Lab1
 {
     public static class MultidimensionalMinimumSearch
     {
-        public static Dimensions GradientDescent(CountableMultiDimensionalFunc funcData)
+        public static Dimensions GradientDescent(CountableMultiDimensionalFunc args)
         {
-            if (funcData.StartPoint.Coords.Length != funcData.ParameterEpsilon.Coords.Length)
+            if (args.StartPoint.Length != args.ParameterEpsilon.Length)
                 throw new ArgumentException();
 
-            var point = funcData.StartPoint;
+            var point = args.StartPoint;
 
-            double lambda = Math.Sqrt(3) * funcData.ParameterEpsilon.Coords.Min();
-            double prevFunc = funcData.Function(point);
+            //double lambda = Math.Sqrt(3) * args.ParameterEpsilon.Coords.Min();
+            double prevValue = args.Function(point);
             bool completed = false;
 
             while (!completed)
             {
-                funcData.IncIteration();
+                args.IncIteration();
 
-                Dimensions gradient = Gradient(funcData.Function, point, funcData.ParameterEpsilon);
+                Dimensions gradient = Gradient(args);
                 Dimensions direction = UnitVector(gradient);
-
                 Dimensions prevPoint = point;
 
                 //point = point.NewGradientPoint(direction, lambda);
-                point = MultidimensionalMinimumSearch.DirectSearch(funcData.Function, funcData.StartPoint, direction, funcData.FunctionEpsilon);
+                point = DirectSearch(args.Function, args.StartPoint, direction, args.FunctionEpsilon);
 
-                double func = funcData.Function(point);
+                double value = args.Function(point);
 
-                completed = Math.Abs(func - prevFunc) < funcData.FunctionEpsilon ||
-                            point.CheckEpsilon(prevPoint, funcData.ParameterEpsilon);
+                completed = Math.Abs(value - prevValue) < args.FunctionEpsilon
+                            || point.CheckEpsilon(prevPoint, args.ParameterEpsilon);
 
-                prevFunc = func;
+                prevValue = value;
             }
 
             return point;
         }
 
-        public static Dimensions GradientDescent(Func<Dimensions, double> field, Dimensions point, double functionEpsilon, Dimensions parameterEpsilons)
+        private static Dimensions Gradient(CountableMultiDimensionalFunc args)
         {
-            if (point.Coords.Length != parameterEpsilons.Coords.Length) throw new ArgumentException();
-
-            double lambda = Math.Sqrt(3) * parameterEpsilons.Coords.Min();
-            double prevFunc = field(point);
-            bool completed = false;
-
-            while (!completed)
-            {
-                Dimensions gradient = Gradient(field, point, parameterEpsilons);
-                Dimensions direction = UnitVector(gradient);
-                Dimensions prevPoint = point;
-
-                point = point.NewGradientPoint(direction, lambda);
-                double func = field(point);
-
-                completed = Math.Abs(func - prevFunc) < functionEpsilon
-                            || point.CheckEpsilon(prevPoint, parameterEpsilons);
-
-                prevFunc = func;
-            }
-
-            return point;
-        }
-
-        private static Dimensions Gradient(Func<Dimensions, double> field, Dimensions point, Dimensions parameterEpsilons)
-        {
-            if (point.Coords.Length != parameterEpsilons.Coords.Length) throw new ArgumentException();
-
-            double[] gradient = new double[point.Coords.Length];
-
-            for (int i = 0; i < point.Coords.Length; i++)
-            {
-                gradient[i] = NumericalDifferentiation(field, point, i, parameterEpsilons[i]);
-            }
+            double[] gradient = args.StartPoint
+                .Coords
+                .Select((v, i) => NumericalDifferentiation(args.Function, args.StartPoint, i, args.ParameterEpsilon[i]))
+                .ToArray();
 
             return new Dimensions(gradient);
         }
@@ -128,7 +95,7 @@ namespace Lab1
 
             Dimensions unitDirection = UnitVector(direction);
             Func<double, double> rotatedField = p => field(ConvertCoordinate(p, unitDirection, point));
-            var linearAnswer = MinimumSearch.DirectSearch(rotatedField, 0, epsilon);
+            var linearAnswer = MinimumSearch.DirectSearch(new CountableFunc(rotatedField, 0, 0, epsilon));
 
             return ConvertCoordinate(linearAnswer, unitDirection, point);
         }

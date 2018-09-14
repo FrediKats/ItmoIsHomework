@@ -8,117 +8,118 @@ namespace Lab1
 {
     public static class MinimumSearch
     {
-        public static double BinarySearch(CountableFunc funcData)
+        public static double BinarySearch(CountableFunc args)
         {
             //TODO: fix
-            double delta = 0.8 * funcData.Epsilon / 2;
+            double delta = 0.8 * args.Epsilon / 2;
 
-            while (funcData.Right - funcData.Left >= funcData.Epsilon)
+            while (args.Right - args.Left >= args.Epsilon)
             {
-                double x1 = (funcData.Left + funcData.Right) / 2 - delta;
-                double x2 = (funcData.Left + funcData.Right) / 2 + delta;
+                double x1 = (args.Left + args.Right) / 2 - delta;
+                double x2 = (args.Left + args.Right) / 2 + delta;
 
-                double f1 = funcData.Function(x1);
-                double f2 = funcData.Function(x2);
+                double f1 = args.Function(x1);
+                double f2 = args.Function(x2);
 
                 if (f1 <= f2)
                 {
-                    funcData.Right = x2;
+                    args.Right = x2;
                 }
 
                 if (f1 >= f2)
                 {
-                    funcData.Left = x1;
+                    args.Left = x1;
                 }
 
-                funcData.SaveData();
+                args.SaveData();
             }
 
-            return (funcData.Left + funcData.Right) / 2;
+            return (args.Left + args.Right) / 2;
         }
 
-        public static double GoldenRatio(CountableFunc funcData)
+        public static double GoldenRatio(CountableFunc args)
         {
-            double x1 = funcData.Left + (funcData.Right - funcData.Left) * (2 - Constants.PHI);
-            double x2 = funcData.Left + (funcData.Right - funcData.Left) * (Constants.PHI - 1);
-            double f1 = funcData.Function(x1);
-            double f2 = funcData.Function(x2);
+            double x1 = args.Left + (args.Right - args.Left) * (2 - Constants.PHI);
+            double x2 = args.Left + (args.Right - args.Left) * (Constants.PHI - 1);
+            double f1 = args.Function(x1);
+            double f2 = args.Function(x2);
 
-            while (funcData.Right - funcData.Left >= funcData.Epsilon)
+            while (args.Right - args.Left >= args.Epsilon)
             {
                 if (f1 > f2)
                 {
-                    funcData.Left = x1;
+                    args.Left = x1;
                     x1 = x2;
                     f1 = f2;
-                    x2 = funcData.Left + (funcData.Right - funcData.Left) * (Constants.PHI - 1);
-                    f2 = funcData.Function(x2);
+                    x2 = args.Left + (args.Right - args.Left) * (Constants.PHI - 1);
+                    f2 = args.Function(x2);
                 }
                 else
                 {
-                    funcData.Right = x2;
+                    args.Right = x2;
                     x2 = x1;
                     f2 = f1;
-                    x1 = funcData.Left + (funcData.Right - funcData.Left) * (2 - Constants.PHI);
-                    f1 = funcData.Function(x1);
+                    x1 = args.Left + (args.Right - args.Left) * (2 - Constants.PHI);
+                    f1 = args.Function(x1);
                 }
 
-                funcData.SaveData();
+                args.SaveData();
             }
 
             return (x1 + x2) / 2;
         }
 
-        public static double FibonacciMethod(CountableFunc funcData)
+        public static double FibonacciMethod(CountableFunc args)
         {
-            FiboGenerator fib = new FiboGenerator(funcData.Left, funcData.Right, funcData.Epsilon);
+            FiboGenerator fib = new FiboGenerator(args.Left, args.Right, args.Epsilon);
 
-            double x1 = funcData.Left + fib[fib.Last - 2] * (funcData.Right - funcData.Left) / fib[fib.Last];
-            double x2 = funcData.Left + fib[fib.Last - 1] * (funcData.Right - funcData.Left) / fib[fib.Last];
-            double f1 = funcData.Function(x1);
-            double f2 = funcData.Function(x2);
+            double x1 = args.Left + fib[fib.Last - 2] * (args.Right - args.Left) / fib[fib.Last];
+            double x2 = args.Left + fib[fib.Last - 1] * (args.Right - args.Left) / fib[fib.Last];
+            double f1 = args.Function(x1);
+            double f2 = args.Function(x2);
 
             int k = fib.Last - 2;
             while (k > 1)
             {
                 if (f1 > f2)
                 {
-                    funcData.Left = x1;
+                    args.Left = x1;
                     x1 = x2;
-                    x2 = funcData.Left + fib[k - 1] * (funcData.Right - funcData.Left) / fib[k];
+                    x2 = args.Left + fib[k - 1] * (args.Right - args.Left) / fib[k];
                     f1 = f2;
-                    f2 = funcData.Function(x2);
+                    f2 = args.Function(x2);
                 }
                 else
                 {
-                    funcData.Right = x2;
+                    args.Right = x2;
                     x2 = x1;
-                    x1 = funcData.Left + fib[k - 2] * (funcData.Right - funcData.Left) / fib[k];
+                    x1 = args.Left + fib[k - 2] * (args.Right - args.Left) / fib[k];
                     f2 = f1;
-                    f1 = funcData.Function(x1);
+                    f1 = args.Function(x1);
                 }
 
-                funcData.SaveData();
+                args.SaveData();
                 k--;
             }
 
-            x2 = x1 + funcData.Epsilon;
+            x2 = x1 + args.Epsilon;
 
-            return (f1 > funcData.Function(x2) ? x1 + funcData.Right : funcData.Left + x2) / 2;
+            return (f1 > args.Function(x2) ? x1 + args.Right : args.Left + x2) / 2;
         }
 
-        public static double DirectSearch(Func<double, double> function, double point, double epsilon)
+        public static double DirectSearch(CountableFunc args)
         {
-            double delta = epsilon;
-            double value = function(point);
+            double point = args.Left;
+            double delta = args.Epsilon;
+            double value = args.Function(point);
 
-            if(value > function(point + delta))
+            if(value > args.Function(point + delta))
             {
-                delta = epsilon;
+                delta = args.Epsilon;
             }
-            else if (value > function(point - delta))
+            else if (value > args.Function(point - delta))
             {
-                delta = epsilon * -1;
+                delta = args.Epsilon * -1;
             }
             else
             {
@@ -126,19 +127,25 @@ namespace Lab1
             }
 
             point += delta;
-            double nextValue = function(point);
+            double nextValue = args.Function(point);
 
             while (value > nextValue)
             {
                 delta *= 2;
                 point += delta;
                 value = nextValue;
-                nextValue = function(point);
+                nextValue = args.Function(point);
             }
 
-            return delta > 0
-                ? FibonacciMethod(new CountableFunc(function, point - 1.5 * delta, point, epsilon))
-                : FibonacciMethod(new CountableFunc(function, point, point - 1.5 * delta, epsilon));
+            if (delta > 0)
+            {
+                args.Left = point - 1.5 * delta;
+            }
+            else
+            {
+                args.Right = point - 1.5 * delta;
+            }
+            return FibonacciMethod(args);
         }
     }
 }

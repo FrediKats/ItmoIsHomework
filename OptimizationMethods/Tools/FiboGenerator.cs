@@ -10,6 +10,7 @@ namespace Lab1.Tools
         public FiboGenerator(double left, double right, double epsilon)
         {
             int maxCount = (int) Math.Ceiling((right - left) / epsilon);
+            maxCount = Math.Abs(maxCount);
             if (maxCount != 0)
             {
                 Last = (int) Math.Round((Math.Log(maxCount) + Math.Log(5) / 2) / Math.Log(Constants.PHI));
