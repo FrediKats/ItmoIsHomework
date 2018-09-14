@@ -8,7 +8,7 @@ namespace Lab1.Logger
 {
     public static class ExcelLogger
     {
-        public static void LogInterval(List<LogData> logDataList, string filePath = "intervals.xlsx")
+        public static void LogInterval(List<LinearLogData> logDataList, string filePath)
         {
             var package = new ExcelPackage();
 
@@ -51,20 +51,13 @@ namespace Lab1.Logger
 
             package.SaveAs(new FileInfo(filePath));
         }
+        
 
-        public static void LogMultiDimensional(CountableMultiDimensionalFunc funcData, Dimensions result,
-            string filePath)
-        {
-            LogMultiDimensional(new List<(CountableMultiDimensionalFunc, Dimensions)>
-            {
-                (funcData, result)
-            }, filePath);
-        }
-
-        public static void LogMultiDimensional(List<(CountableMultiDimensionalFunc, Dimensions)> funcData,
+        public static void LogMultiDimensional(List<(CountableMultiDimensionalFunc, Dimensions)> funcDataList,
             string filePath)
         {
             var package = new ExcelPackage();
+
             var ws = package.Workbook.Worksheets.Add("report");
 
             ws.Cells[1, 1].Value = "Start point";
@@ -73,10 +66,10 @@ namespace Lab1.Logger
             ws.Cells[1, 4].Value = "CallCount";
             ws.Cells[1, 5].Value = "Result";
 
-            for (var i = 0; i < funcData.Count; i++)
+            for (var i = 0; i < funcDataList.Count; i++)
             {
-                var data = funcData[i].Item1;
-                var resPoint = funcData[i].Item2;
+                var data = funcDataList[i].Item1;
+                var resPoint = funcDataList[i].Item2;
 
                 ws.Cells[i + 2, 1].Value = string.Join("; ", data.StartPoint.Coords.Select(d => d.ToString("F4")));
                 ws.Cells[i + 2, 2].Value = data.FunctionEpsilon;

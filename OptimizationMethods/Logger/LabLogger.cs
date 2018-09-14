@@ -24,10 +24,9 @@ namespace Lab1.Logger
             List<(double, int)> goldEps = new List<(double, int)>();
             List<(double, int)> fiboEps = new List<(double, int)>();
             List<(double, int)> dirEps = new List<(double, int)>();
-            CountableFunc data;
             for (double e = 0.1; e >= 0.000001; e /= 10)
             {
-                data = new CountableFunc(function, left, right, e);
+                var data = new CountableFunc(function, left, right, e);
                 MinimumSearch.BinarySearch(data);
                 binEps.Add((e, data.CallCount));
 
@@ -45,22 +44,25 @@ namespace Lab1.Logger
             }
 
             ExcelLogger.LogInterval(
-                new List<LogData>
+                new List<LinearLogData>
             {
-                new LogData(binData, "Binary search", binDataResult, binEps),
-                new LogData(goldData, "GoldDiv search", goldDataResult, goldEps),
-                new LogData(fiboData, "Fibo search", fiboDataResult, fiboEps),
-                new LogData(directSearch, "Direct search search", directSearchResult, dirEps),
+                new LinearLogData(binData, "Binary search", binDataResult, binEps),
+                new LinearLogData(goldData, "GoldDiv search", goldDataResult, goldEps),
+                new LinearLogData(fiboData, "Fibo search", fiboDataResult, fiboEps),
+                new LinearLogData(directSearch, "Direct search search", directSearchResult, dirEps),
             }, fileName);
         }
 
-        public static void ExecuteFirstTaskMulti(Func<Dimensions, double> field, Dimensions point,
-            double functionEpsilon,
-            Dimensions parameterEpsilons)
+        public static void ExecuteFirstTaskGradient(List<CountableMultiDimensionalFunc> argsList, string fileName)
         {
-            var funcData = new CountableMultiDimensionalFunc(field, point, functionEpsilon, parameterEpsilons);
-            var res = MultidimensionalMinimumSearch.GradientDescent(funcData);
-            ExcelLogger.LogMultiDimensional(funcData, res, "gradient.xlsx");
+            var result = new List<(CountableMultiDimensionalFunc, Dimensions)>();
+
+            foreach (var args in argsList)
+            {
+                var res = MultidimensionalMinimumSearch.GradientDescent(args);
+                result.Add((args, res));
+            }
+            ExcelLogger.LogMultiDimensional(result, fileName);
         }
     }
 }
