@@ -10,11 +10,9 @@ namespace Lab1
     {
         public static double BinarySearch(CountableFunc args)
         {
-            //TODO: fix
-            double delta = 0.8 * args.Epsilon / 2;
-
             while (args.Right - args.Left >= args.Epsilon)
             {
+                double delta = Math.Min(0.49 * args.Epsilon, (args.Right - args.Left) / 100);
                 double x1 = (args.Left + args.Right) / 2 - delta;
                 double x2 = (args.Left + args.Right) / 2 + delta;
 
@@ -145,7 +143,7 @@ namespace Lab1
             {
                 args.Right = point - 1.5 * delta;
             }
-            return FibonacciMethod(args);
+            return GoldenRatio(args);
         }
     }
 }
