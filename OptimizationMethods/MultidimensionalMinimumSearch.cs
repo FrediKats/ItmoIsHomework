@@ -12,10 +12,7 @@ namespace Lab1
             if (args.StartPoint.Length != args.ParameterEpsilon.Length)
                 throw new ArgumentException();
 
-            var point = args.StartPoint;
-
-            //double lambda = Math.Sqrt(3) * args.ParameterEpsilon.Coords.Min();
-            double prevValue = args.Function(point);
+            double prevValue = args.Function(args.StartPoint);
             bool completed = false;
 
             while (!completed)
@@ -24,23 +21,21 @@ namespace Lab1
 
                 Dimensions gradient = Gradient(args);
                 Dimensions direction = UnitVector(gradient);
-                Dimensions prevPoint = point;
-
-                //point = point.NewGradientPoint(direction, lambda);
-                point = DirectSearch(args.Function, args.StartPoint, direction, args.FunctionEpsilon);
-
-                double value = args.Function(point);
+                Dimensions prevPoint = args.StartPoint;
+                
+                args.StartPoint = DirectSearch(args.Function, args.StartPoint, direction, args.FunctionEpsilon);
+                double value = args.Function(args.StartPoint);
 
                 completed = Math.Abs(value - prevValue) < args.FunctionEpsilon
-                            || point.CheckEpsilon(prevPoint, args.ParameterEpsilon);
+                            || args.StartPoint.CheckEpsilon(prevPoint, args.ParameterEpsilon);
 
                 prevValue = value;
             }
 
-            return point;
+            return args.StartPoint;
         }
 
-        private static Dimensions Gradient(CountableMultiDimensionalFunc args)
+        public static Dimensions Gradient(CountableMultiDimensionalFunc args)
         {
             double[] gradient = args.StartPoint
                 .Coords
