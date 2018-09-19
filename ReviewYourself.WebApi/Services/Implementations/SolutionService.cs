@@ -9,10 +9,12 @@ namespace ReviewYourself.WebApi.Services.Implementations
     public class SolutionService : ISolutionService
     {
         private readonly PeerReviewContext _context;
+        private readonly IMemberService _memberService;
 
-        public SolutionService(PeerReviewContext context)
+        public SolutionService(PeerReviewContext context, IMemberService memberService)
         {
             _context = context;
+            _memberService = memberService;
         }
 
         public Solution Create(Solution solution, Guid executorId)

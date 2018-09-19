@@ -11,10 +11,12 @@ namespace ReviewYourself.WebApi.Services.Implementations
     public class CourseService : ICourseService
     {
         private readonly PeerReviewContext _context;
+        private readonly IMemberService _memberService;
 
-        public CourseService(PeerReviewContext context)
+        public CourseService(PeerReviewContext context, IMemberService memberService)
         {
             _context = context;
+            _memberService = memberService;
         }
 
         public Course Create(Course course, Guid executorId)

@@ -123,8 +123,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
             return _context.Participations
                 .Any(p => p.CourseId == courseId &&
                           p.MemberId == memberId &&
-                          (p.Permission == MemberPermission.Mentor
-                           || p.Permission == MemberPermission.Creator));
+                          (p.Permission & MemberPermission.Mentor) == MemberPermission.Mentor);
         }
 
         public bool IsMember(Guid courseId, Guid memberId)
@@ -132,9 +131,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
             return _context.Participations
                 .Any(p => p.CourseId == courseId &&
                           p.MemberId == memberId &&
-                          (p.Permission == MemberPermission.Member
-                           || p.Permission == MemberPermission.Mentor
-                           || p.Permission == MemberPermission.Creator));
+                          (p.Permission & MemberPermission.Member) == MemberPermission.Member);
         }
 
         public void MakeMentor(Guid courseId, Guid targetId, Guid executorId)

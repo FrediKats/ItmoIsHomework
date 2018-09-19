@@ -9,10 +9,12 @@ namespace ReviewYourself.WebApi.Services.Implementations
     public class CourseServiceTask : ICourseTaskService
     {
         private readonly PeerReviewContext _context;
+        private readonly IMemberService _memberService;
 
-        public CourseServiceTask(PeerReviewContext context)
+        public CourseServiceTask(PeerReviewContext context, IMemberService memberService)
         {
             _context = context;
+            _memberService = memberService;
         }
 
         public CourseTask Create(CourseTask courseTask, Guid executorId)

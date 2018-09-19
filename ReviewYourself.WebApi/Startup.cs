@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using ReviewYourself.WebApi.Services;
+using ReviewYourself.WebApi.Services.Implementations;
 using ReviewYourself.WebApi.Tools;
 
 namespace ReviewYourself.WebApi
@@ -26,6 +28,12 @@ namespace ReviewYourself.WebApi
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddScoped<IJwtTokenFactory, JwtTokenFactory>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ICourseTaskService, CourseServiceTask>();
+            services.AddScoped<IMemberService, MemberService>();
+            services.AddScoped<ISolutionService, SolutionService>();
+            services.AddScoped<IUserService, UserService>();
+
 
             services.AddDbContext<PeerReviewContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionString:LocalDb"]));
