@@ -29,6 +29,8 @@ namespace Lab1
                 completed = Math.Abs(value - prevValue) < args.FunctionEpsilon
                             || args.StartPoint.CheckEpsilon(prevPoint, args.ParameterEpsilon);
 
+                Console.WriteLine($"point = {args.StartPoint}, prevPoint = {prevPoint}");
+
                 prevValue = value;
             }
 

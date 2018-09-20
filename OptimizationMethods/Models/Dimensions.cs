@@ -34,5 +34,10 @@ namespace Lab1.Models
             get => Coords[i];
             set => Coords[i] = value;
         }
+
+        public override string ToString()
+        {
+            return "{ " + string.Join(", ", Coords) + " }";
+        }
     }
 }
