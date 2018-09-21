@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Runtime.InteropServices;
 using Lab1.Models;
 using Lab1.Tools;
 
@@ -44,6 +43,7 @@ namespace Lab1
 
             while (args.Right - args.Left >= args.Epsilon)
             {
+                //Console.WriteLine($"left = {args.Left} right = {args.Right}");
                 if (f1 > f2)
                 {
                     args.Left = x1;
@@ -107,6 +107,7 @@ namespace Lab1
 
         public static double DirectSearch(CountableFunc args)
         {
+            Console.WriteLine("~~~~~");
             double point = args.Left;
             double delta = args.Epsilon;
             double value = args.Function(point);
@@ -133,11 +134,13 @@ namespace Lab1
                 point += delta;
                 value = nextValue;
                 nextValue = args.Function(point);
+                //Console.WriteLine($"point = {MultidimensionalMinimumSearch.ConvertCoordinate(point, new Dimensions(-3, 2), new Dimensions(5, 1))}, func = {nextValue}");
             }
 
             if (delta > 0)
             {
                 args.Left = point - 1.5 * delta;
+                args.Right = point;
             }
             else
             {

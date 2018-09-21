@@ -7,7 +7,7 @@ namespace Lab1.Models
     public class Dimensions
     {
         public double[] Coords { get; }
-        public Dimensions(double[] coords)
+        public Dimensions(params double[] coords)
         {
             Coords = coords;
         }

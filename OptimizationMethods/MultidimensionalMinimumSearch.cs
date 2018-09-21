@@ -20,10 +20,9 @@ namespace Lab1
                 args.IncIteration();
 
                 Dimensions gradient = Gradient(args);
-                Dimensions direction = UnitVector(gradient);
                 Dimensions prevPoint = args.StartPoint;
                 
-                args.StartPoint = DirectSearch(args.Function, args.StartPoint, direction, args.FunctionEpsilon);
+                args.StartPoint = DirectSearch(args.Function, args.StartPoint, gradient, args.FunctionEpsilon);
                 double value = args.Function(args.StartPoint);
 
                 completed = Math.Abs(value - prevValue) < args.FunctionEpsilon
@@ -37,7 +36,7 @@ namespace Lab1
             return args.StartPoint;
         }
 
-        public static Dimensions Gradient(CountableMultiDimensionalFunc args)
+        private static Dimensions Gradient(CountableMultiDimensionalFunc args)
         {
             double[] gradient = args.StartPoint
                 .Coords
@@ -90,16 +89,16 @@ namespace Lab1
             if (direction.Coords.All(x => x == 0))
                 throw new ArgumentException();
 
-            Dimensions unitDirection = UnitVector(direction);
-            Func<double, double> rotatedField = p => field(ConvertCoordinate(p, unitDirection, point));
+            Func<double, double> rotatedField = p => field(ConvertCoordinate(p, point, direction));
             var linearAnswer = MinimumSearch.DirectSearch(new CountableFunc(rotatedField, 0, 0, epsilon));
 
-            return ConvertCoordinate(linearAnswer, unitDirection, point);
+            return ConvertCoordinate(linearAnswer, point, direction);
         }
 
-        private static Dimensions ConvertCoordinate(double linearCoord, Dimensions direction, Dimensions shift)
+        public static Dimensions ConvertCoordinate(double linearCoord, Dimensions shift, Dimensions direction)
         {
-            return new Dimensions(direction.Coords.Zip(shift.Coords, (x, y) => x * linearCoord + y));
+            Dimensions unitDirection = UnitVector(direction);
+            return new Dimensions(unitDirection.Coords.Zip(shift.Coords, (x, y) => x * linearCoord + y));
         }
     }
 }
