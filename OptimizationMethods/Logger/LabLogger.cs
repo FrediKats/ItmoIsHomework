@@ -4,9 +4,9 @@ using Lab1.Models;
 
 namespace Lab1.Logger
 {
-    public class LabLogger
+    public static class LabLogger
     {
-        public static void ExecuteFirstTask(Func<double, double> function, double left, double right, double epsilon, string fileName)
+        public static void GenerateLineSearchReport(Func<double, double> function, double left, double right, double epsilon, string fileName)
         {
             var binData = new CountableFunc(function, left, right, epsilon);
             var binDataResult = MinimumSearch.BinarySearch(binData);
@@ -24,7 +24,7 @@ namespace Lab1.Logger
             List<(double, int)> goldEps = new List<(double, int)>();
             List<(double, int)> fiboEps = new List<(double, int)>();
             List<(double, int)> dirEps = new List<(double, int)>();
-            for (double e = 0.1; e >= 0.000001; e /= 10)
+            for (double e = 0.1; e >= 1e-7; e /= 10)
             {
                 var data = new CountableFunc(function, left, right, e);
                 MinimumSearch.BinarySearch(data);
@@ -53,15 +53,17 @@ namespace Lab1.Logger
             }, fileName);
         }
 
-        public static void ExecuteFirstTaskGradient(List<CountableMultiDimensionalFunc> argsList, string fileName)
+        public static void GenerateGradientReport(Func<Dimensions, double> function, Dimensions startPoint, Dimensions parameterEpsilon, string fileName)
         {
-            var result = new List<(CountableMultiDimensionalFunc, Dimensions)>();
+            var result = new List<(CountableMultiDimensionalFunc, Dimensions, double)>();
 
-            foreach (var args in argsList)
+            for (double e = 0.1; e >= 1e-10; e /= 10)
             {
-                var res = MultidimensionalMinimumSearch.GradientDescent(args);
-                result.Add((args, res));
+                var data = new CountableMultiDimensionalFunc(function, startPoint.Copy(), e, parameterEpsilon);
+                var res = MultidimensionalMinimumSearch.GradientDescent(data);
+                result.Add((data, res, function(res)));
             }
+
             ExcelLogger.LogMultiDimensional(result, fileName);
         }
     }

@@ -15,25 +15,27 @@ namespace Lab1
             double prevValue = args.Function(args.StartPoint);
             bool completed = false;
 
+            var currentPoint = args.StartPoint.Copy();
+
             while (!completed)
             {
                 args.IncIteration();
 
                 Dimensions gradient = Gradient(args);
-                Dimensions prevPoint = args.StartPoint;
-                
-                args.StartPoint = DirectSearch(args.Function, args.StartPoint, gradient, args.FunctionEpsilon);
-                double value = args.Function(args.StartPoint);
+                Dimensions prevPoint = currentPoint;
+
+                currentPoint = DirectSearch(args.Function, currentPoint, gradient, args.FunctionEpsilon);
+                double value = args.Function(currentPoint);
 
                 completed = Math.Abs(value - prevValue) < args.FunctionEpsilon
-                            || args.StartPoint.CheckEpsilon(prevPoint, args.ParameterEpsilon);
+                            && currentPoint.CheckEpsilon(prevPoint, args.ParameterEpsilon);
 
-                Console.WriteLine($"point = {args.StartPoint}, prevPoint = {prevPoint}");
+                Console.WriteLine($"point = {currentPoint}, prevPoint = {prevPoint}");
 
                 prevValue = value;
             }
 
-            return args.StartPoint;
+            return currentPoint;
         }
 
         private static Dimensions Gradient(CountableMultiDimensionalFunc args)

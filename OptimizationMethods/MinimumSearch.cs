@@ -107,7 +107,6 @@ namespace Lab1
 
         public static double DirectSearch(CountableFunc args)
         {
-            Console.WriteLine("~~~~~");
             double point = args.Left;
             double delta = args.Epsilon;
             double value = args.Function(point);
@@ -134,7 +133,8 @@ namespace Lab1
                 point += delta;
                 value = nextValue;
                 nextValue = args.Function(point);
-                //Console.WriteLine($"point = {MultidimensionalMinimumSearch.ConvertCoordinate(point, new Dimensions(-3, 2), new Dimensions(5, 1))}, func = {nextValue}");
+
+                args.SaveData();
             }
 
             if (delta > 0)

@@ -7,19 +7,6 @@ namespace Lab1.Tools
     public static class Extensions
     {
         //TODO: rename
-        //public static int GetDirection(this Dimensions point, Dimensions direction)
-        //{
-        //    if (direction.Coords.ToList().Find(x => x != 0) == point.Coords.ToList().Find(x => x != 0))
-        //    {
-        //        return 1;
-        //    }
-        //    else
-        //    {
-        //        return -1;
-        //    }
-        //}
-
-        //TODO: rename
         public static bool CheckEpsilon(this Dimensions point, Dimensions prevPoint, Dimensions parameterEpsilons)
         {
             return point.Coords.Zip(prevPoint.Coords, (po, pr) => Math.Abs(po - pr))
