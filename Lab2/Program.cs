@@ -5,11 +5,26 @@ namespace Lab2
 {
     class Program
     {
+        public static void Dfs(int[,] e, int[] v, int c)
+        {
+            v[c] = 0;
+            for (int i = 0; i < e.GetLength(1); i++)
+            {
+                if (v[i] == -1 && e[c, i] != 0)
+                {
+                    Dfs(e, v, i);
+                }
+
+                if ((v[c] == 0 || e[c, i] + v[i] < v[c]) && e[c, i] != 0)
+                {
+                    v[c] = e[c, i] + v[i];
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
-            // 1
-
-            double[,] matrix =
+            int[,] matrix =
             {
                 { 0, 5, 2, 7, 0, 0, 0, 0, 0, 0 },
                 { 0, 0, 0, 0, 6, 0, 0, 0, 0, 0 },
@@ -23,9 +38,9 @@ namespace Lab2
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
             };
 
-            var graph = new Graph(matrix);
-
-            graph.ShortestPath(0, graph.Order - 1);
+            int[] v = Enumerable.Repeat(-1, 10).ToArray();
+            Dfs(matrix, v, 0);
+            Console.WriteLine(string.Join(' ', v));
         }
     }
 }
