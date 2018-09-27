@@ -65,8 +65,8 @@ namespace Lab1
 
                 args.SaveData();
             }
-
-            Console.WriteLine($"GW res: {(x1 + x2)/2:F4} ({x1:F4}; {x2:F4})");
+            //TODO:
+            //Console.WriteLine($"GW res: {(x1 + x2)/2:F4} ({x1:F4}; {x2:F4})");
             return (x1 + x2) / 2;
         }
 

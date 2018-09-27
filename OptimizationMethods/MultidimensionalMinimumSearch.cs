@@ -33,7 +33,6 @@ namespace Lab1
 
             while (!completed)
             {
-
                 args.IncIteration();
 
                 Dimensions gradient = Gradient(args.Function, currentPoint, args.FunctionEpsilon);
@@ -46,10 +45,10 @@ namespace Lab1
                 completed = Math.Abs(value - prevValue) < args.FunctionEpsilon
                             && currentPoint.CheckEpsilon(prevPoint, args.ParameterEpsilon);
 
-                // TODO: debug
-                Console.WriteLine($"GD: {prevPoint} => {currentPoint}");
-                Console.WriteLine($"value f(p) = {prevValue:F15} => {value:F15}");
-                Console.WriteLine("\n");
+                //// TODO: debug
+                //Console.WriteLine($"GD: {prevPoint} => {currentPoint}");
+                //Console.WriteLine($"value f(p) = {prevValue:F15} => {value:F15}");
+                //Console.WriteLine("\n");
 
                 prevValue = value;
 
@@ -70,7 +69,8 @@ namespace Lab1
                 coords[i] = (function(rightPoint) - function(leftPoint)) / (2 * functionEpsilon);
             }
 
-            Console.WriteLine($"Gradient: {string.Join(' ', coords.Select(v => v.ToString("F8")))}");
+            //TODO:
+            //Console.WriteLine($"Gradient: {string.Join(' ', coords.Select(v => v.ToString("F8")))}");
 
             return new Dimensions(coords);
         }
@@ -95,7 +95,6 @@ namespace Lab1
             coeffs[0] = new double[number];
 
             Dimensions tmpPoint = point.Copy();
-            //TODO:
             tmpPoint[variable] -= number / 2 * epsilon;
             double left = tmpPoint[variable];
 
@@ -114,7 +113,7 @@ namespace Lab1
                     coeffs[i][j] = coeffs[i - 1][j + 1] - coeffs[i - 1][j];
                 }
             }
-            //TODO: point?
+
             double t = (tmpPoint[variable] - left) / epsilon;
 
             return (coeffs[1][0]
