@@ -19,45 +19,52 @@ namespace Lab1
 
             while (!completed)
             {
+
                 args.IncIteration();
 
-                Dimensions gradient = Gradient(args);
+                Dimensions gradient = Gradient(args.Function, currentPoint, args.FunctionEpsilon);
                 Dimensions prevPoint = currentPoint;
 
                 currentPoint = DirectSearch(args.Function, currentPoint, gradient, args.FunctionEpsilon);
                 double value = args.Function(currentPoint);
-
+                
                 completed = Math.Abs(value - prevValue) < args.FunctionEpsilon
                             && currentPoint.CheckEpsilon(prevPoint, args.ParameterEpsilon);
 
-                Console.WriteLine($"point = {currentPoint}, prevPoint = {prevPoint}");
+                // TODO: debug
+                Console.WriteLine($"GD: {prevPoint} => {currentPoint}");
+                Console.WriteLine($"value f(p) = {prevValue:F4} => {value:F4}");
+                Console.WriteLine("\n");
 
                 prevValue = value;
-            }
 
+            }
             return currentPoint;
         }
 
-        private static Dimensions Gradient(CountableMultiDimensionalFunc args)
+        private static Dimensions Gradient(Func<Dimensions, double> function, Dimensions startPoint, double functionEpsilon)
         {
-            double[] gradient = args.StartPoint
+            double[] gradient = startPoint
                 .Coords
-                .Select((v, i) => NumericalDifferentiation(args.Function, args.StartPoint, i, args.ParameterEpsilon[i]))
+                .Select((v, i) => NumericalDifferentiation(function, startPoint, i, functionEpsilon))
                 .ToArray();
-
+            //TODO: debug
+            Console.WriteLine($"Gradient: {string.Join(' ', gradient.Select(v => v.ToString("F4")))}");
             return new Dimensions(gradient);
         }
 
         private static double NumericalDifferentiation(Func<Dimensions, double> field, Dimensions point, int variable, double epsilon)
         {
-            if (variable >= point.Coords.Length) throw new ArgumentException();
+            //if (variable >= point.Coords.Length) throw new ArgumentException();
 
-            int number = 5;
+            const int number = 5;
             double[][] coeffs = new double[number][];
             coeffs[0] = new double[number];
 
             Dimensions tmpPoint = point.Copy();
-            double left = tmpPoint[variable] -= (number / 2) * epsilon;
+            //TODO:
+            tmpPoint[variable] -= number / 2 * epsilon;
+            double left = tmpPoint[variable];
 
             for (int i = 0; i < coeffs[0].Length; i++)
             {
@@ -74,10 +81,14 @@ namespace Lab1
                     coeffs[i][j] = coeffs[i - 1][j + 1] - coeffs[i - 1][j];
                 }
             }
+            //TODO: point?
+            double t = (tmpPoint[variable] - left) / epsilon;
 
-            double t = (point[variable] - left) / epsilon;
-
-            return (coeffs[1][0] + coeffs[2][0] * (2 * t - 1) / 2 + coeffs[3][0] * (3 * Math.Pow(t, 2) - 6 * t + 2) / 6 + coeffs[4][0] * (2 * Math.Pow(t, 3) - 9 * Math.Pow(t, 2) + 11 * t - 3) / 12) / epsilon;
+            return (coeffs[1][0]
+                    + coeffs[2][0] * (2 * t - 1) / 2
+                    + coeffs[3][0] * (3 * Math.Pow(t, 2) - 6 * t + 2) / 6
+                    + coeffs[4][0] * (2 * Math.Pow(t, 3) - 9 * Math.Pow(t, 2) + 11 * t - 3) / 12)
+                   / epsilon;
         }
 
         private static Dimensions UnitVector(Dimensions coords)
@@ -86,7 +97,7 @@ namespace Lab1
             return new Dimensions(coords.Coords.Select(x => x / norm));
         }
 
-        public static Dimensions DirectSearch(Func<Dimensions, double> field, Dimensions point, Dimensions direction, double epsilon)
+        private static Dimensions DirectSearch(Func<Dimensions, double> field, Dimensions point, Dimensions direction, double epsilon)
         {
             if (direction.Coords.All(x => x == 0))
                 throw new ArgumentException();
@@ -97,7 +108,7 @@ namespace Lab1
             return ConvertCoordinate(linearAnswer, point, direction);
         }
 
-        public static Dimensions ConvertCoordinate(double linearCoord, Dimensions shift, Dimensions direction)
+        private static Dimensions ConvertCoordinate(double linearCoord, Dimensions shift, Dimensions direction)
         {
             Dimensions unitDirection = UnitVector(direction);
             return new Dimensions(unitDirection.Coords.Zip(shift.Coords, (x, y) => x * linearCoord + y));

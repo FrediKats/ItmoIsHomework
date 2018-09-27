@@ -8,6 +8,8 @@ namespace Lab2
         public static void Dfs(int[,] e, int[] v, int c)
         {
             v[c] = 0;
+            int next = -1;
+
             for (int i = 0; i < e.GetLength(1); i++)
             {
                 if (v[i] == -1 && e[c, i] != 0)
@@ -18,8 +20,16 @@ namespace Lab2
                 if ((v[c] == 0 || e[c, i] + v[i] < v[c]) && e[c, i] != 0)
                 {
                     v[c] = e[c, i] + v[i];
+                    next = i;
                 }
             }
+
+#if DEBUG
+            if (next != -1)
+            {
+                Console.WriteLine($"Optimal way from {c + 1} to {next + 1}");
+            }
+#endif
         }
 
         static void Main(string[] args)

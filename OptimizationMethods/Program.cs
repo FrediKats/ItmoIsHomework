@@ -9,7 +9,7 @@ namespace Lab1
         private static void Main(string[] args)
         {
             //LabLogger.GenerateLineSearchReport(x => Math.Pow(x - 5, 2), -1, 6, 0.001, "interval_f1.xlsx");
-            LabLogger.GenerateLineSearchReport(Math.Sin, -Math.PI / 2, Math.PI / 2, 0.001, "interval_f2.xlsx");
+            //LabLogger.GenerateLineSearchReport(Math.Sin, -Math.PI / 2, Math.PI / 2, 0.001, "interval_f2.xlsx");
             //LabLogger.GenerateLineSearchReport(Math.Cos, 0, Math.PI, 0.001, "interval_f3.xlsx");
             //LabLogger.GenerateLineSearchReport(x => Math.Pow(x - 2, 2), -2, 20, 0.001, "interval_f4.xlsx");
             //LabLogger.GenerateLineSearchReport(x => Math.Pow(x - 15, 2) + 5, 2, 200, 0.001, "interval_f5.xlsx");
@@ -35,7 +35,7 @@ namespace Lab1
             var f1 = new CountableMultiDimensionalFunc(
                 x => 100 * Math.Pow(x[1] - Math.Pow(x[0], 2), 2) + Math.Pow(1 - x[0], 2),
                 new Dimensions(new [] {1.0, 5.0}),
-                0.01,
+                0.0001,
                 new Dimensions(new [] {1.0, 1.0}));
 
             //var f7 = new CountableMultiDimensionalFunc(
@@ -45,12 +45,17 @@ namespace Lab1
             //    0.01,
             //    new Dimensions(new[] { 0.1, 0.1, 0.1, 1.0 })
             //    );
-
-            LabLogger.GenerateGradientReport(
+            MultidimensionalMinimumSearch.GradientDescent(new CountableMultiDimensionalFunc(
                 x => 100 * Math.Pow(x[1] - Math.Pow(x[0], 2), 2) + Math.Pow(1 - x[0], 2),
-                new Dimensions(new[] { 5.0, 5.0 }),
-                new Dimensions(new[] { 0.001, 0.001 }),
-                "gradient.xlsx");
+                new Dimensions(new[] {5.0, 5.0}),
+                0.001,
+                new Dimensions(new[] {0.001, 0.001})));
+
+            //LabLogger.GenerateGradientReport(
+            //    x => 100 * Math.Pow(x[1] - Math.Pow(x[0], 2), 2) + Math.Pow(1 - x[0], 2),
+            //    new Dimensions(new[] { 5.0, 5.0 }),
+            //    new Dimensions(new[] { 0.001, 0.001 }),
+            //    "gradient.xlsx");
 
             //TestTools.OneDimensionalTest();
             //TestTools.MultiDimensionalTest();

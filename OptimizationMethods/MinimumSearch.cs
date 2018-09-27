@@ -43,7 +43,9 @@ namespace Lab1
 
             while (args.Right - args.Left >= args.Epsilon)
             {
-                //Console.WriteLine($"left = {args.Left} right = {args.Right}");
+                //TODO: debug
+                Console.WriteLine($"left = {args.Left:F4} right = {args.Right:f4}");
+
                 if (f1 > f2)
                 {
                     args.Left = x1;
@@ -64,6 +66,7 @@ namespace Lab1
                 args.SaveData();
             }
 
+            Console.WriteLine($"GW res: {(x1 + x2)/2:F4} ({x1:F4}; {x2:F4})");
             return (x1 + x2) / 2;
         }
 
