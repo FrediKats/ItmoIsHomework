@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using Lab1.Models;
 using Lab1.Tools;
 
@@ -35,8 +36,8 @@ namespace Lab1
 
                 args.IncIteration();
 
-                //Dimensions gradient = Gradient(args.Function, currentPoint, args.FunctionEpsilon);
-                Dimensions gradient = Grad(currentPoint);
+                Dimensions gradient = Gradient(args.Function, currentPoint, args.FunctionEpsilon);
+                //gradient = Grad(currentPoint);
                 Dimensions prevPoint = currentPoint;
 
                 currentPoint = DirectSearch(args.Function, currentPoint, gradient, args.FunctionEpsilon);
@@ -58,14 +59,32 @@ namespace Lab1
 
         private static Dimensions Gradient(Func<Dimensions, double> function, Dimensions startPoint, double functionEpsilon)
         {
-            double[] gradient = startPoint
-                .Coords
-                .Select((v, i) => NumericalDifferentiation(function, startPoint, i, functionEpsilon))
-                .ToArray();
-            //TODO: debug
-            Console.WriteLine($"Gradient: {string.Join(' ', gradient.Select(v => v.ToString("F4")))}");
-            return new Dimensions(gradient);
+            var coords = new double[startPoint.Length];
+
+            for (int i = 0; i < startPoint.Length; i++)
+            {
+                var leftPoint = startPoint.Copy();
+                leftPoint[i] -= functionEpsilon;
+                var rightPoint = startPoint.Copy();
+                rightPoint[i] += functionEpsilon;
+                coords[i] = (function(rightPoint) - function(leftPoint)) / (2 * functionEpsilon);
+            }
+
+            Console.WriteLine($"Gradient: {string.Join(' ', coords.Select(v => v.ToString("F8")))}");
+
+            return new Dimensions(coords);
         }
+
+        //private static Dimensions Gradient(Func<Dimensions, double> function, Dimensions startPoint, double functionEpsilon)
+        //{
+        //    double[] gradient = startPoint
+        //        .Coords
+        //        .Select((v, i) => NumericalDifferentiation(function, startPoint, i, functionEpsilon))
+        //        .ToArray();
+        //    //TODO: debug
+        //    Console.WriteLine($"Gradient: {string.Join(' ', gradient.Select(v => v.ToString("F4")))}");
+        //    return new Dimensions(gradient);
+        //}
 
         private static double NumericalDifferentiation(Func<Dimensions, double> field, Dimensions point, int variable, double epsilon)
         {
