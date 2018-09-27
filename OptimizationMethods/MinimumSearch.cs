@@ -44,7 +44,7 @@ namespace Lab1
             while (args.Right - args.Left >= args.Epsilon)
             {
                 //TODO: debug
-                Console.WriteLine($"left = {args.Left:F4} right = {args.Right:f4}");
+                //Console.WriteLine($"left = {args.Left:F4} right = {args.Right:f4}");
 
                 if (f1 > f2)
                 {
@@ -147,6 +147,7 @@ namespace Lab1
             }
             else
             {
+                args.Left = point;
                 args.Right = point - 1.5 * delta;
             }
             return GoldenRatio(args);

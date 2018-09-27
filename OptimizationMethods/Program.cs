@@ -48,8 +48,8 @@ namespace Lab1
             MultidimensionalMinimumSearch.GradientDescent(new CountableMultiDimensionalFunc(
                 x => 100 * Math.Pow(x[1] - Math.Pow(x[0], 2), 2) + Math.Pow(1 - x[0], 2),
                 new Dimensions(new[] {5.0, 5.0}),
-                0.001,
-                new Dimensions(new[] {0.001, 0.001})));
+                1e-9,
+                new Dimensions(new[] {1e-9, 1e-9})));
 
             //LabLogger.GenerateGradientReport(
             //    x => 100 * Math.Pow(x[1] - Math.Pow(x[0], 2), 2) + Math.Pow(1 - x[0], 2),

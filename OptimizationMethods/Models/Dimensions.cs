@@ -37,7 +37,7 @@ namespace Lab1.Models
 
         public override string ToString()
         {
-            return "{ " + string.Join(", ", Coords.Select(v => v.ToString("F4"))) + " }";
+            return "{ " + string.Join(", ", Coords.Select(v => v.ToString("F8"))) + " }";
         }
     }
 }

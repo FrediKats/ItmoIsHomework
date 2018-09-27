@@ -7,6 +7,19 @@ namespace Lab1
 {
     public static class MultidimensionalMinimumSearch
     {
+        private static Dimensions Grad(Dimensions point)
+        {
+            Console.WriteLine(point);
+            var a = new Dimensions(
+                2 * (200 * Math.Pow(point[0], 3) - 200 * point[0] * point[1] + point[0] - 1),
+                200 * (point[1] - Math.Pow(point[0], 2))
+                );
+
+            Console.WriteLine(a);
+
+            return a;
+        }
+
         public static Dimensions GradientDescent(CountableMultiDimensionalFunc args)
         {
             if (args.StartPoint.Length != args.ParameterEpsilon.Length)
@@ -22,7 +35,8 @@ namespace Lab1
 
                 args.IncIteration();
 
-                Dimensions gradient = Gradient(args.Function, currentPoint, args.FunctionEpsilon);
+                //Dimensions gradient = Gradient(args.Function, currentPoint, args.FunctionEpsilon);
+                Dimensions gradient = Grad(currentPoint);
                 Dimensions prevPoint = currentPoint;
 
                 currentPoint = DirectSearch(args.Function, currentPoint, gradient, args.FunctionEpsilon);
@@ -33,7 +47,7 @@ namespace Lab1
 
                 // TODO: debug
                 Console.WriteLine($"GD: {prevPoint} => {currentPoint}");
-                Console.WriteLine($"value f(p) = {prevValue:F4} => {value:F4}");
+                Console.WriteLine($"value f(p) = {prevValue:F15} => {value:F15}");
                 Console.WriteLine("\n");
 
                 prevValue = value;
