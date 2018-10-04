@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using Lab1.Models;
 using Lab1.Tools;
 
@@ -10,13 +9,14 @@ namespace Lab1
     {
         private static Dimensions Grad(Dimensions point)
         {
+            //TODO:
+#if DEBUG
             Console.WriteLine(point);
+#endif
             var a = new Dimensions(
                 2 * (200 * Math.Pow(point[0], 3) - 200 * point[0] * point[1] + point[0] - 1),
                 200 * (point[1] - Math.Pow(point[0], 2))
-                );
-
-            Console.WriteLine(a);
+            );
 
             return a;
         }
@@ -26,67 +26,60 @@ namespace Lab1
             if (args.StartPoint.Length != args.ParameterEpsilon.Length)
                 throw new ArgumentException();
 
-            double prevValue = args.Function(args.StartPoint);
             bool completed = false;
-
-            var currentPoint = args.StartPoint.Copy();
+            var newPoint = args.StartPoint.Copy();
 
             while (!completed)
             {
                 args.IncIteration();
 
-                Dimensions gradient = Gradient(args.Function, currentPoint, args.FunctionEpsilon);
-                //gradient = Grad(currentPoint);
-                Dimensions prevPoint = currentPoint;
+                Dimensions prevPoint = newPoint.Copy();
+                Dimensions gradient = Gradient(args, prevPoint);
+                double prevValue = args.Function(prevPoint);
 
-                currentPoint = DirectSearch(args.Function, currentPoint, gradient, args.FunctionEpsilon);
-                double value = args.Function(currentPoint);
-                
-                completed = Math.Abs(value - prevValue) < args.FunctionEpsilon
-                            && currentPoint.CheckEpsilon(prevPoint, args.ParameterEpsilon);
 
-                //// TODO: debug
-                //Console.WriteLine($"GD: {prevPoint} => {currentPoint}");
-                //Console.WriteLine($"value f(p) = {prevValue:F15} => {value:F15}");
-                //Console.WriteLine("\n");
+                newPoint = DirectSearch(args, prevPoint, gradient);
+                double value = args.Function(newPoint);
+
+                bool r1 = Math.Abs(value - prevValue) < args.FunctionEpsilon;
+                bool r2 = newPoint.CheckEpsilon(prevPoint, args.ParameterEpsilon);
+                completed = r1 && r2;
+
+                // TODO: debug
+#if DEBUG
+                Console.WriteLine($"Point move: {prevPoint} => {newPoint}");
+                Console.WriteLine($"value f(p) = {prevValue:F7} => {value:F7}");
+                Console.WriteLine("\n");
+#endif
+
 
                 prevValue = value;
 
             }
-            return currentPoint;
+            return newPoint;
         }
 
-        private static Dimensions Gradient(Func<Dimensions, double> function, Dimensions startPoint, double functionEpsilon)
+        private static Dimensions Gradient(CountableMultiDimensionalFunc args, Dimensions startPoint)
         {
             var coords = new double[startPoint.Length];
 
             for (int i = 0; i < startPoint.Length; i++)
             {
                 var leftPoint = startPoint.Copy();
-                leftPoint[i] -= functionEpsilon;
+                leftPoint[i] -= args.FunctionEpsilon;
                 var rightPoint = startPoint.Copy();
-                rightPoint[i] += functionEpsilon;
-                coords[i] = (function(rightPoint) - function(leftPoint)) / (2 * functionEpsilon);
+                rightPoint[i] += args.FunctionEpsilon;
+                coords[i] = (args.Function(rightPoint) - args.Function(leftPoint)) / (2 * args.FunctionEpsilon);
             }
 
-            //TODO:
-            //Console.WriteLine($"Gradient: {string.Join(' ', coords.Select(v => v.ToString("F8")))}");
-
+            //TODO: debug
+#if DEBUG
+            Console.WriteLine($"Gradient: {string.Join(' ', coords.Select(v => v.ToString("F8")))}");
+#endif
             return new Dimensions(coords);
         }
 
-        //private static Dimensions Gradient(Func<Dimensions, double> function, Dimensions startPoint, double functionEpsilon)
-        //{
-        //    double[] gradient = startPoint
-        //        .Coords
-        //        .Select((v, i) => NumericalDifferentiation(function, startPoint, i, functionEpsilon))
-        //        .ToArray();
-        //    //TODO: debug
-        //    Console.WriteLine($"Gradient: {string.Join(' ', gradient.Select(v => v.ToString("F4")))}");
-        //    return new Dimensions(gradient);
-        //}
-
-        private static double NumericalDifferentiation(Func<Dimensions, double> field, Dimensions point, int variable, double epsilon)
+        private static double NumericalDifferentiation(CountableMultiDimensionalFunc args, Dimensions point, int variable)
         {
             //if (variable >= point.Coords.Length) throw new ArgumentException();
 
@@ -95,13 +88,13 @@ namespace Lab1
             coeffs[0] = new double[number];
 
             Dimensions tmpPoint = point.Copy();
-            tmpPoint[variable] -= number / 2 * epsilon;
+            tmpPoint[variable] -= number / 2 * args.FunctionEpsilon;
             double left = tmpPoint[variable];
 
             for (int i = 0; i < coeffs[0].Length; i++)
             {
-                tmpPoint[variable] = left + epsilon * i;
-                coeffs[0][i] = field(tmpPoint);
+                tmpPoint[variable] = left + args.FunctionEpsilon * i;
+                coeffs[0][i] = args.Function(tmpPoint);
             }
 
             for (int i = 1; i < coeffs.Length; i++)
@@ -114,13 +107,13 @@ namespace Lab1
                 }
             }
 
-            double t = (tmpPoint[variable] - left) / epsilon;
+            double t = (tmpPoint[variable] - left) / args.FunctionEpsilon;
 
             return (coeffs[1][0]
                     + coeffs[2][0] * (2 * t - 1) / 2
                     + coeffs[3][0] * (3 * Math.Pow(t, 2) - 6 * t + 2) / 6
                     + coeffs[4][0] * (2 * Math.Pow(t, 3) - 9 * Math.Pow(t, 2) + 11 * t - 3) / 12)
-                   / epsilon;
+                   / args.FunctionEpsilon;
         }
 
         private static Dimensions UnitVector(Dimensions coords)
@@ -129,13 +122,13 @@ namespace Lab1
             return new Dimensions(coords.Coords.Select(x => x / norm));
         }
 
-        private static Dimensions DirectSearch(Func<Dimensions, double> field, Dimensions point, Dimensions direction, double epsilon)
+        private static Dimensions DirectSearch(CountableMultiDimensionalFunc args, Dimensions point, Dimensions direction)
         {
             if (direction.Coords.All(x => x == 0))
                 throw new ArgumentException();
 
-            Func<double, double> rotatedField = p => field(ConvertCoordinate(p, point, direction));
-            var linearAnswer = MinimumSearch.DirectSearch(new CountableFunc(rotatedField, 0, 0, epsilon));
+            Func<double, double> rotatedField = p => args.Function(ConvertCoordinate(p, point, direction));
+            var linearAnswer = MinimumSearch.DirectSearch(new CountableFunc(rotatedField, 0, 0, args.FunctionEpsilon));
 
             return ConvertCoordinate(linearAnswer, point, direction);
         }

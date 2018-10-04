@@ -56,9 +56,17 @@ namespace Lab1.Logger
         public static void GenerateGradientReport(Func<Dimensions, double> function, Dimensions startPoint, Dimensions parameterEpsilon, string fileName)
         {
             var result = new List<(CountableMultiDimensionalFunc, Dimensions, double)>();
-
-            for (double e = 0.1; e >= 1e-10; e /= 10)
+            double maxE = 1e-7;
+#if DEBUG
+            maxE = 1e-4;
+#endif
+            for (double e = 0.1; e >= maxE; e /= 10)
             {
+#if DEBUG
+                Console.WriteLine($"==== Check for e = {e} =====");
+                parameterEpsilon = new Dimensions(e, e);
+
+#endif
                 var data = new CountableMultiDimensionalFunc(function, startPoint.Copy(), e, parameterEpsilon);
                 var res = MultidimensionalMinimumSearch.GradientDescent(data);
                 result.Add((data, res, function(res)));
