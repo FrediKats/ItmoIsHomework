@@ -1,33 +1,78 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lab2
 {
     class Program
     {
-        public static void Dfs(int[,] e, int[] v, int c)
+        public static void BreadthFirstSearch(int[,] adjacency, int[] distance, List<int> nodeList)
         {
-            v[c] = 0;
-            int next = -1;
+            if (nodeList.Count == 0)
+                return;
+
+            List<int> nextNodesList = new List<int>();
+            nodeList.ForEach(c => distance[c] = -1);
+
+            foreach (int currentNode in nodeList)
+            {
+                for (int i = 0; i < adjacency.GetLength(0); i++)
+                {
+                    if (distance[i] == -2 && adjacency[currentNode, i] != 0)
+                    {
+                        distance[i] = -1;
+                        nextNodesList.Add(i);
+                    }
+                }
+            }
+
+            BreadthFirstSearch(adjacency, distance, nextNodesList);
+
+            foreach (var currentNode in nodeList)
+            {
+                for (int i = 0; i < distance.GetLength(0); i++)
+                {
+                    if ((distance[currentNode] == -1
+                         || adjacency[currentNode, i] + distance[i] < distance[currentNode]) && adjacency[currentNode, i] != 0)
+                    {
+                        distance[currentNode] = adjacency[currentNode, i] + distance[i];
+                    }
+                }
+
+                if (distance[currentNode] == -1)
+                {
+                    distance[currentNode] = 0;
+                }
+            }
+        }
+
+        public static void Dfs(int[,] e, int[] dist, int currentNode)
+        {
+            dist[currentNode] = 0;
+            int nextNode = -1;
 
             for (int i = 0; i < e.GetLength(1); i++)
             {
-                if (v[i] == -1 && e[c, i] != 0)
+                if (dist[i] == -1 && e[currentNode, i] != 0)
                 {
-                    Dfs(e, v, i);
+                    Dfs(e, dist, i);
                 }
 
-                if ((v[c] == 0 || e[c, i] + v[i] < v[c]) && e[c, i] != 0)
+                if ((dist[currentNode] == 0 || e[currentNode, i] + dist[i] < dist[currentNode]) && e[currentNode, i] != 0)
                 {
-                    v[c] = e[c, i] + v[i];
-                    next = i;
+                    dist[currentNode] = e[currentNode, i] + dist[i];
+                    nextNode = i;
                 }
             }
 
 #if DEBUG
-            if (next != -1)
+            if (nextNode != -1)
             {
-                Console.WriteLine($"Optimal way from {c + 1} to {next + 1}");
+                Console.WriteLine($"Optimal way from {currentNode + 1} to {nextNode + 1}");
+            }
+            else
+            {
+                Console.WriteLine($"{nextNode + 1} - end point");
             }
 #endif
         }
@@ -48,9 +93,11 @@ namespace Lab2
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
             };
 
-            int[] v = Enumerable.Repeat(-1, 10).ToArray();
-            Dfs(matrix, v, 0);
+            int[] v = Enumerable.Repeat(-2, 10).ToArray();
+            //Dfs(matrix, v, 0);
+            BreadthFirstSearch(matrix, v, new List<int> { 0});
             Console.WriteLine(string.Join(' ', v));
+
         }
     }
 }
