@@ -7,27 +7,15 @@ namespace Lab1
 {
     public static class MultidimensionalMinimumSearch
     {
-        private static Dimensions Grad(Dimensions point)
-        {
-            //TODO:
-#if DEBUG
-            Console.WriteLine(point);
-#endif
-            var a = new Dimensions(
-                2 * (200 * Math.Pow(point[0], 3) - 200 * point[0] * point[1] + point[0] - 1),
-                200 * (point[1] - Math.Pow(point[0], 2))
-            );
-
-            return a;
-        }
-
         public static Dimensions GradientDescent(CountableMultiDimensionalFunc args)
         {
             if (args.StartPoint.Length != args.ParameterEpsilon.Length)
+            {
                 throw new ArgumentException();
+            }
 
-            bool completed = false;
-            var newPoint = args.StartPoint.Copy();
+            var completed = false;
+            Dimensions newPoint = args.StartPoint.Copy();
 
             while (!completed)
             {
@@ -51,11 +39,8 @@ namespace Lab1
                 Console.WriteLine($"value f(p) = {prevValue:F7} => {value:F7}");
                 Console.WriteLine("\n");
 #endif
-
-
-                prevValue = value;
-
             }
+
             return newPoint;
         }
 
@@ -63,11 +48,11 @@ namespace Lab1
         {
             var coords = new double[startPoint.Length];
 
-            for (int i = 0; i < startPoint.Length; i++)
+            for (var i = 0; i < startPoint.Length; i++)
             {
-                var leftPoint = startPoint.Copy();
+                Dimensions leftPoint = startPoint.Copy();
                 leftPoint[i] -= args.FunctionEpsilon;
-                var rightPoint = startPoint.Copy();
+                Dimensions rightPoint = startPoint.Copy();
                 rightPoint[i] += args.FunctionEpsilon;
                 coords[i] = (args.Function(rightPoint) - args.Function(leftPoint)) / (2 * args.FunctionEpsilon);
             }
@@ -79,29 +64,28 @@ namespace Lab1
             return new Dimensions(coords);
         }
 
-        private static double NumericalDifferentiation(CountableMultiDimensionalFunc args, Dimensions point, int variable)
+        private static double NumericalDifferentiation(CountableMultiDimensionalFunc args, Dimensions point,
+            int variable)
         {
-            //if (variable >= point.Coords.Length) throw new ArgumentException();
-
             const int number = 5;
-            double[][] coeffs = new double[number][];
+            var coeffs = new double[number][];
             coeffs[0] = new double[number];
 
             Dimensions tmpPoint = point.Copy();
             tmpPoint[variable] -= number / 2 * args.FunctionEpsilon;
             double left = tmpPoint[variable];
 
-            for (int i = 0; i < coeffs[0].Length; i++)
+            for (var i = 0; i < coeffs[0].Length; i++)
             {
                 tmpPoint[variable] = left + args.FunctionEpsilon * i;
                 coeffs[0][i] = args.Function(tmpPoint);
             }
 
-            for (int i = 1; i < coeffs.Length; i++)
+            for (var i = 1; i < coeffs.Length; i++)
             {
                 coeffs[i] = new double[number - i];
 
-                for (int j = 0; j < coeffs[i].Length; j++)
+                for (var j = 0; j < coeffs[i].Length; j++)
                 {
                     coeffs[i][j] = coeffs[i - 1][j + 1] - coeffs[i - 1][j];
                 }
@@ -122,13 +106,17 @@ namespace Lab1
             return new Dimensions(coords.Coords.Select(x => x / norm));
         }
 
-        private static Dimensions DirectSearch(CountableMultiDimensionalFunc args, Dimensions point, Dimensions direction)
+        private static Dimensions DirectSearch(CountableMultiDimensionalFunc args, Dimensions point,
+            Dimensions direction)
         {
             if (direction.Coords.All(x => x == 0))
+            {
                 throw new ArgumentException();
+            }
 
             Func<double, double> rotatedField = p => args.Function(ConvertCoordinate(p, point, direction));
-            var linearAnswer = MinimumSearch.DirectSearch(new CountableFunc(rotatedField, 0, 0, args.FunctionEpsilon));
+            double linearAnswer =
+                MinimumSearch.DirectSearch(new CountableFunc(rotatedField, 0, 0, args.FunctionEpsilon));
 
             return ConvertCoordinate(linearAnswer, point, direction);
         }

@@ -131,9 +131,9 @@ namespace Lab1.Tools
         {
             MultidimensionalMinimumSearch.GradientDescent(
                     new CountableMultiDimensionalFunc(fun,
-                        new Dimensions(new[] {1.0, 5.0}),
+                        new Dimensions(1.0, 5.0),
                         0.1,
-                        new Dimensions(new[] {1.0, 1.0})))
+                        new Dimensions(1.0, 1.0)))
                 .Coords
                 .ToList()
                 .ForEach(Console.WriteLine);

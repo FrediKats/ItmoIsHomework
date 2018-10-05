@@ -126,9 +126,6 @@ namespace Lab1
             }
             else
             {
-                //var newArgs = new CountableFunc(args.Function, -args.Epsilon, args.Epsilon, args.Epsilon / 10000);
-
-                //return GoldenRatio(newArgs);
                 return point;
             }
 
