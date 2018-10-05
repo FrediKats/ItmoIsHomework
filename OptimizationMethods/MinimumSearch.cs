@@ -43,9 +43,6 @@ namespace Lab1
 
             while (args.Right - args.Left >= args.Epsilon)
             {
-                //TODO: debug
-                //Console.WriteLine($"left = {args.Left:F4} right = {args.Right:f4}");
-
                 if (f1 > f2)
                 {
                     args.Left = x1;
@@ -65,8 +62,6 @@ namespace Lab1
 
                 args.SaveData();
             }
-
-            Console.WriteLine($"GW res: {(x1 + x2)/2:F4} ({x1:F4}; {x2:F4})");
             return (x1 + x2) / 2;
         }
 
@@ -113,8 +108,15 @@ namespace Lab1
             double point = args.Left;
             double delta = args.Epsilon;
             double value = args.Function(point);
+            //TODO: debug
+#if DEBUG
+            Console.WriteLine("Direct search:");
+            Console.WriteLine($"f(point + delta) = {args.Function(point + delta)}");
+            Console.WriteLine($"f(point - delta) = {args.Function(point - delta)}");
+#endif
 
-            if(value > args.Function(point + delta))
+
+            if (value > args.Function(point + delta))
             {
                 delta = args.Epsilon;
             }
@@ -136,7 +138,7 @@ namespace Lab1
                 point += delta;
                 value = nextValue;
                 nextValue = args.Function(point);
-
+                
                 args.SaveData();
             }
 
@@ -150,6 +152,7 @@ namespace Lab1
                 args.Left = point;
                 args.Right = point - 1.5 * delta;
             }
+
             return GoldenRatio(args);
         }
     }
