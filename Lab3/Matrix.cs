@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Collections;
 
 namespace Lab3
 {
-    class Matrix
+    class Matrix : IEnumerable<Fraction[]>, ICloneable
     {
         private Fraction[][] _data;
 
-        //public double[][] Data => _data; //TODO: rewrite or delete
+        public int M => _data.Length;
+        public int N => _data[0].Length;
 
         public Matrix(Fraction[][] data)
         {
+            if (data.Any(x => x.Length != data[0].Length))
+            {
+                throw new ArgumentException();
+            }
+
             _data = data;
         }
 
-        public void DiagonalForm()
+        public void DiagonalForm() //mb return new one
         {
             //write more exceptions
 
@@ -41,6 +47,26 @@ namespace Lab3
                     _data[j] = _data[j].Zip(_data[i], (curr, prev) => curr - prev * _data[j][i]).ToArray();
                 }
             }
+        }
+
+        public IEnumerator<Fraction[]> GetEnumerator()
+        {
+            return ((IEnumerable<Fraction[]>)_data).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _data.GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            return string.Join("\n", this.Select(x => string.Join("\t", x.Select(y => y))));
+        }
+
+        public object Clone()
+        {
+            return new Matrix(_data);
         }
     }
 }

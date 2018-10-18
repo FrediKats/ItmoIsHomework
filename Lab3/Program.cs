@@ -20,11 +20,9 @@ namespace Lab3
             //double[,] simplexTable = new double[A.GetLength(0) + 1, A.GetLength(1) - A.GetLength(0) + 1];
             Matrix m = new Matrix(A);
             m.DiagonalForm();
+            m.DiagonalForm();
 
-            //Fraction x = new Fraction(5, 4);
-            //Fraction y = new Fraction(1, 2);
-            //Fraction w = null;
-            Console.WriteLine(new Fraction(-6, 3).Reduce());
+            Console.WriteLine(m.ToString());
         }
     }
 }
