@@ -7,11 +7,11 @@ namespace Lab3
     {
         static void Main(string[] args)
         {
-            double[][] A = 
+            Fraction[][] A = 
             {
-                new double[] { 1, 2, -1, 2, 4 },
-                new double[] { 0, -1, 2, 1, 3 },
-                new double[] { 1, -3, 2, 2, 0 }
+                new Fraction[] { 1, 2, -1, 2, 4 },
+                new Fraction[] { 0, -1, 2, 1, 3 },
+                new Fraction[] { 1, -3, 2, 2, 0 }
             };
 
             double[] b = { 1, 3, 4 };
@@ -20,6 +20,11 @@ namespace Lab3
             //double[,] simplexTable = new double[A.GetLength(0) + 1, A.GetLength(1) - A.GetLength(0) + 1];
             Matrix m = new Matrix(A);
             m.DiagonalForm();
+
+            //Fraction x = new Fraction(5, 4);
+            //Fraction y = new Fraction(1, 2);
+            //Fraction w = null;
+            Console.WriteLine(new Fraction(-6, 3).Reduce());
         }
     }
 }

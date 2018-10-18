@@ -7,11 +7,11 @@ namespace Lab3
 {
     class Matrix
     {
-        private double[][] _data;
+        private Fraction[][] _data;
 
         //public double[][] Data => _data; //TODO: rewrite or delete
 
-        public Matrix(double[][] data)
+        public Matrix(Fraction[][] data)
         {
             _data = data;
         }
@@ -25,7 +25,7 @@ namespace Lab3
                 throw new Exception();
             }
 
-            _data = _data.OrderByDescending(x => Math.Abs(x[0])).ToArray();
+            _data = _data.OrderByDescending(x => Math.Abs((double)x[0])).ToArray();
 
             for (int i = 0; i < _data.Length; i++)
             {

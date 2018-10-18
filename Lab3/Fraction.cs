@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lab3
 {
-    sealed class Fraction
+    public sealed class Fraction : IComparable<Fraction>
     {
         public int Numerator { get; }
         public int Denominator { get; }
+
         public Fraction(int numerator, int denominator)
         {
             if (denominator == 0)
@@ -19,24 +18,29 @@ namespace Lab3
             Denominator = denominator;
         }
 
-        private Fraction Reduce()
+        public int CompareTo(Fraction other)
         {
-            var num = Numerator;
-            var den = Denominator;
+            return Math.Sign((double)(this - other));
+        }
 
-            while (num != 0 && den != 0)
+        public Fraction Reduce()
+        {
+            var absNum = Math.Abs(Numerator);
+            var absDen = Math.Abs(Denominator);
+
+            while (absNum != 0 && absDen != 0)
             {
-                if (den > num)
+                if (absDen > absNum)
                 {
-                    den %= num;
+                    absDen %= absNum;
                 }
                 else
                 {
-                    num %= den;
+                    absNum %= absDen;
                 }
             }
 
-            return new Fraction(Numerator / (num + den), Denominator / (num + den));
+            return new Fraction(Numerator / (absNum + absDen), Denominator / (absNum + absDen));
         }
 
         public static Fraction operator -(Fraction fraction)
@@ -63,12 +67,17 @@ namespace Lab3
 
         public static Fraction operator /(Fraction left, Fraction right)
         {
-            if (right.Numerator == 0)
-            {
-                throw new ArgumentException();
-            }
-
             return left * new Fraction(right.Denominator, right.Numerator);
+        }
+
+        public static bool operator ==(Fraction left, Fraction right)
+        {
+            return left?.Equals(right) ?? false;
+        }
+
+        public static bool operator !=(Fraction left, Fraction right)
+        {
+            return !(left == right);
         }
 
         public static implicit operator Fraction(int number)
@@ -88,7 +97,26 @@ namespace Lab3
 
         public override string ToString()
         {
-            return $"{{ {Numerator}, {Denominator} }}";
+            return $"{Numerator}{(Denominator > 1 ? "/" + Denominator : string.Empty)}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Fraction other)
+            {
+                var reducedThis = Reduce();
+                var reducedAnother = other.Reduce();
+
+                return reducedThis.Numerator == reducedAnother.Numerator
+                    && reducedThis.Denominator == reducedAnother.Denominator;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return int.Parse(Numerator.ToString() + Denominator.ToString());
         }
     }
 }
