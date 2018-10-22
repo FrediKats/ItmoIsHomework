@@ -2,7 +2,7 @@
 
 namespace Lab3
 {
-    public sealed class Fraction : IComparable<Fraction>
+    public struct Fraction : IComparable<Fraction>
     {
         public int Numerator { get; }
         public int Denominator { get; }
@@ -72,12 +72,12 @@ namespace Lab3
 
         public static bool operator ==(Fraction left, Fraction right)
         {
-            return left?.Equals(right) ?? false;
+            return left.Equals(right);
         }
 
         public static bool operator !=(Fraction left, Fraction right)
         {
-            return !(left == right);
+            return !left.Equals(right);
         }
 
         public static implicit operator Fraction(int number)

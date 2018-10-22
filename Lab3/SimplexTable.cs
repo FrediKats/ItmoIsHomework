@@ -14,6 +14,8 @@ namespace Lab3
             diagonalMatrix.DiagonalForm();
 
             _data = new double[matrix.M + 1][];
+
+            
         }
     }
 }
