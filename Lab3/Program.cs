@@ -9,20 +9,17 @@ namespace Lab3
         {
             Fraction[][] A = 
             {
-                new Fraction[] { 1, 2, -1, 2, 4 },
-                new Fraction[] { 0, -1, 2, 1, 3 },
-                new Fraction[] { 1, -3, 2, 2, 0 }
+                new Fraction[] { 1, 0, 0, 1, -2 },
+                new Fraction[] { 0, 1, 0, -2, 1 },
+                new Fraction[] { 0, 0, 1, 3, 1 }
             };
 
-            double[] b = { 1, 3, 4 };
-            double[] c = { 1, -3, 2, 1, 4 };
+            Fraction[] b = { 1, 2, 3 };
+            Fraction[] c = { 0, 0, 0, 1, -1 , 0 };
+            
+            //Matrix extendedMatrix = new Matrix(A) + b;
 
-            //double[,] simplexTable = new double[A.GetLength(0) + 1, A.GetLength(1) - A.GetLength(0) + 1];
-            Matrix m = new Matrix(A);
-            m.DiagonalForm();
-            m.DiagonalForm();
-
-            Console.WriteLine(m.ToString());
+            SimplexTable simplexMatrix = new SimplexTable(A, b, c);
         }
     }
 }

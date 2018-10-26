@@ -18,6 +18,8 @@ namespace Lab3
             Denominator = denominator;
         }
 
+        //TODO: write cast from tuple
+
         public int CompareTo(Fraction other)
         {
             return Math.Sign((double)(this - other));
@@ -78,6 +80,26 @@ namespace Lab3
         public static bool operator !=(Fraction left, Fraction right)
         {
             return !left.Equals(right);
+        }
+
+        public static bool operator < (Fraction left, Fraction right)
+        {
+            return left.CompareTo(right) < 0;
+        }
+
+        public static bool operator > (Fraction left, Fraction right)
+        {
+            return left.CompareTo(right) > 0;
+        }
+
+        public static bool operator <= (Fraction left, Fraction right)
+        {
+            return left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >= (Fraction left, Fraction right)
+        {
+            return left.CompareTo(right) >= 0;
         }
 
         public static implicit operator Fraction(int number)

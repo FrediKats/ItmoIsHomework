@@ -1,21 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Lab3
 {
     class SimplexTable
     {
-        private double[][] _data;
+        private Fraction[][] _data;
 
-        public SimplexTable(Matrix matrix/*, TargetFunction*/)
+        public SimplexTable(Fraction[][] A, Fraction[] b, Fraction[] c)
         {
-            var diagonalMatrix = matrix.Clone() as Matrix;
-            diagonalMatrix.DiagonalForm();
+            //if (matrix.N != targetFunction.Length)
+            //{
+            //    throw new ArgumentException();
+            //}
 
-            _data = new double[matrix.M + 1][];
+            Fraction[][] system = new Fraction[][]
+            {
+                new Fraction[] { 1 }.Concat(c.Take(c.Length - 1).Select(x => -x).Append(c.Last()))
+                                    .ToArray()
+            }.Concat(A.Zip(b, (x, y) => new Fraction[] { 0 }.Concat(x.Append(y))
+                                                            .ToArray()))
+                .ToArray().DiagonalForm();
 
-            
+            _data = system.Select(x => x.Skip(system.Length).ToArray()).ToArray();
+        }
+
+        public void Solve()
+        {
+            while (_data[0].Any(x => x < 0))
+            {
+
+            }
         }
     }
 }
