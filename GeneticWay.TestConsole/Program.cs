@@ -47,7 +47,8 @@ namespace GeneticWay.TestConsole
             polygons.AsParallel().ForAll(p => p.Start());
 
             polygons = polygons.OrderByDescending(p => p.SimReport.IsFinish)
-                .ThenBy(p => p.SimReport.Points)
+                .ThenBy(p => p.SimReport.Distance)
+                .ThenBy(p => p.SimReport.FinalSpeed)
                 .ThenBy(p => p.SimReport.IterationCount)
                 .ToList();
             return polygons;

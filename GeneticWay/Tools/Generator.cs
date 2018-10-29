@@ -8,10 +8,10 @@ namespace GeneticWay.Tools
         private static readonly Random Random = new Random();
         public static ForceField GenerateRandomField()
         {
-            ForceField field = new ForceField(Configuration.BlockCount);
-            for (int y = 0; y < Configuration.BlockCount; y++)
+            ForceField field = new ForceField();
+            for (int y = 0; y < Configuration.DegreeCount; y++)
             {
-                for (int x = 0; x < Configuration.BlockCount; x++)
+                for (int x = 0; x < Configuration.SectionCount; x++)
                 {
                     field.Field[y, x] = GetRandomDirection() * Configuration.MaxForce;
                 }
@@ -23,14 +23,19 @@ namespace GeneticWay.Tools
         public static Coordinate GetRandomDirection()
         {
             Coordinate coordinate;
-            float x = (float) Random.NextDouble() * 2 - 1;
-            float y = (float) Math.Sqrt(1 - Math.Pow(x, 2));
-            return (x, y);
+            do
+            {
+                double x = Random.NextDouble() * 2 - 1;
+                double y = Random.NextDouble() * 2 - 1;
+                coordinate = (y, x);
+            } while (coordinate.GetLength() > 1);
+
+            return coordinate;
         }
 
-        public static (int x, int y) GenerateIndex()
+        public static (int degree, int section) GenerateIndex()
         {
-            return (Random.Next(Configuration.BlockCount), Random.Next(Configuration.BlockCount));
+            return (Random.Next(Configuration.DegreeCount), Random.Next(Configuration.SectionCount));
         }
     }
 }

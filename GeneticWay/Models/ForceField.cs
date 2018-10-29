@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using GeneticWay.Tools;
 
 namespace GeneticWay.Models
 {
@@ -7,9 +8,9 @@ namespace GeneticWay.Models
     {
         public Coordinate[,] Field { get; set; }
 
-        public ForceField(int size)
+        public ForceField()
         {
-            Field = new Coordinate[size, size];
+            Field = new Coordinate[Configuration.DegreeCount, Configuration.SectionCount];
         }
 
         public ForceField(Coordinate[,] field)
@@ -21,7 +22,6 @@ namespace GeneticWay.Models
         {
             Coordinate[,] storage = new Coordinate[Field.GetLength(0), Field.GetLength(1)];
             Array.Copy(Field, storage, Field.Length);
-            //return new ForceField(Field.Select(a => a.ToArray()).ToArray());
             return new ForceField(storage);
         }
     }

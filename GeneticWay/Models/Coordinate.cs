@@ -1,29 +1,31 @@
 ﻿using System;
+using GeneticWay.Tools;
 
 namespace GeneticWay.Models
 {
     public struct Coordinate
     {
-        public float X { get; set; }
-        public float Y { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
 
-        public Coordinate(float x, float y)
+        public Coordinate(double x, double y)
         {
             X = x;
             Y = y;
         }
 
-        public float GetLength()
+        public double GetLength()
         {
-            return (float)Math.Sqrt(X * X + Y * Y);
+            return Math.Sqrt(X * X + Y * Y);
         }
 
-        public float LengthTo(Coordinate coordinate)
+        public double LengthTo(Coordinate coordinate)
         {
-            return (float)Math.Sqrt(Math.Pow(X - coordinate.X, 2) + Math.Pow(Y - coordinate.Y, 2));
+            var d = this - coordinate;
+            return Math.Sqrt(d.X * d.X + d.Y * d.Y);
         }
 
-        public static implicit operator Coordinate((float, float) args)
+        public static implicit operator Coordinate((double, double) args)
         {
             return new Coordinate(args.Item1, args.Item2);
         }
@@ -33,17 +35,23 @@ namespace GeneticWay.Models
             return (left.X + right.X, left.Y + right.Y);
         }
 
-        public static Coordinate operator *(Coordinate left, float ratio)
+        public static Coordinate operator -(Coordinate left, Coordinate right)
+        {
+            return (left.X - right.X, left.Y - right.Y);
+        }
+
+        public static Coordinate operator *(Coordinate left, double ratio)
         {
             return (left.X * ratio, left.Y * ratio);
         }
 
-        public static bool operator==(Coordinate left, (float, float) right)
+        public static bool operator==(Coordinate left, (double, double) right)
         {
-            return Math.Abs(left.X - right.Item1) < 1e-5 && Math.Abs(left.Y - right.Item2) < 1e-5;
+            return Math.Abs(left.X - right.Item1) < Configuration.Epsilon
+                   && Math.Abs(left.Y - right.Item2) < Configuration.Epsilon;
         }
             
-        public static bool operator !=(Coordinate left, (float, float) right)
+        public static bool operator !=(Coordinate left, (double, double) right)
         {
             return !(left == right);
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Documents;
+using GeneticWay.Logic;
 using GeneticWay.Models;
 
 namespace GeneticWay.Tools

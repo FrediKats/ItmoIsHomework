@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GeneticWay
+﻿namespace GeneticWay.Tools
 {
     public static class Configuration
     {
-        public static float MaxForce { get; } = 1;
-        public static float TimePeriod { get; } = (float)1e-3;
-        public static int MaxIterationCount { get; } = (int)1e5;
-        public static int SimulationCount { get; } = 64;
-        public static int BlockCount { get; } = 256;
+        public const double MaxForce = 1;
+        public const double TimePeriod = 1e-4;
+        public const int MaxIterationCount = (int)1e6;
+        public const int SimulationCount = 64;
+        public const int CopyCount = 8;
+
+        public const double Epsilon = 1e-5;
+        public const int DegreeCount = 45;
+        public const int SectionCount = 150;
     }
 }

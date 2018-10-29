@@ -79,7 +79,7 @@
   <ItemGroup>
     <Compile Include="Models\Coordinate.cs" />
     <Compile Include="Models\ForceField.cs" />
-    <Compile Include="Models\Simulation.cs" />
+    <Compile Include="Logic\Simulation.cs" />
     <Compile Include="Models\Zone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

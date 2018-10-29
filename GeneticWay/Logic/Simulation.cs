@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Windows.Documents;
+﻿using System;
+using System.Collections.Generic;
+using GeneticWay.Models;
+using GeneticWay.Tools;
 
-namespace GeneticWay.Models
+namespace GeneticWay.Logic
 {
     public class SimulationPolygon
     {
@@ -23,22 +25,21 @@ namespace GeneticWay.Models
             while (currentIteration < Configuration.MaxIterationCount)
             {
                 currentIteration++;
-
                 coordinate += velocity * Configuration.TimePeriod;
+                if (coordinate == (1, 1))
+                {
+                    SimReport = new SimReport(true, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration, coordinates);
+                    return;
+                }
+
                 var force = GetForce(coordinate);
-                if (force == (-1, -1) || IsOutOfField(coordinate))
+                if (force == null || IsOutOfField(coordinate))
                 {
                     SimReport = new SimReport(false, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration, coordinates);
                     return;
                 }
-                velocity += force;
+                velocity += (force.Value * Configuration.MaxForce * Configuration.TimePeriod);
                 coordinates.Add(coordinate);
-
-                if (coordinate == (1, 1))
-                {
-                    SimReport = new SimReport(true, 0, velocity.GetLength(), currentIteration, coordinates);
-                    return;
-                }
 
                 //TODO: check if in Zone
             }
@@ -47,18 +48,15 @@ namespace GeneticWay.Models
             return;
         }
 
-        private Coordinate GetForce(Coordinate coordinate)
+        private Coordinate? GetForce(Coordinate coordinate)
         {
             if (IsOutOfField(coordinate))
-                return (-1, -1);
-            int x = GetIndex(Configuration.BlockCount, coordinate.X);
-            int y = GetIndex(Configuration.BlockCount, coordinate.Y);
-            return ForceField.Field[y, x];
-        }
+                return null;
 
-        private int GetIndex(int size, double coordinate)
-        {
-            return (int) coordinate * size;
+            var dist = (1, 1) - coordinate;
+            int degree = (int)(Math.Round(Math.Atan(dist.Y / dist.X)) / 3.14 * Configuration.DegreeCount);
+            int len = (int)(dist.LengthTo((1, 1)) * (Configuration.SectionCount / 1.5));
+            return ForceField.Field[degree, len];
         }
 
         private bool IsOutOfField(Coordinate coordinate)
