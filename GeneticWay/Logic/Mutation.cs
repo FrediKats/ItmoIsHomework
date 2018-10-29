@@ -7,7 +7,7 @@ namespace GeneticWay.Logic
 {
     public static class Mutation
     {
-        public static List<Simulation> CreateMutation(List<Simulation> simulationList)
+        public static List<SimulationPolygon> CreateMutation(List<SimulationPolygon> simulationList)
         {
             // TODO: create new simulation list
             throw new NotImplementedException();

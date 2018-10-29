@@ -7,7 +7,7 @@ namespace GeneticWay.Tools
     public static class Logger
     {
         private static int _logCount = 1;
-        public static void Log(List<Simulation> simulations)
+        public static void Log(List<SimulationPolygon> simulations)
         {
             // TODO: log to json 
         }

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticWay", "GeneticWay\GeneticWay.csproj", "{5C59B748-37E3-41E9-9EE4-3838FC3D371A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticWay.TestConsole", "GeneticWay.TestConsole\GeneticWay.TestConsole.csproj", "{8EFEBB49-20BE-42BC-906A-A90A194AB440}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5C59B748-37E3-41E9-9EE4-3838FC3D371A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C59B748-37E3-41E9-9EE4-3838FC3D371A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C59B748-37E3-41E9-9EE4-3838FC3D371A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EFEBB49-20BE-42BC-906A-A90A194AB440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EFEBB49-20BE-42BC-906A-A90A194AB440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EFEBB49-20BE-42BC-906A-A90A194AB440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EFEBB49-20BE-42BC-906A-A90A194AB440}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

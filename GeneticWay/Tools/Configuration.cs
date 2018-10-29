@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace GeneticWay
 {
-    public class Configuration
+    public static class Configuration
     {
-        public static double MaxF { get; }
-        public static double TimePeriod { get; } = (int) 1e-3;
-        public int MaxIterationCount { get; } = (int)1e8;
-        public int SimulationCount { get; } = 128;
+        public static double MaxForce { get; } = 1;
+        public static double TimePeriod { get; } = 1e-1;
+        public static int MaxIterationCount { get; } = (int)1e5;
+        public static int SimulationCount { get; } = 128;
+        public static int BlockCount { get; } = 4;
     }
 }
