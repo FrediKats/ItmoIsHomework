@@ -9,7 +9,7 @@ namespace GeneticWay.Logic
 {
     public static class Mutation
     {
-        public static List<SimulationPolygon> CreateMutation(List<SimulationPolygon> simulationList)
+        public static List<SimulationPolygon> CreateMutation(IEnumerable<SimulationPolygon> simulationList)
         {
             var selected = simulationList.Take(Configuration.SimulationCount / Configuration.CopyCount);
 
@@ -26,13 +26,12 @@ namespace GeneticWay.Logic
             return result;
         }
 
-        public static SimulationPolygon CreteMutation(SimulationPolygon polygon)
+        private static SimulationPolygon CreteMutation(SimulationPolygon polygon)
         {
-            var newField = polygon.ForceField.Clone();
-            var index = Generator.GenerateIndex();
-            newField.Field[index.degree, index.section] = Generator.GetRandomDirection();
-            var p = new SimulationPolygon(newField);
-            return p;
+            ForceField newField = polygon.ForceField.Clone();
+            (int degree, int section) = Generator.GenerateIndex();
+            newField.Field[degree, section] = Generator.GetRandomDirection();
+            return new SimulationPolygon(newField); ;
         }
     }
 }

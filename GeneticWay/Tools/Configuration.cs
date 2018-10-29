@@ -3,7 +3,7 @@
     public static class Configuration
     {
         public const double MaxForce = 1;
-        public const double TimePeriod = 1e-4;
+        public const double TimePeriod = 1e-3;
         public const int MaxIterationCount = (int)1e6;
         public const int SimulationCount = 64;
         public const int CopyCount = 8;

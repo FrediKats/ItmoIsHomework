@@ -22,23 +22,13 @@ namespace GeneticWay.TestConsole
 
             while (true)
             {
-                List<SimReport> reports = null;
                 for (int i = 0; i < 100; i++)
                 {
-                    polygons = MakeIteration(polygons);
-                    reports = polygons.Select(p => p.SimReport).ToList();
                     polygons = Mutation.CreateMutation(polygons);
+                    polygons = MakeIteration(polygons);
                 }
 
-                Console.WriteLine(reports.First());
-                //foreach (SimReport report in reports)
-                //{
-                //    Console.WriteLine(report);
-                //}
-
-                //Console.SetCursorPosition(0, 0);
-                //Console.ReadKey();
-                //Console.Clear();
+                Console.WriteLine(polygons.Select(p => p.SimReport).First());
             }
         }
 

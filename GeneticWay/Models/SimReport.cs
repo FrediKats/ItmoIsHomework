@@ -9,7 +9,7 @@ namespace GeneticWay.Models
         public SimReport(bool isFinish, double distance, double finalSpeed, int iterationCount, List<Coordinate> coordinates)
         {
             IsFinish = isFinish;
-            Distance = Math.Round(distance, 5);
+            Distance = Math.Round(distance, 6);
             FinalSpeed = finalSpeed;
             IterationCount = iterationCount;
             Coordinates = coordinates;

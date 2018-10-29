@@ -22,6 +22,7 @@ namespace GeneticWay.Logic
             int currentIteration = 0;
             Coordinate coordinate = (0, 0);
             Coordinate velocity = (0, 0);
+
             while (currentIteration < Configuration.MaxIterationCount)
             {
                 currentIteration++;
@@ -32,8 +33,8 @@ namespace GeneticWay.Logic
                     return;
                 }
 
-                var force = GetForce(coordinate);
-                if (force == null || IsOutOfField(coordinate))
+                Coordinate? force = GetForce(coordinate);
+                if (force == null )
                 {
                     SimReport = new SimReport(false, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration, coordinates);
                     return;
@@ -45,7 +46,6 @@ namespace GeneticWay.Logic
             }
 
             SimReport = new SimReport(false, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration, coordinates);
-            return;
         }
 
         private Coordinate? GetForce(Coordinate coordinate)
@@ -56,6 +56,7 @@ namespace GeneticWay.Logic
             var dist = (1, 1) - coordinate;
             int degree = (int)(Math.Round(Math.Atan(dist.Y / dist.X)) / 3.14 * Configuration.DegreeCount);
             int len = (int)(dist.LengthTo((1, 1)) * (Configuration.SectionCount / 1.5));
+
             return ForceField.Field[degree, len];
         }
 

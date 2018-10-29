@@ -20,7 +20,7 @@ namespace GeneticWay.Models
 
         public ForceField Clone()
         {
-            Coordinate[,] storage = new Coordinate[Field.GetLength(0), Field.GetLength(1)];
+            Coordinate[,] storage = new Coordinate[Configuration.DegreeCount, Configuration.SectionCount];
             Array.Copy(Field, storage, Field.Length);
             return new ForceField(storage);
         }
