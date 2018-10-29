@@ -1,6 +1,6 @@
 ﻿namespace GeneticWay.Models
 {
-    public class Zone
+    public struct Zone
     {
         public Zone(Coordinate coordinate, double r)
         {

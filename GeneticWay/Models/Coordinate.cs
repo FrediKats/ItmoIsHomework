@@ -4,10 +4,10 @@ namespace GeneticWay.Models
 {
     public class Coordinate
     {
-        public double X { get; set; }
-        public double Y { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
 
-        public Coordinate(double x, double y)
+        public Coordinate(float x, float y)
         {
             X = x;
             Y = y;
@@ -23,7 +23,7 @@ namespace GeneticWay.Models
             return Math.Sqrt(Math.Pow(X - coordinate.X, 2) + Math.Pow(Y - coordinate.Y, 2));
         }
 
-        public static implicit operator Coordinate((double, double) args)
+        public static implicit operator Coordinate((float, float) args)
         {
             return new Coordinate(args.Item1, args.Item2);
         }
@@ -33,17 +33,17 @@ namespace GeneticWay.Models
             return (left.X + right.X, left.Y + right.Y);
         }
 
-        public static Coordinate operator *(Coordinate left, double ratio)
+        public static Coordinate operator *(Coordinate left, float ratio)
         {
             return (left.X * ratio, left.Y * ratio);
         }
 
-        public static bool operator==(Coordinate left, (double, double) right)
+        public static bool operator==(Coordinate left, (float, float) right)
         {
             return Math.Abs(left.X - right.Item1) < 1e-5 && Math.Abs(left.Y - right.Item2) < 1e-5;
         }
-
-        public static bool operator !=(Coordinate left, (double, double) right)
+            
+        public static bool operator !=(Coordinate left, (float, float) right)
         {
             return !(left == right);
         }

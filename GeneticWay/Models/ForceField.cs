@@ -1,4 +1,6 @@
-﻿namespace GeneticWay.Models
+﻿using System.Linq;
+
+namespace GeneticWay.Models
 {
     public class ForceField
     {
@@ -19,7 +21,8 @@
 
         public ForceField Clone()
         {
-            return new ForceField((Coordinate[][])Field.Clone());
+            return new ForceField(Field.Select(a => a.ToArray()).ToArray());
+            //return new ForceField((Coordinate[][])Field.Clone());
         }
     }
 }

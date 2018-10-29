@@ -5,14 +5,15 @@ namespace GeneticWay.Models
 {
     public class SimulationPolygon
     {
-        public ForceField ForceField { get; set; }
+        public ForceField ForceField { get; }
+        public SimReport SimReport { get; set; }
 
         public SimulationPolygon(ForceField field)
         {
             ForceField = field;
         }
 
-        public SimReport Start()
+        public void Start()
         {
             List<Coordinate> coordinates = new List<Coordinate>();
 
@@ -25,28 +26,31 @@ namespace GeneticWay.Models
 
                 coordinate += velocity * Configuration.TimePeriod;
                 var force = GetForce(coordinate);
-                if (force == null || IsOutOfField(coordinate))
+                if (force == (-1, -1) || IsOutOfField(coordinate))
                 {
-                    return new SimReport(false, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration, coordinates);
+                    SimReport = new SimReport(false, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration, coordinates);
+                    return;
                 }
                 velocity += force;
                 coordinates.Add(coordinate);
 
                 if (coordinate == (1, 1))
                 {
-                    return new SimReport(true, 0, velocity.GetLength(), currentIteration, coordinates);
+                    SimReport = new SimReport(true, 0, velocity.GetLength(), currentIteration, coordinates);
+                    return;
                 }
 
                 //TODO: check if in Zone
             }
 
-            return new SimReport(false, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration, coordinates);
+            SimReport = new SimReport(false, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration, coordinates);
+            return;
         }
 
         private Coordinate GetForce(Coordinate coordinate)
         {
             if (IsOutOfField(coordinate))
-                return null;
+                return (-1, -1);
             int x = GetIndex(Configuration.BlockCount, coordinate.X);
             int y = GetIndex(Configuration.BlockCount, coordinate.Y);
             return ForceField.Field[y][x];
