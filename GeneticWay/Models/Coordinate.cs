@@ -45,6 +45,11 @@ namespace GeneticWay.Models
             return (left.X * ratio, left.Y * ratio);
         }
 
+        public static Coordinate operator *(Coordinate left, int ratio)
+        {
+            return (left.X * ratio, left.Y * ratio);
+        }
+
         public static bool operator==(Coordinate left, (double, double) right)
         {
             return Math.Abs(left.X - right.Item1) < Configuration.Epsilon
