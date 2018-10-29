@@ -11,5 +11,9 @@
         public Coordinate Coordinate { get; }
         public double R { get; }
 
+        public bool IsInZone(Coordinate coordinate)
+        {
+            return coordinate.LengthTo(Coordinate) < R;
+        }
     }
 }

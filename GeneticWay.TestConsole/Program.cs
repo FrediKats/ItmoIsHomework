@@ -15,11 +15,7 @@ namespace GeneticWay.TestConsole
     {
         static void Main(string[] args)
         {
-            
+            ProcessExecutor.Execute();
         }
-
-        
-
-        
     }
 }

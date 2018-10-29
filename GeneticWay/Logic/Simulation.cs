@@ -17,6 +17,9 @@ namespace GeneticWay.Logic
 
         public void Start()
         {
+            List<Zone> zones = new List<Zone>();
+            zones.Add(new Zone((0.5, 0.25), 0.1));
+
             var coordinates = new List<Coordinate>();
             var Forces = new List<Coordinate>();
 
@@ -35,6 +38,15 @@ namespace GeneticWay.Logic
                     return;
                 }
 
+                foreach (Zone zone in zones)
+                {
+                    if (zone.IsInZone(coordinate))
+                    {
+                        SimReport = new SimReport(false, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration,
+                            coordinates, Forces, ForceField);
+                        return;
+                    }
+                }
                 Coordinate? force = GetForce(coordinate);
                 if (force == null)
                 {

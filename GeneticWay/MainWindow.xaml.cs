@@ -18,7 +18,7 @@ namespace GeneticWay
         public MainWindow()
         {
             InitializeComponent();
-            var sim = JsonConvert.DeserializeObject<SimReport>(File.ReadAllText("backup.json"));
+            var sim = JsonConvert.DeserializeObject<SimReport>(File.ReadAllText("../../../GeneticWay.TestConsole/bin/Debug/backup.json"));
             PixelDrawer pd = new PixelDrawer(Drawer);
             pd.DrawPoints(sim.Coordinates);
 

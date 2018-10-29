@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GeneticWay.Tools;
 
 namespace GeneticWay.Models
 {
@@ -9,7 +10,7 @@ namespace GeneticWay.Models
             List<Coordinate> coordinates, List<Coordinate> forces, ForceField field)
         {
             IsFinish = isFinish;
-            Distance = Math.Round(distance, 6);
+            Distance = Math.Round(distance, Configuration.EpsilonInt);
             FinalSpeed = finalSpeed;
             IterationCount = iterationCount;
             Coordinates = coordinates;
