@@ -1,24 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GeneticWay.Logic;
 using GeneticWay.Models;
 using GeneticWay.Tools;
+using Newtonsoft.Json;
 
 namespace GeneticWay.TestConsole
 {
     class Program
     {
+        private static string Path = "backup.json";
         static void Main(string[] args)
         {
-            var polygons = new List<SimulationPolygon>();
-            for (var i = 0; i < Configuration.SimulationCount; i++)
+            var polygons = TryLoad();
+            if (polygons == null)
             {
-                polygons.Add(
-                    new SimulationPolygon(Generator.GenerateRandomField()));
+                polygons = new List<SimulationPolygon>();
+                for (var i = 0; i < Configuration.SimulationCount; i++)
+                {
+                    polygons.Add(
+                        new SimulationPolygon(Generator.GenerateRandomField()));
+                }
             }
+            
+
+            SimReport last = null;
+            Console.CancelKeyPress += (sender, eventArgs) =>
+            {
+                var json = JsonConvert.SerializeObject(last);
+                File.WriteAllText(Path, json);
+            };
 
             while (true)
             {
@@ -28,7 +43,8 @@ namespace GeneticWay.TestConsole
                     polygons = MakeIteration(polygons);
                 }
 
-                Console.WriteLine(polygons.Select(p => p.SimReport).First());
+                last = polygons.Select(p => p.SimReport).First();
+                Console.WriteLine(last);
             }
         }
 
@@ -42,6 +58,25 @@ namespace GeneticWay.TestConsole
                 .ThenBy(p => p.SimReport.IterationCount)
                 .ToList();
             return polygons;
+        }
+
+        public static List<SimulationPolygon> TryLoad()
+        {
+            try
+            {
+                List<SimulationPolygon> res = new List<SimulationPolygon>();
+                for (int i = 0; i < Configuration.SimulationCount; i++)
+                {
+                    var sim = JsonConvert.DeserializeObject<SimReport>(File.ReadAllText(Path));
+                    res.Add(new SimulationPolygon(sim.Field));
+                }
+
+                return res;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }

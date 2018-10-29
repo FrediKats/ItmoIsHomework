@@ -56,6 +56,11 @@ namespace GeneticWay.Models
             return !(left == right);
         }
 
+        public Coordinate WithEpsilon(int epsilon)
+        {
+            return (Math.Round(X, epsilon), Math.Round(Y, epsilon));
+        }
+
         public override string ToString()
         {
             return $"({X:F5}; {Y:F5}): {GetLength()} | {LengthTo((1, 1))}";

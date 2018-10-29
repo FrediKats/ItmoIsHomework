@@ -9,6 +9,8 @@
         public const int CopyCount = 8;
 
         public const double Epsilon = 1e-5;
+        public const int EpsilonInt = 5;
+
         public const int DegreeCount = 45;
         public const int SectionCount = 150;
     }
