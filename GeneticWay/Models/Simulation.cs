@@ -53,7 +53,7 @@ namespace GeneticWay.Models
                 return (-1, -1);
             int x = GetIndex(Configuration.BlockCount, coordinate.X);
             int y = GetIndex(Configuration.BlockCount, coordinate.Y);
-            return ForceField.Field[y][x];
+            return ForceField.Field[y, x];
         }
 
         private int GetIndex(int size, double coordinate)

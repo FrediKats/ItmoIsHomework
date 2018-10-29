@@ -17,7 +17,7 @@ namespace GeneticWay.Logic
             foreach (SimulationPolygon polygon in selected)
             {
                 result.Add(new SimulationPolygon(polygon.ForceField.Clone()));
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     result.Add(CreteMutation(polygon));
                 }   
@@ -30,7 +30,7 @@ namespace GeneticWay.Logic
         {
             var newField = polygon.ForceField.Clone();
             var index = Generator.GenerateIndex();
-            newField.Field[index.y][index.y] = Generator.GetRandomDirection();
+            newField.Field[index.y, index.y] = Generator.GetRandomDirection();
             return new SimulationPolygon(newField);
         }
     }

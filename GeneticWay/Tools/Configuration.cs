@@ -11,7 +11,7 @@ namespace GeneticWay
         public static float MaxForce { get; } = 1;
         public static float TimePeriod { get; } = (float)1e-3;
         public static int MaxIterationCount { get; } = (int)1e5;
-        public static int SimulationCount { get; } = 128;
+        public static int SimulationCount { get; } = 64;
         public static int BlockCount { get; } = 256;
     }
 }

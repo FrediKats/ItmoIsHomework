@@ -5,7 +5,7 @@ namespace GeneticWay.Models
 {
     public class SimReport
     {
-        public SimReport(bool isFinish, double distance, double finalSpeed, int iterationCount, List<Coordinate> coordinates)
+        public SimReport(bool isFinish, float distance, float finalSpeed, int iterationCount, List<Coordinate> coordinates)
         {
             IsFinish = isFinish;
             Distance = distance;
@@ -14,9 +14,24 @@ namespace GeneticWay.Models
             Coordinates = coordinates;
         }
 
+        public float Points
+        {
+            get
+            {
+                if (FinalSpeed > 0)
+                {
+                    return Distance * FinalSpeed;
+                }
+                else
+                {
+                    return Distance * 100;
+                }
+            }
+        }
+        
         public bool IsFinish { get; }
-        public double Distance { get; }
-        public double FinalSpeed { get; }
+        public float Distance { get; }
+        public float FinalSpeed { get; }
         public int IterationCount { get; }
         public List<Coordinate> Coordinates{ get; set; }
 

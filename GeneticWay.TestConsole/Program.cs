@@ -44,14 +44,10 @@ namespace GeneticWay.TestConsole
 
         public static List<SimulationPolygon> MakeIteration(List<SimulationPolygon> polygons)
         {
-            foreach (SimulationPolygon polygon in polygons)
-            {
-                polygon.Start();
-            }
+            polygons.AsParallel().ForAll(p => p.Start());
 
             polygons = polygons.OrderByDescending(p => p.SimReport.IsFinish)
-                .ThenBy(p => p.SimReport.Distance)
-                .ThenBy(p => p.SimReport.FinalSpeed)
+                .ThenBy(p => p.SimReport.Points)
                 .ThenBy(p => p.SimReport.IterationCount)
                 .ToList();
             return polygons;

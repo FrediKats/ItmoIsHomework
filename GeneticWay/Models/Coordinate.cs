@@ -2,7 +2,7 @@
 
 namespace GeneticWay.Models
 {
-    public class Coordinate
+    public struct Coordinate
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -13,14 +13,14 @@ namespace GeneticWay.Models
             Y = y;
         }
 
-        public double GetLength()
+        public float GetLength()
         {
-            return Math.Sqrt(X * X + Y * Y);
+            return (float)Math.Sqrt(X * X + Y * Y);
         }
 
-        public double LengthTo(Coordinate coordinate)
+        public float LengthTo(Coordinate coordinate)
         {
-            return Math.Sqrt(Math.Pow(X - coordinate.X, 2) + Math.Pow(Y - coordinate.Y, 2));
+            return (float)Math.Sqrt(Math.Pow(X - coordinate.X, 2) + Math.Pow(Y - coordinate.Y, 2));
         }
 
         public static implicit operator Coordinate((float, float) args)
