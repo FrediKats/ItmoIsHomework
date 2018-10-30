@@ -29,7 +29,7 @@ namespace GeneticWay.Core.Services
         {
             ForceField newField = polygon.ForceField.Clone();
             (int degree, int section) = Generator.GenerateIndex();
-            newField[degree, section] = Generator.GetRandomDirection();
+            newField.Field[degree, section] = Generator.GetRandomDirection();
             return new SimulationPolygon(newField);
         }
     }

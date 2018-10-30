@@ -13,7 +13,7 @@ namespace GeneticWay.Core.Tools
             {
                 for (int x = 0; x < Configuration.SectionCount; x++)
                 {
-                    field[y, x] = GetRandomDirection() * Configuration.MaxForce;
+                    field.Field[y, x] = GetRandomDirection() * Configuration.MaxForce;
                 }
             }
 

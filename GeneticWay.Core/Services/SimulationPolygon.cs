@@ -75,7 +75,7 @@ namespace GeneticWay.Core.Services
             var degree = (int)(Math.Round(Math.Atan(dist.Y / dist.X)) / 3.14 * Configuration.DegreeCount);
             var len = (int)(dist.LengthTo((1, 1)) * (Configuration.SectionCount / 1.5));
 
-            return ForceField[degree, len];
+            return ForceField.Field[degree, len];
         }
 
         private static bool IsOutOfField(Coordinate coordinate)
