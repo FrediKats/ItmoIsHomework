@@ -17,6 +17,24 @@
             Margin="10,32,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top" />
+        <Button
+            Name="btnStart"
+            Width="75"
+            Margin="0,59,9.6,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="Button_Click"
+            Content="Button" />
+        <TextBox
+            Name="CountInput"
+            Width="120"
+            Height="23"
+            Margin="664,18,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="100"
+            TextWrapping="Wrap" />
 
     </Grid>
+
 </Window>

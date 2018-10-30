@@ -12,7 +12,7 @@ namespace GeneticWay.Core.Services
     {
         private const string Path = "backup.json";
         private List<SimulationPolygon> _polygons;
-        private SimReport PeekReport => _polygons.Select(p => p.SimReport).First();
+        public SimReport PeekReport => _polygons.Select(p => p.SimReport).First();
         public SimulationManager()
         {
             _polygons = TryLoad();

@@ -4,7 +4,7 @@
     {
         public const double MaxForce = 1;
         public const double TimePeriod = 1e-4;
-        public const int MaxIterationCount = (int) 1e4;
+        public const int MaxIterationCount = (int) 1e5;
         public const int SimulationCount = 64;
         public const int CopyCount = 16;
 
@@ -12,6 +12,6 @@
         public const int EpsilonInt = 5;
 
         public const int DegreeCount = 45;
-        public const int SectionCount = 150;
+        public const int SectionCount = 450;
     }
 }

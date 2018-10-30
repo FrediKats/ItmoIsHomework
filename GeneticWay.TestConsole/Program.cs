@@ -6,7 +6,7 @@ namespace GeneticWay.TestConsole
     {
         private static void Main(string[] args)
         {
-            var simulationManager = new SimulationManager();
+            SimulationManager simulationManager = new SimulationManager();
             while (true)
             {
                 simulationManager.MakeIteration(100);

@@ -19,6 +19,10 @@ namespace GeneticWay.Core.Services
         {
             var zones = new List<Zone>();
             zones.Add(new Zone((0.5, 0.25), 0.1));
+            zones.Add(new Zone((0.75, 0.5), 0.15));
+            zones.Add(new Zone((0.75, 0.65), 0.05));
+            zones.Add(new Zone((0.25, 0.5), 0.05));
+            zones.Add(new Zone((0.9, 0.9), 0.05));
 
             var coordinates = new List<Coordinate>();
             var forces = new List<Coordinate>();
@@ -27,7 +31,7 @@ namespace GeneticWay.Core.Services
             Coordinate coordinate = (0, 0);
             Coordinate velocity = (0, 0);
 
-            SimReport CreateReport(bool state)
+            SimReport CreateReport(FinishStatus state)
             {
                 return new SimReport(state, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration,
                     coordinates, forces, ForceField, zones);
@@ -39,20 +43,20 @@ namespace GeneticWay.Core.Services
                 coordinate += velocity * Configuration.TimePeriod;
                 if (coordinate == (1, 1))
                 {
-                    SimReport = CreateReport(true);
+                    SimReport = CreateReport(FinishStatus.Done);
                     return;
                 }
 
                 if (zones.Any(z => z.IsInZone(coordinate)))
                 {
-                    SimReport = CreateReport(false);
+                    SimReport = CreateReport(FinishStatus.InZone);
                     return;
                 }
 
                 Coordinate? force = GetForce(coordinate);
                 if (force == null)
                 {
-                    SimReport = CreateReport(false);
+                    SimReport = CreateReport(FinishStatus.OutOfRange);
                     return;
                 }
 
@@ -61,7 +65,7 @@ namespace GeneticWay.Core.Services
                 coordinates.Add(coordinate.WithEpsilon(Configuration.EpsilonInt));
             }
 
-            SimReport = CreateReport(false);
+            SimReport = CreateReport(FinishStatus.IterationLimit);
         }
 
         private Coordinate? GetForce(Coordinate coordinate)
