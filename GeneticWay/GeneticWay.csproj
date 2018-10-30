@@ -63,6 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="Logic\ProcessExecutor.cs" />
     <Compile Include="Models\SimReport.cs" />
+    <Compile Include="Tools\Extentions.cs" />
     <Compile Include="Tools\Generator.cs" />
     <Compile Include="Tools\Logger.cs" />
     <Compile Include="Ui\PixelDrawer.cs" />

@@ -6,25 +6,28 @@ namespace GeneticWay.Models
 {
     public class SimReport
     {
+        private double _distance;
         public SimReport(bool isFinish, double distance, double finalSpeed, int iterationCount,
-            List<Coordinate> coordinates, List<Coordinate> forces, ForceField field)
+            List<Coordinate> coordinates, List<Coordinate> forces, ForceField field, List<Zone> zones)
         {
             IsFinish = isFinish;
-            Distance = Math.Round(distance, Configuration.EpsilonInt);
+            _distance = Math.Round(distance, Configuration.EpsilonInt);
             FinalSpeed = finalSpeed;
             IterationCount = iterationCount;
             Coordinates = coordinates;
             Forces = forces;
             Field = field;
+            Zones = zones;
         }
 
         public bool IsFinish { get; }
-        public double Distance { get; }
+        public double Distance => IsFinish ? 0 : _distance;
         public double FinalSpeed { get; }
         public int IterationCount { get; }
         public List<Coordinate> Coordinates { get; }
         public List<Coordinate> Forces { get; }
         public ForceField Field { get; }
+        public List<Zone> Zones { get; }
 
         public override string ToString()
         {

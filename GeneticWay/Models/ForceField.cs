@@ -1,27 +1,32 @@
 ﻿using System;
-using System.Linq;
 using GeneticWay.Tools;
 
 namespace GeneticWay.Models
 {
     public class ForceField
     {
-        public Coordinate[,] Field { get; set; }
+        private readonly Coordinate[,] _field;
 
         public ForceField()
         {
-            Field = new Coordinate[Configuration.DegreeCount, Configuration.SectionCount];
+            _field = new Coordinate[Configuration.DegreeCount, Configuration.SectionCount];
         }
 
         public ForceField(Coordinate[,] field)
         {
-            Field = field;
+            _field = field;
+        }
+
+        public Coordinate this[int y, int x]
+        {
+            get => _field[y, x];
+            set => _field[y, x] = value;
         }
 
         public ForceField Clone()
         {
-            Coordinate[,] storage = new Coordinate[Configuration.DegreeCount, Configuration.SectionCount];
-            Array.Copy(Field, storage, Field.Length);
+            var storage = new Coordinate[Configuration.DegreeCount, Configuration.SectionCount];
+            Array.Copy(_field, storage, _field.Length);
             return new ForceField(storage);
         }
     }

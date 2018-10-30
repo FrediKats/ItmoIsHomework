@@ -48,12 +48,11 @@ namespace GeneticWay.Logic
 
         public static List<SimulationPolygon> MakeIteration(List<SimulationPolygon> polygons)
         {
+            
             polygons.AsParallel().ForAll(p => p.Start());
 
-            polygons = polygons.OrderByDescending(p => p.SimReport.IsFinish)
-                .ThenBy(p => p.SimReport.Distance)
-                .ThenBy(p => p.SimReport.FinalSpeed)
-                .ThenBy(p => p.SimReport.IterationCount)
+            polygons = polygons
+                .OptimalOrder()
                 .ToList();
             return polygons;
         }
