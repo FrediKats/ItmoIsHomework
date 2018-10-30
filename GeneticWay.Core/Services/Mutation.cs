@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GeneticWay.Models;
-using GeneticWay.Tools;
+using GeneticWay.Core.Models;
+using GeneticWay.Core.Tools;
 
-namespace GeneticWay.Logic
+namespace GeneticWay.Core.Services
 {
     public static class Mutation
     {
@@ -31,7 +31,6 @@ namespace GeneticWay.Logic
             (int degree, int section) = Generator.GenerateIndex();
             newField[degree, section] = Generator.GetRandomDirection();
             return new SimulationPolygon(newField);
-            ;
         }
     }
 }

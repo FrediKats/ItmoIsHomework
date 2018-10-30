@@ -54,9 +54,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GeneticWay\GeneticWay.csproj">
-      <Project>{5c59b748-37e3-41e9-9ee4-3838fc3d371a}</Project>
-      <Name>GeneticWay</Name>
+    <ProjectReference Include="..\GeneticWay.Core\GeneticWay.Core.csproj">
+      <Project>{85ad7a2d-6faa-43b2-8dae-0ea8f0ba0462}</Project>
+      <Name>GeneticWay.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

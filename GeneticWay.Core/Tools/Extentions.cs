@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GeneticWay.Logic;
-using GeneticWay.Models;
+using GeneticWay.Core.Services;
 
-namespace GeneticWay.Tools
+namespace GeneticWay.Core.Tools
 {
     public static class Extentions
     {

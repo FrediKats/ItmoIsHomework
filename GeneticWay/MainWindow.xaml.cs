@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Windows;
-using GeneticWay.Models;
-using GeneticWay.Tools;
+using GeneticWay.Core.Models;
 using GeneticWay.Ui;
 using Newtonsoft.Json;
 

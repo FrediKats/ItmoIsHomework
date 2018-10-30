@@ -1,7 +1,7 @@
 ﻿using System;
-using GeneticWay.Models;
+using GeneticWay.Core.Models;
 
-namespace GeneticWay.Tools
+namespace GeneticWay.Core.Tools
 {
     public static class Generator
     {

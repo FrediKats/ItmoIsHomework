@@ -1,4 +1,4 @@
-﻿namespace GeneticWay.Models
+﻿namespace GeneticWay.Core.Models
 {
     public struct Zone
     {

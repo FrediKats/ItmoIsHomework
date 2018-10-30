@@ -61,11 +61,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Logic\ProcessExecutor.cs" />
-    <Compile Include="Models\SimReport.cs" />
-    <Compile Include="Tools\Extentions.cs" />
-    <Compile Include="Tools\Generator.cs" />
-    <Compile Include="Tools\Logger.cs" />
     <Compile Include="Ui\PixelDrawer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -75,18 +70,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tools\Configuration.cs" />
-    <Compile Include="Logic\Mutation.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Coordinate.cs" />
-    <Compile Include="Models\ForceField.cs" />
-    <Compile Include="Logic\Simulation.cs" />
-    <Compile Include="Models\Zone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,6 +101,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeneticWay.Core\GeneticWay.Core.csproj">
+      <Project>{85ad7a2d-6faa-43b2-8dae-0ea8f0ba0462}</Project>
+      <Name>GeneticWay.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

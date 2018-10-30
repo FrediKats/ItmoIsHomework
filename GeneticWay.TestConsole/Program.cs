@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GeneticWay.Logic;
-using GeneticWay.Models;
-using GeneticWay.Tools;
-using Newtonsoft.Json;
+﻿using GeneticWay.Core.Services;
 
 namespace GeneticWay.TestConsole
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            ProcessExecutor.Execute();
+            var simulationManager = new SimulationManager();
+            while (true)
+            {
+                simulationManager.MakeIteration(100);
+            }
         }
     }
 }

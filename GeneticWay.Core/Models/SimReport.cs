@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using GeneticWay.Tools;
 
-namespace GeneticWay.Models
+namespace GeneticWay.Core.Models
 {
     public class SimReport
     {
-        private double _distance;
+        private readonly double _distance;
         public SimReport(bool isFinish, double distance, double finalSpeed, int iterationCount,
             List<Coordinate> coordinates, List<Coordinate> forces, ForceField field, List<Zone> zones)
         {

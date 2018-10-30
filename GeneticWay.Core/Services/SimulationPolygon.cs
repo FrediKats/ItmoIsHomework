@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GeneticWay.Models;
-using GeneticWay.Tools;
+using GeneticWay.Core.Models;
 
-namespace GeneticWay.Logic
+namespace GeneticWay.Core.Services
 {
     public class SimulationPolygon
     {
@@ -73,8 +72,8 @@ namespace GeneticWay.Logic
             }
 
             Coordinate dist = (1, 1) - coordinate;
-            var degree = (int) (Math.Round(Math.Atan(dist.Y / dist.X)) / 3.14 * Configuration.DegreeCount);
-            var len = (int) (dist.LengthTo((1, 1)) * (Configuration.SectionCount / 1.5));
+            var degree = (int)(Math.Round(Math.Atan(dist.Y / dist.X)) / 3.14 * Configuration.DegreeCount);
+            var len = (int)(dist.LengthTo((1, 1)) * (Configuration.SectionCount / 1.5));
 
             return ForceField[degree, len];
         }
