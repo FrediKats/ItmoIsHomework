@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.Tools;
 
@@ -12,17 +15,17 @@ namespace GeneticWay.Core.Services
             IEnumerable<SimulationPolygon> selected =
                 simulationList.Take(Configuration.SimulationCount / Configuration.CopyCount);
 
-            var result = new List<SimulationPolygon>();
+            var result = new ConcurrentBag<SimulationPolygon>();
             foreach (SimulationPolygon polygon in selected)
             {
                 result.Add(new SimulationPolygon(polygon.ForceField.Clone()));
-                for (var i = 0; i < Configuration.CopyCount; i++)
-                {
-                    result.Add(CreteMutation(polygon));
-                }
+
+                Enumerable.Range(0, Configuration.CopyCount - 1)
+                    .AsParallel()
+                    .ForAll(i => result.Add(CreteMutation(polygon)));
             }
 
-            return result;
+            return result.ToList().Shuffle();
         }
 
         private static SimulationPolygon CreteMutation(SimulationPolygon polygon)
