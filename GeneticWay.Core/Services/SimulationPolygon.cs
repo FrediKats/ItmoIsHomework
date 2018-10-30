@@ -22,7 +22,12 @@ namespace GeneticWay.Core.Services
             zones.Add(new Zone((0.75, 0.5), 0.15));
             zones.Add(new Zone((0.75, 0.65), 0.05));
             zones.Add(new Zone((0.25, 0.5), 0.05));
-            zones.Add(new Zone((0.9, 0.9), 0.05));
+            zones.Add(new Zone((0.8, 0.9), 0.05));
+            zones.Add(new Zone((0.92, 0.92), 0.05));
+            zones.Add(new Zone((0.92, 0.92), 0.05));
+            zones.Add(new Zone((0.5, 0.75), 0.2));
+            zones.Add(new Zone((0.9, 0.8), 0.15));
+
 
             var coordinates = new List<Coordinate>();
             var forces = new List<Coordinate>();

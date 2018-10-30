@@ -62,9 +62,12 @@ namespace GeneticWay.Ui
             for (var addX = 0; addX < Scale; addX++)
             for (var addY = 0; addY < Scale; addY++)
             {
-                pixels[positionY + addY, positionX + addX, 0] = color.B;
-                pixels[positionY + addY, positionX + addX, 1] = color.G;
-                pixels[positionY + addY, positionX + addX, 2] = color.R;
+                if (positionX + addX < pixels.GetLength(1) && positionY + addY < pixels.GetLength(0))
+                {
+                    pixels[positionY + addY, positionX + addX, 0] = color.B;
+                    pixels[positionY + addY, positionX + addX, 1] = color.G;
+                    pixels[positionY + addY, positionX + addX, 2] = color.R;
+                }
             }
         }
 

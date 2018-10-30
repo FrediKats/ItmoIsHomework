@@ -11,7 +11,7 @@ namespace GeneticWay.Core.Models
         {
             FinishStatus = finishStatus;
             _distance = Math.Round(distance, Configuration.EpsilonInt);
-            FinalSpeed = finalSpeed;
+            FinalSpeed = Math.Round(finalSpeed, Configuration.EpsilonInt - 3);
             IterationCount = iterationCount;
             Coordinates = coordinates;
             Forces = forces;
@@ -30,7 +30,7 @@ namespace GeneticWay.Core.Models
 
         public override string ToString()
         {
-            return $"{FinishStatus.ToString()}|{Distance:F6}|{FinalSpeed:F6}|{IterationCount,8}";
+            return $"{FinishStatus.ToString()}|{Distance:F5}|{FinalSpeed:F5}|{IterationCount,8}";
         }
     }
 }

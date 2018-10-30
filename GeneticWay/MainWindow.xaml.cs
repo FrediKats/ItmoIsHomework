@@ -27,7 +27,7 @@ namespace GeneticWay
             PixelDrawer pd = new PixelDrawer(Drawer);
             pd.DrawPoints(_simManager.PeekReport.Coordinates, _simManager.PeekReport.Zones);
 
-            MessageBox.Show("Done");
+            MessageBox.Show($"{_simManager.PeekReport}");
         }
     }
 }
