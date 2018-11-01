@@ -7,6 +7,13 @@ namespace Lab3
 {
     public static class Extensions
     {
+        public static int IndexOf<T>(this IEnumerable<T> source, T element)
+        {
+            return source.Select((x, i) => new { Value = x, Index = i })
+                .First(x => x.Value.Equals(element))
+                .Index;
+        }
+
         public static Fraction[][] DiagonalForm(this Fraction[][] matrix)
         {
             //write more exceptions

@@ -16,10 +16,9 @@ namespace Lab3
 
             Fraction[] b = { 1, 2, 3 };
             Fraction[] c = { 0, 0, 0, 1, -1 , 0 };
-            
-            //Matrix extendedMatrix = new Matrix(A) + b;
 
             SimplexTable simplexMatrix = new SimplexTable(A, b, c);
+            simplexMatrix.Solve();
         }
     }
 }
