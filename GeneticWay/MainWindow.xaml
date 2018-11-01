@@ -24,7 +24,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Click="Button_Click"
-            Content="Button" />
+            Content="Run" />
         <TextBox
             Name="CountInput"
             Width="120"
@@ -34,7 +34,13 @@
             VerticalAlignment="Top"
             Text="100"
             TextWrapping="Wrap" />
-
+        <Button
+            Name="btnAuto"
+            Width="75"
+            Margin="0,83,9.6,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="Run while true" Click="btnAuto_Click" />
     </Grid>
 
 </Window>

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using GeneticWay.Core.Tools;
 
 namespace GeneticWay.Core.Models
 {
     public class SimReport
     {
         private readonly double _distance;
+
         public SimReport(FinishStatus finishStatus, double distance, double finalSpeed, int iterationCount,
             List<Coordinate> coordinates, List<Coordinate> forces, ForceField field, List<Zone> zones)
         {
@@ -30,7 +32,7 @@ namespace GeneticWay.Core.Models
 
         public override string ToString()
         {
-            return $"{FinishStatus.ToString()}|{Distance:F5}|{FinalSpeed:F5}|{IterationCount,8}";
+            return $"{FinishStatus.ToChar()}|{Distance:F5}|{FinalSpeed:F5}|{IterationCount,8}";
         }
     }
 }

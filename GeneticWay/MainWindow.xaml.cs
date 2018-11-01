@@ -1,9 +1,8 @@
-﻿using System.IO;
+﻿using System.Linq;
 using System.Windows;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.Services;
 using GeneticWay.Ui;
-using Newtonsoft.Json;
 
 namespace GeneticWay
 {
@@ -24,10 +23,32 @@ namespace GeneticWay
         {
             int count = int.Parse(CountInput.Text);
             _simManager.MakeIteration(count);
-            PixelDrawer pd = new PixelDrawer(Drawer);
-            pd.DrawPoints(_simManager.PeekReport.Coordinates, _simManager.PeekReport.Zones);
 
-            MessageBox.Show($"{_simManager.PeekReport}");
+            PixelDrawer pd = new PixelDrawer(Drawer);
+            SimReport report = _simManager.Reports.First();
+            pd.DrawPoints(report.Coordinates, report.Zones);
+            MessageBox.Show($"{report}");
+        }
+
+        private void btnAuto_Click(object sender, RoutedEventArgs e)
+        {
+            int count = int.Parse(CountInput.Text);
+
+            _simManager.MakeIteration(1);
+            int lastIterationCount;
+            SimReport report;
+
+            do
+            {
+                report = _simManager.Reports.First();
+                lastIterationCount = report.IterationCount;
+                _simManager.MakeIteration(count);
+
+            } while (lastIterationCount == report.IterationCount);
+
+            var pd = new PixelDrawer(Drawer);
+            pd.DrawPoints(report.Coordinates, report.Zones);
+            MessageBox.Show($"{report}");
         }
     }
 }

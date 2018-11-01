@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.Tools;
 
@@ -10,30 +8,32 @@ namespace GeneticWay.Core.Services
 {
     public static class Mutation
     {
-        public static List<SimulationPolygon> CreateMutation(IEnumerable<SimulationPolygon> simulationList)
+        public static List<ForceField> CreateMutation(IEnumerable<ForceField> simulationList)
         {
-            IEnumerable<SimulationPolygon> selected =
-                simulationList.Take(Configuration.SimulationCount / Configuration.CopyCount);
+            //TODO rewrite mutation
+            IEnumerable<ForceField> selected = simulationList
+                .Take(Configuration.SimulationCount / Configuration.CopyCount);
 
-            var result = new ConcurrentBag<SimulationPolygon>();
-            foreach (SimulationPolygon polygon in selected)
+            var result = new ConcurrentBag<ForceField>();
+            foreach (ForceField field in selected)
             {
-                result.Add(new SimulationPolygon(polygon.ForceField.Clone()));
+                result.Add(field.Clone());
 
-                Enumerable.Range(0, Configuration.CopyCount - 1)
-                    .AsParallel()
-                    .ForAll(i => result.Add(CreteMutation(polygon)));
+                for (var i = 0; i < Configuration.CopyCount - 1; i++)
+                {
+                    result.Add(CreteMutation(field));
+                }
             }
 
             return result.ToList().Shuffle();
         }
 
-        private static SimulationPolygon CreteMutation(SimulationPolygon polygon)
+        private static ForceField CreteMutation(ForceField forceField)
         {
-            ForceField newField = polygon.ForceField.Clone();
+            ForceField newField = forceField.Clone();
             (int degree, int section) = Generator.GenerateIndex();
             newField.Field[degree, section] = Generator.GetRandomDirection();
-            return new SimulationPolygon(newField);
+            return newField;
         }
     }
 }

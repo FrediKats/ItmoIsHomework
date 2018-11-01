@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using GeneticWay.Core.Models;
-using GeneticWay.Core.Services;
 
 namespace GeneticWay.Core.Tools
 {
     public static class Extentions
     {
-        public static IEnumerable<SimulationPolygon> OptimalOrder(this IEnumerable<SimulationPolygon> reports)
+        public static IEnumerable<SimReport> OptimalOrder(this IEnumerable<SimReport> reports)
         {
-            return reports.OrderBy(p => p.SimReport.FinishStatus)
-                .ThenBy(p => p.SimReport.Distance)
-                //.ThenBy(p => p.SimReport.FinalSpeed)
-                .ThenBy(p => p.SimReport.IterationCount)
+            return reports.OrderBy(p => p.FinishStatus)
+                .ThenBy(p => p.Distance)
+                .ThenBy(p => p.FinalSpeed)
+                .ThenBy(p => p.IterationCount)
                 .ToList();
         }
 
-        public static string ToString(this FinishStatus s)
+        public static string ToChar(this FinishStatus s)
         {
             switch (s)
             {
@@ -27,12 +26,11 @@ namespace GeneticWay.Core.Tools
                     return "L";
                 case FinishStatus.OutOfRange:
                     return "R";
-                case FinishStatus.InZone:
-                    return "Z";
+                //case FinishStatus.InZone:
+                //    return "Z";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(s), s, null);
             }
         }
-
     }
 }

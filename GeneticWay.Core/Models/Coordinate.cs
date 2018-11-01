@@ -71,7 +71,7 @@ namespace GeneticWay.Core.Models
 
         public override string ToString()
         {
-            var d = WithEpsilon(Configuration.EpsilonInt);
+            Coordinate d = WithEpsilon(Configuration.EpsilonInt);
             return $"({d.X}; {d.Y}): {GetLength()} | {LengthTo((1, 1))}";
         }
     }

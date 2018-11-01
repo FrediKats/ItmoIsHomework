@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using GeneticWay.Core.Models;
 
 namespace GeneticWay.Core.Tools
@@ -8,12 +7,13 @@ namespace GeneticWay.Core.Tools
     public static class Generator
     {
         private static readonly Random Random = new Random();
+
         public static ForceField GenerateRandomField()
         {
-            ForceField field = new ForceField();
-            for (int y = 0; y < Configuration.DegreeCount; y++)
+            var field = new ForceField();
+            for (var y = 0; y < Configuration.DegreeCount; y++)
             {
-                for (int x = 0; x < Configuration.SectionCount; x++)
+                for (var x = 0; x < Configuration.SectionCount; x++)
                 {
                     field.Field[y, x] = GetRandomDirection() * Configuration.MaxForce;
                 }
@@ -27,13 +27,8 @@ namespace GeneticWay.Core.Tools
             Coordinate coordinate;
             do
             {
-                double x;
-                double y;
-                lock (Random)
-                {
-                    x = Random.NextDouble() * 2 - 1;
-                    y = Random.NextDouble() * 2 - 1;
-                }
+                double x = Random.NextDouble() * 2 - 1;
+                double y = Random.NextDouble() * 2 - 1;
                 coordinate = (y, x);
             } while (coordinate.GetLength() > 1);
 
