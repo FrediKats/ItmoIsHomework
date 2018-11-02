@@ -19,7 +19,7 @@ namespace GeneticWay.Core.Services
             SimReport CreateReport(FinishStatus state)
             {
                 return new SimReport(state, coordinate.LengthTo((1, 1)), velocity.GetLength(), currentIteration,
-                    coordinates, forces, forceField, zones);
+                    coordinates, forces, forceField);
             }
 
             while (currentIteration < Configuration.MaxIterationCount)

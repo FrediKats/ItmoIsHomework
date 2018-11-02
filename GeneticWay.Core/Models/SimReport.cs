@@ -9,7 +9,7 @@ namespace GeneticWay.Core.Models
         private readonly double _distance;
 
         public SimReport(FinishStatus finishStatus, double distance, double finalSpeed, int iterationCount,
-            List<Coordinate> coordinates, List<Coordinate> forces, ForceField field, List<Zone> zones)
+            List<Coordinate> coordinates, List<Coordinate> forces, ForceField field)
         {
             FinishStatus = finishStatus;
             _distance = Math.Round(distance, Configuration.EpsilonInt);
@@ -18,7 +18,6 @@ namespace GeneticWay.Core.Models
             Coordinates = coordinates;
             Forces = forces;
             Field = field;
-            Zones = zones;
         }
 
         public FinishStatus FinishStatus { get; }
@@ -28,7 +27,6 @@ namespace GeneticWay.Core.Models
         public List<Coordinate> Coordinates { get; }
         public List<Coordinate> Forces { get; }
         public ForceField Field { get; }
-        public List<Zone> Zones { get; }
 
         public override string ToString()
         {

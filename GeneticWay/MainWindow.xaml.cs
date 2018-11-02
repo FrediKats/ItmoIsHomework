@@ -26,7 +26,7 @@ namespace GeneticWay
 
             PixelDrawer pd = new PixelDrawer(Drawer);
             SimReport report = _simManager.Reports.First();
-            pd.DrawPoints(report.Coordinates, report.Zones);
+            pd.DrawPoints(report.Coordinates, _simManager.Zones);
             MessageBox.Show($"{report}");
         }
 
@@ -47,7 +47,7 @@ namespace GeneticWay
             } while (lastIterationCount == report.IterationCount);
 
             var pd = new PixelDrawer(Drawer);
-            pd.DrawPoints(report.Coordinates, report.Zones);
+            pd.DrawPoints(report.Coordinates, _simManager.Zones);
             MessageBox.Show($"{report}");
         }
     }
