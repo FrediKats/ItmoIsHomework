@@ -45,9 +45,9 @@ namespace Lab3
             return data;
         }
 
-        public static string ToMatrixString(this Fraction[][] matrix)
+        public static void Dump(this Fraction[][] matrix)
         {
-            return string.Join("\n", matrix.Select(x => string.Join("\t", x)));
+            Console.WriteLine(string.Join("\n", matrix.Select(x => string.Join("\t", x))));
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Lab3
         public int Numerator { get; }
         public int Denominator { get; }
 
-        public Fraction(int numerator, int denominator)
+        public Fraction(int numerator, int denominator = 1)
         {
             if (denominator == 0)
             {

@@ -28,24 +28,46 @@ namespace Lab3
                                     .DiagonalForm();
 
             _data = system.Select(x => x.Skip(system.Length).ToArray()).ToArray();
-            Console.WriteLine(_data.ToMatrixString());
+            _data.Dump();
+            Console.WriteLine();
         }
 
         public void Solve()
         {
-            while (_data[0].Any(x => x < 0))
+            while (_data[0].Take(_data[0].Length).Any(x => x > 0))
             {
-                int toBasis = _data[0].IndexOf(_data[0].Max());
+                var coefficients = _data[0].Take(_data[0].Length - 1);
+                int toBasis = coefficients.IndexOf(coefficients.Max());
+
+                var ratios = _data.Skip(1).Select(x => x[toBasis] > 0
+                                                        ? (double)(x[x.Length - 1] / x[toBasis])
+                                                        : double.PositiveInfinity);
+
+                int fromBasis = ratios.IndexOf(ratios.Min()) + 1;
+                Fraction solver = _data[fromBasis][toBasis];
+
                 Console.WriteLine(toBasis);
-
-                var ratios = _data.Select(x => x[toBasis] > 0
-                                                ? (double)(x[x.Length - 1] / x[toBasis])
-                                                : double.PositiveInfinity);
-
-                int fromBasis = ratios.IndexOf(ratios.Min());
-
                 Console.WriteLine(fromBasis);
-                break;
+                Console.WriteLine();
+
+                _data[fromBasis][toBasis] = 1;
+                _data[fromBasis] = _data[fromBasis].Select(x => x / solver)
+                                                    .ToArray();
+
+                _data.Dump();
+                Console.WriteLine();
+
+                _data = _data.Select((row, i) => i == fromBasis
+                                                ? row
+                                                : row.Select((e, j) => j == toBasis
+                                                                        ? -e / solver
+                                                                        : e - _data[fromBasis][j] * _data[i][toBasis])
+                                                     .ToArray())
+                             .ToArray();
+
+                _data.Dump();
+                Console.WriteLine();
+                //break;
             }
         }
     }
