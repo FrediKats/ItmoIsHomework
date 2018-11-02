@@ -30,8 +30,6 @@ namespace GeneticWay.Core.Services
         {
             for (var i = 0; i < iterationCount; i++)
             {
-                _forceFields = Mutation.CreateMutation(_forceFields);
-
                 Reports = _forceFields
                     .AsParallel()
                     .Select(p => SimulationPolygon.Start(p, Zones))
@@ -41,6 +39,11 @@ namespace GeneticWay.Core.Services
                 _forceFields = Reports
                     .Select(r => r.Field)
                     .ToList();
+
+                _forceFields = GeneticAlgo.CreateNextGeneration(Reports
+                    .Select(r => (r.Field, (int)Math.Log(1 / r.Distance, 2)))
+                    .ToList());
+
             }
 
             SaveToJson();

@@ -13,5 +13,8 @@
 
         public const int DegreeCount = 18;
         public const int SectionCount = 300;
+
+        public const int CrossoverProbability = 75;
+        public const int MutationProbability = 10;
     }
 }
