@@ -6,7 +6,7 @@ namespace GeneticWay.Genetic.Models
 {
     public class Generation<T>
     {
-        public Generation(int number, List<Chromosome<T>> chromosomes)
+        public Generation(int number, List<BaseGenotype<T>> chromosomes)
         {
             if (number < 1)
             {
@@ -23,8 +23,8 @@ namespace GeneticWay.Genetic.Models
         }
 
         public int Number { get; private set; }
-        public List<Chromosome<T>> Chromosomes { get; internal set; }
-        public Chromosome<T> BestChromosome { get; internal set; }
+        public List<BaseGenotype<T>> Chromosomes { get; internal set; }
+        public BaseGenotype<T> BestChromosome { get; private set; }
 
         public void End(int chromosomesNumber)
         {

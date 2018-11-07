@@ -1,25 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GeneticWay.Genetic.Models
 {
     [DebuggerDisplay("{Value}")]
-    public struct Gene<T>
+    public struct Gene<T> : IEquatable<Gene<T>>
     {
         public T Value { get; }
 
-        //TODO: remove func for memory optimization
-        private readonly Func<Gene<T>, Gene<T>> _mutationFunc;
-
-        public Gene(T value, Func<Gene<T>, Gene<T>> mutationFuncFunc)
+        public Gene(T value)
         {
             Value = value;
-            _mutationFunc = mutationFuncFunc;
         }
 
-        public Gene<T> CreateMutation()
+        public bool Equals(Gene<T> other)
         {
-            return _mutationFunc(this);
+            return Value.Equals(other.Value);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Gene<T> other)
+            {
+                return Equals(other);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return EqualityComparer<T>.Default.GetHashCode(Value);
+        }
+
+        public override string ToString()
+        {
+            return Value != null ? Value.ToString() : string.Empty;
         }
     }
 }

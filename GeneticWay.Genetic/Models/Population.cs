@@ -6,7 +6,7 @@ namespace GeneticWay.Genetic.Models
 {
     public class Population<T>
     {
-        public Population(int minSize, int maxSize, Chromosome<T> adamChromosome, int maxGenerationCount = 4)
+        public Population(int minSize, int maxSize, BaseGenotype<T> adamChromosome, int maxGenerationCount = 4)
         {
             if (minSize < 2)
             {
@@ -37,12 +37,12 @@ namespace GeneticWay.Genetic.Models
         public int MaxSize { get; }
         public int MaxGenerationCount { get; }
 
-        public Chromosome<T> BestChromosome { get; protected set; }
-        protected Chromosome<T> AdamChromosome { get; set; }
+        public BaseGenotype<T> BestChromosome { get; protected set; }
+        protected BaseGenotype<T> AdamChromosome { get; set; }
 
-        public event EventHandler<Chromosome<T>> BestChromosomeChanged;
+        public event EventHandler<BaseGenotype<T>> BestChromosomeChanged;
 
-        public virtual void CreateNewGeneration(List<Chromosome<T>> chromosomes)
+        public virtual void CreateNewGeneration(List<BaseGenotype<T>> chromosomes)
         {
             ExceptionTools.ThrowIfNull("chromosomes", chromosomes);
 
@@ -60,11 +60,11 @@ namespace GeneticWay.Genetic.Models
         {
             GenerationsNumber = 0;
             Generations = new List<Generation<T>>();
-            var chromosomes = new List<Chromosome<T>>();
+            var chromosomes = new List<BaseGenotype<T>>();
 
             for (var i = 0; i < MinSize; i++)
             {
-                Chromosome<T> c = AdamChromosome.Clone();
+                BaseGenotype<T> c = AdamChromosome.Clone();
                 chromosomes.Add(c);
             }
 
