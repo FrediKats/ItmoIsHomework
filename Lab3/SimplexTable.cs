@@ -9,17 +9,17 @@ namespace Lab3
     {
         private Fraction[][] _data;
 
-        public SimplexTable(Fraction[][] A, Fraction[] b, Fraction[] c)
+        public SimplexTable(IEnumerable<IEnumerable<Fraction>> A, IEnumerable<Fraction> b, IEnumerable<Fraction> c)
         {
             //if (matrix.N != targetFunction.Length)
             //{
             //    throw new ArgumentException();
             //}
 
-            Fraction[][] system = A.Zip(b, (x, y) => x.Prepend(0)
+            Fraction[][] equations = A.Zip(b, (x, y) => x.Prepend(0)
                                                         .Append(y)
                                                         .ToArray())
-                                    .Prepend(c.Take(c.Length - 1)
+                                    .Prepend(c.Take(c.Count() - 1)
                                                 .Select(x => -x)
                                                 .Prepend(1)
                                                 .Append(c.Last())
@@ -27,12 +27,11 @@ namespace Lab3
                                     .ToArray()
                                     .DiagonalForm();
 
-            _data = system.Select(x => x.Skip(system.Length).ToArray()).ToArray();
-            _data.Dump();
-            Console.WriteLine();
+            _data = equations.Select(x => x.Skip(equations.Length).ToArray()).ToArray();
+            Solve();
         }
 
-        public void Solve()
+        private void Solve()
         {
             while (_data[0].Take(_data[0].Length).Any(x => x > 0))
             {
@@ -46,16 +45,9 @@ namespace Lab3
                 int fromBasis = ratios.IndexOf(ratios.Min()) + 1;
                 Fraction solver = _data[fromBasis][toBasis];
 
-                Console.WriteLine(toBasis);
-                Console.WriteLine(fromBasis);
-                Console.WriteLine();
-
                 _data[fromBasis][toBasis] = 1;
                 _data[fromBasis] = _data[fromBasis].Select(x => x / solver)
                                                     .ToArray();
-
-                _data.Dump();
-                Console.WriteLine();
 
                 _data = _data.Select((row, i) => i == fromBasis
                                                 ? row
@@ -64,10 +56,6 @@ namespace Lab3
                                                                         : e - _data[fromBasis][j] * _data[i][toBasis])
                                                      .ToArray())
                              .ToArray();
-
-                _data.Dump();
-                Console.WriteLine();
-                //break;
             }
         }
     }

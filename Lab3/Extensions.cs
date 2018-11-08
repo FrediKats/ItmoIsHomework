@@ -14,6 +14,14 @@ namespace Lab3
                 .Index;
         }
 
+        //rewrite this
+        public static (int I, int J) IndexOfMin<T>(this IEnumerable<IEnumerable<T>> source) where T : IComparable
+        {
+            var minimums = source.Select((x, i) => new { Value = x.Min(), I = i, J = x.IndexOf(x.Min()) });
+            var el = minimums.Aggregate((x, y) => y.Value.CompareTo(x.Value) < 0 ? y : x); //srsly???
+            return (el.I, el.J);
+        }
+
         public static Fraction[][] DiagonalForm(this Fraction[][] matrix)
         {
             //write more exceptions
@@ -45,7 +53,7 @@ namespace Lab3
             return data;
         }
 
-        public static void Dump(this Fraction[][] matrix)
+        public static void Dump<T>(this IEnumerable<IEnumerable<T>> matrix)
         {
             Console.WriteLine(string.Join("\n", matrix.Select(x => string.Join("\t", x))));
         }

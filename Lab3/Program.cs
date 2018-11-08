@@ -15,10 +15,23 @@ namespace Lab3
             };
 
             Fraction[] b = { 1, 2, 3 };
-            Fraction[] c = { 0, 0, 0, 1, -1 , 0 };
+            Fraction[] c = { 0, 0, 0, 1, -1, 0 };
 
             SimplexTable simplexMatrix = new SimplexTable(A, b, c);
-            simplexMatrix.Solve();
+
+            //var 2
+
+            double[] producers = { 30, 90, 50 };
+            double[] consumers = { 70, 60, 30 };
+
+            double[][] tariffs =
+            {
+                new double[] { 8, 4, 5 },
+                new double[] { 3, 7, 2 },
+                new double[] { 1, 4, 6 },
+            };
+
+            TransportationMatrix transportation = new TransportationMatrix(producers, consumers, tariffs);
         }
     }
 }
