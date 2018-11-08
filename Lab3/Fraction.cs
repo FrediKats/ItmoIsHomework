@@ -18,7 +18,15 @@ namespace Lab3
             Denominator = denominator;
         }
 
-        //TODO: write cast from tuple
+        public static implicit operator Fraction((int, int) args)
+        {
+            return new Fraction(args.Item1, args.Item2);
+        }
+
+        public static implicit operator (int, int) (Fraction fraction)
+        {
+            return (fraction.Numerator, fraction.Denominator);
+        }
 
         public int CompareTo(Fraction other)
         {
@@ -138,7 +146,7 @@ namespace Lab3
 
         public override int GetHashCode()
         {
-            return int.Parse(Numerator.ToString() + Denominator.ToString());
+            return (Numerator, Denominator).GetHashCode();
         }
     }
 }

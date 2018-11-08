@@ -9,14 +9,14 @@ namespace Lab3
     {
         private Fraction[][] _data;
 
-        public SimplexTable(IEnumerable<IEnumerable<Fraction>> A, IEnumerable<Fraction> b, IEnumerable<Fraction> c)
+        public SimplexTable(IEnumerable<IEnumerable<Fraction>> a, IEnumerable<Fraction> b, IEnumerable<Fraction> c)
         {
             //if (matrix.N != targetFunction.Length)
             //{
             //    throw new ArgumentException();
             //}
 
-            Fraction[][] equations = A.Zip(b, (x, y) => x.Prepend(0)
+            Fraction[][] equations = a.Zip(b, (x, y) => x.Prepend(0)
                                                         .Append(y)
                                                         .ToArray())
                                     .Prepend(c.Take(c.Count() - 1)
