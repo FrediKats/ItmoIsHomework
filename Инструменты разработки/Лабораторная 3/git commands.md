@@ -19,11 +19,12 @@
     - [ ] --**show-origin**
     - -e/--edit (открывает редактор для редактирования конфиг-файла)
 
-- init: (создает пустой git-репозиторий или пересоздает поверх существующего )
+- [ ] init: (создает пустой git-репозиторий или пересоздает поверх существующего )
     - -q/-quite (Выводить только ошибки и предупреждения, игнорируя остальной вывод)
     - [ ] --bare
     - --template=< template_directory > (директория с которой будут скопированы файлы перед клонированием)
     - [ ] --separate-git-dir=< git dir >
+<!--Скорее всего, это юзлес дичь -->
     - [ ] --shared[=(false|true|umask|group|all|world|everybody|0xxx)]
         - umask (or false)
         - group (or true)
@@ -68,13 +69,14 @@
     - --patch (интерактивный выбор кусков патча между индексом и рабочее дерево и добавление их в индекс)
     - --edit (откройте diff в сравнении с индексом в редакторе и дайте пользователю отредактировать его)
     - --update (обновляет сущности, которые уже в индексе, но не добавляет новые)
-    - --all/--no-ignore-removal
-    - --no-all/--ignore-removal
-    - --refresh
-    - --ignore-errors
-    - --ignore-missing
-    - --no-warn-embedded-repo
-    - --renormalize
+    - [ ] --all/--no-ignore-removal
+    - [ ] --no-all/--ignore-removal
+    - [ ] -N/--intent-to-add
+    - --refresh (не добавляет файлы, только обновляет информацию в индексе)
+    - --ignore-errors (игнорировать ошибки при добавлении и продолжать добавлять)
+    - [ ] --ignore-missing
+    - --no-warn-embedded-repo (отключить уведомление о том добавлен подрепозиторий, который не является сабмодулем)
+    - --renormalize (удалить и добавить все файлы индекс)
     - --chmod=(+|-)x (установка прав на файл)
 
 - [ ] status (показывает статус рабочего дерева и состояния файлов)
@@ -110,7 +112,7 @@
     - --minimal
     - --patience
     - --histogram
-    - --anchored=<text>
+    - --anchored=< text >
     - --diff-algorithm={patience|minimal|histogram|myers} (выбирает нужный алгоритм)
     - --stat[=<width>[,<name-width>[,<count>]]]
     - --compact-summary
@@ -127,11 +129,11 @@
     - --no-color
     - --color-moved[=<mode>]
     - --word-diff[=<mode>]
-    - --word-diff-regex=<regex>
+    - --word-diff-regex=< regex >
     - --color-words[=<regex>]
     - --no-renames
     - --check
-    - --ws-error-highlight=<kind>
+    - --ws-error-highlight=< kind >
     - --full-index
     - --binary
     - --abbrev[=<n>]
@@ -145,6 +147,36 @@
     - --no-index
 
 - [ ] commit (создание коммита т.е. фиксация некого состояние репозитория)
+    - -a/--all (автоматически застейджить все файлы, которые были изменины или удалены)
+    - [ ] -p/--patch ()
+    - [ ] -C/--reuse-message=< commit > ()
+    - [ ] -c/--reedit-message=< commit >
+    - [ ] --fixup=< commit > ()
+    - [ ] --squash=< commit >
+    - [ ] --reset-author
+    - --short (для dry-run вывод в кратком формате)
+    - --branch (выводить информацию о ветках даже в --short)
+    - [ ] --porcelain ()
+    - --long (для dry-run вывод полной информации)
+    - [ ] -z/--null ()
+    - -F < file >/--file=< file > (взять комит меседж из файла)
+    - --author=< author > (указать автора)
+    - --date=< date > (указать дату комита)
+    - -m < msg >/--message < msg > (указание комит меседжа)
+    - [ ] -t/--template
+    - [ ] -s/--signoff ()
+    - [ ] -n/--no-verify ()
+    - [ ] --allow-empty ()
+    - --allow-empty-message (разрешает комиты без сообщений)
+    - [ ] --cleanup=< mode > ()
+        - strip
+        - whitespace
+        - verbatim
+        - scissors
+        - default
+    - [ ] -e/--edit ()
+
+
 - [ ] **reset**
 - [ ] rm (удалить файл из версионного контроль)
     - --force
@@ -174,12 +206,39 @@
     - --conflict=< style >
     - --patch
     - --ignore-other-worktrees
-    - --[no-]recurse-submodules
+    - --recurse-submodules
+    - --no-recurse-submodules
 
 
 - [ ] merge (слияние веток)
 - [ ] stash (scm: стешит изменения в грязную рабочую директорию) (от себя: сохранение изменений локально без комита)
 - [ ] tag (создание, удаление и проверка тега объекта)
+    - -a/--annotate (Создаёт аннотированный объект без подписи)
+    - -s/--sign (Создаёт тег с поддержкой подписи GPG, используя ключ по умолчанию для электронной почты)
+    - -f/--force (Заменяет существующий тег на указанное имя (вместо отказа))
+    - -d/--delete (Удаляет существующие теги с указанными именами)
+    - -v/--verify (Проверяет подпись GPG для указанных имен тегов)
+    - -l/--list [< pattern >] (Перечислить тэги [по шаблону]) 
+    - -n< num > (указывает, сколько строк из аннотации, если они есть, печатаются при использовании -l)
+    - --sort=< key > (Сортировка на основе заданного ключа)
+    - --color[=< when >] ()
+    - -i/--ignore-case (Сортирует и фильтрует теги без учёта регистра)
+    - --column[=< options >]
+    - --no-column
+    - --contains [< commit >]
+    - --no-contains [< commit >]
+    - --merged [< commit >]
+    - --no-merged [< commit >]
+    - --points-at < object >
+    - -m < msg >/--message=< msg >
+    - -F < file >/--file=< file >
+    - -e/--edit
+    - --cleanup=< mode >
+    - --create-reflog
+    - < tagname >
+    - < commit >
+    - < object >
+    - < format >
 
 # Sharing
 - fetch (скачивание объектов и ссылок из другого репозитория)
@@ -191,7 +250,7 @@
     - --shallow-exclude=< revision > (Углубление или сокращение истории неглубокого хранилища, позволяющее исключить указанную ветку или тега)
     - --unshallow (преобразует мелкий репозиторий в полный, удалив все ограничения, наложенные мелкими репозиториями.)
     - [ ] --update-shallow
-    - --dry-run (показывает, что будет сделано)
+    - --dry-run (показывает, что будет сделано, без выполнения команды)
     - [ ] -f/--force
     - -k/--keep (хранить загруженный пакет)
     - [ ] --multiple (Разрешите указывать несколько аргументов < repository > и < group >, но не < refspec >)
@@ -240,8 +299,41 @@
     - Опции, связанные с fetch
     - --all
     - -a/--append
+    - and so on...
 
 - [ ] push (обновление удалённого репозитория)
+    - < repository >
+    - < refspec >…​
+    - --all (Запушить все ветки)
+    - --prune (Удаляет удалённые ветки, у которых нет локальных копий)
+    - --mirror
+    - -n/--dry-run (показывает, что будет сделано, без выполнения команды)
+    - --porcelain
+    - -d/--delete (Удаляет все перечисленные ссылки из удаленного репозитория)
+    - --tags
+    - --follow-tags
+    - --signed=true|false|if-asked
+    - --no-signed (Аналогично --signed=false)
+    - --atomic
+    - --no-atomic
+    - -o < option >/--push-option=< option >
+    - --receive-pack=< git-receive-pack >/--exec=< git-receive-pack >
+    - --force-with-lease=< refname >[:< expect >]
+    - --no-force-with-lease
+    - -f/--force
+    - --repo=< repository > (Аналогично < repository >)
+    - -u/--set-upstream
+    - --thin
+    - --no-thin
+    - -q/--quiet (подавляет вывод отчётов о ходе работы)
+    - -v/--verbose (более подробно)
+    - --progress (передает статус прогресса, даже если стандартный поток ошибок не направлен на терминал)
+    - --recurse-submodules=check|on-demand|only|no
+    - --no-recurse-submodules=check|on-demand|only|no (Аналогично --recurse-submodules=no)
+    - --verify (Включает pre-push hook)
+    - --no-verify (Отключает pre-push hook)
+    - -4/--ipv4 (использовать только IPv4 адрес, игнорируя IPv6 адрес)
+    - -6/--ipv6 (использовать только IPv6 адрес, игнорируя IPv4 адрес)
 - [ ] remote (управление репозиториями)
 
 # Inspection
@@ -256,6 +348,7 @@
     - [ ] --**root**: TODO: ?? (Report root nodes.)
     - [ ] --**tags**: TODO: ?? (Report tags.)
     - --cache: 
+
 - [ ] gc (удаление ненужных файлов и оптимизация репозитория)
     - --aggressive (агрессивная оптимизация по памяти за счёт увеличения времени)
     - --auto (проверяет, нужно ли выполнять сборку, если нет, то выходит без выполнения какой-либо работы)
@@ -264,7 +357,9 @@
     - --quiet (подавляет вывод отчётов о ходе работы)
     - --force (Запустить gc, даже если в этом репозитории может быть еще один экземпляр gc)
     - [ ]--keep-largest-pack
+
 - [ ] **instaweb** (встроенная утилита, для просмотра состояния репозитория в браузере)
+
 - [ ] archive (создание архива файлов из указанного дерева)
     - --format=< fm t> (формат архива, tar по-умолчанию)
     - -l/--list (все доступные типы архива)
@@ -274,6 +369,7 @@
     - --remote=< repo > (создание архива с удаленного сервера, а не локального дерева)
     - < tree-ish > (дерево или коммит, который нужно архивировать)
     - [ ] **< path >**
+
 - [x] prune (удаляет все недостижимые объекты с базы данных объектов)
     - -n/--dry-run (не удалять, а вывести список недостижимых файлов)
     - -v/--verbose (вывести все удаленный файлы)
