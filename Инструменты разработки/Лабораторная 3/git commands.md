@@ -2,23 +2,41 @@
 # Create, setup, config
 
 - config (конфигурация гита: имя пользователя, текстовый редактор)
-    - [ ] --**replace-all**
-    - --add (добавляет строку настройки без изменения уже существующих настроек)
-    - --get (получение значения по ключу)
-    - --get-all (получение всех пар ключ-значение)
-    - --get-regexp (фильтр по регуляркам)
-    - Ключ для установки настроек:
+    - Действия
+        - [ ] --**replace-all**
+        - --add (добавляет строку настройки без изменения уже существующих настроек)
+        - --get (получение значения по ключу)
+        - --get-all (получение всех пар ключ-значение)
+        - --get-regexp (фильтр по регуляркам)
+        - --get-urlmatch 
+        - --unset
+        - --unset-all 
+        - --rename-section
+        - --remove-section
+        - --get-color
+        - --get-colorbool
+        - --list (показать все настройки)
+        - -l/--list (список всех настроек в конфиг-файле)
+        - -e/--edit (открывает редактор для редактирования конфиг-файла)
+    - Ключ для установки настроек
         - --global (установка настроек глобально)
         - [ ] --**system**
         - --local (установка настроек в локальном репозитории)
-    - --list (показать все настройки)
-    - -l/--list (список всех настроек в конфиг-файле)
-    - [ ] --**type**
+        -  [ ]--blob < blob-id >
+    -Типы
+        - [ ] -t/--**type**
+        - --bool
+        - --int 
+        - --bool-or-int
+        - --path  
+        - --expiry-date
+    -Другое
     - -z/--null (заканчивать вывод информации нул-чаром вместо переноса строки)
     - --name-only (вывод только названий переменных из конфига для команд --list)
     - [ ] --**show-origin**
-    - -e/--edit (открывает редактор для редактирования конфиг-файла)
-
+    - --default < value >
+    - --includes 
+    
 - [x] [init](https://git-scm.com/docs/git-init) - создание пустого git-репозитория
     - `-q/-quite` - вывод только ошибок и предупреждений, игнорируя остальной вывод
     - `--bare` -  создание bare-репозитория (у него нет рабочего дерева, предназначен он исключительно для хранения/шейринга) ([check it](http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/))
@@ -26,6 +44,7 @@
     - `--separate-git-dir=<git dir>` - указание пути для папки `.git/`. По-умолчанию создается в корне репозитория.
 <!--Скорее всего, это юзлес дичь
     - [ ] --shared[=(false|true|umask|group|all|world|everybody|0xxx)]
+        (specify that the git repository is to be shared amongst several users)
         - umask (or false)
         - group (or true)
         - all (or world or everybody)
@@ -71,15 +90,16 @@
     - --patch (интерактивный выбор кусков патча между индексом и рабочее дерево и добавление их в индекс)
     - --edit (откройте diff в сравнении с индексом в редакторе и дайте пользователю отредактировать его)
     - --update (обновляет сущности, которые уже в индексе, но не добавляет новые)
+    - -A, --all (добавить изменение всех индексируемых и не индексируемых файлов)
     - [ ] --all/--no-ignore-removal
     - [ ] --no-all/--ignore-removal
-    - [ ] -N/--intent-to-add
     - --refresh (не добавляет файлы, только обновляет информацию в индексе)
     - --ignore-errors (игнорировать ошибки при добавлении и продолжать добавлять)
     - [ ] --ignore-missing
     - --no-warn-embedded-repo (отключить уведомление о том добавлен подрепозиторий, который не является сабмодулем)
     - --renormalize (удалить и добавить все файлы индекс)
     - --chmod=(+|-)x (установка прав на файл)
+    
 
 - [ ] status (показывает статус рабочего дерева и состояния файлов)
     - -s/--short (вывод в коротком формате)
@@ -201,6 +221,9 @@
         - `--hard` - сбросить индекс до указанного комита с удалением всех изменений
         - [ ] --keep
     - `-q/-quite` - вывод только ошибок и предупреждений, игнорируя остальной вывод 
+    -  --recurse-submodules[=<reset>]
+    - -p, --patch 
+    - -N, --intent-to-add
 
 - [ ] rm (удалить файл из версионного контроль)
     - --force
@@ -212,30 +235,111 @@
 
 - [ ] rebase (перемещение коммитов из ветки на последний коммит другой ветки)
     - --onto < branchname > (ветка, на которую перемещаем)
+    - -v, --verbose
+    - -q, --quiet
+    - --autostash 
+    - --fork-point
+    - -r, --rebase-merges[=...]
+    - -p, --preserve-merges
+    - -s, --strategy ... 
+    - -X, --strategy-option ...
+    - --no-ff   
+    -  -f, --force-rebase
+    - -m, --merge
+    -  -i, --interactive (возможность переписывать коммиты для rebase)
+    - -x, --exec ...
+    - -k, --keep-empty 
+    -  --allow-empty-message
+    - --stat 
+    - -n, --no-stat 
+    - --verify
+    - --rerere-autoupdate
+    - --root 
+    -  --autosquash 
+    - --signoff 
+    - Действия
+        - --continue
+        - --abort   
+        - --skip 
+        - --edit-todo 
+        -  --quit
+        - --show-current-patch
+
 
 # Branches
 - [ ] branch (выполнение различных операций с ветками)
-    - -d/--delete ()
+    - -a, --all (выводит список всех локальных и удалённых-индексируемых веток)
+    - -d/--delete (удалить смёрженную ветку)
+    - -D (удалить ветку, даже если не было merge)
+    - -m, --move 
+    - -M 
+    - -c, --copy
+    - -C
+    - --list (вывести список названий веток)
+    - --create-reflog 
+    - --edit-description
+    - -f, --force   
+    - --merged <commit> 
+    - --no-merged <commit>
+    - --column[=<style>]
+    - --sort <key> 
+    - --points-at <object>
+    -  -i, --ignore-case 
+    - --format <format>
+
 - [ ] checkout (создание ветки и установка HEAD на неё)
     - --quiet
     - --force (выбрасывает изменения и выполняет переход)
     - --ours/ --theirs
     - -b < new_branch > (создание новой ветки)
-    - --track
+    - -t/--track
     - --no-track
     - -l
     - --detach
     - --orphan < new_branch >
     - --merge
     - --conflict=< style >
-    - --patch
+    - -p/--patch
     - --ignore-other-worktrees
     - --recurse-submodules
     - --no-recurse-submodules
+    -  --overwrite-ignore
 
 
 - [ ] merge (слияние веток)
+    - -n (не показывать diff после слияния)
+    - --stat/--summary  (показывать diff после слияния)
+    - --log[=<n>]
+    - --squash
+    - --commit (создание коммита после успешного слияния)
+    -  -e, --edit  
+    - --ff
+    - --ff-only 
+    - --rerere-autoupdate
+    -  --verify-signatures
+    - -s, --strategy <strategy>
+    - -X, --strategy-option <option=value>
+    - -m, --message <message>
+    - -F, --file <path>
+    - -v, --verbose 
+    - -q, --quiet
+    - --abort  
+    - --continue
+    - --allow-unrelated-histories
+    - --progress 
+    - -S, --gpg-sign[=<key-id>]
+    - --overwrite-ignore
+    - --signoff
+    - --verify
+
 - [ ] stash (scm: стешит изменения в грязную рабочую директорию) (от себя: сохранение изменений локально без комита)
+    - list [<options>]
+    - show [<stash>]
+    - drop [-q|--quiet] [<stash>]
+    - branch <branchname> [<stash>]
+    - save
+    - push
+    - clear
 - [ ] tag (создание, удаление и проверка тега объекта)
     - -a/--annotate (Создаёт аннотированный объект без подписи)
     - -s/--sign (Создаёт тег с поддержкой подписи GPG, используя ключ по умолчанию для электронной почты)
@@ -362,9 +466,24 @@
 
 # Inspection
 - [ ] show (отображает различные типы объектов)
+    - --pretty[=<format>]
+    - --format=<format>
+    - --abbrev-commit/ --no-abbrev-commit
+    - --oneline
+    - --encoding=<encoding>
+    - --expand-tabs=<n>/--expand-tabs/--no-expand-tabs
+    - --notes[=<treeish>]/ --no-notes
+    - --show-signature
 - [ ] log (вывод лога коммитов)
+    - -q, --quiet 
+    - --source
+    - --use-mailmap 
+    - --full-diff
+    - --no-decorate/--decorate[=...]
+    - --decorate-refs <pattern>/--decorate-refs-exclude <pattern>
+    - --log-size
     - --graph (вывод дерева коммитов в виде графа)   
-    - 
+
 # Administration       
 - [ ] fsck: проверяет объекты в базе данных
     - --unreachable: вывод всех объектов, которые существуют, но не доступны ни с одной ноды (reference nodes)
@@ -372,6 +491,14 @@
     - [ ] --**root**: TODO: ?? (Report root nodes.)
     - [ ] --**tags**: TODO: ?? (Report tags.)
     - --cache: 
+    -  -v, --verbose
+    - --reflogs
+    - --full
+    - --connectivity-only
+    - --strict
+    - --lost-found
+    - --name-objects
+    - --progress
 
 - [ ] gc (удаление ненужных файлов и оптимизация репозитория)
     - --aggressive (агрессивная оптимизация по памяти за счёт увеличения времени)
@@ -383,6 +510,15 @@
     - [ ]--keep-largest-pack
 
 - [ ] **instaweb** (встроенная утилита, для просмотра состояния репозитория в браузере)
+    - -l, --local   
+    -  -p, --port ...  (номер, на котором запустить сервер)
+    -  -d, --httpd ...   
+    -  -b, --browser ... (имя браузера, в котором запустить сервер)
+    -  -m, --module-path ...
+    -Действия
+        - --stop (выключить сервер)
+        - --start (включить сервер)
+        - --restart (перезапустить сервер)
 
 - [ ] archive (создание архива файлов из указанного дерева)
     - --format=< fm t> (формат архива, tar по-умолчанию)
@@ -401,6 +537,78 @@
     - --expire < time > (удалять только те файлы, которые старше чем указанное время)
 
 # Plumbing Commands (а я бы назвал ватзефак-команды)
-- [ ] cat-file (контент, тип и информация о размере объектов репозитория) (по хеш?)
+- [ ] cat-file (получение содержимого объекта по хешу)
+    - -t (вывести тип объекта)
+    - -t (вывести размер объекта)
+    - -p (автоопределение типа объекта и вывод в удобном виде)
+    - -e (return 0, если нет ошибок)
+    - --textconv  
+    - --filters     
+    - --path <blob>
+    - --allow-unknown-type (позволяет использовать ключи -s и -е для сломанных объектов)
+    - --buffer
+    - --batch[=<format>]
+    - --batch-check[=<format>]
+    - --follow-symlinks 
+    -  --batch-all-objects
+    - --unordered 
+
 - [ ] ls-tree (список элементов дерева объектов)
+    - -d (показывать только деревья)
+    - -r (рекурсивно)
+    - -t (показывать деревья при рекурсии)
+    - -z 
+    - -l, --long (выводит размер объекта)
+    - --name-only (выводить только названия файлов)
+    - --name-status (выводить только названия файлов)?
+    - --full-name (выводить полный путь до файла)
+    - --full-tree (вывести всё дерево целиком, а не только данную директорию)
+    - --abbrev[=<n>]
 - [ ] grep (вывод строк, подходящих под указанный паттерн)
+    - --cached 
+    - --no-index
+    - --untracked 
+    - --exclude-standard
+    - --recurse-submodules
+    - -v, --invert-match
+    - -i, --ignore-case
+    - -w, --word-regexp
+    - -a, --text 
+    - -I
+    - --textconv
+    - --max-depth <depth>
+    - -E, --extended-regexp
+    - -G, --basic-regexp
+    -  -F, --fixed-strings
+    - -P, --perl-regexp
+    - -n, --line-number
+    - --column 
+    - -h
+    - -H
+    - --full-name 
+    - -l, --files-with-matches
+    - --name-only 
+    - -L, --files-without-match
+    - -z, --null 
+    - -o, --only-matching
+    - --color[=<when>]
+    - --break 
+    - --heading
+    - -C, --context <n> 
+    - -B, --before-context <n>
+    - -A, --after-context <n>
+    - --threads <n>
+    - -NUM
+    - -p, --show-function
+    - -W, --function-context
+    - -f <file>  
+    - -e <pattern>
+    - --and 
+    - --or
+    - --not
+    - (  )
+    -  -q, --quiet 
+    - --all-match 
+    - -O, --open-files-in-pager[=<pager>]
+    - --ext-grep
+
