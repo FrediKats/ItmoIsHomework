@@ -42,13 +42,7 @@
     - `--bare` -  создание bare-репозитория (у него нет рабочего дерева, предназначен он исключительно для хранения/шейринга) ([check it](http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/))
     - `--template=<template_directory>` - директория с которой будут скопированы файлы перед клонированием
     - `--separate-git-dir=<git dir>` - указание пути для папки `.git/`. По-умолчанию создается в корне репозитория.
-<!--Скорее всего, это юзлес дичь
-    - [ ] --shared[=(false|true|umask|group|all|world|everybody|0xxx)]
-        (specify that the git repository is to be shared amongst several users)
-        - umask (or false)
-        - group (or true)
-        - all (or world or everybody)
-        - 0xxx -->
+
 
 - [x] [clone](https://git-scm.com/docs/git-clone) - клонирование репозитория в новую папку
     - [ ] -l/-local ()
@@ -72,13 +66,7 @@
     - `-j/--jobs` - максимальное количество модулей, которые могут фетчиться одновременно
     - `<repository>` - ссылка на (возможно удаленный) репозиторий, откуда нужно клонировать
     - `<directory>`  - директория, в которую будет выполнено клонирование
-<!--Скорее всего, это юзлес дичь
-    - [ ] --mirror
-    - [ ] -u/-- upload-pack < upload-pack > ()
-    - [ ] --depth < depth > ()
-    - [ ] --shallow-since=< date >
-    - [ ] --shallow-exclude=< revision >
-    - [ ] --[no-]shallow-submodules-->
+
 
 # Snapshot
 - [ ] [add](https://git-scm.com/docs/git-add) - добавление файлов в индекс
@@ -355,22 +343,15 @@
     - --sort=< key > (Сортировка на основе заданного ключа)
     - --color[=< when >] ()
     - -i/--ignore-case (Сортирует и фильтрует теги без учёта регистра)
-    - --column[=< options >]
-    - --no-column
-    - --contains [< commit >]
-    - --no-contains [< commit >]
-    - --merged [< commit >]
-    - --no-merged [< commit >]
+    - --column[=< options >] / --no-column
+    - --contains [< commit >] / --no-contains [< commit >]
+    - --merged [< commit >] /--no-merged [< commit >]
     - --points-at < object >
     - -m < msg >/--message=< msg >
     - -F < file >/--file=< file >
     - -e/--edit
     - --cleanup=< mode >
     - --create-reflog
-    - < tagname >
-    - < commit >
-    - < object >
-    - < format >
 
 # Sharing
 - fetch (скачивание объектов и ссылок из другого репозитория)
@@ -403,9 +384,6 @@
     - --progress (передает статус прогресса, даже если стандартный поток ошибок не направлен на терминал)
     - -4/--ipv4 (использовать только IPv4 адрес, игнорируя IPv6 адрес)
     - -6/--ipv6 (использовать только IPv6 адрес, игнорируя IPv4 адрес)
-    - < repository > («Удаленный» репозиторий, который является источником операции fetch или pull. Этот параметр может быть либо URL, либо имя удаленного)
-    - < group > (Имя, относящееся к списку репозиториев)
-    - < refspec > (Указывает, какие ссылки выбрать и какие локальные ссылки обновить)
 
 - [ ] pull (выполнение fetch и интеграция с другим репозиторием или локальной веткой)
     - -q/--quiet (подавляет вывод отчётов о ходе работы)
@@ -429,13 +407,8 @@
     - -r/--[no-]rebase[=false|true|merges|preserve|interactive]
     - --[no-]autostash
     - Опции, связанные с fetch
-    - --all
-    - -a/--append
-    - and so on...
 
 - [ ] push (обновление удалённого репозитория)
-    - < repository >
-    - < refspec >…​
     - --all (Запушить все ветки)
     - --prune (Удаляет удалённые ветки, у которых нет локальных копий)
     - --mirror
@@ -446,8 +419,7 @@
     - --follow-tags
     - --signed=true|false|if-asked
     - --no-signed (Аналогично --signed=false)
-    - --atomic
-    - --no-atomic
+    - --atomic / --no-atomic
     - -o < option >/--push-option=< option >
     - --receive-pack=< git-receive-pack >/--exec=< git-receive-pack >
     - --force-with-lease=< refname >[:< expect >]
@@ -455,17 +427,16 @@
     - -f/--force
     - --repo=< repository > (Аналогично < repository >)
     - -u/--set-upstream
-    - --thin
-    - --no-thin
+    - --[no-]thin
     - -q/--quiet (подавляет вывод отчётов о ходе работы)
     - -v/--verbose (более подробно)
     - --progress (передает статус прогресса, даже если стандартный поток ошибок не направлен на терминал)
     - --recurse-submodules=check|on-demand|only|no
     - --no-recurse-submodules=check|on-demand|only|no (Аналогично --recurse-submodules=no)
-    - --verify (Включает pre-push hook)
-    - --no-verify (Отключает pre-push hook)
+    - --[no-]verify (Включает/Отключает pre-push hook)
     - -4/--ipv4 (использовать только IPv4 адрес, игнорируя IPv6 адрес)
     - -6/--ipv6 (использовать только IPv6 адрес, игнорируя IPv4 адрес)
+  
 - [ ] remote (управление репозиториями)
 
 # Inspection
@@ -484,7 +455,7 @@
         - `short` - префиксы не будут выводиться
         - `full` - полный вывод
         - `auto` - если вызов с терминала - `short`, иначе `no` 
-    - [ ] source
+    - [ ] --source
     - [ ] --fulldiff
     - `--log-size` - ограничение на длинну комит мессенджа в байтах
     - -q, --quiet 
@@ -509,13 +480,9 @@
 - [x] gc - удаление ненужных файлов и оптимизация репозитория
     - `--aggressive` - агрессивная(более детальная) оптимизация по памяти
     - `--auto` - проверяет, нужно ли выполнять сборку. Если нет - завершает выполнение команыд
-    - `--prune=<date>` - (аналог prune --expire < data >) удаляет свободные объекты старше даты (по дефолту 2 недели)
-    - `--no-prune` - не удалять объекты
+    - `--[no-]prune=<date>` - удаляет свободные объекты старше даты (по дефолту 2 недели) / не удалять объекты
     - `-q/-quite` - вывод только ошибок и предупреждений, игнорируя остальной вывод
     - `--force` - запускать gc, даже если в этом репозитории может быть еще один экземпляр gc
-<!--Скорее всего, это юзлес дичь
-    - [ ]--keep-largest-pack
--->
 
 - [ ] **instaweb** (встроенная утилита, для просмотра состояния репозитория в браузере)
     - -l, --local   
@@ -558,7 +525,7 @@
     - --batch[=<format>]
     - --batch-check[=<format>]
     - --follow-symlinks 
-    -  --batch-all-objects
+    - --batch-all-objects
     - --unordered 
 
 - [ ] [ls-tree](https://git-scm.com/docs/git-ls-tree) - список элементов дерева объектов
