@@ -12,9 +12,9 @@ namespace Lab3
         private readonly double[] _producers;
         private readonly double[] _consumers;
         private readonly double[][] _tariffs;
-        private readonly double[][] _cargoes;
-        private readonly double[] _producersPotential;
-        private readonly double[] _consumersPotential;
+        private double[][] _cargoes;
+        private double[] _producersPotential;
+        private double[] _consumersPotential;
 
         public IReadOnlyList<double[]> Plan => _cargoes.ToList();
 
@@ -44,26 +44,28 @@ namespace Lab3
             //r
             //s
 
-            _producers = producers;
-            _consumers = consumers;
-            _tariffs = tariffs;
-            _cargoes = tariffs.Select(x => x.Select(y => 0.0).ToArray()).ToArray();
+            _producers = producers.ToArray();
+            _consumers = consumers.ToArray();
+            _tariffs = tariffs.Select(x => x.ToArray()).ToArray();
+            _cargoes = tariffs.Select(x => x.Select(y => 0.0).ToArray()).ToArray(); //rewrite this
             _producersPotential = Enumerable.Repeat(0.0, _producers.Length).ToArray();
             _consumersPotential = Enumerable.Repeat(0.0, _consumers.Length).ToArray();
+
+            Solve();
         }
 
         private void PrefillCargoes()
         {
-            var producersCopy = (double[]) _producers.Clone();
-            var consumersCopy = (double[]) _consumers.Clone();
-            double[][] tariffsCopy = _tariffs.CloneArray();
+            var producersCopy = (double[])_producers.Clone();
+            var consumersCopy = (double[])_consumers.Clone();
+            var tariffsCopy = _tariffs.CloneArray();
 
             //_tariffs.Dump();
             //Console.WriteLine();
 
             while (producersCopy.Any(x => x > 0) && consumersCopy.Any(x => x > 0))
             {
-                (int i, int j) = tariffsCopy.IndexOfMin();
+                (int i, int  j) = tariffsCopy.IndexOfMin();
                 var min = Math.Min(producersCopy[i], consumersCopy[j]);
                 _cargoes[i][j] = min;
                 producersCopy[i] -= min;
@@ -101,46 +103,37 @@ namespace Lab3
                     }
                 }
             }
-            //_tariffs.Dump();
-            //Console.WriteLine();
-            //_cargoes.Dump();
-            //Console.WriteLine();
-            //Console.WriteLine(string.Join("\t", _producersPotential));
-            //Console.WriteLine();
-            //Console.WriteLine(string.Join("\t", _consumersPotential));
-            //Console.WriteLine();
         }
 
-        public void Solve()
+        private void Solve()
         {
             PrefillCargoes();
             SetPotentials();
 
-            bool isCompleted;
+            bool isCompleted = _tariffs.Select((x, i) => x.Select((y, j) => y - _producersPotential[i] - _consumersPotential[j]).All(y => y >= 0)).All(x => x);
 
-            do
+            while (!isCompleted)
             {
                 int i1 = 0, j1 = 0, i2 = 0, j2 = 0;
 
                 for (int i = 0; i < _producersPotential.Length; i++)
-                for (int j = 0; j < _consumersPotential.Length; j++)
-                    if (_tariffs[i][j] - _producersPotential[i] - _consumersPotential[j] < 0)
-                        (i1, j1) = (i, j);
+                    for (int j = 0; j < _consumersPotential.Length; j++)
+                        if (_tariffs[i][j] - _producersPotential[i] - _consumersPotential[j] < 0)
+                            (i1, j1) = (i, j);
 
                 double potentialDiff = _producersPotential[i1] + _consumersPotential[j1] - _tariffs[i1][j1];
 
                 for (int i = 0; i < _producersPotential.Length; i++)
                 {
-                    if (i == i1)
+                    if (i != i1)
                     {
-                        continue;
-                    }
-
-                    for (int j = 0; j < _consumersPotential.Length; j++)
-                    {
-                        if (j != j1 && _cargoes[i][j] > 0 &&
-                            _tariffs[i1][j] - _tariffs[i1][j1] + _tariffs[i][j1] - _tariffs[i][j] == potentialDiff)
-                            (i2, j2) = (i, j);
+                        for (int j = 0; j < _consumersPotential.Length; j++)
+                        {
+                            if (j != j1 && _cargoes[i][j] > 0 &&
+                                _tariffs[i1][j] - _tariffs[i1][j1] + _tariffs[i][j1] - _tariffs[i][j] ==
+                                potentialDiff)
+                                (i2, j2) = (i, j);
+                        }
                     }
                 }
 
@@ -151,14 +144,13 @@ namespace Lab3
 
                 _cargoes.Dump();
                 Console.WriteLine();
-                isCompleted = _tariffs
-                    .Select((x, a) => x
-                        .Select((y, b) => y - _producersPotential[a] - _consumersPotential[b])
-                        .All(y => y >= 0))
-                    .All(x => x);
-
                 SetPotentials();
-            } while (!isCompleted);
+                isCompleted = _tariffs.Select((x, a) => x.Select((y, b) => y - _producersPotential[a] - _consumersPotential[b]).All(y => y >= 0)).All(x => x);
+                Console.WriteLine(string.Join(" ", _consumersPotential));
+                Console.WriteLine(string.Join(" ", _producersPotential));
+                _tariffs.Dump();
+                Console.WriteLine();
+            }
         }
     }
 }
