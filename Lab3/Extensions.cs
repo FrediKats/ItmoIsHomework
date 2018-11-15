@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Lab3
@@ -22,11 +23,16 @@ namespace Lab3
             return (el.I, el.J);
         }
 
+        //public static IEnumerable<int> Range(this Enumerable source, int start, int count, Func<int, int> rule)
+        //{
+
+        //}
+
         public static Fraction[][] DiagonalForm(this Fraction[][] matrix)
         {
             //write more exceptions
 
-            Fraction[][] data = matrix.Clone() as Fraction[][];
+            Fraction[][] data = matrix.Select(x => x.Select(y => y).ToArray()).ToArray();
 
             if (data.Select(x => x[0]).All(x => x == 0))
             {

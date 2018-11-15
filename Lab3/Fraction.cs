@@ -42,7 +42,8 @@ namespace Lab3
                 }
             }
 
-            return new Fraction(Numerator / (absNum + absDen), Denominator / (absNum + absDen));
+            var gcd = Math.Sign(Denominator) * (absNum + absDen);
+            return new Fraction(Numerator / gcd, Denominator / gcd);
         }
 
         public static Fraction operator -(Fraction fraction)
@@ -119,7 +120,7 @@ namespace Lab3
 
         public override string ToString()
         {
-            return $"{Numerator}{(Denominator > 1 ? "/" + Denominator : string.Empty)}";
+            return $"{Numerator}{(Denominator != 1 ? "/" + Denominator : string.Empty)}";
         }
 
         public override bool Equals(object obj)

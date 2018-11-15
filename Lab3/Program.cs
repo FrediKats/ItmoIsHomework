@@ -9,16 +9,17 @@ namespace Lab3
         {
             Fraction[][] A = 
             {
-                new Fraction[] { 1, 0, 0, 1, -2 },
-                new Fraction[] { 0, 1, 0, -2, 1 },
-                new Fraction[] { 0, 0, 1, 3, 1 }
+                new Fraction[] { 1, 2, -1, 2, 4 },
+                new Fraction[] { 0, -1, 2, 1, 3 },
+                new Fraction[] { 1, -3, 2, 2, 0 }
             };
 
-            Fraction[] b = { 1, 2, 3 };
-            Fraction[] c = { 0, 0, 0, 1, -1, 0 };
+            Fraction[] b = { 1, 3, 4 };
+            Fraction[] c = { 1, -3, 2, 1, 4 };
 
-            SimplexTable simplexMatrix = new SimplexTable(A, b, c);
-
+            Simplex simplexMatrix = new Simplex(A, b, c);
+            Console.WriteLine(string.Join(" ",  simplexMatrix.Plan));
+            
             //var 2
 
             double[] producers = { 30, 90, 50 };
@@ -31,7 +32,7 @@ namespace Lab3
                 new double[] { 1, 4, 6 },
             };
 
-            TransportationMatrix transportation = new TransportationMatrix(producers, consumers, tariffs);
+            //TransportationMatrix transportation = new TransportationMatrix(producers, consumers, tariffs);
         }
     }
 }
