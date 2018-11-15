@@ -18,6 +18,7 @@ namespace Lab3
         //rewrite this
         public static (int I, int J) IndexOfMin<T>(this IEnumerable<IEnumerable<T>> source) where T : IComparable
         {
+            //TODO: Если будут просадки по времени, то они вероятно тут
             var minimums = source.Select((x, i) => new { Value = x.Min(), I = i, J = x.IndexOf(x.Min()) });
             var el = minimums.Aggregate((x, y) => y.Value.CompareTo(x.Value) < 0 ? y : x); //srsly???
             return (el.I, el.J);
@@ -31,13 +32,13 @@ namespace Lab3
         public static Fraction[][] DiagonalForm(this Fraction[][] matrix)
         {
             //write more exceptions
-
-            Fraction[][] data = matrix.Select(x => x.Select(y => y).ToArray()).ToArray();
-
-            if (data.Select(x => x[0]).All(x => x == 0))
+            if (matrix.All(x => x[0] == 0))
             {
                 throw new Exception();
+
             }
+
+            Fraction[][] data = matrix.Clone() as Fraction[][];
 
             data = data.OrderByDescending(x => Math.Abs((double)x[0])).ToArray();
 
@@ -62,6 +63,11 @@ namespace Lab3
         public static void Dump<T>(this IEnumerable<IEnumerable<T>> matrix)
         {
             Console.WriteLine(string.Join("\n", matrix.Select(x => string.Join("\t", x))));
+        }
+
+        public static double[][] CloneArray(this double[][] source)
+        {
+            return source.Select(s => s.ToArray()).ToArray();
         }
     }
 }

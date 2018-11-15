@@ -19,7 +19,6 @@ namespace Lab3
 
             //Simplex simplexMatrix = new Simplex(A, b, c);
             //Console.WriteLine(string.Join(" ",  simplexMatrix.Plan));
-            
 
             double[] producers = { 50, 30, 10 };
             double[] consumers = { 30, 30, 10, 20 };
