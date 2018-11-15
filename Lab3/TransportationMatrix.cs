@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Lab3
 {
-    class TransportationMatrix
+    public class TransportationMatrix
     {
         private readonly double[] _producers;
         private readonly double[] _consumers;
         private readonly double[][] _tariffs;
-        private double[][] _cargoes;
+        private readonly double[][] _cargoes;
         private double[] _producersPotential;
         private double[] _consumersPotential;
 
@@ -52,6 +52,9 @@ namespace Lab3
             _consumersPotential = Enumerable.Repeat(0.0, _consumers.Length).ToArray();
 
             Solve();
+
+            _tariffs.Zip(_producersPotential, (x, y) => x.Append(y)).Append(_consumersPotential).Dump();
+            Console.WriteLine();
         }
 
         private void PrefillCargoes()
@@ -84,25 +87,52 @@ namespace Lab3
 
         private void SetPotentials()
         {
+            var equations = new List<List<double>>();
+            var maxTariff = 0.0;
+
             for (int i = 0; i < _producersPotential.Length; i++)
             {
                 for (int j = 0; j < _consumersPotential.Length; j++)
                 {
+                    //if (_cargoes[i][j] > 0)
+                    //{
+                    //    _consumersPotential[j] = _tariffs[i][j] - _producersPotential[i];
+
+                    //    for (int k = i + 1; k < _producersPotential.Length; k++)
+                    //    {
+                    //        if (_cargoes[k][j] > 0)
+                    //        {
+                    //            _producersPotential[k] = _tariffs[k][j] - _consumersPotential[j];
+                    //        }
+                    //    }
+                    //}
+
+                    maxTariff = Math.Max(maxTariff, _tariffs[i][j]);
+
                     if (_cargoes[i][j] > 0)
                     {
-                        _producersPotential[i] = 1;
-                        _consumersPotential[j] = _tariffs[i][j] - _producersPotential[i];
-
-                        for (int k = i + 1; k < _producersPotential.Length; k++)
-                        {
-                            if (_cargoes[k][j] > 0)
-                            {
-                                _producersPotential[k] = _tariffs[k][j] - _consumersPotential[j];
-                            }
-                        }
+                        var el = Enumerable.Repeat(0.0, _producersPotential.Length + _consumersPotential.Length).Append(_tariffs[i][j]).ToList();
+                        el[i] = 1;
+                        el[_producersPotential.Length + j] = 1;
+                        equations.Add(el);
                     }
                 }
             }
+
+            var count = equations.Count;
+
+            for (int i = 0; i < _producersPotential.Length + _consumersPotential.Length - count; i++)
+            {
+                var el = Enumerable.Repeat(0.0, _producersPotential.Length + _consumersPotential.Length)
+                                    .Append(maxTariff + i + 1).ToList();
+                el[equations.Count] = 1;
+                equations.Add(el);
+            }
+
+            equations = equations.DiagonalForm();
+
+            _producersPotential = equations.Take(_producers.Length).Select(x => x.Last()).ToArray();
+            _consumersPotential = equations.Skip(_producers.Length).Select(x => x.Last()).ToArray();
         }
 
         private void Solve()

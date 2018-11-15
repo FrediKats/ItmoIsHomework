@@ -6,16 +6,18 @@ using System.Text;
 
 namespace Lab3
 {
-    class Simplex
+    public class Simplex
     {
         private Fraction[][] _matrix;
         private int[] _basis;
 
-        public Fraction[] Plan => Enumerable.Range(0, _matrix[0].Length - 1)
+        public Fraction[] Plan => Enumerable
+            .Range(0, _matrix[0].Length - 1)
             .Select(x => _basis.Contains(x)
                 ? _matrix[_basis.IndexOf(x) + 1].Last()
                 : 0)
             .ToArray();
+
         public Fraction Value => -_matrix[0].Last();
 
         public Simplex(IEnumerable<IEnumerable<Fraction>> A, IEnumerable<Fraction> b, IEnumerable<Fraction> c)
@@ -37,10 +39,10 @@ namespace Lab3
                                                 .Append(0)
                                                 .ToArray())
                                 .ToArray();
-
+#if DEBUG
             _matrix.Dump();
             Console.WriteLine();
-
+#endif
             for (int i = 2; i < _matrix.Length; i++)
             {
                 _matrix[0] = _matrix[0].Zip(_matrix[i], (x, y) => x - y).ToArray();

@@ -20,14 +20,13 @@ namespace Lab3
             //Simplex simplexMatrix = new Simplex(A, b, c);
             //Console.WriteLine(string.Join(" ",  simplexMatrix.Plan));
 
-            double[] producers = { 50, 30, 10 };
-            double[] consumers = { 30, 30, 10, 20 };
-
+            double[] producers = { 120, 280, 160 };
+            double[] consumers = { 130, 220, 60, 70 };
             double[][] tariffs =
             {
-                new double[] { 1, 2, 4, 1 },
-                new double[] { 2, 3, 1, 5 },
-                new double[] { 3, 2, 4, 4 },
+                new double[] { 1, 7, 9, 5 },
+                new double[] { 4, 2, 6, 8 },
+                new double[] { 3, 8, 1, 2 }
             };
 
             TransportationMatrix transportation = new TransportationMatrix(producers, consumers, tariffs);
