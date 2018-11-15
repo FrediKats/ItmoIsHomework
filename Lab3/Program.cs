@@ -17,22 +17,22 @@ namespace Lab3
             Fraction[] b = { 1, 3, 4 };
             Fraction[] c = { 1, -3, 2, 1, 4 };
 
-            Simplex simplexMatrix = new Simplex(A, b, c);
-            Console.WriteLine(string.Join(" ",  simplexMatrix.Plan));
+            //Simplex simplexMatrix = new Simplex(A, b, c);
+            //Console.WriteLine(string.Join(" ",  simplexMatrix.Plan));
             
-            //var 2
 
-            double[] producers = { 30, 90, 50 };
-            double[] consumers = { 70, 60, 30 };
+            double[] producers = { 50, 30, 10 };
+            double[] consumers = { 30, 30, 10, 20 };
 
             double[][] tariffs =
             {
-                new double[] { 8, 4, 5 },
-                new double[] { 3, 7, 2 },
-                new double[] { 1, 4, 6 },
+                new double[] { 1, 2, 4, 1 },
+                new double[] { 2, 3, 1, 5 },
+                new double[] { 3, 2, 4, 4 },
             };
 
-            //TransportationMatrix transportation = new TransportationMatrix(producers, consumers, tariffs);
+            TransportationMatrix transportation = new TransportationMatrix(producers, consumers, tariffs);
+            transportation.Plan.Dump();
         }
     }
 }

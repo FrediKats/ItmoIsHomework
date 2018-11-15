@@ -16,6 +16,8 @@ namespace Lab3
         private double[] _producersPotential;
         private double[] _consumersPotential;
 
+        public IReadOnlyList<double[]> Plan => _cargoes.ToList();
+
         public TransportationMatrix(IEnumerable<double> producers, IEnumerable<double> consumers, IEnumerable<IEnumerable<double>> tariffs)
         {
             //check number of consumers/producers
@@ -88,6 +90,7 @@ namespace Lab3
                 {
                     if (_cargoes[i][j] > 0)
                     {
+                        _producersPotential[i] = 1;
                         _consumersPotential[j] = _tariffs[i][j] - _producersPotential[i];
 
                         for (int k = i + 1; k < _producersPotential.Length; k++)
@@ -149,8 +152,12 @@ namespace Lab3
 
                 _cargoes.Dump();
                 Console.WriteLine();
-                isCompleted = _tariffs.Select((x, a) => x.Select((y, b) => y - _producersPotential[a] - _consumersPotential[b]).All(y => y >= 0)).All(x => x);
                 SetPotentials();
+                isCompleted = _tariffs.Select((x, a) => x.Select((y, b) => y - _producersPotential[a] - _consumersPotential[b]).All(y => y >= 0)).All(x => x);
+                Console.WriteLine(string.Join(" ", _consumersPotential));
+                Console.WriteLine(string.Join(" ", _producersPotential));
+                _tariffs.Dump();
+                Console.WriteLine();
             }
         }
     }
