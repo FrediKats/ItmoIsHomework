@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SubjectSolutionManager.Data
+namespace SubjectSolutionManager.Models
 {
     public class MemoryRepository : ISubjectSolutionRepository
     {
@@ -30,7 +30,7 @@ namespace SubjectSolutionManager.Data
 
         public SubjectSolutionModel Update(SubjectSolutionModel solution)
         {
-            var i = _solutionList.FindIndex(s => s.Id == solution.Id);
+            int i = _solutionList.FindIndex(s => s.Id == solution.Id);
             _solutionList[i] = solution;
             return _solutionList[i];
         }

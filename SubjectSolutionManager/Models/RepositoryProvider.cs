@@ -1,4 +1,4 @@
-﻿namespace SubjectSolutionManager.Data
+﻿namespace SubjectSolutionManager.Models
 {
     public static class RepositoryProvider
     {
