@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SubjectSolutionManager.Data
+namespace SubjectSolutionManager.Models
 {
     public class SubjectSolutionModel
     {
@@ -11,6 +11,7 @@ namespace SubjectSolutionManager.Data
             Path = path;
             Description = description;
         }
+
         public Guid Id { get; }
         public string Title { get; set; }
         public string Path { get; set; }

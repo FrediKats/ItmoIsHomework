@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SubjectSolutionManager.Data
+namespace SubjectSolutionManager.Models
 {
     public interface ISubjectSolutionRepository
     {
