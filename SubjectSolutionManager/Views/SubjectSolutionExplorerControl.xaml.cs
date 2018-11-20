@@ -1,34 +1,35 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Windows;
+﻿using System;
 using System.Windows.Controls;
+using SubjectSolutionManager.Models;
 
 namespace SubjectSolutionManager.Views
 {
-    /// <summary>
-    /// Interaction logic for SubjectSolutionExplorerControl.
-    /// </summary>
     public partial class SubjectSolutionExplorerControl : UserControl
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SubjectSolutionExplorerControl"/> class.
-        /// </summary>
+        private readonly ISubjectSolutionRepository _repository;
+
         public SubjectSolutionExplorerControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            _repository = RepositoryProvider.GetRepository();
+            FakeDataGenerator.AddFakeSolution(_repository);
+            SolutionListBox.ItemsSource = _repository.Read();
         }
 
-        /// <summary>
-        /// Handles click on the button by displaying a message box.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event args.</param>
-        [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "Sample code")]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Default event handler naming pattern")]
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void OnOpenView(object sender, EventArgs args)
         {
-            MessageBox.Show(
-                string.Format(System.Globalization.CultureInfo.CurrentUICulture, "Invoked '{0}'", this.ToString()),
-                "SubjectSolutionExplorer");
+            var window = new SolutionCreationWindow
+            {
+                Width = 500,
+                Height = 250
+            };
+            window.ShowDialog();
+            if (window.IsAccepted)
+            {
+                _repository.Create(new SubjectSolutionModel(window.Subject, window.PathToFile, window.Description));
+                SolutionListBox.ItemsSource = _repository.Read();
+                SolutionListBox.Items.Refresh();
+            }
         }
     }
 }

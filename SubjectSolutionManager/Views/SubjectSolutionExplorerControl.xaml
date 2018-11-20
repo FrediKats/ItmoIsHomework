@@ -4,47 +4,42 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
-    xmlns:views="clr-namespace:SubjectSolutionManager.Views"
     xmlns:viewModels="clr-namespace:SubjectSolutionManager.ViewModels"
+    xmlns:views="clr-namespace:SubjectSolutionManager.Views"
+    xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
     Name="MyToolWindow"
-    d:DesignHeight="300"
+    d:DesignHeight="500"
     d:DesignWidth="300"
     Background="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}"
     Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
     mc:Ignorable="d">
-    <UserControl.DataContext>
-        <viewModels:SubjectSolutionExplorerViewModel />
-    </UserControl.DataContext>
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <TextBlock Margin="10" HorizontalAlignment="Center">SubjectSolutionExplorer</TextBlock>
-            <ListBox
-                Height="100"
-                Margin="10"
-                ItemsSource="{Binding SubjectSolutionList}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBox Margin="5" Text="{Binding Title}" />
-                            <TextBox Margin="5" Text="{Binding Path}" />
-                            <TextBox Margin="5" Text="{Binding Description}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <Button
-                Name="button1"
-                Width="120"
-                Height="40"
-                Click="button1_Click"
-                Content="Click me!" />
-            <Button
-                Width="120"
-                Height="40"
-                Click="button1_Click"
-                Command="{Binding OpenNewView}"
-                Content="Mvvm сommand" />
-        </StackPanel>
+    <Grid Height="500">
+        <TextBlock
+            Height="15"
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Text="SubjectSolutionExplorer" />
+        <ListBox
+            Name="SolutionListBox"
+            MinHeight="150"
+            Margin="10,40,10,70">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBox Margin="5" Text="{Binding Title}" />
+                        <TextBox Margin="5" Text="{Binding Path}" />
+                        <TextBox Margin="5" Text="{Binding Description}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button
+            Width="120"
+            Height="40"
+            Margin="0,5,0,10"
+            VerticalAlignment="Bottom"
+            Click="OnOpenView"
+            Content="Add new" />
     </Grid>
 </UserControl>
