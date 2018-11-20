@@ -1,9 +1,9 @@
-﻿namespace SubjectSolutionManager.Windows
-{
-    using System;
-    using System.Runtime.InteropServices;
-    using Microsoft.VisualStudio.Shell;
+﻿using System.Runtime.InteropServices;
+using Microsoft.VisualStudio.Shell;
+using SubjectSolutionManager.Views;
 
+namespace SubjectSolutionManager.ExtensionConfig
+{
     /// <summary>
     /// This class implements the tool window exposed by this package and hosts a user control.
     /// </summary>
