@@ -61,6 +61,7 @@
     <Compile Include="Models\RepositoryProvider.cs" />
     <Compile Include="Models\SubjectSolutionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\DelegateCommand.cs" />
     <Compile Include="ViewModels\SubjectSolutionExplorerViewModel.cs" />
     <Compile Include="Windows\SubjectSolutionExplorer.cs" />
     <Compile Include="Windows\SubjectSolutionExplorerCommand.cs" />

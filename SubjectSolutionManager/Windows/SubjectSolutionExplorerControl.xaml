@@ -35,9 +35,15 @@
             <Button
                 Name="button1"
                 Width="120"
-                Height="80"
+                Height="40"
                 Click="button1_Click"
                 Content="Click me!" />
+            <Button
+                Width="120"
+                Height="40"
+                Click="button1_Click"
+                Command="{Binding TestCommand}"
+                Content="Mvvm сommand" />
         </StackPanel>
     </Grid>
 </UserControl>
