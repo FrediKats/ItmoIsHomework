@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Input;
-using Microsoft.VisualStudio.PlatformUI;
 using SubjectSolutionManager.Models;
 using SubjectSolutionManager.Views;
 using DelegateCommand = SubjectSolutionManager.Tools.DelegateCommand;
 
 namespace SubjectSolutionManager.ViewModels
 {
-    public class SubjectSolutionExplorerViewModel
+    public class SubjectSolutionExplorerViewModel : BaseViewModel
     {
         private readonly ISubjectSolutionRepository _repository;
 
@@ -23,8 +21,17 @@ namespace SubjectSolutionManager.ViewModels
 
         private void OnOpenView(object o)
         {
-            var window = new DialogWindow() {Content = new SolutionCreationControl()};
-            var res = window.ShowModal();
+            var window = new SolutionCreationWindow()
+            {
+                Width = 500,
+                Height = 250
+            };
+            window.ShowDialog();
+            if (window.IsAccepted)
+            {
+                _repository.Create(new SubjectSolutionModel(window.Subject, window.PathToFile, window.Description));
+                OnPropertyChanged(nameof(SubjectSolutionList));
+            }
         }
     }
 }

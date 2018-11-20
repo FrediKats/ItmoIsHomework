@@ -4,8 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:SubjectSolutionManager.ViewModels"
     xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:views="clr-namespace:SubjectSolutionManager.Views"
+    xmlns:viewModels="clr-namespace:SubjectSolutionManager.ViewModels"
     Name="MyToolWindow"
     d:DesignHeight="300"
     d:DesignWidth="300"
@@ -13,7 +14,7 @@
     Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
     mc:Ignorable="d">
     <UserControl.DataContext>
-        <vm:SubjectSolutionExplorerViewModel />
+        <viewModels:SubjectSolutionExplorerViewModel />
     </UserControl.DataContext>
     <Grid>
         <StackPanel Orientation="Vertical">
