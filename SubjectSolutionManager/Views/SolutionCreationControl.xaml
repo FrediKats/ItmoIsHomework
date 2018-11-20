@@ -4,9 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:SubjectSolutionManager.ViewModels"
     d:DesignHeight="200"
     d:DesignWidth="400"
     mc:Ignorable="d">
+    <UserControl.DataContext>
+        <vm:SolutionCreationViewModel />
+    </UserControl.DataContext>
     <StackPanel Width="400" Height="200">
         <Grid Height="60">
             <Label
@@ -18,7 +22,7 @@
                 Height="25"
                 Margin="15"
                 HorizontalAlignment="Right"
-                Text="TextBox"
+                Text="{Binding Subject}"
                 TextWrapping="Wrap" />
         </Grid>
         <Grid Height="60">
@@ -31,18 +35,19 @@
                 Height="25"
                 Margin="15"
                 HorizontalAlignment="Right"
-                Text="TextBox"
+                Text="{Binding Description}"
                 TextWrapping="Wrap" />
         </Grid>
         <Grid Height="60">
             <Label
                 Margin="15,15,85,15"
                 HorizontalAlignment="Left"
-                Content="Path" />
+                Content="{Binding PathToFile}" />
             <Button
                 Width="100"
                 Margin="10"
                 HorizontalAlignment="Right"
+                Command="{Binding OpenPathSelectDialog}"
                 Content="Open file" />
         </Grid>
     </StackPanel>
