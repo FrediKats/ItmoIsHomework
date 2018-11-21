@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Controls;
+using Microsoft.VisualStudio.Shell.Interop;
 using SubjectSolutionManager.Models;
+using SubjectSolutionManager.Tools;
 
 namespace SubjectSolutionManager.Views
 {
@@ -30,6 +32,20 @@ namespace SubjectSolutionManager.Views
                 SolutionListBox.ItemsSource = _repository.Read();
                 SolutionListBox.Items.Refresh();
             }
+        }
+
+        private void OnSelectingElement(object sender, SelectionChangedEventArgs e)
+        {
+            var list = sender as ListBox;
+            if (e.AddedItems.Count == 1)
+            {
+                Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+
+                var solution = e.AddedItems[0] as SubjectSolutionModel;
+                Configuration.SolutionManager.OpenSolutionFile(4, solution.Path);
+            }
+
+            list.UnselectAll();
         }
     }
 }
