@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace Lab3
+﻿namespace Lab3
 {
     internal static class PotentialDetector
     {

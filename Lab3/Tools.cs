@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lab3
+﻿namespace Lab3
 {
-    static class Tools
+    internal static class Tools
     {
         internal static T[][] CreateArray<T>(int n, int m)
         {

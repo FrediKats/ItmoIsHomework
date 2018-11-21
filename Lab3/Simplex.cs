@@ -9,7 +9,7 @@ namespace Lab3
     public class Simplex
     {
         private Fraction[][] _matrix;
-        private int[] _basis;
+        private readonly int[] _basis;
 
         public Fraction[] Plan => Enumerable
             .Range(0, _matrix[0].Length - 1)
@@ -22,7 +22,7 @@ namespace Lab3
 
         public Simplex(IEnumerable<IEnumerable<Fraction>> A, IEnumerable<Fraction> b, IEnumerable<Fraction> c)
         {
-
+            //TODO: move to method
             _matrix = A.Select((x, i) => x.Concat(Enumerable.Repeat(new Fraction(0), i)
                                                             .Append(1)
                                                             .Concat(Enumerable.Repeat(new Fraction(0), b.Count() - i - 1))))
@@ -32,6 +32,7 @@ namespace Lab3
                                     .ToArray())
                         .ToArray();
 
+            //TODO: Add logger
             _matrix.Dump();
             Console.WriteLine();
             _matrix = _matrix.Prepend(Enumerable.Repeat(new Fraction(0), c.Count())
@@ -40,6 +41,7 @@ namespace Lab3
                                                 .ToArray())
                                 .ToArray();
 #if DEBUG
+            //TODO: Add logger
             _matrix.Dump();
             Console.WriteLine();
 #endif
@@ -48,12 +50,14 @@ namespace Lab3
                 _matrix[0] = _matrix[0].Zip(_matrix[i], (x, y) => x - y).ToArray();
             }
 
+            //TODO: Add logger
             _matrix.Dump();
             Console.WriteLine();
 
             _basis = Enumerable.Range(c.Count() + 1, b.Count())
                                 .ToArray();
 
+            //TODO: wtf?
             Solve(2);
 
             if (_matrix[0].Last() != 0)
@@ -61,6 +65,7 @@ namespace Lab3
                 throw new Exception("System of equations cannot be solved");
             }
 
+            //TODO: move to method
             _matrix = _matrix.Skip(1)
                             .Select(x => x.Take(c.Count())
                                             .Append(x.Last())
@@ -68,10 +73,12 @@ namespace Lab3
                             .ToArray();
             _matrix.Dump();
 
+            //TODO: wtf?
             Solve(1);
         }
 
-        private void Solve(int numberOfFunctions) //le костыль
+        //TODO: le костыль
+        private void Solve(int numberOfFunctions) 
         {
             while (_matrix[0].Take(_matrix[0].Length - 1).Any(x => x < 0))
             {
@@ -100,6 +107,7 @@ namespace Lab3
                                                      .ToArray())
                              .ToArray();
 
+                //TODO: Add logger
                 _matrix.Dump();
                 Console.WriteLine();
                 Console.WriteLine(string.Join(", ", Plan));

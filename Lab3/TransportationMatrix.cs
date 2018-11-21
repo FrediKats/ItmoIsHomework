@@ -17,6 +17,7 @@ namespace Lab3
 
         public TransportationMatrix(IEnumerable<double> producers, IEnumerable<double> consumers, IEnumerable<IEnumerable<double>> tariffs)
         {
+            //TODO: remove
             //  consumers
             //p
             //r
@@ -29,12 +30,15 @@ namespace Lab3
 
             _producers = producers.ToArray();
             _consumers = consumers.ToArray();
+            //TODO: Add method IE<IE<T>> => T[][]
             _tariffs = tariffs.Select(x => x.ToArray()).ToArray();
+            //TODO: Use generator
             _cargoes = tariffs.Select(x => x.Select(y => 0.0).ToArray()).ToArray(); //rewrite this
             
             var totalProd = _producers.Sum();
             var totalCons = _consumers.Sum();
 
+            //TODO: move to method
             if (totalProd > totalCons)
             {
                 _tariffs = _tariffs.Select(x => x.Append(0).ToArray()).ToArray();
@@ -52,20 +56,21 @@ namespace Lab3
             _consumerPotentials = Enumerable.Repeat(0.0, _consumers.Length).ToArray();
 
             Solve();
-
+            //TODO: Change .Dump with logger
             _tariffs.Zip(_producerPotentials, (x, y) => x.Append(y)).Append(_consumerPotentials).Dump();
             Console.WriteLine();
         }
 
         private void PrefillCargoes()
         {
+            //TODO: change signature to double[] Clone()
             var producersCopy = (double[])_producers.Clone();
             var consumersCopy = (double[])_consumers.Clone();
             var tariffsCopy = _tariffs.CloneArray();
 
             while (!tariffsCopy.Select(x => x.All(double.IsPositiveInfinity)).All(x => x))
             {
-                var (i, j) = tariffsCopy.IndexOfMin(new TariffComparer());
+                (int i, int j) = tariffsCopy.IndexOfMin(new TariffComparer());
 
                 //Console.WriteLine($"i = {i}\tj = {j}");
                 //tariffsCopy.Dump<double>();
@@ -97,7 +102,8 @@ namespace Lab3
             {
                 if (_cargoes[i][j] > 0)
                 {
-                    var el = Enumerable.Repeat(0.0, _producerPotentials.Length + _consumerPotentials.Length) //create method
+                    //TODO: create method
+                    var el = Enumerable.Repeat(0.0, _producerPotentials.Length + _consumerPotentials.Length)
                         .Append(_tariffs[i][j]).ToList();
                     el[i] = 1;
                     el[_producerPotentials.Length + j] = 1;
@@ -118,7 +124,9 @@ namespace Lab3
             }
 
             var freeEl = Enumerable.Repeat(0.0, _producerPotentials.Length + _consumerPotentials.Length)
-                .Append(1).ToList();
+                .Append(1)
+                .ToList();
+
             freeEl[0] = 1;
             equations.Add(freeEl);
 
@@ -139,17 +147,16 @@ namespace Lab3
         private void Solve()
         {
             PrefillCargoes();
-
             SetPotentials();
             bool isCompleted = CheckIfFinish();
 
             while (!isCompleted)
             {
-                var selectedCell = SelectCell();
+                (int i, int j) selectedCell = SelectCell();
 
                 double potentialDiff = _producerPotentials[selectedCell.i] + _consumerPotentials[selectedCell.j] - _tariffs[selectedCell.i][selectedCell.j];
 
-                var selectedSecondCell = SelectSecondCell(selectedCell.i, selectedCell.j, potentialDiff);
+                (int i, int j) selectedSecondCell = SelectSecondCell(selectedCell.i, selectedCell.j, potentialDiff);
 
                 //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
                 //_cargoes.Dump<double>();
