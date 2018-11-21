@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using SubjectSolutionManager.Tools;
 using Task = System.Threading.Tasks.Task;
 
 namespace SubjectSolutionManager.ExtensionConfig
@@ -63,6 +65,9 @@ namespace SubjectSolutionManager.ExtensionConfig
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             await SubjectSolutionExplorerCommand.InitializeAsync(this);
+
+            IVsSolution pSolution = GetService(typeof(SVsSolution)) as IVsSolution;
+            Configuration.SolutionManager = pSolution;
         }
 
         #endregion

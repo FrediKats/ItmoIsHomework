@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:SubjectSolutionManager.ViewModels"
     xmlns:views="clr-namespace:SubjectSolutionManager.Views"
     xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
     Name="MyToolWindow"
@@ -23,13 +22,14 @@
         <ListBox
             Name="SolutionListBox"
             MinHeight="150"
-            Margin="10,40,10,70">
+            Margin="10,40,10,70"
+            SelectionChanged="OnSelectingElement">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBox Margin="5" Text="{Binding Title}" />
-                        <TextBox Margin="5" Text="{Binding Path}" />
-                        <TextBox Margin="5" Text="{Binding Description}" />
+                        <Label Margin="5" Content="{Binding Title}" />
+                        <Label Margin="5" Content="{Binding Path}" />
+                        <Label Margin="5" Content="{Binding Description}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

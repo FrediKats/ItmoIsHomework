@@ -63,8 +63,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\DelegateCommand.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\SubjectSolutionExplorerViewModel.cs" />
+    <Compile Include="Tools\Configuration.cs" />
     <Compile Include="Views\SolutionCreationWindow.xaml.cs">
       <DependentUpon>SolutionCreationWindow.xaml</DependentUpon>
     </Compile>
