@@ -22,9 +22,9 @@ namespace Tests.Lab3
 
             double[][] answers =
             {
-                new double[] { 30,  0,  0,  20},
-                new double[] { 0,  20,  10,  0},
-                new double[] { 0,  10,  0,  0}
+                new double[] { 30, 0, 0, 20 },
+                new double[] { 0, 20, 10, 0 },
+                new double[] { 0, 10, 0, 0 }
             };
             bool isSame = transportation.Plan.Compare(answers);
             Assert.IsTrue(isSame);
@@ -45,9 +45,9 @@ namespace Tests.Lab3
 
             double[][] answers =
             {
-                new double[] { 120,  0,  0,  0},
-                new double[] { 0,  220,  0,  0},
-                new double[] { 10,  0,  60,  70}
+                new double[] { 120, 0, 0, 0, 0 },
+                new double[] { 0, 220, 0, 0, 60 },
+                new double[] { 10, 0, 60, 70, 20 }
             };
             bool isSame = transportation.Plan.Compare(answers);
             Assert.IsTrue(isSame);
@@ -68,9 +68,9 @@ namespace Tests.Lab3
 
             double[][] answers =
             {
-                new double[] { 70,  0,  0,  20},
-                new double[] {0,  0,  20,  10},
-                new double[] {0,  30,  0,  10}
+                new double[] { 70, 0, 0, 20 },
+                new double[] { 0, 0, 20, 10 },
+                new double[] { 0, 30, 0, 10 }
             };
             bool isSame = transportation.Plan.Compare(answers);
             Assert.IsTrue(isSame);

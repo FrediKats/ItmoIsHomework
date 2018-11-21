@@ -8,58 +8,113 @@ namespace Lab3
 {
     public static class Extensions
     {
-        public static int IndexOf<T>(this IEnumerable<T> source, T element)
+        public static int IndexOf<TSource>(this IEnumerable<TSource> source, TSource element)
         {
-            return source
-            .Select((x, i) => new { Value = x, Index = i })
-            .First(x => x.Value.Equals(element))
-            .Index;
+            int index = 0;
+
+            foreach (var el in source)
+            {
+                if (element.Equals(el))
+                {
+                    return index;
+                }
+
+                index++;
+            }
+
+            return -1;
         }
 
-        public static (int I, int J) IndexOfMin<T>(this IEnumerable<IEnumerable<T>> source) where T : IComparable
+        public static TSource Min<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer)
         {
-            var minimums = source.Select((x, i) => new { Value = x.Min(), I = i, J = x.IndexOf(x.Min()) });
-            var el = minimums.Aggregate((x, y) => y.Value.CompareTo(x.Value) < 0 ? y : x); //srsly???
-            
-            return (el.I, el.J);
+            TSource min = source.ElementAt(0);
+
+            foreach (var el in source)
+            {
+                if (comparer.Compare(el, min) < 0)
+                {
+                    min = el;
+                }
+            }
+
+            return min;
+        }
+
+        public static (int I, int J) IndexOfMin<T>(this IEnumerable<IEnumerable<T>> source, IComparer<T> comparer)
+        {
+            var min = source.Select((x, i) => new {Value = x.Min(comparer), I = i, J = x.IndexOf(x.Min(comparer))})
+                            .OrderBy(x => x.Value, comparer).ElementAt(0);
+
+            return (min.I, min.J);
         }
 
         public static List<List<double>> DiagonalForm(this List<List<double>> matrix)
         {
             //write more exceptions
-            if (matrix.All(x => x[0] == 0))
+            if (matrix.All(x => x[0].Equals(0)))
             {
                 throw new Exception();
             }
 
-            List<List<double>> data = matrix.CloneList();
+            List<List<double>> matrixClone = matrix.CloneList();
 
-            data = data.OrderByDescending(x => Math.Abs(x[0])).ToList();
+            var order = matrixClone.Aggregate((x, y) => x.Zip(y, (a, b) => a + b).ToList()) //write method to order matrix
+                                    .Take(matrixClone.Count)
+                                    .Select((x, i) => new {Index = i, Count = x})
+                                    .OrderBy(x => x.Count)
+                                    .Select(x => x.Index);
+
+            List<List<double>> data = matrix.CloneList(); //write a method to create list;
+
+            foreach (var el in order)
+            {
+                //Console.WriteLine(el);
+                //Console.WriteLine();
+                //matrixClone.Dump<double>();
+                //Console.WriteLine("----------------------------");
+                var index = el == 0 ? data.Count - 1 : matrixClone.Select(x => x[el]).IndexOf(1);
+                data[el] = matrixClone[index];
+                matrixClone[index] = Enumerable.Repeat(0.0, matrixClone[0].Count).ToList();
+            }
 
             for (int i = 0; i < data.Count; i++)
             {
-                if (data[i][i] == 0)
-                {
-                    int j;
+                //if (data[i][i].Equals(0))
+                //{
+                //    int j;
 
-                    for (j = 0; j < data.Count; j++)
-                    {
-                        if (data[j][i] != 0) break;
-                    }
+                //    for (j = i; j < data.Count; j++)
+                //    {
+                //        if (!data[j][i].Equals(0)) break;
+                //    }
 
-                    data[i] = data[i].Zip(data[j], (x, y) => x - y).ToList();
-                }
+                //    (data[i], data[j]) = (data[j], data[i]);
+
+                //    Console.WriteLine($"i = {i}, j = {i}");
+                //    data.Dump<double>();
+                //    Console.WriteLine();
+                //}
 
                 data[i] = data[i].Select(x => x / data[i][i]).ToList();
+
+                //Console.WriteLine($"i = {i}, j = {i}");
+                //data.Dump<double>();
+                //Console.WriteLine();
 
                 for (int j = 0; j < i; j++)
                 {
                     data[i] = data[i].Zip(data[j], (curr, prev) => curr - prev * data[i][j]).ToList();
+                    //Console.WriteLine($"i = {i}, j = {j}");
+                    //data.Dump<double>();
+                    //Console.WriteLine();
                 }
 
                 for (int j = i - 1; j >= 0; j--)
                 {
                     data[j] = data[j].Zip(data[i], (curr, prev) => curr - prev * data[j][i]).ToList();
+                    //Console.WriteLine($"i = {j}, j = {i}");
+                    //data.Dump<double>();
+                    //Console.WriteLine();
                 }
             }
 
@@ -69,6 +124,11 @@ namespace Lab3
         public static void Dump<T>(this IEnumerable<IEnumerable<T>> matrix)
         {
             Console.WriteLine(string.Join("\n", matrix.Select(x => string.Join("\t", x))));
+        }
+
+        public static void Dump<T>(this IEnumerable<T> matrix)
+        {
+            Console.WriteLine(string.Join("\t", matrix));
         }
 
         public static double[][] CloneArray(this double[][] source)

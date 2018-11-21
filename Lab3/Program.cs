@@ -30,7 +30,7 @@ namespace Lab3
             };
 
             TransportationMatrix transportation = new TransportationMatrix(producers, consumers, tariffs);
-            transportation.Plan.Dump();
+            transportation.Plan.Dump<double>();
         }
     }
 }

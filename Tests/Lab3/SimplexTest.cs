@@ -20,7 +20,7 @@ namespace Tests.Lab3
             Fraction[] c = { 1, 3, 2, 1, 4 };
 
             Simplex simplexMatrix = new Simplex(A, b, c);
-            Fraction[] answers = new Fraction[] {0, 0, 1, 1, 0};
+            Fraction[] answers = {0, 0, 1, 1, 0};
 
             Assert.IsTrue(simplexMatrix.Plan.Compare(answers));
         }
@@ -38,7 +38,7 @@ namespace Tests.Lab3
             Fraction[] c = { 1, -3, 2, 1, 4 };
 
             Simplex simplexMatrix = new Simplex(A, b, c);
-            Fraction[] answers = new Fraction[] {(1, 8), (3, 8), (17, 8), 0, 0};
+            Fraction[] answers = {(1, 8), (3, 8), (17, 8), 0, 0};
 
             Assert.IsTrue(simplexMatrix.Plan.Compare(answers));
         }
@@ -120,8 +120,9 @@ namespace Tests.Lab3
             Fraction[] b = { 1, 2 };
             Fraction[] c = { -2, 3, 4, -1, 2, 1 };
 
-
+            Simplex simplexMatrix = new Simplex(A, b, c);
             Fraction[] answers = { 1, 0, 0, 0, 0, 0 };
+            Assert.IsTrue(simplexMatrix.Plan.Compare(answers));
         }
     }
 }
