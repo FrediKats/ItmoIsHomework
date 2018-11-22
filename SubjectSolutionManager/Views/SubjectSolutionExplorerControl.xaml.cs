@@ -14,7 +14,6 @@ namespace SubjectSolutionManager.Views
         {
             InitializeComponent();
             _repository = RepositoryProvider.GetRepository();
-            FakeDataGenerator.AddFakeSolution(_repository);
             SolutionListBox.ItemsSource = _repository.Read();
         }
 

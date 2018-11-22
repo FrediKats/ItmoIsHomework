@@ -27,9 +27,9 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Label Margin="5" Content="{Binding Title}" />
-                        <Label Margin="5" Content="{Binding Path}" />
-                        <Label Margin="5" Content="{Binding Description}" />
+                        <Label Margin="2" Content="{Binding Title}" />
+                        <Label Margin="2" Content="{Binding Path}" />
+                        <Label Margin="2" Content="{Binding Description}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
