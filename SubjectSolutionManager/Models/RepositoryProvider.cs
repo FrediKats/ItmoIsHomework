@@ -4,7 +4,8 @@
     {
         public static ISubjectSolutionRepository GetRepository()
         {
-            return new MemoryRepository();
+            return new JsonSubjectSolutionRepository();
+            //return new MemoryRepository();
         }
     }
 }
