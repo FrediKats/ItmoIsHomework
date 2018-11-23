@@ -87,6 +87,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ExtensionConfig\Resources\books.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Newtonsoft.Json.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
