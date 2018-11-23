@@ -26,7 +26,7 @@ namespace SubjectSolutionManager.Models
                 dataList = JsonConvert.DeserializeObject<List<SubjectSolutionModel>>(jsonData);
             }
 
-            return dataList;
+             return dataList;
         }
 
         public SubjectSolutionModel Update(SubjectSolutionModel solution)

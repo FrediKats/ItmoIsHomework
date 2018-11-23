@@ -55,6 +55,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\ActionSelectedState.cs" />
     <Compile Include="Models\ISubjectSolutionRepository.cs" />
     <Compile Include="Models\JsonSubjectSolutionRepository.cs" />
     <Compile Include="Models\MemoryRepository.cs" />
@@ -63,6 +64,9 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\Configuration.cs" />
+    <Compile Include="Views\ActionSelectWindow.xaml.cs">
+      <DependentUpon>ActionSelectWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SolutionCreationWindow.xaml.cs">
       <DependentUpon>SolutionCreationWindow.xaml</DependentUpon>
     </Compile>
@@ -126,6 +130,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\ActionSelectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SolutionCreationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
