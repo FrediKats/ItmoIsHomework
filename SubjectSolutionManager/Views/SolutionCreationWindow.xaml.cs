@@ -14,10 +14,6 @@ namespace SubjectSolutionManager.Views
             InitializeComponent();
         }
 
-        public string Subject { get; set; }
-        public string Description { get; set; }
-        public string PathToFile { get; private set; }
-
         private void PathSelecting(object sender, EventArgs args)
         {
             var openFileDialog = new OpenFileDialog
@@ -39,11 +35,7 @@ namespace SubjectSolutionManager.Views
                 return;
             }
 
-            //TODO: add checker
             IsAccepted = true;
-            Subject = SubjectInput.Text;
-            Description = DescriptionInput.Text;
-            PathToFile = PathToFileBlock.Text;
             Close();
         }
     }

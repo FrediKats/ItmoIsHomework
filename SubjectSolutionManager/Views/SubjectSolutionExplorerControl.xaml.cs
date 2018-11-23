@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using SubjectSolutionManager.Models;
 using SubjectSolutionManager.Tools;
@@ -13,8 +14,7 @@ namespace SubjectSolutionManager.Views
         {
             InitializeComponent();
             _repository = RepositoryProvider.GetRepository();
-            SolutionListBox.ItemsSource = _repository.Read();
-            SolutionListBox.Items.Refresh();
+            UpdateUi();
         }
 
         private void OnOpenView(object sender, EventArgs args)
@@ -24,12 +24,15 @@ namespace SubjectSolutionManager.Views
                 Width = 500,
                 Height = 250
             };
+
             window.ShowDialog();
             if (window.IsAccepted)
             {
-                _repository.Create(new SubjectSolutionModel(window.Subject, window.PathToFile, window.Description));
-                SolutionListBox.ItemsSource = _repository.Read();
-                SolutionListBox.Items.Refresh();
+                _repository.Create(new SubjectSolutionModel(
+                    window.SubjectInput.Text, 
+                    window.PathToFileBlock.Text,
+                    window.DescriptionInput.Text));
+                UpdateUi();
             }
         }
 
@@ -41,21 +44,63 @@ namespace SubjectSolutionManager.Views
                 var solution = e.AddedItems[0] as SubjectSolutionModel;
                 var dialog = new ActionSelectWindow();
                 dialog.ShowDialog();
-                switch (dialog.State)
+                ElementAction(dialog.State, solution);
+            }
+
+            UpdateUi();
+            list.UnselectAll();
+        }
+
+        private void ElementAction(ActionSelectedState? state, SubjectSolutionModel solution)
+        {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            try
+            {
+                switch (state)
                 {
                     case ActionSelectedState.Delete:
                         _repository.Delete(solution.Id);
-                        SolutionListBox.Items.Refresh();
-                        break;
+                        return;
+
                     case ActionSelectedState.Edit:
-                        break;
+                        OnEdit(solution);
+                        return;
+
                     case ActionSelectedState.Open:
                         Configuration.SolutionManager.OpenSolutionFile(4, solution.Path);
-                        break;
+                        return;
                 }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Exception catch");
+            }
+        }
 
-            list.UnselectAll();
+        private void OnEdit(SubjectSolutionModel solution)
+        {
+            var window = new SolutionCreationWindow
+            {
+                Width = 500,
+                Height = 250,
+            };
+            window.SubjectInput.Text = solution.Title;
+            window.DescriptionInput.Text = solution.Description;
+            window.PathToFileBlock.Text = solution.Path;
+            window.ShowDialog();
+            if (window.IsAccepted)
+            {
+                solution.Title = window.SubjectInput.Text;
+                solution.Description = window.DescriptionInput.Text;
+                solution.Path = window.PathToFileBlock.Text;
+                _repository.Update(solution);
+            }
+        }
+
+        private void UpdateUi()
+        {
+            SolutionListBox.ItemsSource = _repository.Read();
+            SolutionListBox.Items.Refresh();
         }
     }
 }

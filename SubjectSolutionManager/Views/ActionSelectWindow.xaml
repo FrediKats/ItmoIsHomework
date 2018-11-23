@@ -22,8 +22,7 @@
         <Button
             Margin="10"
             Click="EditButtonOnClick"
-            Content="Edit"
-            IsEnabled="False" />
+            Content="Edit" />
         <Button
             Margin="10"
             Click="DeleteButtonOnClick"

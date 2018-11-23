@@ -31,7 +31,14 @@ namespace SubjectSolutionManager.Models
 
         public SubjectSolutionModel Update(SubjectSolutionModel solution)
         {
-            throw new NotImplementedException();
+            var solutions = Read();
+            var newSolution = solutions.FirstOrDefault(s => s.Id == solution.Id) ?? new SubjectSolutionModel();
+            newSolution.Id = solution.Id;
+            newSolution.Description = solution.Description;
+            newSolution.Title = solution.Title;
+            newSolution.Path = solution.Path;
+            SaveToFile(solutions);
+            return newSolution;
         }
 
         public void Delete(Guid id)
