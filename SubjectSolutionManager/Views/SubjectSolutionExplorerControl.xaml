@@ -6,13 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SubjectSolutionManager.Views"
     xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
-    Name="MyToolWindow"
     d:DesignHeight="500"
-    d:DesignWidth="300"
+    d:DesignWidth="400"
     Background="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}"
     Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
     mc:Ignorable="d">
-    <Grid Height="500">
+    <Grid>
         <TextBlock
             Height="15"
             Margin="10"
@@ -28,7 +27,11 @@
                 <DataTemplate>
                     <StackPanel>
                         <Label Margin="2" Content="{Binding Title}" />
-                        <Label Margin="2" Content="{Binding Path}" />
+                        <Label
+                            Margin="2"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Content="{Binding Path}" />
                         <Label Margin="2" Content="{Binding Description}" />
                     </StackPanel>
                 </DataTemplate>
