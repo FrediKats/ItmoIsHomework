@@ -12,20 +12,14 @@ namespace SubjectSolutionManager.Models
             _solutionList = new List<SubjectSolutionModel>();
         }
 
-        public SubjectSolutionModel Create(SubjectSolutionModel solution)
+        public void Create(SubjectSolutionModel solution)
         {
             _solutionList.Add(solution);
-            return solution;
         }
 
         public List<SubjectSolutionModel> Read()
         {
             return _solutionList;
-        }
-
-        public SubjectSolutionModel Read(Guid id)
-        {
-            return _solutionList.Find(s => s.Id == id);
         }
 
         public SubjectSolutionModel Update(SubjectSolutionModel solution)
@@ -39,6 +33,11 @@ namespace SubjectSolutionManager.Models
         {
             SubjectSolutionModel item = _solutionList.Find(s => s.Id == id);
             _solutionList.Remove(item);
+        }
+
+        public SubjectSolutionModel Read(Guid id)
+        {
+            return _solutionList.Find(s => s.Id == id);
         }
     }
 }

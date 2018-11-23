@@ -2,7 +2,7 @@
 
 namespace SubjectSolutionManager.Tools
 {
-    public class Configuration
+    public static class Configuration
     {
         public static IVsSolution SolutionManager { get; set; }
     }

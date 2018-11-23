@@ -6,14 +6,8 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SubjectSolutionManager.ExtensionConfig
 {
-    /// <summary>
-    /// Command handler
-    /// </summary>
     internal sealed class SubjectSolutionExplorerCommand
     {
-        /// <summary>
-        /// Command ID.
-        /// </summary>
         public const int CommandId = 0x0100;
 
         /// <summary>
@@ -42,9 +36,6 @@ namespace SubjectSolutionManager.ExtensionConfig
             commandService.AddCommand(menuItem);
         }
 
-        /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
         public static SubjectSolutionExplorerCommand Instance
         {
             get;

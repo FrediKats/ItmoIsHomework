@@ -5,7 +5,6 @@
         public static ISubjectSolutionRepository GetRepository()
         {
             return new JsonSubjectSolutionRepository();
-            //return new MemoryRepository();
         }
     }
 }

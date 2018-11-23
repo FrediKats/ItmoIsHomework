@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
-using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Shell;
 using SubjectSolutionManager.Models;
 using SubjectSolutionManager.Tools;
 
@@ -38,7 +38,7 @@ namespace SubjectSolutionManager.Views
             var list = sender as ListBox;
             if (e.AddedItems.Count == 1)
             {
-                Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+                ThreadHelper.ThrowIfNotOnUIThread();
 
                 var solution = e.AddedItems[0] as SubjectSolutionModel;
                 Configuration.SolutionManager.OpenSolutionFile(4, solution.Path);

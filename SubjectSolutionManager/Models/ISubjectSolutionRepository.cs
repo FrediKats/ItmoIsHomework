@@ -5,7 +5,7 @@ namespace SubjectSolutionManager.Models
 {
     public interface ISubjectSolutionRepository
     {
-        SubjectSolutionModel Create(SubjectSolutionModel solution);
+        void Create(SubjectSolutionModel solution);
         List<SubjectSolutionModel> Read();
         SubjectSolutionModel Update(SubjectSolutionModel solution);
         void Delete(Guid id);

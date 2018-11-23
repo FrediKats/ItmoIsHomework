@@ -1,16 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using Microsoft.Win32;
 
 namespace SubjectSolutionManager.Views
 {
-    /// <summary>
-    /// Interaction logic for SolutionCreationWindow.xaml
-    /// </summary>
     public partial class SolutionCreationWindow : Window
     {
+        public bool IsAccepted;
+
         public SolutionCreationWindow()
         {
             InitializeComponent();
@@ -18,8 +16,7 @@ namespace SubjectSolutionManager.Views
 
         public string Subject { get; set; }
         public string Description { get; set; }
-        public string PathToFile { get; private set; } = "Select path to .sln";
-        public bool IsAccepted = false;
+        public string PathToFile { get; private set; }
 
         private void PathSelecting(object sender, EventArgs args)
         {
@@ -47,7 +44,7 @@ namespace SubjectSolutionManager.Views
             Subject = SubjectInput.Text;
             Description = DescriptionInput.Text;
             PathToFile = PathToFileBlock.Text;
-            this.Close();
+            Close();
         }
     }
 }

@@ -34,14 +34,8 @@ namespace SubjectSolutionManager.ExtensionConfig
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class SubjectSolutionExplorerPackage : AsyncPackage
     {
-        /// <summary>
-        /// SubjectSolutionExplorerPackage GUID string.
-        /// </summary>
         public const string PackageGuidString = "e517804d-8cfb-47a6-850a-be2519cdee0e";
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SubjectSolutionExplorerPackage"/> class.
-        /// </summary>
         public SubjectSolutionExplorerPackage()
         {
             // Inside this method you can place any initialization code that does not require
@@ -66,7 +60,7 @@ namespace SubjectSolutionManager.ExtensionConfig
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             await SubjectSolutionExplorerCommand.InitializeAsync(this);
 
-            IVsSolution pSolution = GetService(typeof(SVsSolution)) as IVsSolution;
+            IVsSolution pSolution = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
             Configuration.SolutionManager = pSolution;
         }
 
