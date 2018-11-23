@@ -4,6 +4,10 @@ namespace SubjectSolutionManager.Models
 {
     public class SubjectSolutionModel
     {
+        public SubjectSolutionModel()
+        {
+            
+        }
         public SubjectSolutionModel(string title, string path, string description)
         {
             Id = Guid.NewGuid();
@@ -12,7 +16,7 @@ namespace SubjectSolutionManager.Models
             Description = description;
         }
 
-        public Guid Id { get; }
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Path { get; set; }
         public string Description { get; set; }

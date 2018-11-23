@@ -60,7 +60,7 @@ namespace SubjectSolutionManager.ExtensionConfig
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             await SubjectSolutionExplorerCommand.InitializeAsync(this);
 
-            IVsSolution pSolution = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
+            IVsSolution pSolution = GetServiceAsync(typeof(SVsSolution)).Result as IVsSolution;
             Configuration.SolutionManager = pSolution;
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Controls;
-using Microsoft.VisualStudio.Shell;
 using SubjectSolutionManager.Models;
 using SubjectSolutionManager.Tools;
 
@@ -15,6 +14,7 @@ namespace SubjectSolutionManager.Views
             InitializeComponent();
             _repository = RepositoryProvider.GetRepository();
             SolutionListBox.ItemsSource = _repository.Read();
+            SolutionListBox.Items.Refresh();
         }
 
         private void OnOpenView(object sender, EventArgs args)
@@ -38,10 +38,21 @@ namespace SubjectSolutionManager.Views
             var list = sender as ListBox;
             if (e.AddedItems.Count == 1)
             {
-                ThreadHelper.ThrowIfNotOnUIThread();
-
                 var solution = e.AddedItems[0] as SubjectSolutionModel;
-                Configuration.SolutionManager.OpenSolutionFile(4, solution.Path);
+                var dialog = new ActionSelectWindow();
+                dialog.ShowDialog();
+                switch (dialog.State)
+                {
+                    case ActionSelectedState.Delete:
+                        _repository.Delete(solution.Id);
+                        SolutionListBox.Items.Refresh();
+                        break;
+                    case ActionSelectedState.Edit:
+                        break;
+                    case ActionSelectedState.Open:
+                        Configuration.SolutionManager.OpenSolutionFile(4, solution.Path);
+                        break;
+                }
             }
 
             list.UnselectAll();
