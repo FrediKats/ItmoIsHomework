@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="SubjectSolutionManager.71499e81-41c2-4dc1-876f-7661a69637e5" Version="1.0.1" Language="ru-RU" Publisher="Fredi Fowler" />
+        <Identity Id="SubjectSolutionManager.71499e81-41c2-4dc1-876f-7661a69637e5" Version="1.0.2" Language="ru-RU" Publisher="Fredi Fowler" />
         <DisplayName>SubjectSolutionManager</DisplayName>
         <Description xml:space="preserve">Subject solution manager can help with oraganization of your work</Description>
+        <Icon>ExtensionConfig\Resources\books.png</Icon>
+        <PreviewImage>ExtensionConfig\Resources\books.png</PreviewImage>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0, 16.0)" />

@@ -44,7 +44,7 @@
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidSubjectSolutionExplorerPackageCmdSet" id="SubjectSolutionExplorerCommandId" priority="0x0100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
-        <Icon guid="guidImages" id="bmpPic1" />
+        <Icon guid="logoIcon" id="buttonIcon" />
         <Strings>
           <ButtonText>SubjectSolutionExplorer</ButtonText>
         </Strings>
@@ -59,6 +59,7 @@
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\SubjectSolutionExplorerCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
+      <Bitmap guid="logoIcon" href="Resources\books.png" resID="buttonIcon"></Bitmap>
     </Bitmaps>
   </Commands>
 
@@ -69,6 +70,10 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidSubjectSolutionExplorerPackageCmdSet" value="{5e55ea94-242d-41d3-8a9e-8656ac734911}">
       <IDSymbol name="SubjectSolutionExplorerCommandId" value="0x0100" />
+    </GuidSymbol>
+
+    <GuidSymbol name="logoIcon" value="{c799ec81-996f-3c3a-80da-88b5dd361d6c}">
+      <IDSymbol name="buttonIcon" value="1" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{c799ec81-996f-4d7f-80da-88b5dd361d6c}" >
