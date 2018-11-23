@@ -18,16 +18,10 @@ namespace SubjectSolutionManager.ExtensionConfig
     [Guid("a6ef7515-6689-46fd-bf7e-b92b9724a4bd")]
     public class SubjectSolutionExplorer : ToolWindowPane
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SubjectSolutionExplorer"/> class.
-        /// </summary>
         public SubjectSolutionExplorer() : base(null)
         {
             this.Caption = "SubjectSolutionExplorer";
 
-            // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
-            // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
-            // the object returned by the Content property.
             this.Content = new SubjectSolutionExplorerControl();
         }
     }

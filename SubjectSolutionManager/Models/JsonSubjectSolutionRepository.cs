@@ -9,12 +9,12 @@ namespace SubjectSolutionManager.Models
     public class JsonSubjectSolutionRepository : ISubjectSolutionRepository
     {
         private const string RepositoryPath = "SubjectData.json";
-        public SubjectSolutionModel Create(SubjectSolutionModel solution)
+
+        public void Create(SubjectSolutionModel solution)
         {
             List<SubjectSolutionModel> list = Read();
             list.Add(solution);
             SaveToFile(list);
-            return solution;
         }
 
         public List<SubjectSolutionModel> Read()
