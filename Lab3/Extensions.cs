@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -25,25 +25,10 @@ namespace Lab3
             return -1;
         }
 
-        public static TSource Min<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer)
+        public static (int I, int J) IndexOfMin<T>(this IEnumerable<IEnumerable<T>> source, Func<T, T> selector)
         {
-            TSource min = source.ElementAt(0);
-
-            foreach (var el in source)
-            {
-                if (comparer.Compare(el, min) < 0)
-                {
-                    min = el;
-                }
-            }
-
-            return min;
-        }
-
-        public static (int I, int J) IndexOfMin<T>(this IEnumerable<IEnumerable<T>> source, IComparer<T> comparer)
-        {
-            var min = source.Select((x, i) => new {Value = x.Min(comparer), I = i, J = x.IndexOf(x.Min(comparer))})
-                            .OrderBy(x => x.Value, comparer).ElementAt(0);
+            var min = source.Select((x, i) => new { Value = x.Min(selector), I = i, J = x.Select(selector).IndexOf(x.Min(selector)) })
+                .OrderBy(x => x.Value).ElementAt(0);
 
             return (min.I, min.J);
         }
@@ -58,20 +43,16 @@ namespace Lab3
 
             List<List<double>> matrixClone = matrix.CloneList();
 
-            var order = matrixClone.Aggregate((x, y) => x.Zip(y, (a, b) => a + b).ToList()) //write method to order matrix
+            var order = matrixClone.Aggregate((x, y) => x.Zip(y, (a, b) => a + b).ToList())
                                     .Take(matrixClone.Count)
                                     .Select((x, i) => new {Index = i, Count = x})
                                     .OrderBy(x => x.Count)
                                     .Select(x => x.Index);
 
-            List<List<double>> data = matrix.CloneList(); //write a method to create list;
+            List<List<double>> data = matrix.CloneList();
 
             foreach (var el in order)
             {
-                //Console.WriteLine(el);
-                //Console.WriteLine();
-                //matrixClone.Dump<double>();
-                //Console.WriteLine("----------------------------");
                 var index = el == 0 ? data.Count - 1 : matrixClone.Select(x => x[el]).IndexOf(1);
                 data[el] = matrixClone[index];
                 matrixClone[index] = Enumerable.Repeat(0.0, matrixClone[0].Count).ToList();
@@ -79,42 +60,16 @@ namespace Lab3
 
             for (int i = 0; i < data.Count; i++)
             {
-                //if (data[i][i].Equals(0))
-                //{
-                //    int j;
-
-                //    for (j = i; j < data.Count; j++)
-                //    {
-                //        if (!data[j][i].Equals(0)) break;
-                //    }
-
-                //    (data[i], data[j]) = (data[j], data[i]);
-
-                //    Console.WriteLine($"i = {i}, j = {i}");
-                //    data.Dump<double>();
-                //    Console.WriteLine();
-                //}
-
                 data[i] = data[i].Select(x => x / data[i][i]).ToList();
-
-                //Console.WriteLine($"i = {i}, j = {i}");
-                //data.Dump<double>();
-                //Console.WriteLine();
 
                 for (int j = 0; j < i; j++)
                 {
                     data[i] = data[i].Zip(data[j], (curr, prev) => curr - prev * data[i][j]).ToList();
-                    //Console.WriteLine($"i = {i}, j = {j}");
-                    //data.Dump<double>();
-                    //Console.WriteLine();
                 }
 
                 for (int j = i - 1; j >= 0; j--)
                 {
                     data[j] = data[j].Zip(data[i], (curr, prev) => curr - prev * data[j][i]).ToList();
-                    //Console.WriteLine($"i = {j}, j = {i}");
-                    //data.Dump<double>();
-                    //Console.WriteLine();
                 }
             }
 

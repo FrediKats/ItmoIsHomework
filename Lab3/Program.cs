@@ -28,9 +28,9 @@ namespace Lab3
                 new double[] { 4, 2, 6, 8 },
                 new double[] { 3, 8, 1, 2 }
             };
-
+            //Console.WriteLine(new[] { double.PositiveInfinity, double.PositiveInfinity, 0 }.Min());
             TransportationMatrix transportation = new TransportationMatrix(producers, consumers, tariffs);
-            transportation.Plan.Dump<double>();
+            //transportation.Plan.Dump<double>();
         }
     }
 }

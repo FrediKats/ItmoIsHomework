@@ -1,4 +1,6 @@
-﻿namespace Lab3
+using System;
+
+namespace Lab3
 {
     internal static class PotentialDetector
     {
@@ -13,12 +15,15 @@
 
             for (int i = 0; i < _coeffs.Length; i++)
             for (int j = 0; j < _coeffs[0].Length; j++)
-                if (_coeffs[i][j].Equals((0, 0)))
+                if (_coeffs[i][j].Equals((0, 0)) && !_plan[i][j].Equals(0))
                 {
                     group++;
                     SetRow(group, i);
                     SetColumn(group, j);
                 }
+
+            _plan.Dump<double>();
+            _coeffs.Dump<(int, int)>();
 
             var cells = new (int, int)[group - 1];
 
@@ -38,7 +43,8 @@
                     cells[_coeffs[i][j].Item1 - 2] = (i, j);
                 }
             }
-
+            cells.Dump();
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~");
             return cells;
         }
 

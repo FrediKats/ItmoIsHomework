@@ -75,5 +75,50 @@ namespace Tests.Lab3
             bool isSame = transportation.Plan.Compare(answers);
             Assert.IsTrue(isSame);
         }
+
+        [TestMethod]
+        public void Var4()
+        {
+            double[] producers = { 40, 30, 30 };
+            double[] consumers = { 30, 70 };
+            double[][] tariffs =
+            {
+                new double[] { 1, 2 },
+                new double[] { 3, 2 },
+                new double[] { 1, 4 }
+            };
+            var transportation = new TransportationMatrix(producers, consumers, tariffs);
+
+            double[][] answers =
+            {
+                new double[] { 0, 40 },
+                new double[] { 0, 30 },
+                new double[] { 30, 0 }
+            };
+            bool isSame = transportation.Plan.Compare(answers);
+            Assert.IsTrue(isSame);
+        }
+        [TestMethod]
+        public void Var5()
+        {
+            double[] producers = { 90, 30, 40 };
+            double[] consumers = { 50, 60, 10 };
+            double[][] tariffs =
+            {
+                new double[] { 1, 2, 4 },
+                new double[] { 1, 3, 4 },
+                new double[] { 2, 2, 3 }
+            };
+            var transportation = new TransportationMatrix(producers, consumers, tariffs);
+
+            double[][] answers =
+            {
+                new double[] { 50, 40, 0, 0 },
+                new double[] { 0, 0, 0, 30 },
+                new double[] { 0, 20, 10, 10 }
+            };
+            bool isSame = transportation.Plan.Compare(answers);
+            Assert.IsTrue(isSame);
+        }
     }
 }

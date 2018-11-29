@@ -1,15 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace Lab3
 {
     public class TransportationMatrix
     {
+        private readonly List<(int i, int j)> _basis;
         private readonly double[] _producers;
         private readonly double[] _consumers;
         private readonly double[][] _tariffs;
-        private readonly double[][] _cargoes;
+        private double[][] _cargoes;
         private double[] _producerPotentials;
         private double[] _consumerPotentials;
 
@@ -33,7 +35,7 @@ namespace Lab3
             //TODO: Add method IE<IE<T>> => T[][]
             _tariffs = tariffs.Select(x => x.ToArray()).ToArray();
             //TODO: Use generator
-            _cargoes = tariffs.Select(x => x.Select(y => 0.0).ToArray()).ToArray(); //rewrite this
+            _cargoes = tariffs.Select(x => x.Select(y => 0.0).ToArray()).ToArray();
             
             var totalProd = _producers.Sum();
             var totalCons = _consumers.Sum();
@@ -54,11 +56,9 @@ namespace Lab3
 
             _producerPotentials = Enumerable.Repeat(0.0, _producers.Length).ToArray();
             _consumerPotentials = Enumerable.Repeat(0.0, _consumers.Length).ToArray();
+            _basis = new List<(int, int)>(_consumers.Length + _producers.Length - 1);
 
             Solve();
-            //TODO: Change .Dump with logger
-            _tariffs.Zip(_producerPotentials, (x, y) => x.Append(y)).Append(_consumerPotentials).Dump();
-            Console.WriteLine();
         }
 
         private void PrefillCargoes()
@@ -70,26 +70,13 @@ namespace Lab3
 
             while (!tariffsCopy.Select(x => x.All(double.IsPositiveInfinity)).All(x => x))
             {
-                (int i, int j) = tariffsCopy.IndexOfMin(new TariffComparer());
-
-                //Console.WriteLine($"i = {i}\tj = {j}");
-                //tariffsCopy.Dump<double>();
-                //Console.WriteLine();
+                (int i, int j) = tariffsCopy.IndexOfMin(x => x.Equals(0) ? double.MaxValue : x);
 
                 var min = Math.Min(producersCopy[i], consumersCopy[j]);
                 _cargoes[i][j] = min;
                 producersCopy[i] -= min;
                 consumersCopy[j] -= min;
                 tariffsCopy[i][j] = double.PositiveInfinity;
-
-
-                //producersCopy.Dump();
-                //Console.WriteLine();
-                //consumersCopy.Dump();
-                //Console.WriteLine();
-                //_cargoes.Dump<double>();
-                //Console.WriteLine();
-                //Console.WriteLine("~~~~~~~~~~~~~~~~~~");
             }
         }
 
@@ -97,30 +84,14 @@ namespace Lab3
         {
             var equations = new List<List<double>>();
 
-            for (int i = 0; i < _producerPotentials.Length; i++)
-            for (int j = 0; j < _consumerPotentials.Length; j++)
+            foreach (var coord in _basis)
             {
-                if (_cargoes[i][j] > 0)
-                {
-                    //TODO: create method
-                    var el = Enumerable.Repeat(0.0, _producerPotentials.Length + _consumerPotentials.Length)
-                        .Append(_tariffs[i][j]).ToList();
-                    el[i] = 1;
-                    el[_producerPotentials.Length + j] = 1;
-                    equations.Add(el);
-                }
-            }
-
-            if (equations.Count < _producers.Length + _consumers.Length - 1)
-            {
-                foreach (var coord in PotentialDetector.Detect(_cargoes))
-                {
-                    var el = Enumerable.Repeat(0.0, _producerPotentials.Length + _consumerPotentials.Length)
-                        .Append(_tariffs[coord.i][coord.j]).ToList();
-                    el[coord.i] = 1;
-                    el[_producerPotentials.Length + coord.j] = 1;
-                    equations.Add(el);
-                }
+                //TODO: create method
+                var el = Enumerable.Repeat(0.0, _producerPotentials.Length + _consumerPotentials.Length)
+                    .Append(_tariffs[coord.i][coord.j]).ToList();
+                el[coord.i] = 1;
+                el[_producerPotentials.Length + coord.j] = 1;
+                equations.Add(el);
             }
 
             var freeEl = Enumerable.Repeat(0.0, _producerPotentials.Length + _consumerPotentials.Length)
@@ -130,15 +101,7 @@ namespace Lab3
             freeEl[0] = 1;
             equations.Add(freeEl);
 
-            //Console.WriteLine("<");
-            //equations.Dump<double>();
-            //Console.WriteLine(">");
-
             equations = equations.DiagonalForm();
-
-            //Console.WriteLine("<");
-            //equations.Dump<double>();
-            //Console.WriteLine(">");
 
             _producerPotentials = equations.Take(_producers.Length).Select(x => x.Last()).ToArray();
             _consumerPotentials = equations.Skip(_producers.Length).Select(x => x.Last()).ToArray();
@@ -147,69 +110,97 @@ namespace Lab3
         private void Solve()
         {
             PrefillCargoes();
+            SetBasis();
             SetPotentials();
+
             bool isCompleted = CheckIfFinish();
 
             while (!isCompleted)
             {
-                (int i, int j) selectedCell = SelectCell();
+                (int i, int j) selectedCell = _tariffs.Select((x, i) => x.Select((y, j) => y - _producerPotentials[i] - _consumerPotentials[j]))
+                    .IndexOfMin(x => x);
 
-                double potentialDiff = _producerPotentials[selectedCell.i] + _consumerPotentials[selectedCell.j] - _tariffs[selectedCell.i][selectedCell.j];
-
-                (int i, int j) selectedSecondCell = SelectSecondCell(selectedCell.i, selectedCell.j, potentialDiff);
-
-                //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                //_cargoes.Dump<double>();
-                //Console.WriteLine();
-                //Console.WriteLine($"i1 = {selectedCell.i}, j1 = {selectedCell.j}");
-                //Console.WriteLine($"i2 = {selectedSecondCell.i}, j2 = {selectedSecondCell.j}");
-
-                _tariffs.Select((x, i) => x.Append(_producerPotentials[i])).Append(_consumerPotentials).Dump<double>();
-
-                //TODO: Move to method
-                _cargoes[selectedCell.i][selectedCell.j] += _cargoes[selectedSecondCell.i][selectedCell.j];
-                _cargoes[selectedSecondCell.i][selectedCell.j] = 0;
-                _cargoes[selectedCell.i][selectedSecondCell.j] -= _cargoes[selectedCell.i][selectedCell.j];
-                _cargoes[selectedSecondCell.i][selectedSecondCell.j] += _cargoes[selectedCell.i][selectedCell.j];
-
-                //Console.WriteLine();
-                //_cargoes.Dump<double>();
-                //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-
+                Recount(selectedCell);
                 SetPotentials();
-
                 isCompleted = CheckIfFinish();
             }
         }
 
-        private (int i, int j) SelectCell()
+        private void SetBasis()
         {
-            for (int i = 0; i < _producerPotentials.Length; i++)
-            for (int j = 0; j < _consumerPotentials.Length; j++)
-                if (_tariffs[i][j] - _producerPotentials[i] - _consumerPotentials[j] < 0)
-                {
-                    return (i, j);
-                }
-
-            throw new NotImplementedException();
-        }
-
-        private (int i, int j) SelectSecondCell(int i1, int j1, double potentialDiff)
-        {
-            for (int i = 0; i < _producerPotentials.Length; i++)
+            for (int i = 0; i < _cargoes.Length; i++)
+            for (int j = 0; j < _cargoes[0].Length; j++)
             {
-                for (int j = 0; j < _consumerPotentials.Length; j++)
+                if (_cargoes[i][j] > 0)
                 {
-                    if (i == i1 || j == j1)
-                        continue;
-
-                    if (_cargoes[i][j] > 0 &&
-                        potentialDiff.Equals(_tariffs[i1][j] - _tariffs[i1][j1] + _tariffs[i][j1] - _tariffs[i][j]))
-                        return (i, j);
+                    _basis.Add((i, j));
                 }
             }
 
-            throw new NotImplementedException();
+            if (_basis.Count < _consumers.Length + _producers.Length - 1)
+            {
+                _basis.AddRange(PotentialDetector.Detect(_cargoes));
+            }
+        }
+
+        private void Recount((int i, int j) cell)
+        {
+            var cargoesSigns = Tools.CreateArray<int>(_cargoes.Length, _cargoes[0].Length);
+            cargoesSigns[cell.i][cell.j] = 1;
+
+            SearchInRow(cell.i);
+
+            (int i, int j) minCargoCoord = cargoesSigns.Select((x, i) => x.Zip(_cargoes[i], (a, b) => a < 0 ? b : double.PositiveInfinity)).IndexOfMin(x => x);
+            _cargoes = _cargoes.Select((x, i) => x.Zip(cargoesSigns[i], (cargo, sign) => cargo + sign * _cargoes[minCargoCoord.i][minCargoCoord.j]).ToArray())
+                .ToArray();
+
+            _basis[_basis.IndexOf(minCargoCoord)] = cell;
+
+            bool SearchInRow(int row)
+            {
+                for (int i = 0; i < _cargoes[0].Length; i++)
+                {
+                    if (cargoesSigns[row][i].Equals(0) && _basis.Contains((row, i)))
+                    {
+                        cargoesSigns[row][i] = -1;
+
+                        if (SearchInColumn(i))
+                        {
+                            return true;
+                        }
+
+                        cargoesSigns[row][i] = 0;
+                    }
+                }
+
+                return false;
+            }
+
+            bool SearchInColumn(int column)
+            {
+                if (column == cell.j)
+                {
+                    return true;
+                }
+
+                for (int i = 0; i < _cargoes.Length; i++)
+                {
+                    if (cargoesSigns[i][column].Equals(0) && _basis.Contains((i, column)))
+                    {
+                        cargoesSigns[i][column] = 1;
+                        
+
+                        if (SearchInRow(i))
+                        {
+                            return true;
+                        }
+
+                        cargoesSigns[i][column] = 0;
+                    }
+                }
+
+                return false;
+            }
         }
 
         private bool CheckIfFinish()
@@ -219,18 +210,6 @@ namespace Lab3
                     .Select((y, b) => y - _producerPotentials[a] - _consumerPotentials[b])
                     .All(y => y >= 0))
                 .All(x => x);
-        }
-
-        private class TariffComparer : IComparer<double>
-        {
-            public int Compare(double x, double y)
-            {
-                if (!double.IsPositiveInfinity(x) && y.Equals(0)) return -1;
-                if (x.Equals(0) && !double.IsPositiveInfinity(y)) return 1;
-                if (double.IsPositiveInfinity(x) && double.IsPositiveInfinity(y)) return 0;
-
-                return Math.Sign(x - y);
-            }
         }
     }
 }
