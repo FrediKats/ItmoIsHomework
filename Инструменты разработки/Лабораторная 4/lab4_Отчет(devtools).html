@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <title>Системы управления репозиториями</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 26px; line-height: 22px; word-wrap: break-word; } #code-csp-warning { position: fixed; top: 0; right: 0; color: white; margin: 16px; text-align: center; font-size: 12px; font-family: sans-serif; background-color:#444444; cursor: pointer; padding: 6px; box-shadow: 1px 1px 1px rgba(0,0,0,.25); } #code-csp-warning:hover { text-decoration: none; background-color:#007acc; box-shadow: 2px 2px 2px rgba(0,0,0,.25); } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-light.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-dark.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } .vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before { border-left: none; } img { max-width: 100%; max-height: 100%; } a { text-decoration: none; } a:hover { text-decoration: underline; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left-width: 5px; border-left-style: solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } pre:not(.hljs), pre.hljs code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ pre code { color: var(--vscode-editor-foreground); } .vscode-light pre:not(.hljs), .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark pre:not(.hljs), .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast pre:not(.hljs), .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } 
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D1%8F%D0%BC%D0%B8">Системы управления репозиториями</h1>
+<p>В данной лабораторной работе будут рассмотрены такие системы управления репозиториями:</p>
+<ul>
+<li>Github</li>
+<li>Gitlub</li>
+<li>Bitbucket</li>
+</ul>
+<h1 id="bitbucket">BitBucket</h1>
+<p>Битбакет является наименее распространенной системой из всех выше перечисленных. Для работы с репозиторием, его нужно сначала создать. Битбакет, помимо обычного создания репозитория, умеет импортировать их с GitHub.<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_1.png" alt="бб_Импорт"></p>
+<p>После создания или добавления репозитория, Битбакет дает доступ к обзору файлов данного репозитория.<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_2.png" alt="бб_Файлы"></p>
+<p>По-умолчанию, файл репозитория <code>Readme.md</code> рассматривается как описание проекта и отображается в обозревателе репозитория. По странному стечению обстоятельств, Битбакет не смог в форматирование <code>md-</code>файла:<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_3.png" alt="бб_Не смог в md"></p>
+<p>Помимо хранения, системы управления репозиториями предоставляют возможность просмотра содержимого прямо в браузере. Увы, битбакет также не полностью смог отобразить подсветку синтаксиса файла с C#-кодом:<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_4.png" alt="бб_Не смог в синтаксис"></p>
+<p>Когда мы говорим о системах работы с репозиториями, нас в первую очередь интересует работа с фичами гита:</p>
+<ul>
+<li>Обзор коммитов<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_5.png" alt="бб_Комиты"></li>
+<li>Просмотр веток<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_6.png" alt="бб_Комиты"></li>
+<li>Просомтри пул-реквестов<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_7.png" alt="бб_Комиты"></li>
+<li>Создание бордов не реализовано в системе. Вместо этого добавленна интеграция с Trello
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_9.png" alt="бб_Трелло"></li>
+</ul>
+<h1 id="gitlab">Gitlab</h1>
+<p>Система Gitlab стоит отметить ввиду наличия уникальной возможности, которая предоставляется им - деплой на локальном сервере. Это ключевая особенность. Развертывание на локальном сервере дает возможность получить весь (на самом деле, не весь) на своем локальном сервере.</p>
+<p>Стоит отметить, что в Gitlab'е, есть возможность залогиниться с помощью GitHub. Это очень удобно, т.к. скорее всего, пользователи, которые только пришли на GitLab уже знакомы с GitHub:<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_10.png" alt="гл_Логин"></p>
+<p>Как и у BitBacket'а, в данной системе есть обозреватель проектов, возможность импорта с других источников:<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_11.png" alt="гл_Логин"><br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_12.png" alt="гл_Логин"></p>
+<p>GitLab немного иначе отработал <code>.md</code> файл, но также не смог справится с его парсингов:<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_13.png" alt="гл_Логин"></p>
+<p>Рассмотрим основной функционал связанный с работой с git'ом:</p>
+<ul>
+<li>Просмотр коммитов и веток. Оформление этой части системы выглядит немного устаревшим на фоне остальной стилистики сайта<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_14.png" alt="гл_Логин"></li>
+<li>По-умолчанию для репозитория строятся различные метрики. Скорее всего, они не смогут в полной мере заменить метрики agile-систем, которые часто используются в командах для таких случаев, но могут быть информативными в роли билд-ин системы отслеживания разработки:<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_15.png" alt="гл_Логин"></li>
+</ul>
+<p>Важной механикой, на основе которой реализуют фидбек-систему, баг-трекер и таск-менеджер, является система issues. Issue - это определенная информация, которую формирует пользователь по отношению к конкретному репозиторию. Как уже было сказано выше, данная информация может быть различного рода:</p>
+<ul>
+<li>описание бага, баг-репорт</li>
+<li>отзыв пользователя о своем опыте использования, предложенные правка</li>
+<li>реквест фичи, недостающего функционала</li>
+<li>вопрос адресованный автору или комьюнити по работе с данным проектом</li>
+</ul>
+<p>При работе с issues, можно изменять ее состояние: привязывать лейблы, асигнить на конкретного исполнителя, комментировать.</p>
+<p><img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_16.png" alt="гл_Issues">
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_17.png" alt="гл_Issues board"></p>
+<h2 id="github">GitHub</h2>
+<p>Github - крупнейший веб-сервис для хостинга IT-проектов и их совместной разработки. С недавних времен он еще и заручился поддержкой Microsoft.<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L2_15.png" alt="Github"></p>
+<p>Основной идеей GitHub'а является позиционирование себя как социальная сеть для кодинга, а также продвижение open-source. Пользователи - не работники конкретного проекта, а контрибуторы всего опенсорса.<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L2_16.png" alt="Github_profile"></p>
+<p>Проекты на Github'е, как во всех других системах управления репозиториями, имеет интерфейс файлового проводника, отображает все файлы (даже <code>.md</code> с правильным рендерингом):<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L2_17.png" alt="Github_repo"><br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L2_18.png" alt="Github_repo_readme"></p>
+<p>Сервис предоставляет возможность создавать в репозиториях доски с issues тасками по аналогии с GitLab
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L2_19.png" alt="Github_board"></p>
+<p>В роле баг-трекера выступает система issues. Их может создавать любой пользователь, описывать баги или пожелания. Каждый issue создает тред с возможностью обсуждать, прикрепить пул-реквест решением проблемы.<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L2_20.png" alt="Github_board"></p>
+<p>Есть некий аналог спринтов - просто набор тасков, которые менеджеры репозитория могут объединить логически:<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L2_21.png" alt="Github_board"></p>
+<p>Важно отметить, что гитхаб имеет множество фичей для взаимодействия между пользователями. Например, лента обновлений аккаунтов, на которые подписан пользователь:<br>
+<img src="file:///c%3A/Shelty/ITMO-5-sem/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%204/img/L4_21.png" alt="Github_board"></p>
+<h1 id="%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4%D1%8B">Выводы</h1>
+<ol>
+<li>Хостинг: все системы предоставляются ввиде веб-сервиса. BitBucket также можно развернуть на выделенном сервере за определенную плату. GitLab можно развернуть на своем сервере бесплатно.</li>
+<li>DevOps: по-умолчанию, BitBucket и GitLab предоставляют различные тулзы для CI/CD. GitHub из коробки такого не имеет функционала, но есть расширения.</li>
+<li>Отображение markdown: GitHub отлично отображает базовый markdown, но не реализован парсинг Katex/Latex/etc. GitLab и BitBucket не смогли отобразить markdown (html-теги в нем, если быть точным)</li>
+<li>Обозреватель репозиториев: BitBucket нацелен на командную работу с репозиторием. В GitHub и GitLab есть возможность просмотра популярных репозиториев, а также репозитории других пользователей</li>
+<li>GitHub имеет расширения. Можно подключить расширения дял интеграции таск менеджеров, чатов (slack, gitter), CI, кодревью, прочее.</li>
+</ol>
+
+    </body>
+    </html>
