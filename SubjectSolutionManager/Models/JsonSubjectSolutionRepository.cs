@@ -31,8 +31,8 @@ namespace SubjectSolutionManager.Models
 
         public SubjectSolutionModel Update(SubjectSolutionModel solution)
         {
-            var solutions = Read();
-            var newSolution = solutions.FirstOrDefault(s => s.Id == solution.Id) ?? new SubjectSolutionModel();
+            List<SubjectSolutionModel> solutions = Read();
+            SubjectSolutionModel newSolution = solutions.First(s => s.Id == solution.Id);
             newSolution.Id = solution.Id;
             newSolution.Description = solution.Description;
             newSolution.Title = solution.Title;

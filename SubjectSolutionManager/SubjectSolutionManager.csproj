@@ -58,7 +58,6 @@
     <Compile Include="Models\ActionSelectedState.cs" />
     <Compile Include="Models\ISubjectSolutionRepository.cs" />
     <Compile Include="Models\JsonSubjectSolutionRepository.cs" />
-    <Compile Include="Models\MemoryRepository.cs" />
     <Compile Include="Models\RepositoryProvider.cs" />
     <Compile Include="Models\SubjectSolutionModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
