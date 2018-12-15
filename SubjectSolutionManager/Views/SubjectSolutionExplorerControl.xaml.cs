@@ -13,6 +13,7 @@ namespace SubjectSolutionManager.Views
         public SubjectSolutionExplorerControl()
         {
             InitializeComponent();
+
             _repository = RepositoryProvider.GetRepository();
             UpdateUi();
         }
@@ -83,11 +84,12 @@ namespace SubjectSolutionManager.Views
             {
                 Width = 500,
                 Height = 250,
+                SubjectInput = {Text = solution.Title},
+                DescriptionInput = {Text = solution.Description},
+                PathToFileBlock = {Text = solution.Path},
             };
-            window.SubjectInput.Text = solution.Title;
-            window.DescriptionInput.Text = solution.Description;
-            window.PathToFileBlock.Text = solution.Path;
             window.ShowDialog();
+
             if (window.IsAccepted)
             {
                 solution.Title = window.SubjectInput.Text;
