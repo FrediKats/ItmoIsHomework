@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using GeneticWay.Core.Models;
 using GeneticWay.Core.Tools;
 
-namespace GeneticWay.Core.Models
+namespace GeneticWay.Core.ExecutionLogic
 {
     public class SimReport
     {

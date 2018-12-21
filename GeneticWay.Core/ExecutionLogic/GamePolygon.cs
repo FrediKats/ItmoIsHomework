@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using GeneticWay.Core.Models;
 
-namespace GeneticWay.Core.Models
+namespace GeneticWay.Core.ExecutionLogic
 {
     public class GamePolygon
     {
