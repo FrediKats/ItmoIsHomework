@@ -6,13 +6,11 @@ namespace GeneticWay.Core.Models
     {
         public Coordinate Start { get; }
         public Coordinate End { get; }
-        public SegmentType Type { get; }
 
-        public Segment(Coordinate start, Coordinate end, SegmentType type = SegmentType.None)
+        public Segment(Coordinate start, Coordinate end)
         {
             Start = start;
             End = end;
-            Type = type;
         }
 
         //TODO: epsilon
@@ -40,12 +38,12 @@ namespace GeneticWay.Core.Models
 
         public static Segment operator +(Segment self, Coordinate right)
         {
-            return new Segment(self.Start + right, self.End + right, self.Type);
+            return new Segment(self.Start + right, self.End + right);
         }
 
         public static Segment operator -(Segment self, Coordinate right)
         {
-            return new Segment(self.Start - right, self.End - right, self.Type);
+            return new Segment(self.Start - right, self.End - right);
         }
     }
 }

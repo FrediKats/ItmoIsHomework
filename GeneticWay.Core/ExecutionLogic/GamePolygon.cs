@@ -31,9 +31,6 @@ namespace GeneticWay.Core.ExecutionLogic
 
         public bool IsCanCreateLine(Segment segment)
         {
-            if (segment.Type == SegmentType.Circle)
-                throw new ArgumentException(nameof(segment));
-
             foreach (Zone zone in Zones)
             {
                 if (CircleAndLineIntersection(segment, zone))

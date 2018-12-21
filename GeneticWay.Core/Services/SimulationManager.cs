@@ -13,7 +13,7 @@ namespace GeneticWay.Core.Services
     {
         private const string Path = "backup.json";
 
-        public readonly List<Zone> Zones = Zone.GetZones();
+        public readonly List<Zone> Zones = new List<Zone>();
         private List<ForceField> _forceFields;
         public List<SimReport> Reports;
 

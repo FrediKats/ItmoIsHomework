@@ -67,6 +67,17 @@ namespace GeneticWay.Core.Models
             return !(left == right);
         }
 
+
+        public static bool operator ==(Coordinate left, Coordinate right)
+        {
+            return Math.Abs(left.X - right.X) < Configuration.Epsilon
+                   && Math.Abs(left.Y - right.Y) < Configuration.Epsilon;
+        }
+
+        public static bool operator !=(Coordinate left, Coordinate right)
+        {
+            return !(left == right);
+        }
         #endregion
 
         public override string ToString()

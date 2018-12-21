@@ -1,6 +1,6 @@
 ﻿namespace GeneticWay.Core.Models
 {
-    public enum SegmentType
+    public enum RouteSegmentType
     {
         None,
         Line,
