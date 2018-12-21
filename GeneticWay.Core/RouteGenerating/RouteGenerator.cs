@@ -54,8 +54,8 @@ namespace GeneticWay.Core.RouteGenerating
             if ((from.Coordinate - to.Coordinate).GetLength() < (from.R + to.R))
                 throw new ArgumentException("Zones are intersect");
 
-            Coordinate closestPointFrom = from.GetClosestCoordinate(to.Coordinate);
-            Coordinate closestPointTo = to.GetClosestCoordinate(from.Coordinate);
+            Coordinate closestPointFrom = from.GetClosestToPointCoordinate(to.Coordinate);
+            Coordinate closestPointTo = to.GetClosestToPointCoordinate(from.Coordinate);
 
             return new Segment(closestPointFrom, closestPointTo);
         }
@@ -63,7 +63,7 @@ namespace GeneticWay.Core.RouteGenerating
         private static Segment BuildSegmentToFirstZone(Zone zone)
         {
 
-            Coordinate closestPoint = zone.GetClosestCoordinate((0, 0));
+            Coordinate closestPoint = zone.GetClosestToPointCoordinate((0, 0));
             return new Segment((0, 0), closestPoint);
         }
 
@@ -72,7 +72,7 @@ namespace GeneticWay.Core.RouteGenerating
             if (zone == null)
                 return new Segment((0, 0), (1, 1));
 
-            Coordinate closestPoint = zone.Value.GetClosestCoordinate((1, 1));
+            Coordinate closestPoint = zone.Value.GetClosestToPointCoordinate((1, 1));
             return new Segment(closestPoint, zone.Value.Coordinate);
         }
 
@@ -89,6 +89,26 @@ namespace GeneticWay.Core.RouteGenerating
             }
 
             return Polygon.IsCanCreateLine(connectingSegment);
+        }
+
+        private static List<Coordinate> BuildPathOnCircle(Coordinate from, Coordinate to, Zone zone)
+        {
+            var coordinates = new List<Coordinate>();
+
+            from = from - zone.Coordinate;
+            to = to - zone.Coordinate;
+
+            double angleFrom = Math.Asin(from.Y / zone.R);
+            double angleTo = Math.Asin(to.Y / zone.R);
+
+            //TODO: Add direction choosing
+
+            for (double a = angleFrom; a <= angleTo; a += 0.01)
+            {
+
+            }
+
+            return coordinates;
         }
     }
 }

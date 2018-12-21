@@ -14,29 +14,6 @@ namespace GeneticWay.Core.Models
             End = end;
         }
 
-        //TODO: epsilon
-        public Coordinate GetSegmentClosestPoint(double epsilon = 0.01)
-        {
-            Coordinate firstPoint = Start;
-            Coordinate secondPoint = End;
-
-            Coordinate center = firstPoint.MidPointWith(secondPoint);
-            while ((End - Start).GetLength() > epsilon)
-            {
-                if (firstPoint.GetLength() > secondPoint.GetLength())
-                {
-                    firstPoint = center;
-                }
-                else
-                {
-                    secondPoint = center;
-                }
-                center = firstPoint.MidPointWith(secondPoint);
-            }
-
-            return new[] {firstPoint, secondPoint, center}.OrderBy(p => p.GetLength()).First();
-        }
-
         public List<Coordinate> ToCoordinatesList(double epsilon = 1e-4)
         {
             return RecursiveDividing(Start, End, epsilon);

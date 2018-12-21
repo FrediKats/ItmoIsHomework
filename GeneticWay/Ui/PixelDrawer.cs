@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
 
 namespace GeneticWay.Ui
@@ -52,7 +53,7 @@ namespace GeneticWay.Ui
             {
                 for (double ang = 0; ang < Math.PI * 2; ang += 0.001)
                 {
-                    (double, double) radiusShift = (zone.R * Math.Sin(ang), zone.R * Math.Cos(ang));
+                    Coordinate radiusShift = MathComputing.PointOnCircle(zone.R, ang);
                     Coordinate pointOnImageCoordinate = (zone.Coordinate + radiusShift) * Scale * FieldSize;
                     PutPixel(_pixels, (int)pointOnImageCoordinate.X, (int)pointOnImageCoordinate.Y, Colors.Red);
                 }

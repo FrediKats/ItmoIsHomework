@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GeneticWay.Core.Models
+﻿namespace GeneticWay.Core.Models
 {
     public struct Zone
     {
@@ -18,15 +15,7 @@ namespace GeneticWay.Core.Models
         {
             return coordinate.LengthTo(Coordinate) < R;
         }
-
-        public Coordinate GetClosestCoordinate(Coordinate zeroCoordinate)
-        {
-            Coordinate otherCoordinateSystemPoint = Coordinate - zeroCoordinate;
-            double scale = otherCoordinateSystemPoint.GetLength() / R;
-
-            return otherCoordinateSystemPoint * (1 / scale) + zeroCoordinate;
-        }
-
+        
         public static bool operator ==(Zone first, Zone second)
         {
             return first.Coordinate == second.Coordinate && first.R == second.R;
