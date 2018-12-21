@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace GeneticWay.Core.Models
 {
@@ -19,7 +20,7 @@ namespace GeneticWay.Core.Models
             Coordinate firstPoint = Start;
             Coordinate secondPoint = End;
 
-            Coordinate center = (firstPoint + secondPoint) * 0.5;
+            Coordinate center = firstPoint.MidPointWith(secondPoint);
             while ((End - Start).GetLength() > epsilon)
             {
                 if (firstPoint.GetLength() > secondPoint.GetLength())
@@ -30,10 +31,32 @@ namespace GeneticWay.Core.Models
                 {
                     secondPoint = center;
                 }
-                center = (firstPoint + secondPoint) * 0.5;
+                center = firstPoint.MidPointWith(secondPoint);
             }
 
             return new[] {firstPoint, secondPoint, center}.OrderBy(p => p.GetLength()).First();
+        }
+
+        public List<Coordinate> ToCoordinatesList(double epsilon = 1e-4)
+        {
+            return RecursiveDividing(Start, End, epsilon);
+        }
+
+        private static List<Coordinate> RecursiveDividing(Coordinate start, Coordinate end, double epsilon)
+        {
+            var coordinates = new List<Coordinate>();
+            if (start.LengthTo(end) > epsilon)
+            {
+                Coordinate midPoint = start.MidPointWith(end);
+                coordinates.AddRange(RecursiveDividing(start, midPoint, epsilon));
+                coordinates.AddRange(RecursiveDividing(midPoint, end, epsilon));
+            }
+            else
+            {
+                coordinates.Add(start);
+            }
+            coordinates.Add(end);
+            return coordinates;
         }
 
         public static Segment operator +(Segment self, Coordinate right)

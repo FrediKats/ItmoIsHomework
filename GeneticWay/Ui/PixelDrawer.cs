@@ -14,6 +14,7 @@ namespace GeneticWay.Ui
         private const int Scale = 1;
         private const int TotalPixelSize = FieldSize * Scale;
         private readonly WriteableBitmap _writableBitmap;
+        private byte[,,] _pixels;
 
         public PixelDrawer(Image image)
         {
@@ -31,30 +32,43 @@ namespace GeneticWay.Ui
             image.Source = _writableBitmap;
         }
 
-        public void DrawPoints(IEnumerable<Coordinate> coordinates, List<Zone> zones)
+        public PixelDrawer AddPoints(IEnumerable<Coordinate> coordinates)
         {
-            var pixels = new byte[TotalPixelSize + Scale, TotalPixelSize + Scale, 4];
-            PrintBackgroundWithBlack(pixels);
-
             foreach (Coordinate coordinate in coordinates)
             {
-                var coordinateToPrint = coordinate * Scale * FieldSize;
-                PutPixel(pixels, (int) (coordinateToPrint.X),
-                    (int) (coordinateToPrint.Y),
+                Coordinate coordinateToPrint = coordinate * Scale * FieldSize;
+                PutPixel(_pixels,
+                    (int)coordinateToPrint.X,
+                    (int)coordinateToPrint.Y,
                     Colors.BlueViolet);
             }
 
+            return this;
+        }
+
+        public PixelDrawer AddZones(IEnumerable<Zone> zones)
+        {
             foreach (Zone zone in zones)
             {
                 for (double ang = 0; ang < Math.PI * 2; ang += 0.001)
                 {
-                    var newCoord = (zone.R * Math.Sin(ang), zone.R * Math.Cos(ang));
-                    var circlePoint = (zone.Coordinate + newCoord) * Scale * FieldSize;
-                    PutPixel(pixels, (int)circlePoint.X, (int)circlePoint.Y, Colors.Red);
+                    (double, double) radiusShift = (zone.R * Math.Sin(ang), zone.R * Math.Cos(ang));
+                    Coordinate pointOnImageCoordinate = (zone.Coordinate + radiusShift) * Scale * FieldSize;
+                    PutPixel(_pixels, (int)pointOnImageCoordinate.X, (int)pointOnImageCoordinate.Y, Colors.Red);
                 }
             }
 
-            PrintPixels(pixels);
+            return this;
+        }
+
+        public PixelDrawer AddSegments(IEnumerable<Segment> segments)
+        {
+            foreach (Segment segment in segments)
+            {
+                AddPoints(segment.ToCoordinatesList());
+            }
+
+            return this;
         }
 
         private static void PutPixel(byte[,,] pixels, int positionX, int positionY, Color color)
@@ -71,15 +85,18 @@ namespace GeneticWay.Ui
             }
         }
 
-        private static void PrintBackgroundWithBlack(byte[,,] pixels)
+        public PixelDrawer PrintBackgroundWithBlack()
         {
+            _pixels = new byte[TotalPixelSize + Scale, TotalPixelSize + Scale, 4];
             for (var row = 0; row < TotalPixelSize; row++)
                 for (var col = 0; col < TotalPixelSize; col++)
                 {
                     for (var i = 0; i < 3; i++)
-                        pixels[row, col, i] = 0;
-                    pixels[row, col, 3] = 255;
+                        _pixels[row, col, i] = 0;
+                    _pixels[row, col, 3] = 255;
                 }
+
+            return this;
         }
 
         private static byte[] TransformTo1D(byte[,,] pixels)
@@ -95,11 +112,11 @@ namespace GeneticWay.Ui
             return pixels1D;
         }
 
-        private void PrintPixels(byte[,,] pixels)
+        public void PrintPixels()
         {
-            var pixels1D = TransformTo1D(pixels);
+            byte[] pixels1D = TransformTo1D(_pixels);
             var rect = new Int32Rect(0, 0, TotalPixelSize, TotalPixelSize);
-            var stride = 4 * TotalPixelSize;
+            const int stride = 4 * TotalPixelSize;
 
             _writableBitmap.WritePixels(rect, pixels1D, stride, 0);
         }

@@ -13,12 +13,13 @@ namespace GeneticWay.Core.Services
     {
         private const string Path = "backup.json";
 
-        public readonly List<Zone> Zones = new List<Zone>();
+        public readonly List<Zone> Zones;
         private List<ForceField> _forceFields;
         public List<SimReport> Reports;
 
         public SimulationManager()
         {
+            Zones = new List<Zone> {new Zone((0.5, 0.5), 0.2)};
             Load();
         }
 

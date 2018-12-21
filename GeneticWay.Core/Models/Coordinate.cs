@@ -24,6 +24,11 @@ namespace GeneticWay.Core.Models
             return Math.Sqrt(d.X * d.X + d.Y * d.Y);
         }
 
+        public Coordinate MidPointWith(Coordinate other)
+        {
+            return (this + other) * 0.5;
+        }
+
         public Coordinate WithEpsilon(int epsilon)
         {
             return (Math.Round(X, epsilon), Math.Round(Y, epsilon));
