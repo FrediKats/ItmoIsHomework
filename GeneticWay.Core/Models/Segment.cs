@@ -16,7 +16,7 @@ namespace GeneticWay.Core.Models
         public List<Coordinate> ToCoordinatesList()
         {
             //TODO: epsilon
-            const double epsilon = 1e-5;
+            const double epsilon = Configuration.Epsilon;
             return RecursiveDividing(Start, End, epsilon);
         }
 

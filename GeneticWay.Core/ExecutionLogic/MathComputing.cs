@@ -78,7 +78,7 @@ namespace GeneticWay.Core.ExecutionLogic
         {
             if (length == 0)
                 return 0;
-            return 2 * (length - velocity * time) / (time * time);
+            return (length - velocity * time) / (time * time);
         }
 
         public static Coordinate ChooseOptimalAcceleration(Coordinate length, Coordinate velocity, double time)
