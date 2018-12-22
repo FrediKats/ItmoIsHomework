@@ -5,6 +5,7 @@ using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.RouteGenerating;
 using GeneticWay.Core.Services;
+using GeneticWay.Core.Vectorization;
 using GeneticWay.Ui;
 
 namespace GeneticWay
@@ -25,10 +26,12 @@ namespace GeneticWay
             routeList.Zones.Add(new Zone((0.5, 0.8), 0.05));
             routeList.Zones.Add(new Zone((0.8, 0.9), 0.05));
             List<Coordinate> test = RouteGenerator.BuildPath(routeList);
+            RouteVectorization vectorization = new RouteVectorization(test, MovableObject.Create());
+            List<Coordinate> vectorizedPath = vectorization.ApplyVectorization();
 
             _pixelDrawer.PrintBackgroundWithBlack()
                 .AddZones(routeList.Zones)
-                .AddPoints(test)
+                .AddPoints(vectorizedPath)
                 .PrintPixels();
 
             //_simManager = new SimulationManager();

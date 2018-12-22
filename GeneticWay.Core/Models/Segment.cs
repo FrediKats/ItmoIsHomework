@@ -13,8 +13,10 @@ namespace GeneticWay.Core.Models
             End = end;
         }
 
-        public List<Coordinate> ToCoordinatesList(double epsilon = 1e-4)
+        public List<Coordinate> ToCoordinatesList()
         {
+            //TODO: epsilon
+            const double epsilon = 1e-5;
             return RecursiveDividing(Start, End, epsilon);
         }
 

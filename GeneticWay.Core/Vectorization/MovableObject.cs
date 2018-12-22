@@ -6,26 +6,31 @@ namespace GeneticWay.Core.Vectorization
     public class MovableObject
     {
         public List<Coordinate> VisitedPoints { get; }
-        public MovableObject(Coordinate position, Coordinate directionVector)
+        public MovableObject(Coordinate position, Coordinate velocity)
         {
             Position = position;
-            DirectionVector = directionVector;
+            Velocity = velocity;
             VisitedPoints = new List<Coordinate>();
+        }
+
+        public static MovableObject Create()
+        {
+            return new MovableObject((0, 0), (0, 0));
         }
 
         //TODO: Time scale
         public void Move(double time)
         {
             VisitedPoints.Add(Position);
-            Position += (DirectionVector * time);
+            Position += (Velocity * time);
         }
 
         public void ApplyForceVector(Coordinate forceVector, double time)
         {
-            DirectionVector += (forceVector * time);
+            Velocity += (forceVector * time);
         }
 
         public Coordinate Position { get; private set; }
-        public Coordinate DirectionVector { get; private set; }
+        public Coordinate Velocity { get; private set; }
     }
 }

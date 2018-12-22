@@ -84,6 +84,7 @@ namespace GeneticWay.Ui
             for (var addY = 0; addY < Scale; addY++)
             {
                 if (positionX + addX < pixels.GetLength(1) && positionY + addY < pixels.GetLength(0))
+                if (positionX + addX > 0 && positionY + addY > 0)
                 {
                     pixels[positionY + addY, positionX + addX, 0] = color.B;
                     pixels[positionY + addY, positionX + addX, 1] = color.G;

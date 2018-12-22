@@ -115,7 +115,7 @@ namespace GeneticWay.Core.RouteGenerating
             double angleTo = Math.Atan2(to.Y, to.X);
 
             //TODO: Add direction choosing
-            for (double a = angleFrom; a <= angleTo; a += 0.01)
+            for (double a = angleFrom; a <= angleTo; a += 0.001)
             {
                 coordinates.Add(MathComputing.PointOnCircle(zone.R, a, zone.Coordinate));
             }

@@ -34,10 +34,11 @@ namespace GeneticWay.Core.ExecutionLogic
                 {
                     secondPoint = center;
                 }
+
                 center = firstPoint.MidPointWith(secondPoint);
             }
 
-            return new[] { firstPoint, secondPoint, center }.OrderBy(p => p.GetLength()).First();
+            return new[] {firstPoint, secondPoint, center}.OrderBy(p => p.GetLength()).First();
         }
 
         public static Coordinate GetClosestToPointCoordinate(this Zone zone, Coordinate zeroCoordinate)
@@ -50,8 +51,10 @@ namespace GeneticWay.Core.ExecutionLogic
 
         public static Segment BuildCirclesConnectingSegment(Zone first, Zone second)
         {
-            if ((first.Coordinate - second.Coordinate).GetLength() < (first.R + second.R))
+            if ((first.Coordinate - second.Coordinate).GetLength() < first.R + second.R)
+            {
                 throw new ArgumentException("Zones are intersect");
+            }
 
             Coordinate closestPointFrom = first.GetClosestToPointCoordinate(second.Coordinate);
             Coordinate closestPointTo = second.GetClosestToPointCoordinate(first.Coordinate);
@@ -69,6 +72,19 @@ namespace GeneticWay.Core.ExecutionLogic
         {
             Coordinate closestPoint = circle.GetClosestToPointCoordinate(coordinate);
             return new Segment(closestPoint, coordinate);
+        }
+
+        public static double ChooseOptimalAcceleration(double length, double velocity, double time)
+        {
+            if (length == 0)
+                return 0;
+            return 2 * (length - velocity * time) / (time * time);
+        }
+
+        public static Coordinate ChooseOptimalAcceleration(Coordinate length, Coordinate velocity, double time)
+        {
+            return new Coordinate(ChooseOptimalAcceleration(length.X, velocity.X, time),
+                ChooseOptimalAcceleration(length.Y, velocity.Y, time));
         }
     }
 }
