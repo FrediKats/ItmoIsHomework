@@ -1,6 +1,7 @@
 ﻿using System;
+using GeneticWay.Core.Models;
 
-namespace GeneticWay.Core.Models
+namespace GeneticWay.Core.Legacy
 {
     public class ForceField
     {

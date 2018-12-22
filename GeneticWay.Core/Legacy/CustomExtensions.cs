@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GeneticWay.Core.ExecutionLogic;
-using GeneticWay.Core.Models;
+using GeneticWay.Core.Tools;
 
-namespace GeneticWay.Core.Tools
+namespace GeneticWay.Core.Legacy
 {
     public static class CustomExtensions
     {

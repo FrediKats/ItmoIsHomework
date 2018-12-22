@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Windows;
 using GeneticWay.Core.ExecutionLogic;
+using GeneticWay.Core.Legacy;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.RouteGenerating;
-using GeneticWay.Core.Services;
 using GeneticWay.Core.Vectorization;
 using GeneticWay.Ui;
 

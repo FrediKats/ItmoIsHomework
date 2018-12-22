@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.Tools;
 
-namespace GeneticWay.Core.ExecutionLogic
+namespace GeneticWay.Core.Legacy
 {
     public class SimReport
     {

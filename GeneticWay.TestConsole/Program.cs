@@ -1,4 +1,4 @@
-﻿using GeneticWay.Core.Services;
+﻿using GeneticWay.Core.Legacy;
 
 namespace GeneticWay.TestConsole
 {

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.Tools;
 
-namespace GeneticWay.Core.Services
+namespace GeneticWay.Core.Legacy
 {
     //TODO: write static extension for List<ForceField>
     public static class GeneticAlgo

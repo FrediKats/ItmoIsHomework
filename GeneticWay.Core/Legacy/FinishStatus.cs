@@ -1,4 +1,4 @@
-﻿namespace GeneticWay.Core.Models
+﻿namespace GeneticWay.Core.Legacy
 {
     public enum FinishStatus
     {
