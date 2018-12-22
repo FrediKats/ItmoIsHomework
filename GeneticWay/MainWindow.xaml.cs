@@ -14,33 +14,50 @@ namespace GeneticWay
     public partial class MainWindow : Window
     {
         private readonly SimulationManager _simManager;
-        private PixelDrawer _pixelDrawer;
+        private readonly PixelDrawer _pixelDrawer;
+        private readonly RouteList routeList;
+        private readonly AntiAliasing antiAliasing;
 
         public MainWindow()
         {
             InitializeComponent();
             _pixelDrawer = new PixelDrawer(Drawer);
 
-            var routeList = new RouteList();
+            routeList = new RouteList();
             routeList.Zones.Add(new Circle((0.2, 0.2), 0.05));
             routeList.Zones.Add(new Circle((0.4, 0.6), 0.05));
             routeList.Zones.Add(new Circle((0.5, 0.8), 0.05));
             routeList.Zones.Add(new Circle((0.8, 0.9), 0.05));
-            List<Coordinate> test = RouteGenerator.BuildPath(routeList);
+            List<Coordinate> testingPath = RouteGenerator.BuildPath(routeList);
 
-            MovableObject movableObject = MovableObject.Create();
-            var vectorization = new RouteVectorization(test, movableObject);
-            List<Coordinate> vectorizedPath = vectorization.ApplyVectorization();
+            //MovableObject movableObject = MovableObject.Create();
+            //var vectorizationModel = new RouteVectorizationModel(movableObject);
+            //vectorizationModel.ApplyVectorization(testingPath);
 
-            AntiAliasing antiAliasing = new AntiAliasing(movableObject.ForceVector);
-            MovableObject objectAfterAntiAliasing = antiAliasing.GenerateRoute();
+            antiAliasing = new AntiAliasing(testingPath);
+        }
+
+        private MovableObject Test()
+        {
+            antiAliasing.PathMutation();
+            return antiAliasing.GenerateRoute();
+        }
+
+        private void RunAntiAliasing(object sender, RoutedEventArgs e)
+        {
+            int count = int.Parse(CountInput.Text);
+
+            for (int i = 0; i < count - 1; i++)
+            {
+                Test();
+            }
+
+            MovableObject movableObject = Test();
 
             _pixelDrawer.PrintBackgroundWithBlack()
                 .AddZones(routeList.Zones)
-                .AddPoints(objectAfterAntiAliasing.VisitedPoints)
+                .AddPoints(movableObject.VisitedPoints)
                 .PrintPixels();
-
-            //_simManager = new SimulationManager();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

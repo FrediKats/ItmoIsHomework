@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.Vectorization;
 
@@ -8,23 +7,26 @@ namespace GeneticWay.Core.AntiAliasing
 {
     public class AntiAliasing
     {
-        public AntiAliasing(List<Coordinate> forcesList)
+        private static readonly Random Random = new Random();
+        public AntiAliasing(List<Coordinate> path)
         {
-            ForcesList = forcesList;
+            Path = path;
         }
 
         public MovableObject GenerateRoute()
         {
-            MovableObject movableObject = MovableObject.Create();
-            foreach (Coordinate force in ForcesList)
-            {
-                movableObject.ApplyForceVector(force);
-                movableObject.Move();
-            }
-
-            return movableObject;
+            var vectorizationModel = new RouteVectorizationModel(MovableObject.Create());
+            vectorizationModel.ApplyVectorization(Path);
+            Path = vectorizationModel.MovableObject.VisitedPoints;
+            return vectorizationModel.MovableObject;
         }
 
-        public List<Coordinate> ForcesList { get; }
+        public void PathMutation()
+        {
+            int index = Random.Next(Path.Count);
+            Path.RemoveAt(index);
+        }
+
+        public List<Coordinate> Path { get; private set; }
     }
 }

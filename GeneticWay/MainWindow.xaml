@@ -23,7 +23,7 @@
             Margin="0,59,9.6,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Click="Button_Click"
+            Click="RunAntiAliasing"
             Content="Run" />
         <TextBox
             Name="CountInput"

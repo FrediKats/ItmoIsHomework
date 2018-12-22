@@ -4,24 +4,21 @@ using GeneticWay.Core.Models;
 
 namespace GeneticWay.Core.Vectorization
 {
-    public class RouteVectorization
+    public class RouteVectorizationModel
     {
-        private readonly MovableObject _movableObject;
-
-        private readonly List<Coordinate> _pathCoordinates;
+        public MovableObject MovableObject { get; }
 
         private const double _time = Configuration.TimePeriod;
 
         //TODO: add params
-        public RouteVectorization(List<Coordinate> pathCoordinates, MovableObject movableObject)
+        public RouteVectorizationModel(MovableObject movableObject)
         {
-            _pathCoordinates = pathCoordinates;
-            _movableObject = movableObject;
+            MovableObject = movableObject;
         }
 
-        private static void PointToPointVectorSelection(Coordinate to, MovableObject movableObject)
+        public void PointToPointVectorSelection(Coordinate to)
         {
-            RecursiveDivision(to, movableObject);
+            RecursiveDivision(to, MovableObject);
         }
 
         private static void RecursiveDivision(Coordinate to, MovableObject movableObject)
@@ -50,14 +47,12 @@ namespace GeneticWay.Core.Vectorization
             }
         }
 
-        public List<Coordinate> ApplyVectorization()
+        public void ApplyVectorization(List<Coordinate> pathCoordinates)
         {
-            foreach (Coordinate coordinate in _pathCoordinates)
+            foreach (Coordinate coordinate in pathCoordinates)
             {
-                PointToPointVectorSelection(coordinate, _movableObject);
+                PointToPointVectorSelection(coordinate);
             }
-
-            return _movableObject.VisitedPoints;
         }
     }
 }
