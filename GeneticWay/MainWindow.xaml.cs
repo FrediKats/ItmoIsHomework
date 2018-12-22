@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
+using GeneticWay.Core.RouteGenerating;
 using GeneticWay.Core.Services;
 using GeneticWay.Ui;
 
@@ -18,9 +19,16 @@ namespace GeneticWay
             InitializeComponent();
             _pixelDrawer = new PixelDrawer(Drawer);
 
+            var routeList = new RouteList();
+            routeList.Zones.Add(new Zone((0.2, 0.2), 0.05));
+            routeList.Zones.Add(new Zone((0.4, 0.6), 0.05));
+            routeList.Zones.Add(new Zone((0.5, 0.8), 0.05));
+            routeList.Zones.Add(new Zone((0.8, 0.9), 0.05));
+            List<Coordinate> test = RouteGenerator.BuildPath(routeList);
+
             _pixelDrawer.PrintBackgroundWithBlack()
-                .AddSegments(new List<Segment>() {new Segment((0, 0), (0.3, 0.6))})
-                .AddZones(new List<Zone>() {new Zone((0.4, 0.4), 0.2)})
+                .AddZones(routeList.Zones)
+                .AddPoints(test)
                 .PrintPixels();
 
             //_simManager = new SimulationManager();

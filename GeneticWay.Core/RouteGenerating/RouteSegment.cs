@@ -1,4 +1,6 @@
-﻿namespace GeneticWay.Core.Models
+﻿using GeneticWay.Core.Models;
+
+namespace GeneticWay.Core.RouteGenerating
 {
     public class RouteSegment
     {

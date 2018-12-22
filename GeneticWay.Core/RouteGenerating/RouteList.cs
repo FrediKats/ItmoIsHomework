@@ -7,22 +7,22 @@ namespace GeneticWay.Core.RouteGenerating
 {
     public class RouteList
     {
-        private readonly List<Zone> _zones;
-        public Zone? LastZone => _zones.LastOrDefault();
+        public List<Zone> Zones { get; }
+        //public Zone? LastZone => Zones.LastOrDefault();
 
         public RouteList()
         {
-            _zones = new List<Zone>();
+            Zones = new List<Zone>();
         }
 
         private RouteList(IEnumerable<Zone> zones)
         {
-            _zones = zones.Select(z => z).ToList();
+            Zones = zones.Select(z => z).ToList();
         }
 
         public bool IsZoneAlreadyInList(Zone newZone)
         {
-            return _zones.Any(z => z == newZone);
+            return Zones.Any(z => z == newZone);
         }
 
         public void AddNew(Zone newZone)
@@ -30,12 +30,12 @@ namespace GeneticWay.Core.RouteGenerating
             if (IsZoneAlreadyInList(newZone))
                 throw new ArgumentException("Already in list");
 
-            _zones.Add(newZone);
+            Zones.Add(newZone);
         }
 
         public RouteList Clone()
         {
-            return new RouteList(_zones);
+            return new RouteList(Zones);
         }
     }
 }

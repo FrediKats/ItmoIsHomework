@@ -47,5 +47,28 @@ namespace GeneticWay.Core.ExecutionLogic
 
             return otherCoordinateSystemPoint * (1 / scale) + zeroCoordinate;
         }
+
+        public static Segment BuildCirclesConnectingSegment(Zone first, Zone second)
+        {
+            if ((first.Coordinate - second.Coordinate).GetLength() < (first.R + second.R))
+                throw new ArgumentException("Zones are intersect");
+
+            Coordinate closestPointFrom = first.GetClosestToPointCoordinate(second.Coordinate);
+            Coordinate closestPointTo = second.GetClosestToPointCoordinate(first.Coordinate);
+
+            return new Segment(closestPointFrom, closestPointTo);
+        }
+
+        public static Segment BuildFromPointToCircleSegment(Coordinate coordinate, Zone circle)
+        {
+            Coordinate closestPoint = circle.GetClosestToPointCoordinate(coordinate);
+            return new Segment(coordinate, closestPoint);
+        }
+
+        public static Segment BuildFromCircleToPointSegment(Zone circle, Coordinate coordinate)
+        {
+            Coordinate closestPoint = circle.GetClosestToPointCoordinate((1, 1));
+            return new Segment(closestPoint, circle.Coordinate);
+        }
     }
 }
