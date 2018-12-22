@@ -12,10 +12,12 @@ namespace GeneticWay.Core.Vectorization
             Position = position;
             Velocity = velocity;
             VisitedPoints = new List<Coordinate>();
+            ForceVector = new List<Coordinate>();
             _time = time;
         }
 
         public List<Coordinate> VisitedPoints { get; }
+        public List<Coordinate> ForceVector { get; }
 
         public Coordinate Position { get; private set; }
         public Coordinate Velocity { get; private set; }
@@ -33,6 +35,7 @@ namespace GeneticWay.Core.Vectorization
 
         public void ApplyForceVector(Coordinate forceVector)
         {
+            ForceVector.Add(forceVector);
             Velocity += forceVector * _time;
         }
     }

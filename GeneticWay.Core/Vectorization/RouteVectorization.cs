@@ -19,12 +19,12 @@ namespace GeneticWay.Core.Vectorization
             _movableObject = movableObject;
         }
 
-        private void PointToPointVectorSelection(Coordinate to, MovableObject movableObject)
+        private static void PointToPointVectorSelection(Coordinate to, MovableObject movableObject)
         {
             RecursiveDivision(to, movableObject);
         }
 
-        private void RecursiveDivision(Coordinate to, MovableObject movableObject)
+        private static void RecursiveDivision(Coordinate to, MovableObject movableObject)
         {
             while (true)
             {

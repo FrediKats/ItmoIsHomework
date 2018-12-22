@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using GeneticWay.Core.AntiAliasing;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Legacy;
 using GeneticWay.Core.Models;
@@ -27,12 +28,16 @@ namespace GeneticWay
             routeList.Zones.Add(new Circle((0.8, 0.9), 0.05));
             List<Coordinate> test = RouteGenerator.BuildPath(routeList);
 
-            var vectorization = new RouteVectorization(test, MovableObject.Create());
+            MovableObject movableObject = MovableObject.Create();
+            var vectorization = new RouteVectorization(test, movableObject);
             List<Coordinate> vectorizedPath = vectorization.ApplyVectorization();
+
+            AntiAliasing antiAliasing = new AntiAliasing(movableObject.ForceVector);
+            MovableObject objectAfterAntiAliasing = antiAliasing.GenerateRoute();
 
             _pixelDrawer.PrintBackgroundWithBlack()
                 .AddZones(routeList.Zones)
-                .AddPoints(vectorizedPath)
+                .AddPoints(objectAfterAntiAliasing.VisitedPoints)
                 .PrintPixels();
 
             //_simManager = new SimulationManager();
