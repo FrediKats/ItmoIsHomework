@@ -111,8 +111,8 @@ namespace GeneticWay.Core.RouteGenerating
             from = from - zone.Coordinate;
             to = to - zone.Coordinate;
 
-            double angleFrom = Math.Asin(zone.R / from.Y);
-            double angleTo = Math.Asin(zone.R / to.Y);
+            double angleFrom = Math.Atan2(from.Y, from.X);
+            double angleTo = Math.Atan2(to.Y, to.X);
 
             //TODO: Add direction choosing
             for (double a = angleFrom; a <= angleTo; a += 0.01)

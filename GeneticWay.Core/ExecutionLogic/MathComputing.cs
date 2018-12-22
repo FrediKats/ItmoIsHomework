@@ -8,7 +8,7 @@ namespace GeneticWay.Core.ExecutionLogic
     {
         public static Coordinate PointOnCircle(double radius, double angle)
         {
-            (double, double) radiusShift = (radius * Math.Sin(angle), radius * Math.Cos(angle));
+            (double, double) radiusShift = (radius * Math.Cos(angle), radius * Math.Sin(angle));
             return radiusShift;
         }
 
@@ -43,9 +43,9 @@ namespace GeneticWay.Core.ExecutionLogic
         public static Coordinate GetClosestToPointCoordinate(this Zone zone, Coordinate zeroCoordinate)
         {
             Coordinate otherCoordinateSystemPoint = zone.Coordinate - zeroCoordinate;
-            double scale = otherCoordinateSystemPoint.GetLength() / zone.R;
+            double scale = zone.R / otherCoordinateSystemPoint.GetLength();
 
-            return otherCoordinateSystemPoint * (1 / scale) + zeroCoordinate;
+            return otherCoordinateSystemPoint * (1 - scale) + zeroCoordinate;
         }
 
         public static Segment BuildCirclesConnectingSegment(Zone first, Zone second)
@@ -67,8 +67,8 @@ namespace GeneticWay.Core.ExecutionLogic
 
         public static Segment BuildFromCircleToPointSegment(Zone circle, Coordinate coordinate)
         {
-            Coordinate closestPoint = circle.GetClosestToPointCoordinate((1, 1));
-            return new Segment(closestPoint, circle.Coordinate);
+            Coordinate closestPoint = circle.GetClosestToPointCoordinate(coordinate);
+            return new Segment(closestPoint, coordinate);
         }
     }
 }
