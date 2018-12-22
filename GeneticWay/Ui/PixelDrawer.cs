@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
+using GeneticWay.Core.Vectorization;
 
 namespace GeneticWay.Ui
 {
@@ -70,6 +71,11 @@ namespace GeneticWay.Ui
             }
 
             return this;
+        }
+
+        public PixelDrawer AddMovableObjectPoints(MovableObject movableObject)
+        {
+            return AddPoints(movableObject.VisitedPoints);
         }
 
         private static void PutPixel(byte[,,] pixels, int positionX, int positionY, Color color)
