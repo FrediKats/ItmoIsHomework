@@ -48,13 +48,13 @@ namespace GeneticWay.Ui
             return this;
         }
 
-        public PixelDrawer AddZones(IEnumerable<Zone> zones)
+        public PixelDrawer AddZones(IEnumerable<Circle> zones)
         {
-            foreach (Zone zone in zones)
+            foreach (Circle zone in zones)
             {
                 for (double ang = 0; ang < Math.PI * 2; ang += 0.001)
                 {
-                    Coordinate radiusShift = MathComputing.PointOnCircle(zone.R, ang);
+                    Coordinate radiusShift = MathComputing.PointOnCircle(zone.Radius, ang);
                     Coordinate pointOnImageCoordinate = (zone.Coordinate + radiusShift) * Scale * FieldSize;
                     PutPixel(_pixels, (int)pointOnImageCoordinate.X, (int)pointOnImageCoordinate.Y, Colors.Red);
                 }

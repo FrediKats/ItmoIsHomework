@@ -21,12 +21,13 @@ namespace GeneticWay
             _pixelDrawer = new PixelDrawer(Drawer);
 
             var routeList = new RouteList();
-            routeList.Zones.Add(new Zone((0.2, 0.2), 0.05));
-            routeList.Zones.Add(new Zone((0.4, 0.6), 0.05));
-            routeList.Zones.Add(new Zone((0.5, 0.8), 0.05));
-            routeList.Zones.Add(new Zone((0.8, 0.9), 0.05));
+            routeList.Zones.Add(new Circle((0.2, 0.2), 0.05));
+            routeList.Zones.Add(new Circle((0.4, 0.6), 0.05));
+            routeList.Zones.Add(new Circle((0.5, 0.8), 0.05));
+            routeList.Zones.Add(new Circle((0.8, 0.9), 0.05));
             List<Coordinate> test = RouteGenerator.BuildPath(routeList);
-            RouteVectorization vectorization = new RouteVectorization(test, MovableObject.Create());
+
+            var vectorization = new RouteVectorization(test, MovableObject.Create());
             List<Coordinate> vectorizedPath = vectorization.ApplyVectorization();
 
             _pixelDrawer.PrintBackgroundWithBlack()

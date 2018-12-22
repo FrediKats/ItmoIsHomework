@@ -15,7 +15,7 @@ namespace GeneticWay.Core.RouteGenerating
 
         public GamePolygon Polygon { get; }
 
-        public RouteGenerator(List<Zone> zones)
+        public RouteGenerator(List<Circle> zones)
         {
             Polygon = new GamePolygon(zones);
         }
@@ -24,7 +24,7 @@ namespace GeneticWay.Core.RouteGenerating
         {
             var foundRoutes = new List<RouteList>();
 
-            foreach (Zone zone in Polygon.Zones)
+            foreach (Circle zone in Polygon.Zones)
             {
                 if (routeList.IsZoneAlreadyInList(zone))
                 {
@@ -50,7 +50,7 @@ namespace GeneticWay.Core.RouteGenerating
             return foundRoutes;
         }
 
-        private static Segment BuildSegmentToEnd(Zone? zone)
+        private static Segment BuildSegmentToEnd(Circle? zone)
         {
             if (zone == null)
                 return new Segment((0, 0), (1, 1));
@@ -58,7 +58,7 @@ namespace GeneticWay.Core.RouteGenerating
             return MathComputing.BuildFromCircleToPointSegment(zone.Value, (1, 1));
         }
 
-        private bool IsCanConnectBySegment(Zone? from, Zone to)
+        private bool IsCanConnectBySegment(Circle? from, Circle to)
         {
             Segment connectingSegment;
             if (from == null)
@@ -88,15 +88,15 @@ namespace GeneticWay.Core.RouteGenerating
             Coordinate lastPosition = pathToFirstCircle.End;
             for (int i = 0; i < routeList.Zones.Count - 1; i++)
             {
-                Zone from = routeList.Zones[i];
-                Zone to = routeList.Zones[i + 1];
+                Circle from = routeList.Zones[i];
+                Circle to = routeList.Zones[i + 1];
                 Segment pathBetweenCircles = MathComputing.BuildCirclesConnectingSegment(from, to);
                 coordinatesInPath.AddRange(BuildPathOnCircle(lastPosition, pathBetweenCircles.Start, from));
                 coordinatesInPath.AddRange(pathBetweenCircles.ToCoordinatesList());
                 lastPosition = pathBetweenCircles.End;
             }
 
-            Zone lastZone = routeList.Zones.Last();
+            Circle lastZone = routeList.Zones.Last();
             Segment pathToExit = MathComputing.BuildFromCircleToPointSegment(lastZone, (1, 1));
             coordinatesInPath.AddRange(BuildPathOnCircle(lastPosition, pathToExit.Start, lastZone));
             coordinatesInPath.AddRange(pathToExit.ToCoordinatesList());
@@ -104,7 +104,7 @@ namespace GeneticWay.Core.RouteGenerating
             return coordinatesInPath;
         }
 
-        private static List<Coordinate> BuildPathOnCircle(Coordinate from, Coordinate to, Zone zone)
+        private static List<Coordinate> BuildPathOnCircle(Coordinate from, Coordinate to, Circle zone)
         {
             var coordinates = new List<Coordinate>();
 
@@ -117,7 +117,7 @@ namespace GeneticWay.Core.RouteGenerating
             //TODO: Add direction choosing
             for (double a = angleFrom; a <= angleTo; a += 0.001)
             {
-                coordinates.Add(MathComputing.PointOnCircle(zone.R, a, zone.Coordinate));
+                coordinates.Add(MathComputing.PointOnCircle(zone.Radius, a, zone.Coordinate));
             }
 
             return coordinates;

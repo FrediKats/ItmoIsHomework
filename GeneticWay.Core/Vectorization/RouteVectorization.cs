@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
 
@@ -7,6 +6,12 @@ namespace GeneticWay.Core.Vectorization
 {
     public class RouteVectorization
     {
+        private readonly MovableObject _movableObject;
+
+        private readonly List<Coordinate> _pathCoordinates;
+
+        private const double _time = Configuration.TimePeriod;
+
         //TODO: add params
         public RouteVectorization(List<Coordinate> pathCoordinates, MovableObject movableObject)
         {
@@ -14,39 +19,9 @@ namespace GeneticWay.Core.Vectorization
             _movableObject = movableObject;
         }
 
-        private readonly List<Coordinate> _pathCoordinates;
-        private readonly MovableObject _movableObject;
-        private double _time = Configuration.TimePeriod;
-
         private void PointToPointVectorSelection(Coordinate to, MovableObject movableObject)
         {
             RecursiveDivision(to, movableObject);
-
-            //Coordinate directionPath = to - movableObject.Position;
-            //Coordinate acceleration =
-            //    MathComputing.ChooseOptimalAcceleration(directionPath, movableObject.Velocity, _time);
-
-            //if (acceleration.GetLength() > Configuration.MaxForce * 1.5)
-            //{
-                
-
-            //    directionPath = to - movableObject.Position;
-            //    acceleration = MathComputing.ChooseOptimalAcceleration(directionPath, movableObject.Velocity, _time);
-            //    movableObject.ApplyForceVector(acceleration, _time);
-            //    movableObject.Move(_time);
-            //}
-            //else
-            //{
-            //    movableObject.ApplyForceVector(acceleration, _time);
-            //    movableObject.Move(_time);
-            //}
-
-
-            //TODO: fix
-            //if (acceleration.GetLength() > Configuration.MaxForce)
-            //    throw new Exception("Point too far, setup other epsilon");
-
-            
         }
 
         private void RecursiveDivision(Coordinate to, MovableObject movableObject)
@@ -54,18 +29,19 @@ namespace GeneticWay.Core.Vectorization
             while (true)
             {
                 Coordinate directionPath = to - movableObject.Position;
-                Coordinate acceleration = MathComputing.ChooseOptimalAcceleration(directionPath, movableObject.Velocity, _time);
+                Coordinate acceleration =
+                    MathComputing.ChooseOptimalAcceleration(directionPath, movableObject.Velocity, _time);
 
                 if (acceleration.GetLength() <= Configuration.MaxForce)
                 {
-                    movableObject.ApplyForceVector(acceleration, _time);
-                    movableObject.Move(_time);
+                    movableObject.ApplyForceVector(acceleration);
+                    movableObject.Move();
                 }
                 else
                 {
                     acceleration = acceleration * (1 / acceleration.GetLength());
-                    movableObject.ApplyForceVector(acceleration, _time);
-                    movableObject.Move(_time);
+                    movableObject.ApplyForceVector(acceleration);
+                    movableObject.Move();
 
                     continue;
                 }

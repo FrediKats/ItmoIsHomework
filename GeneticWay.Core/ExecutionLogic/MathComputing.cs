@@ -17,9 +17,11 @@ namespace GeneticWay.Core.ExecutionLogic
             return PointOnCircle(radius, angle) + center;
         }
 
-        //TODO: epsilon
-        public static Coordinate GetSegmentClosestPoint(this Segment segment, double epsilon = 0.01)
+        public static Coordinate GetSegmentClosestPoint(this Segment segment)
         {
+            //TODO: epsilon
+            const double epsilon = Configuration.Epsilon;
+
             Coordinate firstPoint = segment.Start;
             Coordinate secondPoint = segment.End;
 
@@ -41,17 +43,17 @@ namespace GeneticWay.Core.ExecutionLogic
             return new[] {firstPoint, secondPoint, center}.OrderBy(p => p.GetLength()).First();
         }
 
-        public static Coordinate GetClosestToPointCoordinate(this Zone zone, Coordinate zeroCoordinate)
+        public static Coordinate GetClosestToPointCoordinate(this Circle circle, Coordinate zeroCoordinate)
         {
-            Coordinate otherCoordinateSystemPoint = zone.Coordinate - zeroCoordinate;
-            double scale = zone.R / otherCoordinateSystemPoint.GetLength();
+            Coordinate otherCoordinateSystemPoint = circle.Coordinate - zeroCoordinate;
+            double scale = circle.Radius / otherCoordinateSystemPoint.GetLength();
 
             return otherCoordinateSystemPoint * (1 - scale) + zeroCoordinate;
         }
 
-        public static Segment BuildCirclesConnectingSegment(Zone first, Zone second)
+        public static Segment BuildCirclesConnectingSegment(Circle first, Circle second)
         {
-            if ((first.Coordinate - second.Coordinate).GetLength() < first.R + second.R)
+            if ((first.Coordinate - second.Coordinate).GetLength() < first.Radius + second.Radius)
             {
                 throw new ArgumentException("Zones are intersect");
             }
@@ -62,13 +64,13 @@ namespace GeneticWay.Core.ExecutionLogic
             return new Segment(closestPointFrom, closestPointTo);
         }
 
-        public static Segment BuildFromPointToCircleSegment(Coordinate coordinate, Zone circle)
+        public static Segment BuildFromPointToCircleSegment(Coordinate coordinate, Circle circle)
         {
             Coordinate closestPoint = circle.GetClosestToPointCoordinate(coordinate);
             return new Segment(coordinate, closestPoint);
         }
 
-        public static Segment BuildFromCircleToPointSegment(Zone circle, Coordinate coordinate)
+        public static Segment BuildFromCircleToPointSegment(Circle circle, Coordinate coordinate)
         {
             Coordinate closestPoint = circle.GetClosestToPointCoordinate(coordinate);
             return new Segment(closestPoint, coordinate);

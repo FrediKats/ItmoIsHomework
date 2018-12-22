@@ -5,16 +5,16 @@ namespace GeneticWay.Core.ExecutionLogic
 {
     public class GamePolygon
     {
-        public List<Zone> Zones { get; }
+        public List<Circle> Zones { get; }
 
-        public GamePolygon(List<Zone> zones)
+        public GamePolygon(List<Circle> zones)
         {
             Zones = zones;
         }
 
         public bool IsCoordinateInZone(Coordinate coordinate)
         {
-            foreach (Zone zone in Zones)
+            foreach (Circle zone in Zones)
             {
                 if (zone.IsInZone(coordinate))
                     return true;
@@ -30,7 +30,7 @@ namespace GeneticWay.Core.ExecutionLogic
 
         public bool IsCanCreateLine(Segment segment)
         {
-            foreach (Zone zone in Zones)
+            foreach (Circle zone in Zones)
             {
                 if (CircleAndLineIntersection(segment, zone))
                     return false;
@@ -39,12 +39,12 @@ namespace GeneticWay.Core.ExecutionLogic
             return true;
         }
 
-        private static bool CircleAndLineIntersection(Segment segment, Zone zone)
+        private static bool CircleAndLineIntersection(Segment segment, Circle circle)
         {
-            Segment otherCoordinateSystemSegment = segment - zone.Coordinate;
+            Segment otherCoordinateSystemSegment = segment - circle.Coordinate;
             Coordinate closestPoint = otherCoordinateSystemSegment.GetSegmentClosestPoint();
 
-            return closestPoint.GetLength() <= zone.R;
+            return closestPoint.GetLength() <= circle.Radius;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace GeneticWay.Core.Services
 {
     public static class SimulationPolygon
     {
-        public static SimReport Start(ForceField forceField, List<Zone> zones)
+        public static SimReport Start(ForceField forceField, List<Circle> zones)
         {
             var coordinates = new List<Coordinate>();
             var forces = new List<Coordinate>();
