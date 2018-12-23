@@ -8,8 +8,7 @@ namespace GeneticWay.Core.Vectorization
     public class RouteVectorizationModel
     {
         public MovableObject MovableObject { get; }
-
-        private const double _time = Configuration.TimePeriod;
+        private const double Time = Configuration.TimePeriod;
 
         //TODO: add params
         public RouteVectorizationModel(MovableObject movableObject)
@@ -19,35 +18,45 @@ namespace GeneticWay.Core.Vectorization
 
         public void PointToPointVectorSelection(Coordinate to)
         {
-            RecursiveDivision(to, MovableObject);
+            RecursiveDivision(to);
         }
 
-        private static void RecursiveDivision(Coordinate to, MovableObject movableObject)
+        private void RecursiveDivision(Coordinate to)
         {
             var stackOrder = new Stack<Coordinate>();
             stackOrder.Push(to);
             while (stackOrder.Count > 0)
             {
                 Coordinate peek = stackOrder.Peek();
-                Coordinate directionPath = peek - movableObject.Position;
-                Coordinate acceleration = MathComputing.ChooseOptimalAcceleration(directionPath, movableObject.Velocity, _time);
+                Coordinate directionPath = peek - MovableObject.Position;
+                Coordinate acceleration = MathComputing.ChooseOptimalAcceleration(directionPath, MovableObject.Velocity, Time);
 
                 if (acceleration.GetLength() <= Configuration.MaxForce)
                 {
-                    movableObject.MoveAfterApplyingForce(acceleration);
+                    MovableObject.MoveAfterApplyingForce(acceleration);
                     stackOrder.Pop();
                 }
                 else
                 {
                     if (stackOrder.Count > 100000)
                     {
+                        //if (to != (1, 1))
+                        //    return;
                         throw new Exception("Can't find route");
                     }
 
-                    Coordinate midPoint = movableObject.Position.MidPointWith(to);
+                    Coordinate midPoint = MovableObject.Position.MidPointWith(to);
                     stackOrder.Push(midPoint);
                 }
             }
+        }
+
+        private void VelocityMinimization()
+        {
+            var rebuiltCoordinate = new Stack<Coordinate>();
+            (Coordinate position, Coordinate force) data = MovableObject.Rollback();
+
+
         }
 
         public void ApplyVectorization(List<Coordinate> pathCoordinates)

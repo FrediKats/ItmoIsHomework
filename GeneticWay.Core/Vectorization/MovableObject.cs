@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GeneticWay.Core.Models;
 
 namespace GeneticWay.Core.Vectorization
@@ -33,6 +34,24 @@ namespace GeneticWay.Core.Vectorization
             Velocity += forceVector * _time;
             VisitedPoints.Add(Position);
             Position += Velocity * _time;
+
+            //TODO: fix with correct formula
+            //ForceVector.Add(forceVector);
+            //Position += Velocity * _time + forceVector * _time * 0.5;
+            //Velocity += forceVector * _time;
+            //VisitedPoints.Add(Position);
+        }
+
+        public (Coordinate position, Coordinate force) Rollback()
+        {
+            Coordinate position = VisitedPoints.Last();
+            Coordinate force = ForceVector.Last();
+
+            VisitedPoints.RemoveAt(VisitedPoints.Count  - 1);
+            Position -= Velocity * _time;
+            Velocity -= force * _time;
+            ForceVector.RemoveAt(ForceVector.Count - 1);
+            return (position, force);
         }
     }
 }

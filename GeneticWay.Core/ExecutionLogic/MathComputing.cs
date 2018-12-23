@@ -80,6 +80,8 @@ namespace GeneticWay.Core.ExecutionLogic
         {
             if (Math.Abs(length) < Configuration.Epsilon / 10)
                 return 0;
+
+            //TODO: missing coefficient 2
             return (length - velocity * time) / (time * time);
         }
 
