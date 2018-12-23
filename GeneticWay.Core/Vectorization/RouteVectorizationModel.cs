@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
 
@@ -23,27 +24,29 @@ namespace GeneticWay.Core.Vectorization
 
         private static void RecursiveDivision(Coordinate to, MovableObject movableObject)
         {
-            while (true)
+            var stackOrder = new Stack<Coordinate>();
+            stackOrder.Push(to);
+            while (stackOrder.Count > 0)
             {
-                Coordinate directionPath = to - movableObject.Position;
-                Coordinate acceleration =
-                    MathComputing.ChooseOptimalAcceleration(directionPath, movableObject.Velocity, _time);
+                Coordinate peek = stackOrder.Peek();
+                Coordinate directionPath = peek - movableObject.Position;
+                Coordinate acceleration = MathComputing.ChooseOptimalAcceleration(directionPath, movableObject.Velocity, _time);
 
                 if (acceleration.GetLength() <= Configuration.MaxForce)
                 {
-                    movableObject.ApplyForceVector(acceleration);
-                    movableObject.Move();
+                    movableObject.MoveAfterApplyingForce(acceleration);
+                    stackOrder.Pop();
                 }
                 else
                 {
-                    acceleration = acceleration * (1 / acceleration.GetLength());
-                    movableObject.ApplyForceVector(acceleration);
-                    movableObject.Move();
+                    if (stackOrder.Count > 100000)
+                    {
+                        throw new Exception("Can't find route");
+                    }
 
-                    continue;
+                    Coordinate midPoint = movableObject.Position.MidPointWith(to);
+                    stackOrder.Push(midPoint);
                 }
-
-                break;
             }
         }
 
@@ -52,6 +55,11 @@ namespace GeneticWay.Core.Vectorization
             foreach (Coordinate coordinate in pathCoordinates)
             {
                 PointToPointVectorSelection(coordinate);
+            }
+
+            while (MovableObject.Position.LengthTo((1, 1)) > Configuration.Epsilon * 50)
+            {
+                PointToPointVectorSelection((1, 1));
             }
         }
     }

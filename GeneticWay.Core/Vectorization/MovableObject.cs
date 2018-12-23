@@ -27,16 +27,12 @@ namespace GeneticWay.Core.Vectorization
             return new MovableObject((0, 0), (0, 0), Configuration.TimePeriod);
         }
 
-        public void Move()
-        {
-            VisitedPoints.Add(Position);
-            Position += Velocity * _time;
-        }
-
-        public void ApplyForceVector(Coordinate forceVector)
+        public void MoveAfterApplyingForce(Coordinate forceVector)
         {
             ForceVector.Add(forceVector);
             Velocity += forceVector * _time;
+            VisitedPoints.Add(Position);
+            Position += Velocity * _time;
         }
     }
 }
