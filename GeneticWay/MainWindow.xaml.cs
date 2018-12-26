@@ -27,6 +27,8 @@ namespace GeneticWay
             InitializeComponent();
             _pixelDrawer = new PixelDrawer(Drawer);
 
+            _simManager = new SimulationManager();
+
             _routeList = new RouteList();
             _routeList.Zones.Add(new Circle((0.2, 0.2), 0.05));
             _routeList.Zones.Add(new Circle((0.4, 0.6), 0.05));
@@ -81,44 +83,43 @@ namespace GeneticWay
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void TestOldGenAlgo(object sender, RoutedEventArgs e)
         {
             int count = int.Parse(CountInput.Text);
             _simManager.MakeIteration(count);
-
-            PixelDrawer pd = new PixelDrawer(Drawer);
+            
             SimReport report = _simManager.Reports.First();
 
-            pd.PrintBackgroundWithBlack()
+            _pixelDrawer.PrintBackgroundWithBlack()
                 .AddPoints(report.Coordinates)
                 .AddZones(_simManager.Zones)
                 .PrintPixels();
             MessageBox.Show($"{report}");
         }
 
-        private void btnAuto_Click(object sender, RoutedEventArgs e)
-        {
-            int count = int.Parse(CountInput.Text) - 1;
+        //private void TestOldGenAlgo(object sender, RoutedEventArgs e)
+        //{
+        //    int count = int.Parse(CountInput.Text) - 1;
 
-            _simManager.MakeIteration(1);
-            int lastIterationCount;
-            SimReport report;
+        //    _simManager.MakeIteration(1);
+        //    int lastIterationCount;
+        //    SimReport report;
 
-            do
-            {
-                report = _simManager.Reports.First();
-                lastIterationCount = report.IterationCount;
-                _simManager.MakeIteration(count);
+        //    do
+        //    {
+        //        report = _simManager.Reports.First();
+        //        lastIterationCount = report.IterationCount;
+        //        _simManager.MakeIteration(count);
 
-            } while (lastIterationCount == report.IterationCount);
+        //    } while (lastIterationCount == report.IterationCount);
 
-            var pd = new PixelDrawer(Drawer);
-            pd.PrintBackgroundWithBlack()
-                .AddPoints(report.Coordinates)
-                .AddZones(_simManager.Zones)
-                .PrintPixels();
+        //    var pd = new PixelDrawer(Drawer);
+        //    pd.PrintBackgroundWithBlack()
+        //        .AddPoints(report.Coordinates)
+        //        .AddZones(_simManager.Zones)
+        //        .PrintPixels();
 
-            MessageBox.Show($"{report}");
-        }
+        //    MessageBox.Show($"{report}");
+        //}
     }
 }

@@ -40,7 +40,7 @@
             Margin="0,83,9.6,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Content="Run while true" Click="btnAuto_Click" />
+            Content="Run gen" Click="TestOldGenAlgo" />
     </Grid>
 
 </Window>
