@@ -19,8 +19,16 @@ namespace GeneticWay.Core.AntiAliasing
         {
             var vectorizationModel = new RouteVectorizationModel(MovableObject.Create());
             vectorizationModel.ApplyVectorization(Path);
-
-            Path = vectorizationModel.MovableObject.VisitedPoints.Select(x => x).ToList();
+            List<Coordinate> result = new List<Coordinate>();
+            result.Add((0,0));
+            foreach (Coordinate position in vectorizationModel.MovableObject.VisitedPoints)
+            {
+                if (position.X != 0 && position.Y != 0)
+                {
+                    result.Add(position);
+                }
+            }
+            Path = result;
 
             return vectorizationModel.MovableObject;
         }

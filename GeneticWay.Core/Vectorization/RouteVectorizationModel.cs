@@ -34,8 +34,9 @@ namespace GeneticWay.Core.Vectorization
                 if (acceleration.GetLength() <= Configuration.MaxForce)
                 {
                     Coordinate newVelocity = MovableObject.Velocity + (acceleration * Configuration.TimePeriod);
-                    if (newVelocity.GetLength() >
-                        MathComputing.GetMaxSpeed(directionPath.GetLength(), Configuration.MaxForce))
+                    var maxSpeed = MathComputing.GetMaxSpeed(directionPath.GetLength(), Configuration.MaxForce);
+
+                    if (newVelocity.GetLength() > maxSpeed)
                     {
                         if (stackOrder.Count > 100000)
                         {
@@ -74,7 +75,7 @@ namespace GeneticWay.Core.Vectorization
                 PointToPointVectorSelection(coordinate);
             }
 
-            while (MovableObject.Position.LengthTo((1, 1)) > Configuration.Epsilon * 50)
+            while (MovableObject.Position.LengthTo((1, 1)) > Configuration.Epsilon / 100)
             {
                 PointToPointVectorSelection((1, 1));
             }
