@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GeneticWay.Core.Models;
+using GeneticWay.Core.Tools;
 
 namespace GeneticWay.Core.ExecutionLogic
 {
@@ -58,19 +59,19 @@ namespace GeneticWay.Core.ExecutionLogic
             Coordinate closestPointFrom = first.GetClosestPointFromCircleToPoint(second.Coordinate);
             Coordinate closestPointTo = second.GetClosestPointFromCircleToPoint(first.Coordinate);
 
-            return new Segment(closestPointFrom, closestPointTo);
+            return Segment.Of(closestPointFrom, closestPointTo);
         }
 
         public static Segment BuildSegmentFromPointToCircle(Coordinate coordinate, Circle circle)
         {
             Coordinate closestPoint = circle.GetClosestPointFromCircleToPoint(coordinate);
-            return new Segment(coordinate, closestPoint);
+            return Segment.Of(coordinate, closestPoint);
         }
 
         public static Segment BuildSegmentFromCircleToPoint(Circle circle, Coordinate coordinate)
         {
             Coordinate closestPoint = circle.GetClosestPointFromCircleToPoint(coordinate);
-            return new Segment(closestPoint, coordinate);
+            return Segment.Of(closestPoint, coordinate);
         }
     }
 }

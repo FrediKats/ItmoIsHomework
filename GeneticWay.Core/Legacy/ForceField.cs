@@ -1,5 +1,6 @@
 ﻿using System;
 using GeneticWay.Core.Models;
+using GeneticWay.Core.Tools;
 
 namespace GeneticWay.Core.Legacy
 {

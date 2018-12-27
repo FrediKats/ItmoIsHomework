@@ -1,5 +1,6 @@
 ﻿using System;
 using GeneticWay.Core.Models;
+using GeneticWay.Core.Tools;
 
 namespace GeneticWay.Core.ExecutionLogic
 {
@@ -9,7 +10,9 @@ namespace GeneticWay.Core.ExecutionLogic
         {
             //TODO: validate epsilon
             if (Math.Abs(length) < Configuration.Epsilon / 10000)
+            {
                 return 0;
+            }
 
             //TODO: check formula
             return 2 * (length - velocity * time) / (time * time);

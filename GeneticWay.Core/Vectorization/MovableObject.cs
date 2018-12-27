@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GeneticWay.Core.Models;
+using GeneticWay.Core.Tools;
 
 namespace GeneticWay.Core.Vectorization
 {
@@ -44,12 +45,13 @@ namespace GeneticWay.Core.Vectorization
             Velocity += forceVector * _time;
         }
 
+        //TODO: remove
         public (Coordinate position, Coordinate force) Rollback()
         {
             Coordinate position = VisitedPoints.Last();
             Coordinate force = ForceVector.Last();
 
-            VisitedPoints.RemoveAt(VisitedPoints.Count  - 1);
+            VisitedPoints.RemoveAt(VisitedPoints.Count - 1);
             Position -= Velocity * _time;
             Velocity -= force * _time;
             ForceVector.RemoveAt(ForceVector.Count - 1);

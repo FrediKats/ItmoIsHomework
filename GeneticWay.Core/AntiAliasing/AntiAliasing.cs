@@ -15,21 +15,17 @@ namespace GeneticWay.Core.AntiAliasing
             Path = path;
         }
 
+        public List<Coordinate> Path { get; private set; }
+
         public MovableObject GenerateRoute()
         {
             var vectorizationModel = new RouteVectorizationModel(MovableObject.Create());
             vectorizationModel.ApplyVectorization(Path);
-            List<Coordinate> result = new List<Coordinate> {(0, 0)};
 
-            foreach (Coordinate position in vectorizationModel.MovableObject.VisitedPoints)
-            {
-                if (position.X != 0 && position.Y != 0)
-                {
-                    result.Add(position);
-                }
-            }
+            var result = new List<Coordinate> {(0, 0)};
+            result.AddRange(vectorizationModel.MovableObject.VisitedPoints.Where(p => p != (0, 0)));
+
             Path = result;
-
             return vectorizationModel.MovableObject;
         }
 
@@ -48,7 +44,5 @@ namespace GeneticWay.Core.AntiAliasing
             instance.PathMutation();
             return instance;
         }
-
-        public List<Coordinate> Path { get; private set; }
     }
 }

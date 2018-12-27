@@ -15,12 +15,12 @@ namespace GeneticWay
 {
     public partial class MainWindow : Window
     {
-        private readonly SimulationManager _simManager;
         private readonly PixelDrawer _pixelDrawer;
-        private readonly RouteList _routeList;
-        private int _minCount = int.MaxValue;
 
-        private AntiAliasing AntiAliasing { get; set; }
+        //TODO: replace with polygon
+        private readonly RouteList _routeList;
+        private readonly SimulationManager _simManager;
+        private int _minCount = int.MaxValue;
 
 
         public MainWindow()
@@ -39,7 +39,9 @@ namespace GeneticWay
             AntiAliasing = new AntiAliasing(testingPath);
         }
 
-        private MovableObject Test()
+        private AntiAliasing AntiAliasing { get; set; }
+
+        private MovableObject ExecuteSimulation()
         {
             AntiAliasing newSimulation = AntiAliasing.CreateMutated();
 
@@ -58,21 +60,24 @@ namespace GeneticWay
 
         private void RunAntiAliasing(object sender, RoutedEventArgs e)
         {
-            int count = int.Parse(CountInput.Text);
             MovableObject movableObject = null;
+            int count = int.Parse(CountInput.Text);
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
-                movableObject = Test() ?? movableObject;
+                movableObject = ExecuteSimulation() ?? movableObject;
             }
 
-            if (movableObject != null)
+            if (movableObject == null)
             {
-                _pixelDrawer.PrintBackgroundWithBlack()
-                    .AddZones(_routeList.Zones)
-                    .AddPoints(movableObject.VisitedPoints)
-                    .PrintPixels();
+                MessageBox.Show("Move object is null");
+                return;
             }
+
+            _pixelDrawer.PrintBackgroundWithBlack()
+                .AddZones(_routeList.Zones)
+                .AddPoints(movableObject.VisitedPoints)
+                .PrintPixels();
 
             MessageBox.Show($"Old: {_minCount}, New: {AntiAliasing.Path.Count}");
             if (AntiAliasing.Path.Count < _minCount)
@@ -84,11 +89,12 @@ namespace GeneticWay
             UpdatePlot(movableObject);
         }
 
+        //TODO: remove, deprecated
         private void RunOldGeneticAlgorithm(object sender, RoutedEventArgs e)
         {
             int count = int.Parse(CountInput.Text);
             _simManager.MakeIteration(count);
-            
+
             SimReport report = _simManager.Reports.First();
 
             _pixelDrawer.PrintBackgroundWithBlack()
@@ -109,7 +115,7 @@ namespace GeneticWay
             };
 
             VelocityPlot.Series.Add(series);
-            VelocityPlot.InvalidatePlot(true);
+            VelocityPlot.InvalidatePlot();
         }
     }
 }

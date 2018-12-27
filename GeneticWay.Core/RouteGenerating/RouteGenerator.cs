@@ -13,12 +13,12 @@ namespace GeneticWay.Core.RouteGenerating
             Polygon = polygon;
         }
 
-        public GamePolygon Polygon { get; }
-
         public RouteGenerator(List<Circle> zones)
         {
             Polygon = new GamePolygon(zones);
         }
+
+        public GamePolygon Polygon { get; }
 
         public List<RouteList> RecursiveSearch(RouteList routeList)
         {
@@ -40,12 +40,16 @@ namespace GeneticWay.Core.RouteGenerating
                 newRoute.AddNew(zone);
                 List<RouteList> descendantRoutes = RecursiveSearch(newRoute);
                 if (descendantRoutes?.Count > 0)
+                {
                     foundRoutes.AddRange(descendantRoutes);
+                }
             }
 
             Segment routeToEnd = BuildSegmentToEnd(routeList.Zones.Last());
             if (Polygon.IsCanCreateLine(routeToEnd))
+            {
                 foundRoutes.Add(routeList);
+            }
 
             return foundRoutes;
         }
@@ -53,7 +57,9 @@ namespace GeneticWay.Core.RouteGenerating
         private static Segment BuildSegmentToEnd(Circle? zone)
         {
             if (zone == null)
-                return new Segment((0, 0), (1, 1));
+            {
+                return Segment.Of((0, 0), (1, 1));
+            }
 
             return MathComputing.BuildSegmentFromCircleToPoint(zone.Value, (1, 1));
         }
@@ -75,18 +81,18 @@ namespace GeneticWay.Core.RouteGenerating
 
         public static List<Coordinate> BuildPath(RouteList routeList)
         {
-            List<Coordinate> coordinatesInPath = new List<Coordinate>();
+            var coordinatesInPath = new List<Coordinate>();
 
             if (routeList.Zones.Count == 0)
             {
-                return new Segment((0, 0), (1, 1)).ToCoordinatesList();
+                return Segment.Of((0, 0), (1, 1)).ToCoordinatesList();
             }
 
             Segment pathToFirstCircle = MathComputing.BuildSegmentFromPointToCircle((0, 0), routeList.Zones.First());
             coordinatesInPath.AddRange(pathToFirstCircle.ToCoordinatesList());
 
             Coordinate lastPosition = pathToFirstCircle.End;
-            for (int i = 0; i < routeList.Zones.Count - 1; i++)
+            for (var i = 0; i < routeList.Zones.Count - 1; i++)
             {
                 Circle from = routeList.Zones[i];
                 Circle to = routeList.Zones[i + 1];

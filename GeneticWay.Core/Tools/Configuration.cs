@@ -1,9 +1,9 @@
-﻿namespace GeneticWay.Core
+﻿namespace GeneticWay.Core.Tools
 {
     public static class Configuration
     {
+        //TODO: update configuration
         public const double MaxForce = 2;
-        //TODO: WoW, magic. If value if e-3, code will crash
         public const double TimePeriod = 1e-1;
 
         public const int MaxIterationCount = (int) 1e7;

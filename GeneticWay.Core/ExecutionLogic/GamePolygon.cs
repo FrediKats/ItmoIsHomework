@@ -5,19 +5,21 @@ namespace GeneticWay.Core.ExecutionLogic
 {
     public class GamePolygon
     {
-        public List<Circle> Zones { get; }
-
         public GamePolygon(List<Circle> zones)
         {
             Zones = zones;
         }
+
+        public List<Circle> Zones { get; }
 
         public bool IsCoordinateInZone(Coordinate coordinate)
         {
             foreach (Circle zone in Zones)
             {
                 if (zone.IsInZone(coordinate))
+                {
                     return true;
+                }
             }
 
             return false;
@@ -33,7 +35,9 @@ namespace GeneticWay.Core.ExecutionLogic
             foreach (Circle zone in Zones)
             {
                 if (CircleAndLineIntersection(segment, zone))
+                {
                     return false;
+                }
             }
 
             return true;

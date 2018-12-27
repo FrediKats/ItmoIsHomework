@@ -1,4 +1,5 @@
 ﻿using System;
+using GeneticWay.Core.Tools;
 
 namespace GeneticWay.Core.Models
 {
@@ -83,6 +84,7 @@ namespace GeneticWay.Core.Models
         {
             return !(left == right);
         }
+
         #endregion
 
         public override string ToString()
