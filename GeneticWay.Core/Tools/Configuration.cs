@@ -3,7 +3,7 @@
     public static class Configuration
     {
         //TODO: update configuration
-        public const double MaxForce = 2;
+        public const double MaxForce = 4;
         public const double TimePeriod = 1e-1;
 
         public const int MaxIterationCount = (int) 1e7;

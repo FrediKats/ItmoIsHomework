@@ -6,41 +6,26 @@ using GeneticWay.Core.Vectorization;
 
 namespace GeneticWay.Core.RoutingLogic
 {
-    public class AntiAliasing
+    public static class AntiAliasing
     {
         private static readonly Random Random = new Random();
 
-        public AntiAliasing(List<Coordinate> path)
+        public static MovableObject TrySmooth(List<Coordinate> path)
         {
-            Path = path;
-        }
+            List<Coordinate> mutatedPath = CreateMutated(path);
+            MovableObject movableObject = RouteVectorization.ApplyVectorization(mutatedPath);
 
-        public List<Coordinate> Path { get; private set; }
-
-        public MovableObject GenerateRoute()
-        {
-            MovableObject movableObject = RouteVectorization.ApplyVectorization(Path);
-
+            //TODO: check, probably a bug
             var result = new List<Coordinate> {(0, 0)};
             result.AddRange(movableObject.VisitedPoints.Where(p => p != (0, 0)));
 
-            Path = result;
             return movableObject;
         }
 
-        private void PathMutation()
+        public static List<Coordinate> CreateMutated(List<Coordinate> path)
         {
-            //int countToRemove = Path.Count / 100;
-            //for (int i = 0; i < countToRemove; i++)
-            //{
-            Path.RemoveAt(Random.Next(Path.Count));
-            //}
-        }
-
-        public AntiAliasing CreateMutated()
-        {
-            var instance = new AntiAliasing(Path.Select(x => x).ToList());
-            instance.PathMutation();
+            List<Coordinate> instance = path.Select(x => x).ToList();
+            instance.RemoveAt(Random.Next(instance.Count));
             return instance;
         }
     }

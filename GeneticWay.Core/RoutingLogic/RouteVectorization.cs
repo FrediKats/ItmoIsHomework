@@ -38,14 +38,14 @@ namespace GeneticWay.Core.RoutingLogic
 
                     if (newVelocity.GetLength() > maxSpeed)
                     {
-                        double accelerationLength = PhysicsFormula.OptimalAcceleration(directionPath.GetLength(),
-                            movableObject.Velocity.GetLength(), Configuration.TimePeriod);
-                        acceleration *= accelerationLength / acceleration.GetLength();
                         if (stackOrder.Count > 100000)
                         {
                             throw new Exception("Can't find route");
                         }
 
+                        double accelerationLength = PhysicsFormula.OptimalAcceleration(directionPath.GetLength(),
+                            movableObject.Velocity.GetLength(), Configuration.TimePeriod);
+                        acceleration *= accelerationLength / acceleration.GetLength() / 2;
                         movableObject.MoveAfterApplyingForce(acceleration);
                     }
                     else

@@ -21,7 +21,7 @@ namespace GeneticWay
         private readonly ZoneIterationPath _zoneIterationPath;
         private readonly SimulationManager _simManager;
         private int _minCount = int.MaxValue;
-
+        private List<Coordinate> _coordinates;
 
         public MainWindow()
         {
@@ -34,22 +34,15 @@ namespace GeneticWay
             _zoneIterationPath.Zones.Add(new Circle((0.4, 0.6), 0.05));
             _zoneIterationPath.Zones.Add(new Circle((0.5, 0.8), 0.05));
             _zoneIterationPath.Zones.Add(new Circle((0.8, 0.9), 0.05));
-            List<Coordinate> testingPath = RouteGenerator.BuildPath(_zoneIterationPath);
-
-            AntiAliasing = new AntiAliasing(testingPath);
+            _coordinates = RouteGenerator.BuildPath(_zoneIterationPath);
         }
 
-        private AntiAliasing AntiAliasing { get; set; }
-
-        private MovableObject ExecuteSimulation()
+        private MovableObject ExecuteSimulation(List<Coordinate> path)
         {
-            AntiAliasing newSimulation = AntiAliasing.CreateMutated();
-
             //TODO: remove checking
             try
             {
-                MovableObject result = newSimulation.GenerateRoute();
-                AntiAliasing = newSimulation;
+                MovableObject result = AntiAliasing.TrySmooth(path);
                 return result;
             }
             catch (Exception)
@@ -65,7 +58,12 @@ namespace GeneticWay
 
             for (var i = 0; i < count; i++)
             {
-                movableObject = ExecuteSimulation() ?? movableObject;
+                MovableObject nextGenerationObject = ExecuteSimulation(_coordinates);
+                if (nextGenerationObject != null)
+                {
+                    movableObject = nextGenerationObject;
+                    _coordinates = nextGenerationObject.VisitedPoints.Select(x => x).ToList();
+                }
             }
 
             if (movableObject == null)
@@ -79,10 +77,10 @@ namespace GeneticWay
                 .AddPoints(movableObject.VisitedPoints)
                 .PrintPixels();
 
-            MessageBox.Show($"Old: {_minCount}, New: {AntiAliasing.Path.Count}");
-            if (AntiAliasing.Path.Count < _minCount)
+            MessageBox.Show($"Old: {_minCount}, New: {_coordinates.Count}");
+            if (_coordinates.Count < _minCount)
             {
-                _minCount = AntiAliasing.Path.Count;
+                _minCount = _coordinates.Count;
             }
 
             MessageBox.Show($"Final speed: {movableObject?.Velocity.GetLength() ?? -1}");
