@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using GeneticWay.Core.AntiAliasing;
-using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Legacy;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.RouteGenerating;
 using GeneticWay.Core.Vectorization;
 using GeneticWay.Ui;
 using OxyPlot;
-using OxyPlot.Axes;
 using OxyPlot.Wpf;
-using LinearAxis = OxyPlot.Wpf.LinearAxis;
 
 namespace GeneticWay
 {
@@ -21,7 +18,7 @@ namespace GeneticWay
         private readonly SimulationManager _simManager;
         private readonly PixelDrawer _pixelDrawer;
         private readonly RouteList _routeList;
-        private int _minCount = Int32.MaxValue;
+        private int _minCount = int.MaxValue;
 
         private AntiAliasing AntiAliasing { get; set; }
 
@@ -30,7 +27,6 @@ namespace GeneticWay
         {
             InitializeComponent();
             _pixelDrawer = new PixelDrawer(Drawer);
-
             _simManager = new SimulationManager();
 
             _routeList = new RouteList();
@@ -47,18 +43,17 @@ namespace GeneticWay
         {
             AntiAliasing newSimulation = AntiAliasing.CreateMutated();
 
+            //TODO: remove checking
             try
             {
                 MovableObject result = newSimulation.GenerateRoute();
                 AntiAliasing = newSimulation;
                 return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                // ignored
+                return null;
             }
-
-            return null;
         }
 
         private void RunAntiAliasing(object sender, RoutedEventArgs e)
@@ -66,16 +61,9 @@ namespace GeneticWay
             int count = int.Parse(CountInput.Text);
             MovableObject movableObject = null;
 
-            for (int i = 0; i < count - 1; i++)
+            for (int i = 0; i < count; i++)
             {
                 movableObject = Test() ?? movableObject;
-            }
-
-            movableObject = Test() ?? movableObject;
-            MessageBox.Show($"Old: {_minCount}, New: {AntiAliasing.Path.Count}");
-            if (AntiAliasing.Path.Count < _minCount)
-            {
-                _minCount = AntiAliasing.Path.Count;
             }
 
             if (movableObject != null)
@@ -86,11 +74,17 @@ namespace GeneticWay
                     .PrintPixels();
             }
 
-            MessageBox.Show($"Final speed: {movableObject.Velocity.GetLength()}");
+            MessageBox.Show($"Old: {_minCount}, New: {AntiAliasing.Path.Count}");
+            if (AntiAliasing.Path.Count < _minCount)
+            {
+                _minCount = AntiAliasing.Path.Count;
+            }
+
+            MessageBox.Show($"Final speed: {movableObject?.Velocity.GetLength() ?? -1}");
             UpdatePlot(movableObject);
         }
 
-        private void TestOldGenAlgo(object sender, RoutedEventArgs e)
+        private void RunOldGeneticAlgorithm(object sender, RoutedEventArgs e)
         {
             int count = int.Parse(CountInput.Text);
             _simManager.MakeIteration(count);
@@ -101,11 +95,11 @@ namespace GeneticWay
                 .AddPoints(report.Coordinates)
                 .AddZones(_simManager.Zones)
                 .PrintPixels();
+
             MessageBox.Show($"{report}");
-            
         }
 
-        public void UpdatePlot(MovableObject movableObject)
+        private void UpdatePlot(MovableObject movableObject)
         {
             VelocityPlot.Series.Clear();
 
@@ -114,34 +108,8 @@ namespace GeneticWay
                 ItemsSource = movableObject.VelocityVectors.Select((v, i) => new DataPoint(i, v.GetLength()))
             };
 
-            //VelocityPlot.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = -1, Maximum = 1 });
             VelocityPlot.Series.Add(series);
             VelocityPlot.InvalidatePlot(true);
         }
-
-        //private void TestOldGenAlgo(object sender, RoutedEventArgs e)
-        //{
-        //    int count = int.Parse(CountInput.Text) - 1;
-
-        //    _simManager.MakeIteration(1);
-        //    int lastIterationCount;
-        //    SimReport report;
-
-        //    do
-        //    {
-        //        report = _simManager.Reports.First();
-        //        lastIterationCount = report.IterationCount;
-        //        _simManager.MakeIteration(count);
-
-        //    } while (lastIterationCount == report.IterationCount);
-
-        //    var pd = new PixelDrawer(Drawer);
-        //    pd.PrintBackgroundWithBlack()
-        //        .AddPoints(report.Coordinates)
-        //        .AddZones(_simManager.Zones)
-        //        .PrintPixels();
-
-        //    MessageBox.Show($"{report}");
-        //}
     }
 }

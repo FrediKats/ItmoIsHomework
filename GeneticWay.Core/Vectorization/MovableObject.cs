@@ -21,6 +21,7 @@ namespace GeneticWay.Core.Vectorization
         public List<Coordinate> VisitedPoints { get; }
         public List<Coordinate> ForceVector { get; }
         public List<Coordinate> VelocityVectors { get; }
+
         public Coordinate Position { get; private set; }
         public Coordinate Velocity { get; private set; }
 

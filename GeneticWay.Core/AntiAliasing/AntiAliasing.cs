@@ -19,8 +19,8 @@ namespace GeneticWay.Core.AntiAliasing
         {
             var vectorizationModel = new RouteVectorizationModel(MovableObject.Create());
             vectorizationModel.ApplyVectorization(Path);
-            List<Coordinate> result = new List<Coordinate>();
-            result.Add((0,0));
+            List<Coordinate> result = new List<Coordinate> {(0, 0)};
+
             foreach (Coordinate position in vectorizationModel.MovableObject.VisitedPoints)
             {
                 if (position.X != 0 && position.Y != 0)
@@ -33,7 +33,7 @@ namespace GeneticWay.Core.AntiAliasing
             return vectorizationModel.MovableObject;
         }
 
-        public void PathMutation()
+        private void PathMutation()
         {
             Path.RemoveAt(Random.Next(Path.Count));
         }

@@ -41,7 +41,7 @@
             Margin="0,83,9.6,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Content="Run gen" Click="TestOldGenAlgo" />
+            Content="Run gen" Click="RunOldGeneticAlgorithm" />
         <oxy:Plot Name="VelocityPlot" Margin="32,550,27.6,44.4"/>
     </Grid>
 

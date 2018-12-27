@@ -40,25 +40,22 @@ namespace GeneticWay.Core.Vectorization
                     {
                         if (stackOrder.Count > 100000)
                         {
-                            //if (to != (1, 1))
-                            //    return;
                             throw new Exception("Can't find route");
                         }
 
                         Coordinate midPoint = MovableObject.Position.MidPointWith(to);
                         stackOrder.Push(midPoint);
-                        return;
                     }
-
-                    MovableObject.MoveAfterApplyingForce(acceleration);
-                    stackOrder.Pop();
+                    else
+                    {
+                        MovableObject.MoveAfterApplyingForce(acceleration);
+                        stackOrder.Pop();
+                    }
                 }
                 else
                 {
                     if (stackOrder.Count > 100000)
                     {
-                        //if (to != (1, 1))
-                        //    return;
                         throw new Exception("Can't find route");
                     }
 
@@ -75,7 +72,7 @@ namespace GeneticWay.Core.Vectorization
                 PointToPointVectorSelection(coordinate);
             }
 
-            while (MovableObject.Position.LengthTo((1, 1)) > Configuration.Epsilon / 100)
+            while (MovableObject.Position.LengthTo((1, 1)) > Configuration.Epsilon / 10)
             {
                 PointToPointVectorSelection((1, 1));
             }
