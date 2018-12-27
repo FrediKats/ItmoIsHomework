@@ -78,11 +78,11 @@ namespace GeneticWay.Core.ExecutionLogic
 
         public static double ChooseOptimalAcceleration(double length, double velocity, double time)
         {
-            if (Math.Abs(length) < Configuration.Epsilon / 10)
+            if (Math.Abs(length) < Configuration.Epsilon / 10000)
                 return 0;
 
             //TODO: missing coefficient 2
-            return (length - velocity * time) / (time * time);
+            return 2 * (length - velocity * time) / (time * time);
         }
 
         public static Coordinate ChooseOptimalAcceleration(Coordinate length, Coordinate velocity, double time)
@@ -93,12 +93,12 @@ namespace GeneticWay.Core.ExecutionLogic
 
         public static double GetMaxSpeed(double length, double maxForce)
         {
-            return Math.Sqrt(length * maxForce);
+            return Math.Sqrt(2 * length * maxForce);
         }
 
         public static double OptimalAcceleration(double length, double currentAcceleration, double currentVelocity, double time)
         {
-            return (Math.Sqrt(length * currentAcceleration) * -1 - currentVelocity) / time;
+            return (Math.Sqrt(2 * length * Configuration.MaxForce) * -1 - currentVelocity) / time;
         }
     }
 }

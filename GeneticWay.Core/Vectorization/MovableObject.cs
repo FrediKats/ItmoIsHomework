@@ -34,15 +34,14 @@ namespace GeneticWay.Core.Vectorization
         {
             ForceVector.Add(forceVector);
             VelocityVectors.Add(Velocity);
-            Velocity += forceVector * _time;
             VisitedPoints.Add(Position);
-            Position += Velocity * _time;
+
+            //Velocity += forceVector * _time;
+            //Position += Velocity * _time;
 
             //TODO: fix with correct formula
-            //ForceVector.Add(forceVector);
-            //Position += Velocity * _time + forceVector * _time * 0.5;
-            //Velocity += forceVector * _time;
-            //VisitedPoints.Add(Position);
+            Position += Velocity * _time + forceVector * _time * _time * 0.5;
+            Velocity += forceVector * _time;
         }
 
         public (Coordinate position, Coordinate force) Rollback()
