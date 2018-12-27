@@ -55,7 +55,7 @@ namespace GeneticWay.Core.RouteGenerating
             if (zone == null)
                 return new Segment((0, 0), (1, 1));
 
-            return MathComputing.BuildFromCircleToPointSegment(zone.Value, (1, 1));
+            return MathComputing.BuildSegmentFromCircleToPoint(zone.Value, (1, 1));
         }
 
         private bool IsCanConnectBySegment(Circle? from, Circle to)
@@ -63,7 +63,7 @@ namespace GeneticWay.Core.RouteGenerating
             Segment connectingSegment;
             if (from == null)
             {
-                connectingSegment = MathComputing.BuildFromPointToCircleSegment((0, 0), to);
+                connectingSegment = MathComputing.BuildSegmentFromPointToCircle((0, 0), to);
             }
             else
             {
@@ -82,7 +82,7 @@ namespace GeneticWay.Core.RouteGenerating
                 return new Segment((0, 0), (1, 1)).ToCoordinatesList();
             }
 
-            Segment pathToFirstCircle = MathComputing.BuildFromPointToCircleSegment((0, 0), routeList.Zones.First());
+            Segment pathToFirstCircle = MathComputing.BuildSegmentFromPointToCircle((0, 0), routeList.Zones.First());
             coordinatesInPath.AddRange(pathToFirstCircle.ToCoordinatesList());
 
             Coordinate lastPosition = pathToFirstCircle.End;
@@ -97,7 +97,7 @@ namespace GeneticWay.Core.RouteGenerating
             }
 
             Circle lastZone = routeList.Zones.Last();
-            Segment pathToExit = MathComputing.BuildFromCircleToPointSegment(lastZone, (1, 1));
+            Segment pathToExit = MathComputing.BuildSegmentFromCircleToPoint(lastZone, (1, 1));
             coordinatesInPath.AddRange(BuildPathOnCircle(lastPosition, pathToExit.Start, lastZone));
             coordinatesInPath.AddRange(pathToExit.ToCoordinatesList());
 
@@ -117,7 +117,7 @@ namespace GeneticWay.Core.RouteGenerating
             //TODO: Add direction choosing
             for (double a = angleFrom; a <= angleTo; a += 0.001)
             {
-                coordinates.Add(MathComputing.PointOnCircle(zone.Radius, a, zone.Coordinate));
+                coordinates.Add(MathComputing.GetPointOnCircleCoordinate(zone.Radius, a, zone.Coordinate));
             }
 
             return coordinates;

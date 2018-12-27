@@ -34,7 +34,7 @@ namespace GeneticWay.Core.Vectorization
                 if (acceleration.GetLength() <= Configuration.MaxForce)
                 {
                     Coordinate newVelocity = MovableObject.Velocity + (acceleration * Configuration.TimePeriod);
-                    double maxSpeed = MathComputing.GetMaxSpeed(MovableObject.Position.LengthTo((1,1)), Configuration.MaxForce);
+                    double maxSpeed = MathComputing.GetSpeedSpeedLimit(MovableObject.Position.LengthTo((1,1)), Configuration.MaxForce);
 
                     if (newVelocity.GetLength() > maxSpeed)
                     {

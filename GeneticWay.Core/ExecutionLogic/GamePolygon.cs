@@ -42,7 +42,7 @@ namespace GeneticWay.Core.ExecutionLogic
         private static bool CircleAndLineIntersection(Segment segment, Circle circle)
         {
             Segment otherCoordinateSystemSegment = segment - circle.Coordinate;
-            Coordinate closestPoint = otherCoordinateSystemSegment.GetSegmentClosestPoint();
+            Coordinate closestPoint = otherCoordinateSystemSegment.GetSegmentClosestToCenterPoint();
 
             return closestPoint.GetLength() <= circle.Radius;
         }
