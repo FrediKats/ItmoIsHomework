@@ -9,6 +9,10 @@ using GeneticWay.Core.Models;
 using GeneticWay.Core.RouteGenerating;
 using GeneticWay.Core.Vectorization;
 using GeneticWay.Ui;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Wpf;
+using LinearAxis = OxyPlot.Wpf.LinearAxis;
 
 namespace GeneticWay
 {
@@ -81,6 +85,8 @@ namespace GeneticWay
                     .AddPoints(movableObject.VisitedPoints)
                     .PrintPixels();
             }
+
+            UpdatePlot(movableObject);
         }
 
         private void TestOldGenAlgo(object sender, RoutedEventArgs e)
@@ -95,6 +101,20 @@ namespace GeneticWay
                 .AddZones(_simManager.Zones)
                 .PrintPixels();
             MessageBox.Show($"{report}");
+        }
+
+        public void UpdatePlot(MovableObject movableObject)
+        {
+            VelocityPlot.Series.Clear();
+
+            var series = new LineSeries
+            {
+                ItemsSource = movableObject.VelocityVectors.Select((v, i) => new DataPoint(i, v.GetLength()))
+            };
+
+            //VelocityPlot.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = -1, Maximum = 1 });
+            VelocityPlot.Series.Add(series);
+            VelocityPlot.InvalidatePlot(true);
         }
 
         //private void TestOldGenAlgo(object sender, RoutedEventArgs e)

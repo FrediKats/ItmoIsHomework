@@ -12,7 +12,7 @@ namespace GeneticWay.Ui
 {
     public class PixelDrawer
     {
-        private const int FieldSize = 600;
+        private const int FieldSize = 400;
         private const int Scale = 1;
         private const int TotalPixelSize = FieldSize * Scale;
         private readonly WriteableBitmap _writableBitmap;

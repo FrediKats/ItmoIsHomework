@@ -6,8 +6,9 @@
     xmlns:local="clr-namespace:GeneticWay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainWindow"
+    xmlns:oxy="http://oxyplot.org/wpf"
     Width="800"
-    Height="700"
+    Height="800"
     mc:Ignorable="d">
     <Grid>
         <Image
@@ -41,6 +42,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Content="Run gen" Click="TestOldGenAlgo" />
+        <oxy:Plot Name="VelocityPlot" Margin="32,617,27.6,44.4"/>
     </Grid>
 
 </Window>
