@@ -3,27 +3,21 @@ using System.Collections.Generic;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.Tools;
+using GeneticWay.Core.Vectorization;
 
-namespace GeneticWay.Core.Vectorization
+namespace GeneticWay.Core.RoutingLogic
 {
-    public class RouteVectorizationModel
+    //TODO: make static
+    public static class RouteVectorization
     {
         private const double Time = Configuration.TimePeriod;
 
-        //TODO: add params
-        public RouteVectorizationModel(MovableObject movableObject)
+        private static void PointToPointVectorSelection(MovableObject movableObject, Coordinate to)
         {
-            MovableObject = movableObject;
+            RecursiveDivision(movableObject, to);
         }
 
-        public MovableObject MovableObject { get; }
-
-        public void PointToPointVectorSelection(Coordinate to)
-        {
-            RecursiveDivision(to);
-        }
-
-        private void RecursiveDivision(Coordinate to)
+        private static void RecursiveDivision(MovableObject movableObject, Coordinate to)
         {
             var stackOrder = new Stack<Coordinate>();
             stackOrder.Push(to);
@@ -31,32 +25,32 @@ namespace GeneticWay.Core.Vectorization
             while (stackOrder.Count > 0)
             {
                 Coordinate peek = stackOrder.Peek();
-                Coordinate directionPath = peek - MovableObject.Position;
+                Coordinate directionPath = peek - movableObject.Position;
                 Coordinate acceleration =
-                    PhysicsFormula.ChooseOptimalAcceleration(directionPath, MovableObject.Velocity, Time);
+                    PhysicsFormula.ChooseOptimalAcceleration(directionPath, movableObject.Velocity, Time);
 
                 //TODO: rewrite
                 if (acceleration.GetLength() <= Configuration.MaxForce)
                 {
-                    Coordinate newVelocity = MovableObject.Velocity + acceleration * Configuration.TimePeriod;
-                    double maxSpeed = PhysicsFormula.GetSpeedSpeedLimit(MovableObject.Position.LengthTo((1, 1)),
+                    Coordinate newVelocity = movableObject.Velocity + acceleration * Configuration.TimePeriod;
+                    double maxSpeed = PhysicsFormula.GetSpeedSpeedLimit(movableObject.Position.LengthTo((1, 1)),
                         Configuration.MaxForce);
 
                     if (newVelocity.GetLength() > maxSpeed)
                     {
                         double accelerationLength = PhysicsFormula.OptimalAcceleration(directionPath.GetLength(),
-                            MovableObject.Velocity.GetLength(), Configuration.TimePeriod);
+                            movableObject.Velocity.GetLength(), Configuration.TimePeriod);
                         acceleration *= accelerationLength / acceleration.GetLength();
                         if (stackOrder.Count > 100000)
                         {
                             throw new Exception("Can't find route");
                         }
 
-                        MovableObject.MoveAfterApplyingForce(acceleration);
+                        movableObject.MoveAfterApplyingForce(acceleration);
                     }
                     else
                     {
-                        MovableObject.MoveAfterApplyingForce(acceleration);
+                        movableObject.MoveAfterApplyingForce(acceleration);
                         stackOrder.Pop();
                     }
                 }
@@ -67,30 +61,33 @@ namespace GeneticWay.Core.Vectorization
                         throw new Exception("Can't find route");
                     }
 
-                    Coordinate midPoint = MovableObject.Position.MidPointWith(to);
+                    Coordinate midPoint = movableObject.Position.MidPointWith(to);
                     stackOrder.Push(midPoint);
                 }
             }
         }
 
-        public void ApplyVectorization(List<Coordinate> pathCoordinates)
+        public static MovableObject ApplyVectorization(List<Coordinate> pathCoordinates)
         {
+            MovableObject movableObject = MovableObject.Create();
+
             foreach (Coordinate coordinate in pathCoordinates)
             {
-                if (MovableObject.Position.LengthTo(coordinate) < Configuration.Epsilon / 10)
+                if (movableObject.Position.LengthTo(coordinate) < Configuration.Epsilon / 10)
                 {
                     continue;
                 }
 
-                PointToPointVectorSelection(coordinate);
+                PointToPointVectorSelection(movableObject, coordinate);
             }
 
-            while (MovableObject.Position.LengthTo((1, 1)) > Configuration.Epsilon / 10)
+            while (movableObject.Position.LengthTo((1, 1)) > Configuration.Epsilon / 10)
             {
-                PointToPointVectorSelection((1, 1));
+                PointToPointVectorSelection(movableObject, (1, 1));
             }
 
-            MovableObject.SaveState();
+            movableObject.SaveState();
+            return movableObject;
         }
     }
 }

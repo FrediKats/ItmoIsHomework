@@ -4,7 +4,7 @@ using System.Linq;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.Vectorization;
 
-namespace GeneticWay.Core.AntiAliasing
+namespace GeneticWay.Core.RoutingLogic
 {
     public class AntiAliasing
     {
@@ -19,14 +19,13 @@ namespace GeneticWay.Core.AntiAliasing
 
         public MovableObject GenerateRoute()
         {
-            var vectorizationModel = new RouteVectorizationModel(MovableObject.Create());
-            vectorizationModel.ApplyVectorization(Path);
+            MovableObject movableObject = RouteVectorization.ApplyVectorization(Path);
 
             var result = new List<Coordinate> {(0, 0)};
-            result.AddRange(vectorizationModel.MovableObject.VisitedPoints.Where(p => p != (0, 0)));
+            result.AddRange(movableObject.VisitedPoints.Where(p => p != (0, 0)));
 
             Path = result;
-            return vectorizationModel.MovableObject;
+            return movableObject;
         }
 
         private void PathMutation()

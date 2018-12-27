@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using GeneticWay.Core.AntiAliasing;
 using GeneticWay.Core.Legacy;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.RouteGenerating;
+using GeneticWay.Core.RoutingLogic;
 using GeneticWay.Core.Vectorization;
 using GeneticWay.Ui;
 using OxyPlot;
@@ -18,7 +18,7 @@ namespace GeneticWay
         private readonly PixelDrawer _pixelDrawer;
 
         //TODO: replace with polygon
-        private readonly RouteList _routeList;
+        private readonly ZoneIterationPath _zoneIterationPath;
         private readonly SimulationManager _simManager;
         private int _minCount = int.MaxValue;
 
@@ -29,12 +29,12 @@ namespace GeneticWay
             _pixelDrawer = new PixelDrawer(Drawer);
             _simManager = new SimulationManager();
 
-            _routeList = new RouteList();
-            _routeList.Zones.Add(new Circle((0.2, 0.2), 0.05));
-            _routeList.Zones.Add(new Circle((0.4, 0.6), 0.05));
-            _routeList.Zones.Add(new Circle((0.5, 0.8), 0.05));
-            _routeList.Zones.Add(new Circle((0.8, 0.9), 0.05));
-            List<Coordinate> testingPath = RouteGenerator.BuildPath(_routeList);
+            _zoneIterationPath = new ZoneIterationPath();
+            _zoneIterationPath.Zones.Add(new Circle((0.2, 0.2), 0.05));
+            _zoneIterationPath.Zones.Add(new Circle((0.4, 0.6), 0.05));
+            _zoneIterationPath.Zones.Add(new Circle((0.5, 0.8), 0.05));
+            _zoneIterationPath.Zones.Add(new Circle((0.8, 0.9), 0.05));
+            List<Coordinate> testingPath = RouteGenerator.BuildPath(_zoneIterationPath);
 
             AntiAliasing = new AntiAliasing(testingPath);
         }
@@ -75,7 +75,7 @@ namespace GeneticWay
             }
 
             _pixelDrawer.PrintBackgroundWithBlack()
-                .AddZones(_routeList.Zones)
+                .AddZones(_zoneIterationPath.Zones)
                 .AddPoints(movableObject.VisitedPoints)
                 .PrintPixels();
 

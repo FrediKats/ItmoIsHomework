@@ -5,14 +5,14 @@ using GeneticWay.Core.Models;
 
 namespace GeneticWay.Core.RouteGenerating
 {
-    public class RouteList
+    public class ZoneIterationPath
     {
-        public RouteList()
+        public ZoneIterationPath()
         {
             Zones = new List<Circle>();
         }
 
-        private RouteList(IEnumerable<Circle> zones)
+        private ZoneIterationPath(IEnumerable<Circle> zones)
         {
             Zones = zones.Select(z => z).ToList();
         }
@@ -34,9 +34,9 @@ namespace GeneticWay.Core.RouteGenerating
             Zones.Add(newZone);
         }
 
-        public RouteList Clone()
+        public ZoneIterationPath Clone()
         {
-            return new RouteList(Zones);
+            return new ZoneIterationPath(Zones);
         }
     }
 }

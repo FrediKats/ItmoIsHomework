@@ -20,35 +20,35 @@ namespace GeneticWay.Core.RouteGenerating
 
         public GamePolygon Polygon { get; }
 
-        public List<RouteList> RecursiveSearch(RouteList routeList)
+        public List<ZoneIterationPath> RecursiveSearch(ZoneIterationPath zoneIterationPath)
         {
-            var foundRoutes = new List<RouteList>();
+            var foundRoutes = new List<ZoneIterationPath>();
 
             foreach (Circle zone in Polygon.Zones)
             {
-                if (routeList.IsZoneAlreadyInList(zone))
+                if (zoneIterationPath.IsZoneAlreadyInList(zone))
                 {
                     continue;
                 }
 
-                if (IsCanConnectBySegment(routeList.Zones.Last(), zone) == false)
+                if (IsCanConnectBySegment(zoneIterationPath.Zones.Last(), zone) == false)
                 {
                     continue;
                 }
 
-                RouteList newRoute = routeList.Clone();
+                ZoneIterationPath newRoute = zoneIterationPath.Clone();
                 newRoute.AddNew(zone);
-                List<RouteList> descendantRoutes = RecursiveSearch(newRoute);
+                List<ZoneIterationPath> descendantRoutes = RecursiveSearch(newRoute);
                 if (descendantRoutes?.Count > 0)
                 {
                     foundRoutes.AddRange(descendantRoutes);
                 }
             }
 
-            Segment routeToEnd = BuildSegmentToEnd(routeList.Zones.Last());
+            Segment routeToEnd = BuildSegmentToEnd(zoneIterationPath.Zones.Last());
             if (Polygon.IsCanCreateLine(routeToEnd))
             {
-                foundRoutes.Add(routeList);
+                foundRoutes.Add(zoneIterationPath);
             }
 
             return foundRoutes;
@@ -79,30 +79,30 @@ namespace GeneticWay.Core.RouteGenerating
             return Polygon.IsCanCreateLine(connectingSegment);
         }
 
-        public static List<Coordinate> BuildPath(RouteList routeList)
+        public static List<Coordinate> BuildPath(ZoneIterationPath zoneIterationPath)
         {
             var coordinatesInPath = new List<Coordinate>();
 
-            if (routeList.Zones.Count == 0)
+            if (zoneIterationPath.Zones.Count == 0)
             {
                 return Segment.Of((0, 0), (1, 1)).ToCoordinatesList();
             }
 
-            Segment pathToFirstCircle = MathComputing.BuildSegmentFromPointToCircle((0, 0), routeList.Zones.First());
+            Segment pathToFirstCircle = MathComputing.BuildSegmentFromPointToCircle((0, 0), zoneIterationPath.Zones.First());
             coordinatesInPath.AddRange(pathToFirstCircle.ToCoordinatesList());
 
             Coordinate lastPosition = pathToFirstCircle.End;
-            for (var i = 0; i < routeList.Zones.Count - 1; i++)
+            for (var i = 0; i < zoneIterationPath.Zones.Count - 1; i++)
             {
-                Circle from = routeList.Zones[i];
-                Circle to = routeList.Zones[i + 1];
+                Circle from = zoneIterationPath.Zones[i];
+                Circle to = zoneIterationPath.Zones[i + 1];
                 Segment pathBetweenCircles = MathComputing.BuildCirclesConnectingSegment(from, to);
                 coordinatesInPath.AddRange(BuildPathOnCircle(lastPosition, pathBetweenCircles.Start, from));
                 coordinatesInPath.AddRange(pathBetweenCircles.ToCoordinatesList());
                 lastPosition = pathBetweenCircles.End;
             }
 
-            Circle lastZone = routeList.Zones.Last();
+            Circle lastZone = zoneIterationPath.Zones.Last();
             Segment pathToExit = MathComputing.BuildSegmentFromCircleToPoint(lastZone, (1, 1));
             coordinatesInPath.AddRange(BuildPathOnCircle(lastPosition, pathToExit.Start, lastZone));
             coordinatesInPath.AddRange(pathToExit.ToCoordinatesList());
