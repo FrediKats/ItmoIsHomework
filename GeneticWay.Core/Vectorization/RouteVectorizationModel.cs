@@ -33,6 +33,22 @@ namespace GeneticWay.Core.Vectorization
 
                 if (acceleration.GetLength() <= Configuration.MaxForce)
                 {
+                    Coordinate newVelocity = MovableObject.Velocity + (acceleration * Configuration.TimePeriod);
+                    if (newVelocity.GetLength() >
+                        MathComputing.GetMaxSpeed(directionPath.GetLength(), Configuration.MaxForce))
+                    {
+                        if (stackOrder.Count > 100000)
+                        {
+                            //if (to != (1, 1))
+                            //    return;
+                            throw new Exception("Can't find route");
+                        }
+
+                        Coordinate midPoint = MovableObject.Position.MidPointWith(to);
+                        stackOrder.Push(midPoint);
+                        return;
+                    }
+
                     MovableObject.MoveAfterApplyingForce(acceleration);
                     stackOrder.Pop();
                 }
@@ -50,15 +66,7 @@ namespace GeneticWay.Core.Vectorization
                 }
             }
         }
-
-        private void VelocityMinimization()
-        {
-            var rebuiltCoordinate = new Stack<Coordinate>();
-            (Coordinate position, Coordinate force) data = MovableObject.Rollback();
-
-
-        }
-
+        
         public void ApplyVectorization(List<Coordinate> pathCoordinates)
         {
             foreach (Coordinate coordinate in pathCoordinates)

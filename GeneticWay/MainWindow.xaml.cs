@@ -86,6 +86,7 @@ namespace GeneticWay
                     .PrintPixels();
             }
 
+            MessageBox.Show($"Final speed: {movableObject.Velocity.GetLength()}");
             UpdatePlot(movableObject);
         }
 
@@ -101,6 +102,7 @@ namespace GeneticWay
                 .AddZones(_simManager.Zones)
                 .PrintPixels();
             MessageBox.Show($"{report}");
+            
         }
 
         public void UpdatePlot(MovableObject movableObject)

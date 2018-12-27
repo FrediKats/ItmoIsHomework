@@ -90,5 +90,10 @@ namespace GeneticWay.Core.ExecutionLogic
             return new Coordinate(ChooseOptimalAcceleration(length.X, velocity.X, time),
                 ChooseOptimalAcceleration(length.Y, velocity.Y, time));
         }
+
+        public static double GetMaxSpeed(double length, double maxForce)
+        {
+            return maxForce * Math.Sqrt(length / maxForce);
+        }
     }
 }

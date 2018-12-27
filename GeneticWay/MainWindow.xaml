@@ -33,7 +33,7 @@
             Margin="664,18,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Text="100"
+            Text="1"
             TextWrapping="Wrap" />
         <Button
             Name="btnAuto"
@@ -42,7 +42,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Content="Run gen" Click="TestOldGenAlgo" />
-        <oxy:Plot Name="VelocityPlot" Margin="32,617,27.6,44.4"/>
+        <oxy:Plot Name="VelocityPlot" Margin="32,550,27.6,44.4"/>
     </Grid>
 
 </Window>
