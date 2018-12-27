@@ -35,7 +35,11 @@ namespace GeneticWay.Core.AntiAliasing
 
         private void PathMutation()
         {
-            Path.RemoveAt(Random.Next(Path.Count));
+            int countToRemove = Path.Count / 100;
+            for (int i = 0; i < countToRemove; i++)
+            {
+                Path.RemoveAt(Random.Next(Path.Count));
+            }
         }
 
         public AntiAliasing CreateMutated()

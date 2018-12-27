@@ -56,5 +56,11 @@ namespace GeneticWay.Core.Vectorization
             ForceVector.RemoveAt(ForceVector.Count - 1);
             return (position, force);
         }
+
+        public void SaveState()
+        {
+            VelocityVectors.Add(Velocity);
+            VisitedPoints.Add(Position);
+        }
     }
 }

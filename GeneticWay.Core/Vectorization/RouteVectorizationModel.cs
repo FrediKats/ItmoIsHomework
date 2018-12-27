@@ -34,29 +34,34 @@ namespace GeneticWay.Core.Vectorization
                 if (acceleration.GetLength() <= Configuration.MaxForce)
                 {
                     Coordinate newVelocity = MovableObject.Velocity + (acceleration * Configuration.TimePeriod);
-                    var maxSpeed = MathComputing.GetMaxSpeed(directionPath.GetLength(), Configuration.MaxForce);
+                    double maxSpeed = MathComputing.GetMaxSpeed(MovableObject.Position.LengthTo((1,1)), Configuration.MaxForce);
 
                     if (newVelocity.GetLength() > maxSpeed)
                     {
+                        double accelerationLength = MathComputing.OptimalAcceleration(directionPath.GetLength(),
+                            acceleration.GetLength(), MovableObject.Velocity.GetLength(), Configuration.TimePeriod);
+                        acceleration *= (accelerationLength / acceleration.GetLength());
                         if (stackOrder.Count > 100000)
                         {
                             throw new Exception("Can't find route");
                         }
-
-                        Coordinate midPoint = MovableObject.Position.MidPointWith(to);
-                        stackOrder.Push(midPoint);
+                        MovableObject.MoveAfterApplyingForce(acceleration);
+                        stackOrder.Pop();
+                        //Coordinate midPoint = MovableObject.Position.MidPointWith(to);
+                        //stackOrder.Push(midPoint);
                     }
                     else
                     {
                         MovableObject.MoveAfterApplyingForce(acceleration);
                         stackOrder.Pop();
                     }
+                    
                 }
                 else
                 {
                     if (stackOrder.Count > 100000)
                     {
-                        throw new Exception("Can't find route");
+                          throw new Exception("Can't find route");
                     }
 
                     Coordinate midPoint = MovableObject.Position.MidPointWith(to);
@@ -69,6 +74,8 @@ namespace GeneticWay.Core.Vectorization
         {
             foreach (Coordinate coordinate in pathCoordinates)
             {
+                if (MovableObject.Position.LengthTo(coordinate) < Configuration.Epsilon / 10)
+                    continue;
                 PointToPointVectorSelection(coordinate);
             }
 
@@ -76,6 +83,8 @@ namespace GeneticWay.Core.Vectorization
             {
                 PointToPointVectorSelection((1, 1));
             }
+
+            MovableObject.SaveState();
         }
     }
 }

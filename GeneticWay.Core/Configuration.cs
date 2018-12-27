@@ -2,7 +2,7 @@
 {
     public static class Configuration
     {
-        public const double MaxForce = 5;
+        public const double MaxForce = 2;
         //TODO: WoW, magic. If value if e-3, code will crash
         public const double TimePeriod = 1e-1;
 

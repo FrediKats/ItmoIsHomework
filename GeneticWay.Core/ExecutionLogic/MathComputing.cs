@@ -93,7 +93,12 @@ namespace GeneticWay.Core.ExecutionLogic
 
         public static double GetMaxSpeed(double length, double maxForce)
         {
-            return maxForce * Math.Sqrt(length / maxForce);
+            return Math.Sqrt(length * maxForce);
+        }
+
+        public static double OptimalAcceleration(double length, double currentAcceleration, double currentVelocity, double time)
+        {
+            return (Math.Sqrt(length * currentAcceleration) * -1 - currentVelocity) / time;
         }
     }
 }
