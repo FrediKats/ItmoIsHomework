@@ -10,7 +10,7 @@ namespace GeneticWay.Core.RoutingLogic
     //TODO: make static
     public static class RouteVectorization
     {
-        private const double Time = Configuration.TimePeriod;
+        private static double Time = Configuration.TimePeriod;
 
         private static void PointToPointVectorSelection(MovableObject movableObject, Coordinate to)
         {

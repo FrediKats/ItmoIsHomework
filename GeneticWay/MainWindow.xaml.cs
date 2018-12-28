@@ -6,6 +6,7 @@ using GeneticWay.Core.Legacy;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.RouteGenerating;
 using GeneticWay.Core.RoutingLogic;
+using GeneticWay.Core.Tools;
 using GeneticWay.Core.Vectorization;
 using GeneticWay.Ui;
 using OxyPlot;
@@ -29,11 +30,14 @@ namespace GeneticWay
             _pixelDrawer = new PixelDrawer(Drawer);
             _simManager = new SimulationManager();
 
+            ProblemCondition settings = CrossSystemDataCasting.LoadSettings();
+            Configuration.Setup(settings.MaxForce, settings.DeltaTime);
+
             _zoneIterationPath = new ZoneIterationPath();
-            _zoneIterationPath.Zones.Add(new Circle((0.2, 0.2), 0.05));
-            _zoneIterationPath.Zones.Add(new Circle((0.4, 0.6), 0.05));
-            _zoneIterationPath.Zones.Add(new Circle((0.5, 0.8), 0.05));
-            _zoneIterationPath.Zones.Add(new Circle((0.8, 0.9), 0.05));
+            //_zoneIterationPath.Zones.Add(new Circle((0.2, 0.2), 0.05));
+            //_zoneIterationPath.Zones.Add(new Circle((0.4, 0.6), 0.05));
+            //_zoneIterationPath.Zones.Add(new Circle((0.5, 0.8), 0.05));
+            //_zoneIterationPath.Zones.Add(new Circle((0.8, 0.9), 0.05));
             _coordinates = RouteGenerator.BuildPath(_zoneIterationPath);
         }
 
@@ -85,6 +89,7 @@ namespace GeneticWay
 
             MessageBox.Show($"Final speed: {movableObject?.Velocity.GetLength() ?? -1}");
             UpdatePlot(movableObject);
+            CrossSystemDataCasting.OutputDataSerialization(movableObject.ForceVector);
         }
 
         //TODO: remove, deprecated

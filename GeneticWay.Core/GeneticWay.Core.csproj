@@ -16,6 +16,9 @@
     <None Update="GeneticWay\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Tools\DataSample.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

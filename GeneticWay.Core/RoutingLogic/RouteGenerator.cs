@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
+using GeneticWay.Core.RouteGenerating;
 
-namespace GeneticWay.Core.RouteGenerating
+namespace GeneticWay.Core.RoutingLogic
 {
     public class RouteGenerator
     {
