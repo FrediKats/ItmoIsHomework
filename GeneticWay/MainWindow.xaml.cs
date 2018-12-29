@@ -38,7 +38,11 @@ namespace GeneticWay
             //_zoneIterationPath.Zones.Add(new Circle((0.4, 0.6), 0.05));
             //_zoneIterationPath.Zones.Add(new Circle((0.5, 0.8), 0.05));
             //_zoneIterationPath.Zones.Add(new Circle((0.8, 0.9), 0.05));
+
+            _zoneIterationPath.Zones.AddRange(settings.ValidCircles);
             _coordinates = RouteGenerator.BuildPath(_zoneIterationPath);
+
+            PrintFiled(_coordinates, settings.ValidCircles);
         }
 
         private MovableObject ExecuteSimulation(List<Coordinate> path)
@@ -76,10 +80,7 @@ namespace GeneticWay
                 return;
             }
 
-            _pixelDrawer.PrintBackgroundWithBlack()
-                .AddZones(_zoneIterationPath.Zones)
-                .AddPoints(movableObject.VisitedPoints)
-                .PrintPixels();
+            PrintFiled(movableObject.VisitedPoints, _zoneIterationPath.Zones);
 
             MessageBox.Show($"Old: {_minCount}, New: {_coordinates.Count}");
             if (_coordinates.Count < _minCount)
@@ -99,13 +100,17 @@ namespace GeneticWay
             _simManager.MakeIteration(count);
 
             SimReport report = _simManager.Reports.First();
-
-            _pixelDrawer.PrintBackgroundWithBlack()
-                .AddPoints(report.Coordinates)
-                .AddZones(_simManager.Zones)
-                .PrintPixels();
+            PrintFiled(report.Coordinates, _simManager.Zones);
 
             MessageBox.Show($"{report}");
+        }
+
+        private void PrintFiled(List<Coordinate> path, List<Circle> zones)
+        {
+            _pixelDrawer.PrintBackgroundWithBlack()
+                .AddZones(zones)
+                .AddPoints(path)
+                .PrintPixels();
         }
 
         private void UpdatePlot(MovableObject movableObject)

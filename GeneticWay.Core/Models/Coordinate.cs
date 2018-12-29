@@ -13,6 +13,10 @@ namespace GeneticWay.Core.Models
             X = x;
             Y = y;
         }
+        public bool IsOutOfPolygon()
+        {
+            return X < 0 || X > 1 || Y < 0 || Y > 1;
+        }
 
         public double GetLength()
         {

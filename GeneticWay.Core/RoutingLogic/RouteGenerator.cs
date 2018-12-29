@@ -4,6 +4,7 @@ using System.Linq;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.RouteGenerating;
+using GeneticWay.Core.Tools;
 
 namespace GeneticWay.Core.RoutingLogic
 {
@@ -118,13 +119,32 @@ namespace GeneticWay.Core.RoutingLogic
             from = from - zone.Coordinate;
             to = to - zone.Coordinate;
 
-            double angleFrom = Math.Atan2(from.Y, from.X);
-            double angleTo = Math.Atan2(to.Y, to.X);
+            double angleFrom = (Math.Atan2(from.Y, from.X) + 2 * Math.PI) % (2 * Math.PI);
+            double angleTo = (Math.Atan2(to.Y, to.X) + 2 * Math.PI) % (2 * Math.PI);
 
-            //TODO: Add direction choosing
-            for (double a = angleFrom; a <= angleTo; a += 0.001)
+            if ((angleTo + 2 * Math.PI - angleFrom) % (2 * Math.PI) > Math.PI)
             {
-                coordinates.Add(MathComputing.GetPointOnCircleCoordinate(zone.Radius, a, zone.Coordinate));
+                if (angleTo > angleFrom)
+                {
+                    angleFrom += (Math.PI * 2);
+                }
+
+                for (double a = angleFrom; a >= angleTo; a -= Configuration.Epsilon)
+                {
+                    coordinates.Add(MathComputing.GetPointOnCircleCoordinate(zone.Radius, a, zone.Coordinate));
+                }
+            }
+            else
+            {
+                if (angleTo < angleFrom)
+                {
+                    angleTo += (Math.PI * 2);
+                }
+
+                for (double a = angleFrom; a <= angleTo; a += Configuration.Epsilon)
+                {
+                    coordinates.Add(MathComputing.GetPointOnCircleCoordinate(zone.Radius, a, zone.Coordinate));
+                }
             }
 
             return coordinates;

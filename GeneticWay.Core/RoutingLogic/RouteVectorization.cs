@@ -46,6 +46,8 @@ namespace GeneticWay.Core.RoutingLogic
                         double accelerationLength = PhysicsFormula.OptimalAcceleration(directionPath.GetLength(),
                             movableObject.Velocity.GetLength(), Configuration.TimePeriod);
                         acceleration *= accelerationLength / acceleration.GetLength() / 2;
+                        //acceleration = movableObject.Velocity *
+                        //               (-1 / movableObject.Velocity.GetLength() * Configuration.MaxForce);
                         movableObject.MoveAfterApplyingForce(acceleration);
                     }
                     else
@@ -61,7 +63,7 @@ namespace GeneticWay.Core.RoutingLogic
                         throw new Exception("Can't find route");
                     }
 
-                    Coordinate midPoint = movableObject.Position.MidPointWith(to);
+                    Coordinate midPoint = movableObject.Position.MidPointWith(peek);
                     stackOrder.Push(midPoint);
                 }
             }

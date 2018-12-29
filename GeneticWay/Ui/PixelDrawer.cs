@@ -55,8 +55,11 @@ namespace GeneticWay.Ui
                 for (double ang = 0; ang < Math.PI * 2; ang += 0.001)
                 {
                     Coordinate radiusShift = MathComputing.GetPointOnCircleCoordinate(zone.Radius, ang);
-                    Coordinate pointOnImageCoordinate = (zone.Coordinate + radiusShift) * Scale * FieldSize;
-                    PutPixel(_pixels, (int)pointOnImageCoordinate.X, (int)pointOnImageCoordinate.Y, Colors.Red);
+                    Coordinate pointOnField = zone.Coordinate + radiusShift;
+                    Coordinate pointOnImageCoordinate = (pointOnField) * Scale * FieldSize;
+
+                    if (pointOnField.IsOutOfPolygon() == false)
+                        PutPixel(_pixels, (int)pointOnImageCoordinate.X, (int)pointOnImageCoordinate.Y, Colors.Red);
                 }
             }
 

@@ -24,12 +24,7 @@ namespace GeneticWay.Core.ExecutionLogic
 
             return false;
         }
-
-        public bool IsOutOfPolygon(Coordinate coordinate)
-        {
-            return coordinate.X < 0 || coordinate.X > 1 || coordinate.Y < 0 || coordinate.Y > 1;
-        }
-
+        
         public bool IsCanCreateLine(Segment segment)
         {
             foreach (Circle zone in Zones)
