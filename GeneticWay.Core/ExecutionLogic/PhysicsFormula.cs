@@ -24,15 +24,24 @@ namespace GeneticWay.Core.ExecutionLogic
                 ChooseOptimalAcceleration(length.Y, velocity.Y, time));
         }
 
-        public static double GetSpeedSpeedLimit(double pathLength, double maxAcceleration)
+        public static double GetSpeedSpeedLimit(double pathLength)
         {
-            return Math.Sqrt(2 * pathLength * maxAcceleration);
+            return Math.Sqrt(2 * Math.Abs(pathLength) * Configuration.MaxForce);
         }
 
         public static double OptimalAcceleration(double pathLength, double currentVelocity, double time)
         {
             //TODO: check formula
-            return (Math.Sqrt(2 * pathLength * Configuration.MaxForce) * -1 - currentVelocity) / time;
+            double acceleration =
+                (Math.Sqrt(2 * Math.Abs(pathLength) * Configuration.MaxForce) * -1 - currentVelocity) / time;
+            return pathLength >= 0 ? acceleration : acceleration * -1;
+        }
+
+        public static Coordinate OptimalAcceleration(Coordinate path, Coordinate velocity)
+        {
+            //TODO: check formula
+            return new Coordinate(OptimalAcceleration(path.X, velocity.X, Configuration.TimePeriod),
+                OptimalAcceleration(path.Y, velocity.Y, Configuration.TimePeriod));
         }
     }
 }

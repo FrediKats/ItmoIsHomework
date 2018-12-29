@@ -61,6 +61,11 @@ namespace GeneticWay.Core.Models
             return (left.X * ratio, left.Y * ratio);
         }
 
+        public static Coordinate operator /(Coordinate left, double ratio)
+        {
+            return (left.X / ratio, left.Y / ratio);
+        }
+
         public static Coordinate operator *(Coordinate left, int ratio)
         {
             return (left.X * ratio, left.Y * ratio);

@@ -28,13 +28,16 @@ namespace GeneticWay.Core.RoutingLogic
                 Coordinate directionPath = peek - movableObject.Position;
                 Coordinate acceleration =
                     PhysicsFormula.ChooseOptimalAcceleration(directionPath, movableObject.Velocity, Time);
+                if (double.IsNaN(acceleration.X) || acceleration == (0, 0))
+                {
+                     acceleration = (0, 0);
+                }
 
                 //TODO: rewrite
                 if (acceleration.GetLength() <= Configuration.MaxForce)
                 {
                     Coordinate newVelocity = movableObject.Velocity + acceleration * Configuration.TimePeriod;
-                    double maxSpeed = PhysicsFormula.GetSpeedSpeedLimit(movableObject.Position.LengthTo((1, 1)),
-                        Configuration.MaxForce);
+                    double maxSpeed = PhysicsFormula.GetSpeedSpeedLimit(peek.LengthTo((1, 1)));
 
                     if (newVelocity.GetLength() > maxSpeed)
                     {
@@ -43,12 +46,18 @@ namespace GeneticWay.Core.RoutingLogic
                             throw new Exception("Can't find route");
                         }
 
-                        double accelerationLength = PhysicsFormula.OptimalAcceleration(directionPath.GetLength(),
-                            movableObject.Velocity.GetLength(), Configuration.TimePeriod);
-                        acceleration *= accelerationLength / acceleration.GetLength() / 2;
+                        Coordinate accelerationLength = PhysicsFormula.OptimalAcceleration(directionPath,
+                            movableObject.Velocity);
+                        acceleration = (accelerationLength / accelerationLength.GetLength() * Configuration.MaxForce);
                         //acceleration = movableObject.Velocity *
                         //               (-1 / movableObject.Velocity.GetLength() * Configuration.MaxForce);
+
+                        if (double.IsNaN(acceleration.X) || acceleration == (0, 0))
+                        {
+                            acceleration = (0, 0);
+                        }
                         movableObject.MoveAfterApplyingForce(acceleration);
+                        stackOrder.Pop();
                     }
                     else
                     {
