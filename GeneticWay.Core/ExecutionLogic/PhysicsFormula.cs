@@ -36,10 +36,22 @@ namespace GeneticWay.Core.ExecutionLogic
                 ChooseOptimalAcceleration(length.Y, velocity.Y, time));
         }
 
-        public static double GetSpeedSpeedLimit(Coordinate path)
+        public static Coordinate GetVelocitySpeedLimit(Coordinate path)
         {
             double Convert(double l) => Math.Sqrt(2 * Math.Abs(l) * Configuration.MaxForce);
-            return new Coordinate(Convert(path.X), Convert(path.Y)).GetLength();
+            return new Coordinate(Convert(path.X), Convert(path.Y));
+        }
+
+        public static bool CheckForVelocityLimit(Coordinate path, Coordinate velocity)
+        {
+            Coordinate velocityLimit = GetVelocitySpeedLimit(path);
+
+            if (velocityLimit.X < Math.Abs(velocity.X))
+                return false;
+            if (velocityLimit.Y < Math.Abs(velocity.Y))
+                return false;
+
+            return true;
         }
 
         /// <summary>

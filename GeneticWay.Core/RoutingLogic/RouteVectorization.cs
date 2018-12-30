@@ -23,7 +23,7 @@ namespace GeneticWay.Core.RoutingLogic
 
             while (stackOrder.Count > 0)
             {
-                if (stackOrder.Count > 100000)
+                if (stackOrder.Count > 1000)
                 {
                     throw new Exception("Can't find route");
                 }
@@ -45,15 +45,21 @@ namespace GeneticWay.Core.RoutingLogic
                 }
                 else
                 {
-                    Coordinate newVelocity = movableObject.Velocity + acceleration * Configuration.TimePeriod;
-                    double maxSpeed = PhysicsFormula.GetSpeedSpeedLimit((1, 1) - peek);
+                    Coordinate velocityInNextPosition = movableObject.Velocity + acceleration * Configuration.TimePeriod;
 
-                    if (newVelocity.GetLength() > maxSpeed)
+                    if (PhysicsFormula.CheckForVelocityLimit((1, 1) - peek, velocityInNextPosition))
                     {
-                        Coordinate accelerationLength = PhysicsFormula.OptimalAccelerationWithSpeedLimit(directionPath,
+                        movableObject.MoveAfterApplyingForce(acceleration);
+                        stackOrder.Pop();
+                    }
+                    else
+                    {
+                        acceleration = PhysicsFormula.OptimalAccelerationWithSpeedLimit(directionPath,
                             movableObject.Velocity);
 
-                        acceleration = MathComputing.ResizeVector(accelerationLength, Configuration.MaxForce);
+                        if (acceleration.GetLength() > Configuration.MaxForce)
+                            acceleration = MathComputing.ResizeVector(acceleration, Configuration.MaxForce);
+
                         //acceleration = movableObject.Velocity *
                         //               (-1 / movableObject.Velocity.GetLength() * Configuration.MaxForce);
 
@@ -62,11 +68,6 @@ namespace GeneticWay.Core.RoutingLogic
                             acceleration = (0, 0);
                         }
 
-                        movableObject.MoveAfterApplyingForce(acceleration);
-                        stackOrder.Pop();
-                    }
-                    else
-                    {
                         movableObject.MoveAfterApplyingForce(acceleration);
                         stackOrder.Pop();
                     }
@@ -87,6 +88,9 @@ namespace GeneticWay.Core.RoutingLogic
             }
             else
             {
+                if (targetPosition == (1, 1))
+                    throw new Exception("Can't move to target");
+
                 stack.Pop();
             }
         }
