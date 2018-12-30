@@ -13,6 +13,11 @@ namespace GeneticWay.Core.Models
             X = x;
             Y = y;
         }
+
+        public static Coordinate MinimizeVector(Coordinate f, Coordinate s)
+        {
+            return new Coordinate(Math.Min(f.X, s.X), Math.Min(f.Y, s.Y));
+        }
         public bool IsOutOfPolygon()
         {
             return X < 0 || X > 1 || Y < 0 || Y > 1;
@@ -27,6 +32,11 @@ namespace GeneticWay.Core.Models
         {
             Coordinate d = this - coordinate;
             return Math.Sqrt(d.X * d.X + d.Y * d.Y);
+        }
+
+        public Coordinate ResizeVector(double newLength)
+        {
+            return this / GetLength() * newLength;
         }
 
         public Coordinate MidPointWith(Coordinate other)

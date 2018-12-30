@@ -73,10 +73,5 @@ namespace GeneticWay.Core.ExecutionLogic
             Coordinate closestPoint = circle.GetClosestPointFromCircleToPoint(coordinate);
             return Segment.Of(closestPoint, coordinate);
         }
-
-        public static Coordinate ResizeVector(Coordinate vector, double newLength)
-        {
-            return vector / vector.GetLength() * newLength;
-        }
     }
 }

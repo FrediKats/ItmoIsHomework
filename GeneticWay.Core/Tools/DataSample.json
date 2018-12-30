@@ -1,12 +1,6 @@
 ﻿{
-  "name": "gigant",
+  "name": "trivial",
   "dt": 0.1,
-  "Fmax": 0.1,
-  "circles": [
-    {
-      "X": 0.5,
-      "Y": 0.4,
-      "R": 0.45
-    }
-  ]
+  "Fmax": 10,
+  "circles": []
 }

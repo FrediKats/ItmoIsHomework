@@ -23,7 +23,7 @@ namespace GeneticWay.Core.RoutingLogic
 
             while (stackOrder.Count > 0)
             {
-                if (stackOrder.Count > 1000)
+                if (stackOrder.Count > 100)
                 {
                     throw new Exception("Can't find route");
                 }
@@ -54,21 +54,22 @@ namespace GeneticWay.Core.RoutingLogic
                     }
                     else
                     {
-                        acceleration = PhysicsFormula.OptimalAccelerationWithSpeedLimit(directionPath,
+                        Coordinate accelerationForSlowing = PhysicsFormula.OptimalAccelerationWithSpeedLimit(directionPath,
                             movableObject.Velocity);
+                        Coordinate optimalAcceleration = Coordinate.MinimizeVector(accelerationForSlowing, acceleration);
 
-                        if (acceleration.GetLength() > Configuration.MaxForce)
-                            acceleration = MathComputing.ResizeVector(acceleration, Configuration.MaxForce);
+                        if (optimalAcceleration.GetLength() > Configuration.MaxForce)
+                            optimalAcceleration = optimalAcceleration.ResizeVector(Configuration.MaxForce);
 
                         //acceleration = movableObject.Velocity *
                         //               (-1 / movableObject.Velocity.GetLength() * Configuration.MaxForce);
 
-                        if (double.IsNaN(acceleration.X) || acceleration == (0, 0))
+                        if (double.IsNaN(optimalAcceleration.X) || double.IsNaN(optimalAcceleration.Y))
                         {
                             acceleration = (0, 0);
                         }
 
-                        movableObject.MoveAfterApplyingForce(acceleration);
+                        movableObject.MoveAfterApplyingForce(optimalAcceleration);
                         stackOrder.Pop();
                     }
                 }
@@ -78,10 +79,11 @@ namespace GeneticWay.Core.RoutingLogic
         private static void PreventBigAccelerationVector(MovableObject movableObject, Coordinate targetPosition,
             Coordinate currentAcceleration, Stack<Coordinate> stack)
         {
-            Coordinate newAcceleration = MathComputing.ResizeVector(currentAcceleration, Configuration.MaxForce);
+            Coordinate newAcceleration = currentAcceleration.ResizeVector(Configuration.MaxForce);
             Coordinate nextPosition = PhysicsFormula.AfterMovementPosition(movableObject.Position,
                 movableObject.Velocity, newAcceleration);
 
+            //TODO: fix bug with endless loop
             if (movableObject.Position.LengthTo(nextPosition) < movableObject.Position.LengthTo(targetPosition))
             {
                 stack.Push(movableObject.Position.MidPointWith(targetPosition));

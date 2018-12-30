@@ -39,9 +39,10 @@ namespace GeneticWay
             //_zoneIterationPath.Zones.Add(new Circle((0.5, 0.8), 0.05));
             //_zoneIterationPath.Zones.Add(new Circle((0.8, 0.9), 0.05));
 
-            _zoneIterationPath.Zones.AddRange(settings.ValidCircles);
-            _coordinates = RouteGenerator.BuildPath(_zoneIterationPath);
+            //_zoneIterationPath.AddNew(settings.ValidCircles[0]);
+            //_zoneIterationPath.AddNew(settings.ValidCircles[2]);
 
+            _coordinates = RouteGenerator.BuildPath(_zoneIterationPath);
             PrintFiled(_coordinates, settings.ValidCircles);
         }
 

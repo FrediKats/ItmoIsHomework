@@ -15,7 +15,7 @@ namespace GeneticWay.Core.ExecutionLogic
         public static double ChooseOptimalAcceleration(double length, double velocity, double time)
         {
             //TODO: validate epsilon
-            if (Math.Abs(length) < Configuration.Epsilon / 10000)
+            if (length == 0)
             {
                 return 0;
             }
