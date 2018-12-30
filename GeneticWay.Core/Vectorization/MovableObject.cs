@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
 using GeneticWay.Core.Tools;
 
@@ -37,11 +38,7 @@ namespace GeneticWay.Core.Vectorization
             VelocityVectors.Add(Velocity);
             VisitedPoints.Add(Position);
 
-            //Velocity += forceVector * _time;
-            //Position += Velocity * _time;
-
-            //TODO: fix with correct formula
-            Position += Velocity * _time + forceVector * _time * _time * 0.5;
+            Position = PhysicsFormula.AfterMovementPosition(Position, Velocity, forceVector);
             Velocity += forceVector * _time;
         }
 

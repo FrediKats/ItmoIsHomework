@@ -6,6 +6,12 @@ namespace GeneticWay.Core.ExecutionLogic
 {
     public static class PhysicsFormula
     {
+        /// <summary>
+        /// length = velocity * time + acceleration * time^2 /2
+        /// <para></para>
+        /// acceleration = 2 * (length - velocity * time) / time^2
+        /// </summary>
+        /// <returns></returns>
         public static double ChooseOptimalAcceleration(double length, double velocity, double time)
         {
             //TODO: validate epsilon
@@ -18,30 +24,50 @@ namespace GeneticWay.Core.ExecutionLogic
             return 2 * (length - velocity * time) / (time * time);
         }
 
+        /// <summary>
+        /// length = velocity * time + acceleration * time^2 /2
+        /// <para></para>
+        /// acceleration = 2 * (length - velocity * time) / time^2
+        /// </summary>
+        /// <returns></returns>
         public static Coordinate ChooseOptimalAcceleration(Coordinate length, Coordinate velocity, double time)
         {
             return new Coordinate(ChooseOptimalAcceleration(length.X, velocity.X, time),
                 ChooseOptimalAcceleration(length.Y, velocity.Y, time));
         }
 
-        public static double GetSpeedSpeedLimit(double pathLength)
+        public static double GetSpeedSpeedLimit(Coordinate path)
         {
-            return Math.Sqrt(2 * Math.Abs(pathLength) * Configuration.MaxForce);
+            double Convert(double l) => Math.Sqrt(2 * Math.Abs(l) * Configuration.MaxForce);
+            return new Coordinate(Convert(path.X), Convert(path.Y)).GetLength();
         }
 
-        public static double OptimalAcceleration(double pathLength, double currentVelocity, double time)
+        /// <summary>
+        /// length = velocity * time + acceleration * time^2 /2
+        /// <para></para>
+        /// acceleration = 2 * (length - velocity * time) / time^2
+        /// </summary>
+        /// <returns></returns>
+        public static double OptimalAccelerationWithSpeedLimit(double pathLength, double currentVelocity, double time)
         {
             //TODO: check formula
             double acceleration =
-                (Math.Sqrt(2 * Math.Abs(pathLength) * Configuration.MaxForce) * -1 - currentVelocity) / time;
+                (Math.Sqrt(2 * Math.Abs(pathLength) * Configuration.MaxForce) - currentVelocity) / time;
             return pathLength >= 0 ? acceleration : acceleration * -1;
         }
 
-        public static Coordinate OptimalAcceleration(Coordinate path, Coordinate velocity)
+
+        public static Coordinate OptimalAccelerationWithSpeedLimit(Coordinate path, Coordinate velocity)
         {
             //TODO: check formula
-            return new Coordinate(OptimalAcceleration(path.X, velocity.X, Configuration.TimePeriod),
-                OptimalAcceleration(path.Y, velocity.Y, Configuration.TimePeriod));
+            return new Coordinate(OptimalAccelerationWithSpeedLimit(path.X, velocity.X, Configuration.TimePeriod),
+                OptimalAccelerationWithSpeedLimit(path.Y, velocity.Y, Configuration.TimePeriod));
+        }
+
+        public static Coordinate AfterMovementPosition(Coordinate startPosition, Coordinate velocity, Coordinate acceleration)
+        {
+            double time = Configuration.TimePeriod;
+            return startPosition + velocity * time + acceleration * time * time / 2;
         }
     }
 }
