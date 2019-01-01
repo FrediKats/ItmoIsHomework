@@ -45,14 +45,14 @@ namespace ReviewYourself.WebApi
                 })
                 .AddJwtBearer(options =>
                 {
-                    const string key = "q7fs8DDw823hSyaNYCKsa02";
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                         ValidateIssuerSigningKey = true,
-                        ValidateAudience = false,
                         ValidateLifetime = true,
+
+                        ValidateAudience = false,
                         ValidateIssuer = false
                     };
                 });

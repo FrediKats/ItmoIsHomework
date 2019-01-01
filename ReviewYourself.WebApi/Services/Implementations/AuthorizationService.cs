@@ -1,6 +1,8 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Authentication;
+using System.Security.Claims;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Tools;
@@ -26,22 +28,23 @@ namespace ReviewYourself.WebApi.Services.Implementations
                 throw new DuplicateNameException(data.Login);
             }
 
-            var user = data.ToUser();
+            User user = data.ToUser();
             _context.Users.Add(user);
-            var jwtToken = _tokenFactory.CreateJwtToken(user.Id);
+
+            string jwtToken = _tokenFactory.CreateJwtToken(user.Id);
             var token = new Token {AccessToken = jwtToken, UserId = user.Id};
-            var authData = new AuthorizeData {Login = data.Login, Password = data.Password};
-
-            _context.AuthorizeDatas.Add(authData);
             _context.Tokens.Add(token);
-            _context.SaveChanges();
 
+            var authData = new AuthorizeData {Login = data.Login, Password = data.Password};
+            _context.AuthorizeDatas.Add(authData);
+
+            _context.SaveChanges();
             return token;
         }
 
         public void LogOut(Token token)
         {
-            var tokenToRemove = _context.Tokens
+            Token tokenToRemove = _context.Tokens
                 .First(t => t.AccessToken == token.AccessToken);
             _context.Tokens.Remove(tokenToRemove);
 
@@ -56,8 +59,8 @@ namespace ReviewYourself.WebApi.Services.Implementations
                 throw new AuthenticationException("Invalid login or password");
             }
 
-            var user = _context.Users.First(u => u.Login == authData.Login);
-            var jwtToken = _tokenFactory.CreateJwtToken(user.Id);
+            User user = _context.Users.First(u => u.Login == authData.Login);
+            string jwtToken = _tokenFactory.CreateJwtToken(user.Id);
             var token = new Token {AccessToken = jwtToken, UserId = user.Id};
 
             _context.Tokens.Add(token);
@@ -69,6 +72,28 @@ namespace ReviewYourself.WebApi.Services.Implementations
         public bool IsUsernameAvailable(string username)
         {
             return _context.Users.Any(u => u.Login == username) == false;
+        }
+
+        private ClaimsIdentity GetIdentity(string username, string password)
+        {
+            AuthorizeData person = _context.AuthorizeDatas.First(ad => ad.Login == username && ad.Password == password);
+            if (person == null)
+            {
+                return null;
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.ToString())
+            };
+            var claimsIdentity =
+                new ClaimsIdentity(
+                    claims,
+                    "Token",
+                    ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+            return claimsIdentity;
         }
     }
 }

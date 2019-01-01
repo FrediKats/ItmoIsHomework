@@ -20,10 +20,12 @@ namespace ReviewYourself.WebApi.Tools
 
             return new JwtSecurityTokenHandler()
                 .WriteToken(new JwtSecurityToken(
+                    issuer: AuthOptions.Issuer,
+                    audience: AuthOptions.Audience,
                     claims: CreateClaimsIdentityFor(id.ToString()).Claims,
-                    expires: DateTime.Now.Add(TimeSpan.FromMinutes(60)),
-                    signingCredentials: CreateSigningCredentials(GenerateKey()),
-                    notBefore: DateTime.Now
+                    notBefore: DateTime.Now,
+                    expires: DateTime.Now.Add(TimeSpan.FromMinutes(AuthOptions.Lifetime)),
+                    signingCredentials: CreateSigningCredentials(GenerateKey())
                 ));
         }
 

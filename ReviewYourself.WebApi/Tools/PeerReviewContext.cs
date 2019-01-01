@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using ReviewYourself.WebApi.DatabaseModels;
 
 namespace ReviewYourself.WebApi.Tools
@@ -36,11 +38,11 @@ namespace ReviewYourself.WebApi.Tools
                 .IsUnique();
 
             //TODO: fix cascade delete
-            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
+            IEnumerable<IMutableForeignKey> cascadeFKs = modelBuilder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys())
                 .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
 
-            foreach (var fk in cascadeFKs)
+            foreach (IMutableForeignKey fk in cascadeFKs)
             {
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
             }
