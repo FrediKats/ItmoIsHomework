@@ -27,11 +27,12 @@ namespace ReviewYourself.WebApi
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddScoped<ICourseService, CourseService>();
-            services.AddScoped<ICourseTaskService, CourseServiceTask>();
-            services.AddScoped<IMemberService, MemberService>();
-            services.AddScoped<ISolutionService, SolutionService>();
             services.AddScoped<IPeerReviewUserService, PeerReviewUserService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IMemberService, MemberService>();
+            services.AddScoped<ICourseTaskService, CourseTaskService>();
+            services.AddScoped<ISolutionService, SolutionService>();
+            services.AddScoped<IReviewService, ReviewService>();
 
 
             services.AddDbContext<PeerReviewContext>(options =>

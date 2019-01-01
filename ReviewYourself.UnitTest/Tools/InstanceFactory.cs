@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
@@ -25,31 +26,35 @@ namespace ReviewYourself.UnitTest.Tools
                 AuthorId = authorId,
                 CourseId = courseId,
                 Description = GenerateString(),
-                PostTime = DateTime.UtcNow
-                //TODO: fix criterias adding
-                //Criterias = new List<Criteria> { Criteria(), Criteria(),Criteria()}
-            };
-        }
-
-        public static Criteria Criteria(Guid courseTaskId)
-        {
-            return new Criteria
-            {
-                Description = GenerateString(),
-                CourseTaskId = courseTaskId,
-                Title = GenerateString(),
-                MaxPoint = Random.Next(100)
+                PostTime = DateTime.UtcNow,
+                Criterias = new List<Criteria> { Criteria(), Criteria(), Criteria() }
             };
         }
 
         public static Criteria Criteria()
         {
-            return Criteria(Guid.Empty);
+            return new Criteria
+            {
+                Description = GenerateString(),
+                Title = GenerateString(),
+                MaxPoint = Random.Next(100)
+            };
         }
 
         public static Review Review(Guid authorId, Guid solutionId, CourseTask courseTask)
         {
-            throw new NotImplementedException();
+            return new Review
+            {
+                AuthorId =  authorId,
+                SolutionId = solutionId,
+                PostTime = DateTime.Now,
+                Evaluations = courseTask.Criterias.Select(c => new ReviewCriteria()
+                {
+                    CriteriaId = c.Id,
+                    Description = GenerateString(),
+                    Rating = Random.Next(100),
+                }).ToList()
+            };
         }
 
         public static CourseSolution Solution(Guid authorId, Guid courseTaskId)

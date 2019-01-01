@@ -9,13 +9,14 @@ namespace ReviewYourself.UnitTest.Tools
     {
         static ServiceFactory()
         {
-            var context = CreateContext();
+            PeerReviewContext context = CreateContext();
             AuthorizationService = new PeerReviewAuthService(context);
             MemberService = new MemberService(context);
             CourseService = new CourseService(context, MemberService);
-            CourseTaskService = new CourseServiceTask(context, MemberService);
+            CourseTaskService = new CourseTaskService(context, MemberService);
             SolutionService = new SolutionService(context, MemberService);
             UserService = new PeerReviewUserService(context);
+            ReviewService = new ReviewService(context);
         }
 
         public static IPeerReviewAuthService AuthorizationService { get; }

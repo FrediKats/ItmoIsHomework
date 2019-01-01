@@ -6,12 +6,12 @@ using ReviewYourself.WebApi.Tools;
 
 namespace ReviewYourself.WebApi.Services.Implementations
 {
-    public class CourseServiceTask : ICourseTaskService
+    public class CourseTaskService : ICourseTaskService
     {
         private readonly PeerReviewContext _context;
         private readonly IMemberService _memberService;
 
-        public CourseServiceTask(PeerReviewContext context, IMemberService memberService)
+        public CourseTaskService(PeerReviewContext context, IMemberService memberService)
         {
             _context = context;
             _memberService = memberService;
