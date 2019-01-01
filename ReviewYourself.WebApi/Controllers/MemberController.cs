@@ -52,13 +52,13 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpGet("Users/{courseId}")]
-        public ActionResult<ICollection<User>> GetMembers(Guid courseId)
+        public ActionResult<ICollection<PeerReviewUser>> GetMembers(Guid courseId)
         {
             return Ok(_memberService.GetMembers(courseId));
         }
 
         [HttpGet("Mentors/{courseId}")]
-        public ActionResult<ICollection<User>> GetMentors(Guid courseId)
+        public ActionResult<ICollection<PeerReviewUser>> GetMentors(Guid courseId)
         {
             return Ok(_memberService.GetMentors(courseId));
         }

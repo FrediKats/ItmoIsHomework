@@ -5,9 +5,9 @@ namespace ReviewYourself.WebApi.Tools
 {
     public static class Extensions
     {
-        public static User ToUser(this RegistrationData data)
+        public static PeerReviewUser ToUser(this RegistrationData data)
         {
-            return new User
+            return new PeerReviewUser
             {
                 Login = data.Login,
                 Email = data.Email,

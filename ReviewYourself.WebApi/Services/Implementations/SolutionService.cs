@@ -17,25 +17,25 @@ namespace ReviewYourself.WebApi.Services.Implementations
             _memberService = memberService;
         }
 
-        public Solution Create(Solution solution, Guid executorId)
+        public CourseSolution Create(CourseSolution courseSolution, Guid executorId)
         {
             //TODO: check if executor is course's member
-            _context.Solutions.Add(solution);
-            return solution;
+            _context.Solutions.Add(courseSolution);
+            return courseSolution;
         }
 
-        public Solution Get(Guid solutionId, Guid executorId)
+        public CourseSolution Get(Guid solutionId, Guid executorId)
         {
             return _context.Solutions.Find(solutionId);
         }
 
-        public Solution GetUserSolution(Guid taskId, Guid userId, Guid executorId)
+        public CourseSolution GetUserSolution(Guid taskId, Guid userId, Guid executorId)
         {
             return _context.Solutions.FirstOrDefault(s => s.CourseTaskId == taskId
                                                           && s.AuthorId == userId);
         }
 
-        public ICollection<Solution> GetSolutionsByTask(Guid taskId, Guid executor)
+        public ICollection<CourseSolution> GetSolutionsByTask(Guid taskId, Guid executor)
         {
             return _context.Solutions.Where(s => s.CourseTaskId == taskId).ToList();
         }

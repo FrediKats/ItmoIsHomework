@@ -15,6 +15,6 @@ namespace ReviewYourself.WebApi.DatabaseModels
         public Course Course { get; set; }
 
         public Guid AuthorId { get; set; }
-        public User Author { get; set; }
+        public PeerReviewUser Author { get; set; }
     }
 }

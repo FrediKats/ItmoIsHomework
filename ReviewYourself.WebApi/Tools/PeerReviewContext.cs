@@ -21,9 +21,9 @@ namespace ReviewYourself.WebApi.Tools
         public DbSet<Participation> Participations { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewCriteria> ReviewCriterias { get; set; }
-        public DbSet<Solution> Solutions { get; set; }
+        public DbSet<CourseSolution> Solutions { get; set; }
         public DbSet<Token> Tokens { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<PeerReviewUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace ReviewYourself.WebApi.Tools
                 .HasKey(rc => new {rc.CriteriaId, rc.ReviewId});
             modelBuilder.Entity<Token>()
                 .HasKey(t => new {t.UserId, t.AccessToken});
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<PeerReviewUser>()
                 .HasIndex(u => u.Login)
                 .IsUnique();
 

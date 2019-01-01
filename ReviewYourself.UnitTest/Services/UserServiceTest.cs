@@ -9,7 +9,7 @@ namespace ReviewYourself.UnitTest.Services
     [TestClass]
     public class UserServiceTest
     {
-        private static readonly IUserService UserService;
+        private static readonly IPeerReviewUserService UserService;
 
         static UserServiceTest()
         {

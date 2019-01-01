@@ -10,9 +10,9 @@ namespace ReviewYourself.WebApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthorizationService _authService;
+        private readonly IPeerReviewAuthService _authService;
 
-        public AuthController(IAuthorizationService authService)
+        public AuthController(IPeerReviewAuthService authService)
         {
             _authService = authService;
         }

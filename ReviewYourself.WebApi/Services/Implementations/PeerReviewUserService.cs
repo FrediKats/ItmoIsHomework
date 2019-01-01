@@ -6,35 +6,35 @@ using ReviewYourself.WebApi.Tools;
 
 namespace ReviewYourself.WebApi.Services.Implementations
 {
-    public class UserService : IUserService
+    public class PeerReviewUserService : IPeerReviewUserService
     {
         private readonly PeerReviewContext _context;
 
-        public UserService(PeerReviewContext context)
+        public PeerReviewUserService(PeerReviewContext context)
         {
             _context = context;
         }
 
-        public User Get(Guid userId)
+        public PeerReviewUser Get(Guid userId)
         {
             return _context.Users.Find(userId);
         }
 
-        public User Get(string username)
+        public PeerReviewUser Get(string username)
         {
             return _context.Users.FirstOrDefault(u => u.Login == username);
         }
 
-        public void Update(User user, Guid executorId)
+        public void Update(PeerReviewUser peerReviewUser, Guid executorId)
         {
             //TODO: check if executorId is admin
-            if (user.Id != executorId)
+            if (peerReviewUser.Id != executorId)
             {
-                throw new PermissionDeniedException(executorId, "On UserService.Update");
+                throw new PermissionDeniedException(executorId, "On PeerReviewUserService.Update");
             }
 
             //TODO: validate fields
-            _context.Users.Update(user);
+            _context.Users.Update(peerReviewUser);
             _context.SaveChanges();
         }
 

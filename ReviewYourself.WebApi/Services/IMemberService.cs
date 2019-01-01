@@ -12,8 +12,8 @@ namespace ReviewYourself.WebApi.Services
 
         ICollection<Course> GetUserCourses(Guid userId);
         ICollection<Course> GetUserInvitations(Guid userId);
-        ICollection<User> GetMembers(Guid courseId);
-        ICollection<User> GetMentors(Guid courseId);
+        ICollection<PeerReviewUser> GetMembers(Guid courseId);
+        ICollection<PeerReviewUser> GetMentors(Guid courseId);
         bool IsMentor(Guid courseId, Guid memberId);
         bool IsMember(Guid courseId, Guid memberId);
 

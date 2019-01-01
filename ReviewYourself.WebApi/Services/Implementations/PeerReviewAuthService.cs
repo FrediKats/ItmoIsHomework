@@ -9,12 +9,12 @@ using ReviewYourself.WebApi.Tools;
 
 namespace ReviewYourself.WebApi.Services.Implementations
 {
-    public class AuthorizationService : IAuthorizationService
+    public class PeerReviewAuthService : IPeerReviewAuthService
     {
         private readonly PeerReviewContext _context;
         private readonly IJwtTokenFactory _tokenFactory;
 
-        public AuthorizationService(PeerReviewContext context,
+        public PeerReviewAuthService(PeerReviewContext context,
             IJwtTokenFactory tokenFactory)
         {
             _context = context;
@@ -28,11 +28,11 @@ namespace ReviewYourself.WebApi.Services.Implementations
                 throw new DuplicateNameException(data.Login);
             }
 
-            User user = data.ToUser();
-            _context.Users.Add(user);
+            PeerReviewUser peerReviewUser = data.ToUser();
+            _context.Users.Add(peerReviewUser);
 
-            string jwtToken = _tokenFactory.CreateJwtToken(user.Id);
-            var token = new Token {AccessToken = jwtToken, UserId = user.Id};
+            string jwtToken = _tokenFactory.CreateJwtToken(peerReviewUser.Id);
+            var token = new Token {AccessToken = jwtToken, UserId = peerReviewUser.Id};
             _context.Tokens.Add(token);
 
             var authData = new AuthorizeData {Login = data.Login, Password = data.Password};
@@ -59,9 +59,9 @@ namespace ReviewYourself.WebApi.Services.Implementations
                 throw new AuthenticationException("Invalid login or password");
             }
 
-            User user = _context.Users.First(u => u.Login == authData.Login);
-            string jwtToken = _tokenFactory.CreateJwtToken(user.Id);
-            var token = new Token {AccessToken = jwtToken, UserId = user.Id};
+            PeerReviewUser peerReviewUser = _context.Users.First(u => u.Login == authData.Login);
+            string jwtToken = _tokenFactory.CreateJwtToken(peerReviewUser.Id);
+            var token = new Token {AccessToken = jwtToken, UserId = peerReviewUser.Id};
 
             _context.Tokens.Add(token);
             _context.SaveChanges();

@@ -97,7 +97,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
                 .ToList();
         }
 
-        public ICollection<User> GetMembers(Guid courseId)
+        public ICollection<PeerReviewUser> GetMembers(Guid courseId)
         {
             return _context.Participations
                 .Where(p => p.CourseId == courseId &&
@@ -108,7 +108,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
                 .ToList();
         }
 
-        public ICollection<User> GetMentors(Guid courseId)
+        public ICollection<PeerReviewUser> GetMentors(Guid courseId)
         {
             return _context.Participations
                 .Where(p => p.CourseId == courseId &&

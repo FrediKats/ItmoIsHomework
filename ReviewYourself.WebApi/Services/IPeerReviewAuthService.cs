@@ -3,7 +3,7 @@ using ReviewYourself.WebApi.Models;
 
 namespace ReviewYourself.WebApi.Services
 {
-    public interface IAuthorizationService
+    public interface IPeerReviewAuthService
     {
         Token RegisterMember(RegistrationData data);
         void LogOut(Token token);

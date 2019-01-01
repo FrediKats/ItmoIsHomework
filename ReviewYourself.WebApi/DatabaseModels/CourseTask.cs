@@ -13,13 +13,13 @@ namespace ReviewYourself.WebApi.DatabaseModels
 
         //TODO:
         public ICollection<Criteria> Criterias { get; set; }
-        public ICollection<Solution> Solutions { get; set; }
+        public ICollection<CourseSolution> Solutions { get; set; }
         public ICollection<Comment> Comments { get; set; }
 
         public Guid CourseId { get; set; }
         public Course Course { get; set; }
 
         public Guid AuthorId { get; set; }
-        public User Author { get; set; }
+        public PeerReviewUser Author { get; set; }
     }
 }

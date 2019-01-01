@@ -5,8 +5,7 @@ using ReviewYourself.WebApi.Models;
 namespace ReviewYourself.WebApi.DatabaseModels
 {
     //TODO: add attributes
-    [Table("UsersTable")]
-    public class User
+    public class PeerReviewUser
     {
         public Guid Id { get; set; }
         public string Login { get; set; }

@@ -10,21 +10,21 @@ namespace ReviewYourself.UnitTest.Tools
         static ServiceFactory()
         {
             var context = CreateContext();
-            AuthorizationService = new AuthorizationService(context, new JwtTokenFactory());
+            AuthorizationService = new PeerReviewAuthService(context, new JwtTokenFactory());
             MemberService = new MemberService(context);
             CourseService = new CourseService(context, MemberService);
             CourseTaskService = new CourseServiceTask(context, MemberService);
             SolutionService = new SolutionService(context, MemberService);
-            UserService = new UserService(context);
+            UserService = new PeerReviewUserService(context);
         }
 
-        public static IAuthorizationService AuthorizationService { get; }
+        public static IPeerReviewAuthService AuthorizationService { get; }
         public static ICourseService CourseService { get; }
         public static ICourseTaskService CourseTaskService { get; }
         public static IMemberService MemberService { get; }
         public static IReviewService ReviewService { get; }
         public static ISolutionService SolutionService { get; }
-        public static IUserService UserService { get; }
+        public static IPeerReviewUserService UserService { get; }
 
         private static PeerReviewContext CreateContext()
         {

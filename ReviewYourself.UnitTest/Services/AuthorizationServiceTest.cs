@@ -10,7 +10,7 @@ namespace ReviewYourself.UnitTest.Services
     [TestClass]
     public class AuthorizationServiceTest
     {
-        private static readonly IAuthorizationService AuthorizationService;
+        private static readonly IPeerReviewAuthService AuthorizationService;
 
         static AuthorizationServiceTest()
         {

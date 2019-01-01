@@ -9,35 +9,35 @@ namespace ReviewYourself.WebApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IPeerReviewUserService _peerReviewUserService;
 
-        public UserController(IUserService userService)
+        public UserController(IPeerReviewUserService peerReviewUserService)
         {
-            _userService = userService;
+            _peerReviewUserService = peerReviewUserService;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<User> Get(Guid id)
+        public ActionResult<PeerReviewUser> Get(Guid id)
         {
-            return _userService.Get(id);
+            return _peerReviewUserService.Get(id);
         }
 
         [HttpGet("Find/{username}")]
-        public ActionResult<User> Get(string username)
+        public ActionResult<PeerReviewUser> Get(string username)
         {
-            return _userService.Get(username);
+            return _peerReviewUserService.Get(username);
         }
 
         [HttpPost("Update")]
-        public void Update([FromBody] User user, [FromRoute] Token token)
+        public void Update([FromBody] PeerReviewUser peerReviewUser, [FromRoute] Token token)
         {
-            _userService.Update(user, token.UserId);
+            _peerReviewUserService.Update(peerReviewUser, token.UserId);
         }
 
         [HttpGet("Delete/{id}")]
         public void Delete(Guid id, [FromRoute] Token token)
         {
-            _userService.Disable(id, token.UserId);
+            _peerReviewUserService.Disable(id, token.UserId);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace ReviewYourself.WebApi.DatabaseModels
         public DateTime PostTime { get; set; }
 
         public Guid AuthorId { get; set; }
-        public User Author { get; set; }
+        public PeerReviewUser Author { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace ReviewYourself.WebApi
             services.AddScoped<ICourseTaskService, CourseServiceTask>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<ISolutionService, SolutionService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPeerReviewUserService, PeerReviewUserService>();
 
 
             services.AddDbContext<PeerReviewContext>(options =>

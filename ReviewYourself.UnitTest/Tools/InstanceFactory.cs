@@ -52,9 +52,9 @@ namespace ReviewYourself.UnitTest.Tools
             throw new NotImplementedException();
         }
 
-        public static Solution Solution(Guid authorId, Guid courseTaskId)
+        public static CourseSolution Solution(Guid authorId, Guid courseTaskId)
         {
-            return new Solution
+            return new CourseSolution
             {
                 AuthorId = authorId,
                 CourseTaskId = courseTaskId,
@@ -63,7 +63,7 @@ namespace ReviewYourself.UnitTest.Tools
             };
         }
 
-        public static User User()
+        public static PeerReviewUser User()
         {
             throw new NotImplementedException();
         }

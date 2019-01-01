@@ -2,7 +2,7 @@
 
 namespace ReviewYourself.WebApi.DatabaseModels
 {
-    public class Solution
+    public class CourseSolution
     {
         public Guid Id { get; set; }
         public string TextData { get; set; }
@@ -10,7 +10,7 @@ namespace ReviewYourself.WebApi.DatabaseModels
         public bool IsResolved { get; set; }
 
         public Guid AuthorId { get; set; }
-        public User Author { get; set; }
+        public PeerReviewUser Author { get; set; }
 
 
         public Guid CourseTaskId { get; set; }

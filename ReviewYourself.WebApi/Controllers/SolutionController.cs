@@ -5,7 +5,7 @@ using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
 {
-    [Route("api/Solution")]
+    [Route("api/CourseSolution")]
     [ApiController]
     public class SolutionController : ControllerBase
     {
@@ -17,20 +17,20 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpPost("Create")]
-        public ActionResult Create([FromBody] Solution review, [FromRoute] Token token)
+        public ActionResult Create([FromBody] CourseSolution review, [FromRoute] Token token)
         {
             _solutionService.Create(review, token.UserId);
             return Ok();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Solution> Get(Guid id, [FromRoute] Token token)
+        public ActionResult<CourseSolution> Get(Guid id, [FromRoute] Token token)
         {
             return _solutionService.Get(id, token.UserId);
         }
 
         [HttpGet("UserSolution/{solutionId}/{userId}")]
-        public ActionResult<Solution> GetUserSolution(Guid taskId, Guid userId, [FromRoute] Token token)
+        public ActionResult<CourseSolution> GetUserSolution(Guid taskId, Guid userId, [FromRoute] Token token)
         {
             return _solutionService.GetUserSolution(taskId, userId, token.UserId);
         }
