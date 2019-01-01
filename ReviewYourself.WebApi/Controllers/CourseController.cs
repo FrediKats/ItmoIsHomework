@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
-using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
@@ -19,9 +18,10 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpPost("Create")]
-        public ActionResult<Course> Create([FromBody] Course course, [FromRoute] UserToken token)
+        public ActionResult<Course> Create([FromBody] Course course)
         {
-            return _courseService.Create(course, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            return _courseService.Create(course, userId);
         }
 
         [HttpGet("id")]
@@ -37,16 +37,18 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpPost("Update")]
-        public ActionResult Update([FromBody] Course course, [FromRoute] UserToken token)
+        public ActionResult Update([FromBody] Course course)
         {
-            _courseService.Update(course, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _courseService.Update(course, userId);
             return Ok();
         }
 
         [HttpGet("Delete/{id}")]
-        public ActionResult Delete(Guid id, [FromRoute] UserToken token)
+        public ActionResult Delete(Guid id)
         {
-            _courseService.Delete(id, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _courseService.Delete(id, userId);
             return Ok();
         }
     }

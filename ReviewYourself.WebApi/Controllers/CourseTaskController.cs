@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
-using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
@@ -18,28 +17,32 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpPost("Create")]
-        public ActionResult Create([FromBody] CourseTask review, [FromRoute] UserToken token)
+        public ActionResult Create([FromBody] CourseTask review)
         {
-            _courseTaskService.Create(review, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _courseTaskService.Create(review, userId);
             return Ok();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CourseTask> Get(Guid id, [FromRoute] UserToken token)
+        public ActionResult<CourseTask> Get(Guid id)
         {
-            return _courseTaskService.Get(id, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            return _courseTaskService.Get(id, userId);
         }
 
         [HttpGet("CourseTask/{courseId}")]
-        public ActionResult<Review> GetSolutionReview(Guid courseId, [FromRoute] UserToken token)
+        public ActionResult<Review> GetSolutionReview(Guid courseId)
         {
-            return Ok(_courseTaskService.GetTaskInCourse(courseId, token.UserId));
+            Guid userId = Guid.Parse(User.Identity.Name);
+            return Ok(_courseTaskService.GetTaskInCourse(courseId, userId));
         }
 
         [HttpGet("Delete/{id}")]
-        public void Delete(Guid id, [FromRoute] UserToken token)
+        public void Delete(Guid id)
         {
-            _courseTaskService.Delete(id, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _courseTaskService.Delete(id, userId);
         }
     }
 }

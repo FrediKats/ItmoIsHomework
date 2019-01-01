@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
-using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
@@ -19,23 +18,26 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpGet("SendInvite/{courseId}/{targetId}")]
-        public ActionResult SendStudentInvitation(Guid courseId, Guid targetId, [FromRoute] UserToken token)
+        public ActionResult SendStudentInvitation(Guid courseId, Guid targetId)
         {
-            _memberService.SendInvite(courseId, targetId, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _memberService.SendInvite(courseId, targetId, userId);
             return Ok();
         }
 
         [HttpGet("AcceptInvite/{courseId}")]
-        public ActionResult AcceptInvite(Guid courseId, [FromRoute] UserToken token)
+        public ActionResult AcceptInvite(Guid courseId)
         {
-            _memberService.AcceptInvite(courseId, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _memberService.AcceptInvite(courseId, userId);
             return Ok();
         }
 
         [HttpGet("AcceptInvite/{courseId}")]
-        public ActionResult DenyInvite(Guid courseId, [FromRoute] UserToken token)
+        public ActionResult DenyInvite(Guid courseId)
         {
-            _memberService.DenyInvite(courseId, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _memberService.DenyInvite(courseId, userId);
             return Ok();
         }
 
@@ -77,16 +79,18 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpGet("MakeMentor/{courseId}/{targetId}")]
-        public ActionResult MakeMentor(Guid courseId, Guid targetId, [FromRoute] UserToken token)
+        public ActionResult MakeMentor(Guid courseId, Guid targetId)
         {
-            _memberService.MakeMentor(courseId, targetId, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _memberService.MakeMentor(courseId, targetId, userId);
             return Ok();
         }
 
         [HttpGet("MakeMentor/{courseId}/{targetId}")]
-        public ActionResult DeleteMember(Guid courseId, Guid targetId, [FromRoute] UserToken token)
+        public ActionResult DeleteMember(Guid courseId, Guid targetId)
         {
-            _memberService.DeleteMember(courseId, targetId, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _memberService.DeleteMember(courseId, targetId, userId);
             return Ok();
         }
     }

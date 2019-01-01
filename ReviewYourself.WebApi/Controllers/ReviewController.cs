@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
-using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
@@ -18,34 +17,39 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpPost("Create")]
-        public ActionResult Create([FromBody] Review review, [FromRoute] UserToken token)
+        public ActionResult Create([FromBody] Review review)
         {
-            _reviewService.Create(review, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _reviewService.Create(review, userId);
             return Ok();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Review> Get(Guid id, [FromRoute] UserToken token)
+        public ActionResult<Review> Get(Guid id)
         {
-            return _reviewService.Get(id, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            return _reviewService.Get(id, userId);
         }
 
         [HttpGet("UserReview/{solutionId}/{userId}")]
-        public ActionResult<Review> GetUserReview(Guid solutionId, Guid userId, [FromRoute] UserToken token)
+        public ActionResult<Review> GetUserReview(Guid solutionId, Guid targetId)
         {
-            return _reviewService.GetReviewBySolutionAndUser(solutionId, userId, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            return _reviewService.GetReviewBySolutionAndUser(solutionId, targetId, userId);
         }
 
         [HttpGet("SolutionReview/{solutionId}")]
-        public ActionResult<Review> GetSolutionReview(Guid solutionId, [FromRoute] UserToken token)
+        public ActionResult<Review> GetSolutionReview(Guid solutionId)
         {
-            return Ok(_reviewService.GetReviewsBySolution(solutionId, token.UserId));
+            Guid userId = Guid.Parse(User.Identity.Name);
+            return Ok(_reviewService.GetReviewsBySolution(solutionId, userId));
         }
 
         [HttpGet("Delete/{id}")]
-        public void Delete(Guid id, [FromRoute] UserToken token)
+        public void Delete(Guid id)
         {
-            _reviewService.Delete(id, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _reviewService.Delete(id, userId);
         }
     }
 }

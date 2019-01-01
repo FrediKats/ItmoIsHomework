@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
-using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
@@ -18,34 +17,38 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpPost("Create")]
-        public ActionResult Create([FromBody] CourseSolution review, [FromRoute] UserToken token)
+        public ActionResult Create([FromBody] CourseSolution review)
         {
-            _solutionService.Create(review, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _solutionService.Create(review, userId);
             return Ok();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CourseSolution> Get(Guid id, [FromRoute] UserToken token)
+        public ActionResult<CourseSolution> Get(Guid id)
         {
-            return _solutionService.Get(id, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            return _solutionService.Get(id, userId);
         }
 
         [HttpGet("UserSolution/{solutionId}/{userId}")]
-        public ActionResult<CourseSolution> GetUserSolution(Guid taskId, Guid userId, [FromRoute] UserToken token)
+        public ActionResult<CourseSolution> GetUserSolution(Guid taskId, Guid userId)
         {
-            return _solutionService.GetUserSolution(taskId, userId, token.UserId);
+            return _solutionService.GetUserSolution(taskId, userId, userId);
         }
 
         [HttpGet("TaskSolutions/{solutionId}")]
-        public ActionResult<Review> GetSolutionReview(Guid taskId, [FromRoute] UserToken token)
+        public ActionResult<Review> GetSolutionReview(Guid taskId)
         {
-            return Ok(_solutionService.GetSolutionsByTask(taskId, token.UserId));
+            Guid userId = Guid.Parse(User.Identity.Name);
+            return Ok(_solutionService.GetSolutionsByTask(taskId, userId));
         }
 
         [HttpGet("Delete/{id}")]
-        public void Delete(Guid id, [FromRoute] UserToken token)
+        public void Delete(Guid id)
         {
-            _solutionService.Delete(id, token.UserId);
+            Guid userId = Guid.Parse(User.Identity.Name);
+            _solutionService.Delete(id, userId);
         }
     }
 }
