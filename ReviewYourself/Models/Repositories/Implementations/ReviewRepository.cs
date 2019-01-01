@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using DbExtensions;
-using ReviewYourself.Models.Tools;
+using ReviewYourself.Models.Tools.DataRecordExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
@@ -71,8 +71,11 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    review = ReaderConvertor.ToReview(reader);
+                    review = reader.GetReview();
                 }
+
+                review.RateCollection = new List<ReviewCriteria>();
+
 
                 command = SQL
                     .SELECT("*")
@@ -84,7 +87,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     while (reader.Read())
                     {
-                        review.RateCollection.Add(ReaderConvertor.ToReviewCriteria(reader));
+                        review.RateCollection.Add(reader.GetReviewCriteria());
                     }
                 }
 
@@ -110,7 +113,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     while (reader.Read())
                     {
-                        reviewCollection.Add(ReaderConvertor.ToReview(reader));
+                        reviewCollection.Add(reader.GetReview());
                     }
                 }
 
@@ -136,7 +139,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    review = ReaderConvertor.ToReview(reader);
+                    review = reader.GetReview();
                 }
 
                 command = SQL
@@ -149,7 +152,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     while (reader.Read())
                     {
-                        review.RateCollection.Add(ReaderConvertor.ToReviewCriteria(reader));
+                        review.RateCollection.Add(reader.GetReviewCriteria());
                     }
                 }
 
@@ -165,7 +168,20 @@ namespace ReviewYourself.Models.Repositories.Implementations
 
         public void Delete(Guid reviewId)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                SQL.DELETE_FROM("ReviewCriteria")
+                    .WHERE("ReviewID = {0}", reviewId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+
+                SQL.DELETE_FROM("Review")
+                    .WHERE("ReviewID = {0}", reviewId)
+                    .ToCommand(connection)
+                    .ExecuteNonQuery();
+            }
         }
 
         public bool CanPostReview(Guid solutionId, Guid userId)

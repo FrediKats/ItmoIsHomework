@@ -2,11 +2,10 @@
 using System.Configuration;
 using System.Data.SqlClient;
 using DbExtensions;
-using ReviewYourself.Models.Tools;
+using ReviewYourself.Models.Tools.DataRecordExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
-    //TODO: don't use resharper here
     public class UserRepository : IUserRepository
     {
         private string _connectionString;
@@ -46,7 +45,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    return ReaderConvertor.ToUser(reader);
+                    return reader.GetResourceUser();
                 }
             }
         }
@@ -66,7 +65,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    return ReaderConvertor.ToUser(reader);
+                    return reader.GetResourceUser();
                 }
             }
         }

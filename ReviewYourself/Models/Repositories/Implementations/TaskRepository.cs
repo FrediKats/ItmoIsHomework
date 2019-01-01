@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using DbExtensions;
-using ReviewYourself.Models.Tools;
+using ReviewYourself.Models.Tools.DataRecordExtensions;
 
 namespace ReviewYourself.Models.Repositories.Implementations
 {
@@ -75,7 +75,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 using (var reader = command.ExecuteReader())
                 {
                     reader.Read();
-                    task = ReaderConvertor.ToTask(reader);
+                    task = reader.GetResourceTask();
                     //new ResourceTask
                     //{
                     //    Id = Guid.Parse(reader["TaskID"].ToString()),
@@ -98,7 +98,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     while (reader.Read())
                     {
-                        task.CriteriaCollection.Add(ReaderConvertor.ToCriteria(reader));
+                        task.CriteriaCollection.Add(reader.GetCriteria());
                         //new Criteria
                         //{
                         //    Id = Guid.Parse(reader["CriteriaID"].ToString()),
@@ -132,7 +132,7 @@ namespace ReviewYourself.Models.Repositories.Implementations
                 {
                     while (reader.Read())
                     {
-                        taskList.Add(ReaderConvertor.ToTask(reader));
+                        taskList.Add(reader.GetResourceTask());
                         //new ResourceTask
                         //{
                         //    Id = Guid.Parse(reader["TaskID"].ToString()),

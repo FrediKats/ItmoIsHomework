@@ -14,9 +14,6 @@ namespace ReviewYourself
         {
 			var container = new UnityContainer();
             
-            // register all your components with the container here
-            // it is NOT necessary to register your controllers
-            
             container.RegisterType<ICourseRepository, CourseRepository>();
             container.RegisterType<IReviewRepository, ReviewRepository>();
             container.RegisterType<ISolutionRepository, SolutionRepository>();

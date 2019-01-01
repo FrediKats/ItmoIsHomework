@@ -8,14 +8,11 @@ namespace ReviewYourself.Models.Services.Implementations
     {
         private readonly ISolutionRepository _solutionRepository;
         private readonly ITokenRepository _tokenRepository;
-        //TODO: remove?
-        private IReviewRepository _reviewRepository;
 
         public SolutionService(ISolutionRepository solutionRepository, IReviewRepository reviewRepository,
             ITokenRepository tokenRepository)
         {
             _solutionRepository = solutionRepository;
-            _reviewRepository = reviewRepository;
             _tokenRepository = tokenRepository;
         }
 
