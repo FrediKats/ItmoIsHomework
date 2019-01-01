@@ -10,7 +10,7 @@ namespace ReviewYourself.UnitTest.Tools
         static ServiceFactory()
         {
             var context = CreateContext();
-            AuthorizationService = new PeerReviewAuthService(context, new JwtTokenFactory());
+            AuthorizationService = new PeerReviewAuthService(context);
             MemberService = new MemberService(context);
             CourseService = new CourseService(context, MemberService);
             CourseTaskService = new CourseServiceTask(context, MemberService);

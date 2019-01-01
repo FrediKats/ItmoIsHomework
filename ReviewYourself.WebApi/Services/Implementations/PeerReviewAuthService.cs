@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Authentication;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Tools;
@@ -12,16 +15,13 @@ namespace ReviewYourself.WebApi.Services.Implementations
     public class PeerReviewAuthService : IPeerReviewAuthService
     {
         private readonly PeerReviewContext _context;
-        private readonly IJwtTokenFactory _tokenFactory;
 
-        public PeerReviewAuthService(PeerReviewContext context,
-            IJwtTokenFactory tokenFactory)
+        public PeerReviewAuthService(PeerReviewContext context)
         {
             _context = context;
-            _tokenFactory = tokenFactory;
         }
 
-        public Token RegisterMember(RegistrationData data)
+        public UserToken RegisterMember(RegistrationData data)
         {
             if (IsUsernameAvailable(data.Login) == false)
             {
@@ -31,42 +31,43 @@ namespace ReviewYourself.WebApi.Services.Implementations
             PeerReviewUser peerReviewUser = data.ToUser();
             _context.Users.Add(peerReviewUser);
 
-            string jwtToken = _tokenFactory.CreateJwtToken(peerReviewUser.Id);
-            var token = new Token {AccessToken = jwtToken, UserId = peerReviewUser.Id};
-            _context.Tokens.Add(token);
-
-            var authData = new AuthorizeData {Login = data.Login, Password = data.Password};
+            var authData = new AuthData {Login = data.Login, Password = data.Password};
             _context.AuthorizeDatas.Add(authData);
-
             _context.SaveChanges();
-            return token;
+
+            return LogIn(authData);
         }
 
-        public void LogOut(Token token)
+        public void LogOut(UserToken token)
         {
-            Token tokenToRemove = _context.Tokens
-                .First(t => t.AccessToken == token.AccessToken);
-            _context.Tokens.Remove(tokenToRemove);
-
-            _context.SaveChanges();
+            throw new NotImplementedException();
         }
 
-        public Token LogIn(AuthorizeData authData)
+        public UserToken LogIn(AuthData authData)
         {
-            if (!_context.AuthorizeDatas.Any(ad => ad.Login == authData.Login
-                                                   && ad.Password == authData.Password))
+            ClaimsIdentity identity = GetIdentity(authData.Login, authData.Password);
+            if (identity == null)
             {
                 throw new AuthenticationException("Invalid login or password");
             }
 
-            PeerReviewUser peerReviewUser = _context.Users.First(u => u.Login == authData.Login);
-            string jwtToken = _tokenFactory.CreateJwtToken(peerReviewUser.Id);
-            var token = new Token {AccessToken = jwtToken, UserId = peerReviewUser.Id};
+            PeerReviewUser user = _context.Users.First(u => u.Login == authData.Login);
 
-            _context.Tokens.Add(token);
-            _context.SaveChanges();
+            var jwt = new JwtSecurityToken(
+                AuthOptions.Issuer,
+                AuthOptions.Audience,
+                notBefore: DateTime.UtcNow,
+                claims: identity.Claims,
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(AuthOptions.Lifetime)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(),
+                    SecurityAlgorithms.HmacSha256));
+            string encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            return token;
+            return new UserToken
+            {
+                AccessToken = encodedJwt,
+                UserId = user.Id
+            };
         }
 
         public bool IsUsernameAvailable(string username)
@@ -76,16 +77,18 @@ namespace ReviewYourself.WebApi.Services.Implementations
 
         private ClaimsIdentity GetIdentity(string username, string password)
         {
-            AuthorizeData person = _context.AuthorizeDatas.First(ad => ad.Login == username && ad.Password == password);
+            AuthData person = _context.AuthorizeDatas.First(ad => ad.Login == username && ad.Password == password);
             if (person == null)
             {
                 return null;
             }
 
+            PeerReviewUser user = _context.Users.First(u => u.Login == username);
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.ToString())
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString())
+                //TODO: implement role system
+                //new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.ToString())
             };
             var claimsIdentity =
                 new ClaimsIdentity(

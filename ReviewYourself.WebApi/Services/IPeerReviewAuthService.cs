@@ -5,9 +5,9 @@ namespace ReviewYourself.WebApi.Services
 {
     public interface IPeerReviewAuthService
     {
-        Token RegisterMember(RegistrationData data);
-        void LogOut(Token token);
-        Token LogIn(AuthorizeData authData);
+        UserToken RegisterMember(RegistrationData data);
+        void LogOut(UserToken token);
+        UserToken LogIn(AuthData authData);
         bool IsUsernameAvailable(string username);
     }
 }

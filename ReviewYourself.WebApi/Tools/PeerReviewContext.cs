@@ -13,7 +13,7 @@ namespace ReviewYourself.WebApi.Tools
         }
 
         public DbSet<Announcing> Announcing { get; set; }
-        public DbSet<AuthorizeData> AuthorizeDatas { get; set; }
+        public DbSet<AuthData> AuthorizeDatas { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseTask> CourseTasks { get; set; }
@@ -22,7 +22,6 @@ namespace ReviewYourself.WebApi.Tools
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewCriteria> ReviewCriterias { get; set; }
         public DbSet<CourseSolution> Solutions { get; set; }
-        public DbSet<Token> Tokens { get; set; }
         public DbSet<PeerReviewUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,8 +30,6 @@ namespace ReviewYourself.WebApi.Tools
                 .HasKey(mt => new {mt.CourseId, mt.MemberId});
             modelBuilder.Entity<ReviewCriteria>()
                 .HasKey(rc => new {rc.CriteriaId, rc.ReviewId});
-            modelBuilder.Entity<Token>()
-                .HasKey(t => new {t.UserId, t.AccessToken});
             modelBuilder.Entity<PeerReviewUser>()
                 .HasIndex(u => u.Login)
                 .IsUnique();

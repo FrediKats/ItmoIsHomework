@@ -25,14 +25,14 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpGet("Logout")]
-        public ActionResult Logout([FromRoute] Token token)
+        public ActionResult Logout([FromRoute] UserToken token)
         {
             _authService.LogOut(token);
             return Ok();
         }
 
         [HttpPost("Login")]
-        public ActionResult<Token> Login([FromBody] AuthorizeData data)
+        public ActionResult<UserToken> Login([FromBody] AuthData data)
         {
             return _authService.LogIn(data);
         }

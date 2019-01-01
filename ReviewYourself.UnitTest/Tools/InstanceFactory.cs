@@ -80,9 +80,9 @@ namespace ReviewYourself.UnitTest.Tools
             };
         }
 
-        public static AuthorizeData AuthorizeData(RegistrationData data)
+        public static AuthData AuthorizeData(RegistrationData data)
         {
-            return new AuthorizeData
+            return new AuthData
             {
                 Login = data.Login,
                 Password = data.Password

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using ReviewYourself.WebApi.DatabaseModels;
+using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.WebApi.Controllers
@@ -29,13 +30,13 @@ namespace ReviewYourself.WebApi.Controllers
         }
 
         [HttpPost("Update")]
-        public void Update([FromBody] PeerReviewUser peerReviewUser, [FromRoute] Token token)
+        public void Update([FromBody] PeerReviewUser peerReviewUser, [FromRoute] UserToken token)
         {
             _peerReviewUserService.Update(peerReviewUser, token.UserId);
         }
 
         [HttpGet("Delete/{id}")]
-        public void Delete(Guid id, [FromRoute] Token token)
+        public void Delete(Guid id, [FromRoute] UserToken token)
         {
             _peerReviewUserService.Disable(id, token.UserId);
         }
