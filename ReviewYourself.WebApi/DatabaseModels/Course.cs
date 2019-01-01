@@ -10,6 +10,6 @@ namespace ReviewYourself.WebApi.DatabaseModels
         public string Description { get; set; }
         public ICollection<Participation> Members { get; set; }
         public ICollection<CourseTask> CourseTasks { get; set; }
-        public ICollection<Announcing> Announcings { get; set; }
+        public ICollection<Announcing> Announces { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using ReviewYourself.WebApi.Models;
 
 namespace ReviewYourself.WebApi.DatabaseModels
 {
@@ -13,5 +14,6 @@ namespace ReviewYourself.WebApi.DatabaseModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Biography { get; set; }
+        public UserRole Role { get; set; }
     }
 }
