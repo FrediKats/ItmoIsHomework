@@ -6,7 +6,7 @@ namespace ReviewYourself.WebApi.DatabaseModels
     public class Participation
     {
         public Guid MemberId { get; set; }
-        public PeerReviewUser PeerReviewUser { get; set; }
+        public PeerReviewUser Member { get; set; }
 
         public Guid CourseId { get; set; }
         public Course Course { get; set; }

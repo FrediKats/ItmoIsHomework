@@ -17,7 +17,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
 
         public PeerReviewUser Get(Guid userId)
         {
-            return _context.Users.Find(userId);
+            return _context.Users.FirstOrDefault(u => u.Id == userId);
         }
 
         public PeerReviewUser Get(string username)

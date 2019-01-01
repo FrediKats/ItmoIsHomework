@@ -93,7 +93,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
         {
             return _context.Participations
                 .Where(p => p.MemberId == userId && p.Permission == MemberPermission.Invited)
-                .Join(_context.Courses, p => p.MemberId, c => c.Id, (p, c) => c)
+                .Join(_context.Courses, participation => participation.CourseId, course => course.Id, (p, c) => c)
                 .ToList();
         }
 

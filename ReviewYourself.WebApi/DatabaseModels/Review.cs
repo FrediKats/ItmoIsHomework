@@ -13,6 +13,6 @@ namespace ReviewYourself.WebApi.DatabaseModels
         public PeerReviewUser Author { get; set; }
 
         public Guid SolutionId { get; set; }
-        public CourseSolution CourseSolution { get; set; }
+        public CourseSolution Solution { get; set; }
     }
 }

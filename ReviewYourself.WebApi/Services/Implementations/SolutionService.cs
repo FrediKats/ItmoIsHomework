@@ -21,6 +21,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
         {
             //TODO: check if executor is course's member
             _context.Solutions.Add(courseSolution);
+            _context.SaveChanges();
             return courseSolution;
         }
 

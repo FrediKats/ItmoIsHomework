@@ -27,7 +27,6 @@ namespace ReviewYourself.WebApi
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddScoped<IJwtTokenFactory, JwtTokenFactory>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ICourseTaskService, CourseServiceTask>();
             services.AddScoped<IMemberService, MemberService>();

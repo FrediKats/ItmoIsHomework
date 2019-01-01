@@ -77,7 +77,8 @@ namespace ReviewYourself.WebApi.Services.Implementations
 
         private ClaimsIdentity GetIdentity(string username, string password)
         {
-            AuthData person = _context.AuthorizeDatas.First(ad => ad.Login == username && ad.Password == password);
+            AuthData person =
+                _context.AuthorizeDatas.FirstOrDefault(ad => ad.Login == username && ad.Password == password);
             if (person == null)
             {
                 return null;

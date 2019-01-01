@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.UnitTest.Tools;
+using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Exceptions;
 using ReviewYourself.WebApi.Services;
 
@@ -28,7 +29,7 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void GetUser_NotFound()
         {
-            var user = UserService.Get(Guid.NewGuid());
+            PeerReviewUser user = UserService.Get(Guid.NewGuid());
 
             Assert.IsNull(user);
         }

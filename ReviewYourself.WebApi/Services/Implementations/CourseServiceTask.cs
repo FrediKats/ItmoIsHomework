@@ -46,6 +46,7 @@ namespace ReviewYourself.WebApi.Services.Implementations
             //TODO: check if executor is course creator or task's author
             var task = _context.CourseTasks.Find(taskId);
             _context.CourseTasks.Remove(task);
+            _context.SaveChanges();
         }
     }
 }

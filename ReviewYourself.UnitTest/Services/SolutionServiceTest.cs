@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.UnitTest.Tools;
+using ReviewYourself.WebApi.DatabaseModels;
 using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.UnitTest.Services
@@ -76,18 +79,19 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void GetTaskSolution()
         {
-            var token = InstanceFactory.AuthorizedUserId();
-            var course = InstanceFactory.Course();
-            course = _courseService.Create(course, token);
-            var courseTask = InstanceFactory.CourseTask(token, course.Id);
-            courseTask = _courseTaskService.Create(courseTask, token);
+            Guid userId = InstanceFactory.AuthorizedUserId();
+            Course course = InstanceFactory.Course();
+            course = _courseService.Create(course, userId);
 
-            var solution = InstanceFactory.Solution(token, courseTask.Id);
-            var createdSolution = _solutionService.Create(solution, token);
-            var newSolution = _solutionService.GetSolutionsByTask(courseTask.Id, token);
+            CourseTask courseTask = InstanceFactory.CourseTask(userId, course.Id);
+            courseTask = _courseTaskService.Create(courseTask, userId);
 
-            Assert.IsNotNull(newSolution);
-            Assert.AreEqual(1, newSolution.Count(s => s.AuthorId == token));
+            CourseSolution solution = InstanceFactory.Solution(userId, courseTask.Id);
+            solution = _solutionService.Create(solution, userId);
+            ICollection<CourseSolution> solutions = _solutionService.GetSolutionsByTask(courseTask.Id, userId);
+
+            Assert.IsNotNull(solutions);
+            Assert.AreEqual(1, solutions.Count(s => s.AuthorId == userId));
         }
 
         [TestMethod]

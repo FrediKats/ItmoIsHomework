@@ -3,6 +3,8 @@ using System.Data;
 using System.Security.Authentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReviewYourself.UnitTest.Tools;
+using ReviewYourself.WebApi.DatabaseModels;
+using ReviewYourself.WebApi.Models;
 using ReviewYourself.WebApi.Services;
 
 namespace ReviewYourself.UnitTest.Services
@@ -58,8 +60,8 @@ namespace ReviewYourself.UnitTest.Services
         [TestMethod]
         public void LogIn_IncorrectPassword()
         {
-            var regData = InstanceFactory.RegistrationData();
-            var auth = InstanceFactory.AuthorizeData(regData);
+            RegistrationData regData = InstanceFactory.RegistrationData();
+            AuthData auth = InstanceFactory.AuthorizeData(regData);
             auth.Password = "new_wrong_password";
 
             AuthorizationService.RegisterMember(regData);
