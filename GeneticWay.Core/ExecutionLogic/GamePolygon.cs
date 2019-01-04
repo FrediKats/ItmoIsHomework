@@ -1,16 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GeneticWay.Core.Models;
+using GeneticWay.Core.RouteGenerating;
+using GeneticWay.Core.RoutingLogic;
+using GeneticWay.Core.Vectorization;
 
 namespace GeneticWay.Core.ExecutionLogic
 {
     public class GamePolygon
     {
-        public GamePolygon(List<Circle> zones)
+        public GamePolygon()
         {
-            Zones = zones;
+            Zones = new List<Circle>();
         }
 
         public List<Circle> Zones { get; }
+        public List<Coordinate> BestPath { get; private set; }
+        public MovableObject LastSuccessfulObject { get; set; }
+
+
+        public void BuildPath()
+        {
+            var zoneIterationPath = new ZoneIterationPath();
+            BestPath = RouteGenerator.BuildPath(zoneIterationPath);
+
+        }
+
+        public void MutateObjectPath()
+        {
+            MovableObject nextGenerationObject = MutationIteration();
+            if (nextGenerationObject != null)
+            {
+                LastSuccessfulObject = nextGenerationObject;
+            }
+        }
+
+        private MovableObject MutationIteration()
+        {
+            //TODO: add checker
+            try
+            {
+                MovableObject result = AntiAliasing.TrySmooth(BestPath);
+                return result;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         public bool IsCoordinateInZone(Coordinate coordinate)
         {
@@ -23,27 +60,6 @@ namespace GeneticWay.Core.ExecutionLogic
             }
 
             return false;
-        }
-        
-        public bool IsCanCreateLine(Segment segment)
-        {
-            foreach (Circle zone in Zones)
-            {
-                if (CircleAndLineIntersection(segment, zone))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private static bool CircleAndLineIntersection(Segment segment, Circle circle)
-        {
-            Segment otherCoordinateSystemSegment = segment - circle.Coordinate;
-            Coordinate closestPoint = otherCoordinateSystemSegment.GetSegmentClosestToCenterPoint();
-
-            return closestPoint.GetLength() <= circle.Radius;
         }
     }
 }

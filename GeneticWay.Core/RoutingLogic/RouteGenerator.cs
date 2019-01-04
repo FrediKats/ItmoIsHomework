@@ -15,11 +15,6 @@ namespace GeneticWay.Core.RoutingLogic
             Polygon = polygon;
         }
 
-        public RouteGenerator(List<Circle> zones)
-        {
-            Polygon = new GamePolygon(zones);
-        }
-
         public GamePolygon Polygon { get; }
 
         public List<ZoneIterationPath> RecursiveSearch(ZoneIterationPath zoneIterationPath)
@@ -48,7 +43,7 @@ namespace GeneticWay.Core.RoutingLogic
             }
 
             Segment routeToEnd = BuildSegmentToEnd(zoneIterationPath.Zones.Last());
-            if (Polygon.IsCanCreateLine(routeToEnd))
+            if (IsCanCreateLine(routeToEnd))
             {
                 foundRoutes.Add(zoneIterationPath);
             }
@@ -78,7 +73,28 @@ namespace GeneticWay.Core.RoutingLogic
                 connectingSegment = MathComputing.BuildCirclesConnectingSegment(from.Value, to);
             }
 
-            return Polygon.IsCanCreateLine(connectingSegment);
+            return IsCanCreateLine(connectingSegment);
+        }
+
+        public bool IsCanCreateLine(Segment segment)
+        {
+            foreach (Circle zone in Polygon.Zones)
+            {
+                if (CircleAndLineIntersection(segment, zone))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static bool CircleAndLineIntersection(Segment segment, Circle circle)
+        {
+            Segment otherCoordinateSystemSegment = segment - circle.Coordinate;
+            Coordinate closestPoint = otherCoordinateSystemSegment.GetSegmentClosestToCenterPoint();
+
+            return closestPoint.GetLength() <= circle.Radius;
         }
 
         public static List<Coordinate> BuildPath(ZoneIterationPath zoneIterationPath)
