@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
-using GeneticWay.Core.RoutingLogic;
 using GeneticWay.Core.Tools;
-using GeneticWay.Core.Vectorization;
 using GeneticWay.Ui;
 using OxyPlot;
 using OxyPlot.Wpf;
@@ -30,23 +27,23 @@ namespace GeneticWay
 
             _gamePolygon = new GamePolygon();
             _gamePolygon.Zones.AddRange(settings.ValidCircles);
-            _gamePolygon.BuildPath();
 
-            PrintFiled(_gamePolygon.BestPath, settings.ValidCircles);
+            PrintFiled(_gamePolygon.GetBestPath(), settings.ValidCircles);
         }
 
         private void RunAntiAliasing(object sender, RoutedEventArgs e)
         {
             int count = int.Parse(CountInput.Text);
 
+            bool result = false;
             for (var i = 0; i < count; i++)
             {
-                _gamePolygon.MutateObjectPath();
+                result = _gamePolygon.MutateObjectPath() || result;
             }
 
-            if (_gamePolygon.LastSuccessfulObject == null)
+            if (result == false)
             {
-                MessageBox.Show("Move object is null");
+                MessageBox.Show("Move object is same");
                 return;
             }
 

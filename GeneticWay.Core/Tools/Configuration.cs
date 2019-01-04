@@ -13,7 +13,7 @@
         {
             MaxForce = 1;
             TimePeriod = 0.01;
-            Epsilon = 1e-2;
+            Epsilon = 1e-3;
         }
 
         public static double MaxForce { get; private set; }

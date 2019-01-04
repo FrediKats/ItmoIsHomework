@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using GeneticWay.Core.ExecutionLogic;
 using GeneticWay.Core.Models;
-using GeneticWay.Core.RouteGenerating;
 using GeneticWay.Core.Tools;
 
 namespace GeneticWay.Core.RoutingLogic
@@ -34,7 +33,7 @@ namespace GeneticWay.Core.RoutingLogic
                 }
 
                 ZoneIterationPath newRoute = zoneIterationPath.Clone();
-                newRoute.AddNew(zone);
+                newRoute.Zones.Add(zone);
                 List<ZoneIterationPath> descendantRoutes = RecursiveSearch(newRoute);
                 if (descendantRoutes?.Count > 0)
                 {

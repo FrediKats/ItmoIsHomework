@@ -9,7 +9,9 @@ namespace GeneticWay.Core.ExecutionLogic
     {
         public static Coordinate GetPointOnCircleCoordinate(double radius, double angle)
         {
-            return (radius * Math.Cos(angle), radius * Math.Sin(angle));
+            //TODO: one more dirty hack
+            double newRadius = radius + Configuration.Epsilon;
+            return (newRadius * Math.Cos(angle), newRadius * Math.Sin(angle));
         }
 
         public static Coordinate GetPointOnCircleCoordinate(double radius, double angle, Coordinate center)
@@ -44,7 +46,8 @@ namespace GeneticWay.Core.ExecutionLogic
         public static Coordinate GetClosestPointFromCircleToPoint(this Circle circle, Coordinate zeroCoordinate)
         {
             Coordinate otherCoordinateSystemPoint = circle.Coordinate - zeroCoordinate;
-            double scale = circle.Radius / otherCoordinateSystemPoint.GetLength();
+            //TODO: one more dirty hack
+            double scale = circle.Radius / otherCoordinateSystemPoint.GetLength() * 1.05;
 
             return otherCoordinateSystemPoint * (1 - scale) + zeroCoordinate;
         }

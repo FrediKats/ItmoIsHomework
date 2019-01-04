@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using GeneticWay.Core.Models;
-using GeneticWay.Core.RouteGenerating;
 using GeneticWay.Core.RoutingLogic;
+using GeneticWay.Core.Tools;
 using GeneticWay.Core.Vectorization;
 
 namespace GeneticWay.Core.ExecutionLogic
@@ -15,24 +15,34 @@ namespace GeneticWay.Core.ExecutionLogic
         }
 
         public List<Circle> Zones { get; }
-        public List<Coordinate> BestPath { get; private set; }
         public MovableObject LastSuccessfulObject { get; set; }
 
-
-        public void BuildPath()
+        public List<Coordinate> GetBestPath()
         {
-            var zoneIterationPath = new ZoneIterationPath();
-            BestPath = RouteGenerator.BuildPath(zoneIterationPath);
+            if (LastSuccessfulObject == null)
+            {
+                var zoneIterationPath = new ZoneIterationPath();
+                
+                //TODO: dirty hckas
+                zoneIterationPath.Zones.Add(Zones[3]);
+                zoneIterationPath.Zones.Add(Zones[2]);
 
+                return RouteGenerator.BuildPath(zoneIterationPath);
+            }
+
+            return LastSuccessfulObject.VisitedPoints;
         }
 
-        public void MutateObjectPath()
+        public bool MutateObjectPath()
         {
             MovableObject nextGenerationObject = MutationIteration();
             if (nextGenerationObject != null)
             {
                 LastSuccessfulObject = nextGenerationObject;
+                return true;
             }
+
+            return false;
         }
 
         private MovableObject MutationIteration()
@@ -40,7 +50,17 @@ namespace GeneticWay.Core.ExecutionLogic
             //TODO: add checker
             try
             {
-                MovableObject result = AntiAliasing.TrySmooth(BestPath);
+                MovableObject result = AntiAliasing.TrySmooth(GetBestPath());
+                foreach (Coordinate coordinate in result.VisitedPoints)
+                {
+                    if (IsCoordinateInZone(coordinate))
+                        return null;
+
+                }
+
+                if (result.Velocity.GetLength() > Configuration.Epsilon)
+                    return null;
+
                 return result;
             }
             catch (Exception)
