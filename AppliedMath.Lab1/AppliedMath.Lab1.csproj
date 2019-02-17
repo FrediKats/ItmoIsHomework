@@ -7,4 +7,10 @@
     <RootNamespace>AppliedMath.Lab1</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="InputData.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
