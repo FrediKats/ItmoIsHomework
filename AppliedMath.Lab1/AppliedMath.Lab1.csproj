@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>AppliedMath.Lab1</AssemblyName>
+    <RootNamespace>AppliedMath.Lab1</RootNamespace>
+  </PropertyGroup>
+
+</Project>
