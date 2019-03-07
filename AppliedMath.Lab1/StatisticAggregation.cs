@@ -33,8 +33,8 @@ namespace AppliedMath.Lab1
                 return Median();
 
             return Median(quartile == QuartileType.First
-                ? _data.Take(_data.Count).ToList()
-                : _data.Skip(_data.Count).ToList());
+                ? _data.Take(_data.Count / 2).ToList()
+                : _data.Skip(_data.Count / 2).ToList());
         }
 
         public double StandardDeviation => Math.Sqrt(Dispersion);
@@ -57,6 +57,13 @@ namespace AppliedMath.Lab1
         private double CentralMoment(int n)
         {
             return _data.Select(x => Math.Pow(x - AverageValue, n)).Average();
+        }
+
+        public override string ToString()
+        {
+            return $"Avg: {AverageValue}\nDispersion: {Dispersion}\nStandardError: {StandardError}\nMode: {Mode()}"
+                +$"\nQ1: {Quartile(QuartileType.First)}\nQ2: {Quartile(QuartileType.Second)}\nQ3: {Quartile(QuartileType.Third)}"
+                +$"\nStandardDeviation: {StandardDeviation}\nSkewness: {Skewness}\nKurtosis: {Kurtosis}\nMin: {Min}\nMax: {Max}";
         }
     }
 }

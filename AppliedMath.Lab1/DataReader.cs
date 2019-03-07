@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 
 namespace AppliedMath.Lab1
 {
@@ -10,7 +11,9 @@ namespace AppliedMath.Lab1
                 .ReadAllText(filePath)
                 .Replace('\n', ' ')
                 .Replace("  ", " ")
-                .Split(" ");
+                .Split(" ")
+                .Select(s => s.Replace("\n", ""))
+                .ToArray();
         }
     }
 }
