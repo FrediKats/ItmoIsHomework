@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace AppliedMath.Lab1
 {
@@ -6,9 +9,13 @@ namespace AppliedMath.Lab1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             string[] data = DataReader.ReadInput("InputData.txt");
-            Console.WriteLine(data.Length);
+            List<int> ints = data.Select(int.Parse).OrderBy(i => i).ToList();
+
+            StatisticAggregation aggregation = new StatisticAggregation(ints);
+            Console.WriteLine(aggregation);
+
+            File.WriteAllText("out.txt", string.Join("\n", ints));
         }
     }
 }
