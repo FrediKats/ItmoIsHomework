@@ -1,0 +1,90 @@
+.body {
+    height: 100vh;
+}
+.content-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    width: auto;
+    background-color: teal;
+}
+
+.content-block {
+    background-color: darkgreen;
+    margin: 10px;
+}
+
+.profile-block {
+    background-color: cornflowerblue;
+    margin: 5px;
+    min-width: 150px;
+    max-width: 350px;
+}
+
+.image-block {
+    display: flex;
+    justify-content: center;
+}
+
+.image-user-avatar {
+    width: 250px;
+    height: 250px;
+}
+
+.bio-block {
+}
+
+.user-wall {
+    background-color: cornflowerblue;
+    margin: 5px;
+    width: 100%;
+    min-width: 300px;
+    max-width: 600px;
+}
+
+.starred-block {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
+.achievement {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 15px;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+
+.achievement-image {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.achievement-title {
+    margin: 10px auto;
+}
+
+.lifeline-block {
+    padding: 5px;
+}
+
+.event-group {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: mediumpurple;
+    margin: 20px;
+}
+
+.event-group-element {
+    margin: 5px;
+    background-color: coral;
+}
