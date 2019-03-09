@@ -1,5 +1,6 @@
 .body {
     height: 100vh;
+    min-width: 350px;
 }
 .content-container {
     display: flex;
@@ -7,18 +8,17 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    width: auto;
+    max-width: 1200px;
+    margin: 0 auto;
     background-color: teal;
 }
 
 .content-block {
     background-color: darkgreen;
-    margin: 10px;
+    margin: 10px 0 0 10px;
 }
 
 .profile-block {
-    background-color: cornflowerblue;
-    margin: 5px;
     min-width: 150px;
     max-width: 350px;
 }
@@ -26,6 +26,7 @@
 .image-block {
     display: flex;
     justify-content: center;
+    
 }
 
 .image-user-avatar {
@@ -37,8 +38,6 @@
 }
 
 .user-wall {
-    background-color: cornflowerblue;
-    margin: 5px;
     width: 100%;
     min-width: 300px;
     max-width: 600px;
@@ -49,7 +48,6 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-
 }
 
 .achievement {
@@ -72,7 +70,6 @@
 }
 
 .lifeline-block {
-    padding: 5px;
 }
 
 .event-group {
@@ -87,4 +84,9 @@
 .event-group-element {
     margin: 5px;
     background-color: coral;
+}
+
+.title-text {
+    padding: 10px;
+    font-weight: bold;
 }
