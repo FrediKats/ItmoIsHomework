@@ -1,24 +1,34 @@
-﻿using MathNet.Numerics.LinearAlgebra;
+﻿using System;
+using MathNet.Numerics.LinearAlgebra;
 using Vector = MathNet.Numerics.LinearAlgebra.Double.Vector;
 
 namespace AppliedMath.Lab2
 {
     public class MarkovChainExecutor
     {
-        public static Vector<double> RunBrutForce(Matrix<double> m, Vector<double> current)
+        public static Vector<double> RunBrutForce(Matrix<double> m, Vector<double> current, bool printData = false)
         {
             Vector<double> prev;
+            double delta;
+            if (printData)
+            {
+                Console.WriteLine($"Current state: \n{current.ToVectorString()}");
+            }
 
             do
             {
                 prev = current;
                 current = m.Multiply(current);
-            } while (MathHelper.LengthToVector(prev, current) > 1e-15);
+                delta = MathHelper.LengthToVector(prev, current);
+                if (printData)
+                    Console.WriteLine($"Next state is \n{current.ToVectorString()}with delta {delta}\n");
+
+            } while (delta > 1e-8);
 
             return current;
         }
 
-        public static Vector<double> Convertor(Matrix<double> p)
+        public static Vector<double> SolverWithSystemOfLinearEquations(Matrix<double> p)
         {
             for (int i = 0; i < p.RowCount; i++)
             {
