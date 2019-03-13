@@ -9,7 +9,8 @@ namespace AppliedMath.Lab2
         public static double LengthToVector(Vector<double> first, Vector<double> other)
         {
             Vector<double> delta = first.Subtract(other);
-            return delta.Select(v => Math.Pow(v, 2)).Sum();
+            double sInSquare = delta.Select(v => Math.Pow(v, 2)).Average();
+            return Math.Sqrt(sInSquare);
         }
     }
 }

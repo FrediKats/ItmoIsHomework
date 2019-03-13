@@ -20,14 +20,17 @@ namespace AppliedMath.Lab1
 
         public double Mode()
         {
-            var groups = _data.GroupBy(v => v).OrderBy(g => g.Count());
+            var groups = _data
+                .GroupBy(v => v)
+                .OrderBy(g => g.Count())
+                .ToList();
             int max = groups.First().Count();
             return groups.Where(g => g.Count() == max).Average(v => v.Key);
         }
 
-        public int Median() => Median(_data);
+        public double Median() => Median(_data);
 
-        public int Quartile(QuartileType quartile)
+        public double Quartile(QuartileType quartile)
         {
             if (quartile == QuartileType.Second)
                 return Median();
@@ -47,11 +50,14 @@ namespace AppliedMath.Lab1
 
         public int Max => _data.Max();
 
-        private static int Median(List<int> data)
+        private static double Median(List<int> data)
         {
+            if (data.Count % 2 == 1)
+                return data[data.Count / 2];
+
             int left = data.Take(data.Count / 2).Last();
             int right = data.Skip(data.Count / 2).First();
-            return (left + right) / 2;
+            return (double)(left + right) / 2;
         }
 
         private double CentralMoment(int n)
