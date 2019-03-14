@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ServeYourself.Core;
 
 namespace ServeYourself.Testing
 {
@@ -10,6 +7,12 @@ namespace ServeYourself.Testing
     {
         static void Main(string[] args)
         {
+            var serveService = new ServeService();
+            for (int i = 0; i < 50; i++)
+            {
+                serveService.Iteration();
+                Console.WriteLine(serveService.GetStatistic());
+            }
         }
     }
 }

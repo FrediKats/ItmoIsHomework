@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ServeYourself.Core\ServeYourself.Core.csproj">
+      <Project>{b67fca0a-dc5d-4a34-a592-ad57705f8ebc}</Project>
+      <Name>ServeYourself.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
