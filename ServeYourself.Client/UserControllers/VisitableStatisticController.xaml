@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:oxy="http://oxyplot.org/wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="800">
+             d:DesignHeight="200" d:DesignWidth="800">
     <StackPanel>
-        <oxy:Plot Name="MainChart" MinHeight="250">
+        <oxy:Plot Name="MainChart" MinHeight="200">
         </oxy:Plot>
     </StackPanel>
 </UserControl>
