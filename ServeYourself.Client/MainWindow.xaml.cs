@@ -3,18 +3,19 @@ using System.Linq;
 using System.Windows;
 using ServeYourself.Client.UserControllers;
 using ServeYourself.Core;
+using ServeYourself.Core.ServeServices;
 
 namespace ServeYourself.Client
 {
     public partial class MainWindow : Window
     {
-        private readonly ServeService _serve;
+        private readonly SimpleServeService _simpleServe;
         private readonly List<VisitableStatisticController> _controlList;
         public MainWindow()
         {
             InitializeComponent();
-            _serve = new ServeService();
-            _controlList = _serve
+            _simpleServe = new SimpleServeService();
+            _controlList = _simpleServe
                 .GetAllVisitableList()
                 .Select(v => new VisitableStatisticController(v) {Height = 250})
                 .ToList();
@@ -42,7 +43,7 @@ namespace ServeYourself.Client
 
         private void UpdateControls()
         {
-            _serve.Iteration();
+            _simpleServe.Iteration();
             _controlList.ForEach(c => c.UpdateControl());
         }
     }

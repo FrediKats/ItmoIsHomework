@@ -1,4 +1,4 @@
-﻿namespace ServeYourself.Core
+﻿namespace ServeYourself.Core.ServeServices
 {
     public interface IServeService
     {
