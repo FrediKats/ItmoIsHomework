@@ -2,25 +2,24 @@
 using System.Linq;
 using System.Windows;
 using ServeYourself.Client.UserControllers;
-using ServeYourself.Core;
 using ServeYourself.Core.ServeServices;
 
 namespace ServeYourself.Client
 {
     public partial class MainWindow : Window
     {
-        private readonly SimpleServeService _simpleServe;
+        private readonly IServeService _simpleServe;
         private readonly List<VisitableStatisticController> _controlList;
         public MainWindow()
         {
             InitializeComponent();
-            _simpleServe = new SimpleServeService();
+            _simpleServe = new ChainServeService();
             _controlList = _simpleServe
                 .GetAllVisitableList()
-                .Select(v => new VisitableStatisticController(v) {Height = 250})
+                .Select(v => new VisitableStatisticController(v) {Height = 200})
                 .ToList();
 
-            foreach (var control in _controlList)
+            foreach (VisitableStatisticController control in _controlList)
             {
                 ElementsList.Children.Add(control);
             }

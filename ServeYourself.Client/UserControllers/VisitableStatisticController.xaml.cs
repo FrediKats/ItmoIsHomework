@@ -11,24 +11,20 @@ namespace ServeYourself.Client.UserControllers
     {
         private readonly IVisitable _visitable;
 
-        private readonly List<DataPoint> _visitorList;
         private readonly List<DataPoint> _queueList;
         private readonly List<DataPoint> _handlingList;
 
         public VisitableStatisticController(IVisitable visitable)
         {
             _visitable = visitable;
-            _visitorList = new List<DataPoint>();
             _queueList = new List<DataPoint>();
             _handlingList = new List<DataPoint>();
 
-            var visitorSeries = new LineSeries {ItemsSource = _visitorList};
             var queueSeries = new LineSeries { ItemsSource = _queueList};
             var handlingSeries = new LineSeries { ItemsSource = _handlingList};
 
             InitializeComponent();
 
-            MainChart.Series.Add(visitorSeries);
             MainChart.Series.Add(queueSeries);
             MainChart.Series.Add(handlingSeries);
             DataContext = this;
@@ -38,7 +34,6 @@ namespace ServeYourself.Client.UserControllers
         {
             ShopStatistic statistic = _visitable.GetStatistic();
 
-            AddPoint(_visitorList, statistic.VisitorCount);
             AddPoint(_queueList, statistic.InQueueClientCount);
             AddPoint(_handlingList, statistic.HandlingClients);
 
