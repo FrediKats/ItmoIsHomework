@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using ServeYourself.Client.UserControllers;
 using ServeYourself.Core;
@@ -8,13 +9,20 @@ namespace ServeYourself.Client
     public partial class MainWindow : Window
     {
         private readonly ServeService _serve;
-        private readonly VisitableStatisticController _controller;
+        private readonly List<VisitableStatisticController> _controlList;
         public MainWindow()
         {
             InitializeComponent();
             _serve = new ServeService();
-            _controller = new VisitableStatisticController(_serve.GetAllVisitableList().First()) {Height = 400};
-            ElementsList.Children.Add(_controller);
+            _controlList = _serve
+                .GetAllVisitableList()
+                .Select(v => new VisitableStatisticController(v) {Height = 250})
+                .ToList();
+
+            foreach (var control in _controlList)
+            {
+                ElementsList.Children.Add(control);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -23,15 +31,19 @@ namespace ServeYourself.Client
             {
                 for (int i = 0; i < value; i++)
                 {
-                    _serve.Iteration();
-                    _controller.UpdateControl();
+                    UpdateControls();
                 }
             }
             else
             {
-                _serve.Iteration();
-                _controller.UpdateControl();
+                UpdateControls();
             }
+        }
+
+        private void UpdateControls()
+        {
+            _serve.Iteration();
+            _controlList.ForEach(c => c.UpdateControl());
         }
     }
 }
