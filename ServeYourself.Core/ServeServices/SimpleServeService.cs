@@ -3,16 +3,16 @@ using ServeYourself.Core.VisitablePoints;
 using ServeYourself.Core.VisitorInputStream;
 using ServeYourself.Core.Visitors;
 
-namespace ServeYourself.Core
+namespace ServeYourself.Core.ServeServices
 {
-    public class ServeService : IServeService
+    public class SimpleServeService : IServeService
     {
         private readonly IVisitable _endpoint;
         private readonly IVisitorInputStream _visitorInputStream;
         private readonly IVisitable _shop;
         private readonly IVisitable _multiWorkerShop;
 
-        public ServeService()
+        public SimpleServeService()
         {
             _visitorInputStream = new RandomVisitorInputStream(ServeConfiguration.RandomInputStreamMaxDelay);
             _shop = new DummyShop();
