@@ -9,8 +9,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="1000">
     <Grid>
-        <userControllers:VisitableStatisticController>
+        <StackPanel Name="ElementsList">
+            <StackPanel Height="50" Orientation="Horizontal">
+                <Button Content="Update" Click="Button_Click" Width="100"/>
+                <TextBox Text="10" Name="IterationCount" Width="100" Margin="10 0"/>
+            </StackPanel>
 
-        </userControllers:VisitableStatisticController>
+        </StackPanel>
     </Grid>
 </Window>
