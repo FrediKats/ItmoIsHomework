@@ -55,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Tools\RandomInstance.cs" />
     <Compile Include="UserControllers\VisitableStatisticController.xaml.cs">
       <DependentUpon>VisitableStatisticController.xaml</DependentUpon>
     </Compile>

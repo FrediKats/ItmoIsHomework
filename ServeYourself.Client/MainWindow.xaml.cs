@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using ServeYourself.Client.UserControllers;
 using ServeYourself.Core;
 
@@ -7,12 +8,12 @@ namespace ServeYourself.Client
     public partial class MainWindow : Window
     {
         private readonly ServeService _serve;
-        private VisitableStatisticController _controller;
+        private readonly VisitableStatisticController _controller;
         public MainWindow()
         {
             InitializeComponent();
             _serve = new ServeService();
-            _controller = new VisitableStatisticController(_serve.Shop) {Height = 400};
+            _controller = new VisitableStatisticController(_serve.GetAllVisitableList().First()) {Height = 400};
             ElementsList.Children.Add(_controller);
         }
 

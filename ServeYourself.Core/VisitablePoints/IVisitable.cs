@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using ServeYourself.Core.DataContainers;
+using ServeYourself.Core.Visitors;
 
-namespace ServeYourself.Core.Abstractions
+namespace ServeYourself.Core.VisitablePoints
 {
     public interface IVisitable
     {
-        void AddClient(IClient client, int time);
+        void AddClient(IVisitor visitor, int time);
         void Invoke();
-        List<IClient> GetServedClientList();
+        List<IVisitor> GetServedClientList();
 
         ShopStatistic GetStatistic();
     }

@@ -1,23 +1,23 @@
 ﻿using System;
-using ServeYourself.Core.Abstractions;
+using ServeYourself.Core.Visitors;
 
-namespace ServeYourself.Core.DummyImplementation
+namespace ServeYourself.Core.Workers
 {
     public class DummyWorker : IWorker
     {
-        private IClient _currentClient;
+        private IVisitor _currentVisitor;
         private bool? _served = false;
         private readonly int _timeForServing;
         private int _currentClientTime;
 
         public DummyWorker(int timeForServing)
         {
-            this._timeForServing = timeForServing;
+            _timeForServing = timeForServing;
         }
 
         public bool IsAvailable()
         {
-            return _currentClient == null;
+            return _currentVisitor == null;
         }
 
         public bool IsClientServed()
@@ -25,12 +25,12 @@ namespace ServeYourself.Core.DummyImplementation
             return _served == true;
         }
 
-        public bool AddClient(IClient client)
+        public bool AddClient(IVisitor visitor)
         {
-            if (_currentClient != null)
+            if (_currentVisitor != null)
                 throw new Exception();
 
-            _currentClient = client;
+            _currentVisitor = visitor;
             _currentClientTime = _timeForServing;
             _served = false;
 
@@ -40,19 +40,19 @@ namespace ServeYourself.Core.DummyImplementation
         public void ApplyTime(int time)
         {
             _currentClientTime -= time;
-            if (_currentClientTime < 0 && _currentClient != null)
+            if (_currentClientTime < 0 && _currentVisitor != null)
                 _served = true;
         }
 
-        public IClient GetServedClient()
+        public IVisitor GetServedClient()
         {
-            if (_currentClient == null || _served == false)
+            if (_currentVisitor == null || _served == false)
                 throw new Exception();
 
-            IClient client = _currentClient;
-            _currentClient = null;
+            IVisitor visitor = _currentVisitor;
+            _currentVisitor = null;
             _served = null;
-            return client;
+            return visitor;
         }
     }
 }
