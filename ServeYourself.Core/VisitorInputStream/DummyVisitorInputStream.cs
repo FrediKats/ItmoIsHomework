@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
-using ServeYourself.Core.Abstractions;
+using ServeYourself.Core.Visitors;
 
-namespace ServeYourself.Core.DummyImplementation
+namespace ServeYourself.Core.VisitorInputStream
 {
-    public class DummyInputStream : IInputStream
+    public class DummyVisitorInputStream : IVisitorInputStream
     {
         private readonly int _deltaForGeneration;
         private int _currentDelta;
 
-        public DummyInputStream(int deltaForGeneration)
+        public DummyVisitorInputStream(int deltaForGeneration)
         {
             _deltaForGeneration = deltaForGeneration;
         }
 
-        public List<IClient> GenerateClientStream(int time)
+        public List<IVisitor> GenerateClientStream(int time)
         {
             _currentDelta += time;
-            var clients = new List<IClient>();
+            var clients = new List<IVisitor>();
 
             while (_currentDelta >= _deltaForGeneration)
             {
-                clients.Add(new DummyClient());
+                clients.Add(new DummyVisitor());
                 _currentDelta -= _deltaForGeneration;
             }
 

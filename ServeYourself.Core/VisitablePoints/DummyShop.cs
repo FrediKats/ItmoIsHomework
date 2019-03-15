@@ -1,29 +1,30 @@
 ﻿using System.Collections.Generic;
-using ServeYourself.Core.Abstractions;
 using ServeYourself.Core.DataContainers;
+using ServeYourself.Core.Visitors;
+using ServeYourself.Core.Workers;
 
-namespace ServeYourself.Core.DummyImplementation
+namespace ServeYourself.Core.VisitablePoints
 {
     public class DummyShop : IVisitable
     {
         private readonly ShopQueue _visitorList = new ShopQueue();
-        private readonly Queue<IClient> _realQueue = new Queue<IClient>();
+        private readonly Queue<IVisitor> _realQueue = new Queue<IVisitor>();
         private readonly IWorker _worker = new DummyWorker(ServeConfiguration.DummyWorkerTime);
-        private List<IClient> _servedClients = new List<IClient>();
+        private List<IVisitor> _servedClients = new List<IVisitor>();
 
-        public void AddClient(IClient client, int time)
+        public void AddClient(IVisitor visitor, int time)
         {
-            _visitorList.AddClient(client, time);
+            _visitorList.AddClient(visitor, time);
         }
 
         public void Invoke()
         {
-            List<IClient> comingClientList = _visitorList.UpdateAndGetClient();
+            List<IVisitor> comingClientList = _visitorList.UpdateAndGetClient();
             comingClientList.ForEach(c => _realQueue.Enqueue(c));
             if (_worker.IsAvailable() && _realQueue.Count != 0)
             {
-                IClient client = _realQueue.Dequeue();
-                _worker.AddClient(client);
+                IVisitor visitor = _realQueue.Dequeue();
+                _worker.AddClient(visitor);
             }
 
             _worker.ApplyTime(ServeConfiguration.DeltaTime);
@@ -34,10 +35,10 @@ namespace ServeYourself.Core.DummyImplementation
             }
         }
 
-        public List<IClient> GetServedClientList()
+        public List<IVisitor> GetServedClientList()
         {
-            List<IClient> result = _servedClients;
-            _servedClients = new List<IClient>();
+            List<IVisitor> result = _servedClients;
+            _servedClients = new List<IVisitor>();
             return result;
         }
 

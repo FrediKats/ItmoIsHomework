@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
-using ServeYourself.Core.Abstractions;
 using ServeYourself.Core.DataContainers;
+using ServeYourself.Core.Visitors;
 
-namespace ServeYourself.Core.DummyImplementation
+namespace ServeYourself.Core.VisitablePoints
 {
     public class ServiceEndpoint : IVisitable
     {
-        private List<IClient> _clients = new List<IClient>();
+        private List<IVisitor> _clients = new List<IVisitor>();
 
-        public void AddClient(IClient client, int time)
+        public void AddClient(IVisitor visitor, int time)
         {
-            _clients.Add(client);
+            _clients.Add(visitor);
         }
 
         public void Invoke()
         {
         }
 
-        public List<IClient> GetServedClientList()
+        public List<IVisitor> GetServedClientList()
         {
-            List<IClient> clientList = _clients;
-            _clients = new List<IClient>();
+            List<IVisitor> clientList = _clients;
+            _clients = new List<IVisitor>();
             return clientList;
         }
 

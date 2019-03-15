@@ -1,20 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using OxyPlot;
 using OxyPlot.Wpf;
-using ServeYourself.Core.Abstractions;
 using ServeYourself.Core.DataContainers;
+using ServeYourself.Core.VisitablePoints;
 
 namespace ServeYourself.Client.UserControllers
 {
     public partial class VisitableStatisticController : UserControl
     {
         private readonly IVisitable _visitable;
-
-        private readonly LineSeries _visitorSeries;
-        private readonly LineSeries _queueSeries;
-        private readonly LineSeries _handlingSeries;
 
         private readonly List<DataPoint> _visitorList;
         private readonly List<DataPoint> _queueList;
@@ -27,15 +22,15 @@ namespace ServeYourself.Client.UserControllers
             _queueList = new List<DataPoint>();
             _handlingList = new List<DataPoint>();
 
-            _visitorSeries = new LineSeries() {ItemsSource = _visitorList};
-            _queueSeries = new LineSeries() { ItemsSource = _queueList};
-            _handlingSeries = new LineSeries { ItemsSource = _handlingList};
+            var visitorSeries = new LineSeries() {ItemsSource = _visitorList};
+            var queueSeries = new LineSeries() { ItemsSource = _queueList};
+            var handlingSeries = new LineSeries { ItemsSource = _handlingList};
 
             InitializeComponent();
 
-            MainChart.Series.Add(_visitorSeries);
-            MainChart.Series.Add(_queueSeries);
-            MainChart.Series.Add(_handlingSeries);
+            MainChart.Series.Add(visitorSeries);
+            MainChart.Series.Add(queueSeries);
+            MainChart.Series.Add(handlingSeries);
             DataContext = this;
         }
 
@@ -47,10 +42,10 @@ namespace ServeYourself.Client.UserControllers
             AddPoint(_queueList, statistic.InQueueClientCount);
             AddPoint(_handlingList, statistic.HandlingClients);
 
-            MainChart.InvalidatePlot(true);
+            MainChart.InvalidatePlot();
         }
 
-        public static void AddPoint(List<DataPoint> list, int value)
+        private static void AddPoint(List<DataPoint> list, int value)
         {
 
             list.Add(new DataPoint(list.Count, value));

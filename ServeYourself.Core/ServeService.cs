@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
-using ServeYourself.Core.Abstractions;
-using ServeYourself.Core.DummyImplementation;
+using ServeYourself.Core.VisitablePoints;
+using ServeYourself.Core.VisitorInputStream;
+using ServeYourself.Core.Visitors;
 
 namespace ServeYourself.Core
 {
-    public class ServeService
+    public class ServeService : IServeService
     {
-        private readonly IInputStream _inputStream;
-        public readonly IVisitable Shop;
         private readonly IVisitable _endpoint;
+        private readonly IVisitorInputStream _visitorInputStream;
+        private readonly IVisitable _shop;
 
         public ServeService()
         {
-            //_inputStream = new DummyInputStream(ServeConfiguration.DummyInputStreamGenerationPeriod);
-            _inputStream = new RandomInputStream(ServeConfiguration.RandomInputStreamMaxDelay);
-            Shop = new DummyShop();
+            //_visitorInputStream = new DummyVisitorInputStream(ServeConfiguration.DummyInputStreamGenerationPeriod);
+            _visitorInputStream = new RandomVisitorInputStream(ServeConfiguration.RandomInputStreamMaxDelay);
+            _shop = new DummyShop();
             _endpoint = new ServiceEndpoint();
         }
 
@@ -22,17 +23,22 @@ namespace ServeYourself.Core
         {
             _endpoint.GetServedClientList();
 
-            Shop.Invoke();
-            List<IClient> served = Shop.GetServedClientList();
+            _shop.Invoke();
+            List<IVisitor> served = _shop.GetServedClientList();
             served.ForEach(c => _endpoint.AddClient(c, 0));
 
-            List<IClient> newClients = _inputStream.GenerateClientStream(ServeConfiguration.DeltaTime);
-            newClients.ForEach(c => Shop.AddClient(c, ServeConfiguration.DummyClientTransitionTime));
+            List<IVisitor> newClients = _visitorInputStream.GenerateClientStream(ServeConfiguration.DeltaTime);
+            newClients.ForEach(c => _shop.AddClient(c, ServeConfiguration.DummyClientTransitionTime));
         }
 
         public string GetStatistic()
         {
-            return Shop.GetStatistic().ToString();
+            return _shop.GetStatistic().ToString();
+        }
+
+        public List<IVisitable> GetAllVisitableList()
+        {
+            return new List<IVisitable> {_shop};
         }
     }
 }
