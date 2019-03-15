@@ -22,8 +22,8 @@ namespace ServeYourself.Client.UserControllers
             _queueList = new List<DataPoint>();
             _handlingList = new List<DataPoint>();
 
-            var visitorSeries = new LineSeries() {ItemsSource = _visitorList};
-            var queueSeries = new LineSeries() { ItemsSource = _queueList};
+            var visitorSeries = new LineSeries {ItemsSource = _visitorList};
+            var queueSeries = new LineSeries { ItemsSource = _queueList};
             var handlingSeries = new LineSeries { ItemsSource = _handlingList};
 
             InitializeComponent();

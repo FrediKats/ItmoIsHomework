@@ -10,12 +10,13 @@ namespace ServeYourself.Core
         private readonly IVisitable _endpoint;
         private readonly IVisitorInputStream _visitorInputStream;
         private readonly IVisitable _shop;
+        private readonly IVisitable _multiWorkerShop;
 
         public ServeService()
         {
-            //_visitorInputStream = new DummyVisitorInputStream(ServeConfiguration.DummyInputStreamGenerationPeriod);
             _visitorInputStream = new RandomVisitorInputStream(ServeConfiguration.RandomInputStreamMaxDelay);
             _shop = new DummyShop();
+            _multiWorkerShop = new MultiWorkerShop();
             _endpoint = new ServiceEndpoint();
         }
 
@@ -24,11 +25,15 @@ namespace ServeYourself.Core
             _endpoint.GetServedClientList();
 
             _shop.Invoke();
+            _multiWorkerShop.Invoke();
+
             List<IVisitor> served = _shop.GetServedClientList();
+            served.AddRange(_multiWorkerShop.GetServedClientList());
             served.ForEach(c => _endpoint.AddClient(c, 0));
 
             List<IVisitor> newClients = _visitorInputStream.GenerateClientStream(ServeConfiguration.DeltaTime);
             newClients.ForEach(c => _shop.AddClient(c, ServeConfiguration.DummyClientTransitionTime));
+            newClients.ForEach(c => _multiWorkerShop.AddClient(c, ServeConfiguration.DummyClientTransitionTime));
         }
 
         public string GetStatistic()
@@ -38,7 +43,7 @@ namespace ServeYourself.Core
 
         public List<IVisitable> GetAllVisitableList()
         {
-            return new List<IVisitable> {_shop};
+            return new List<IVisitable> {_shop, _multiWorkerShop};
         }
     }
 }
