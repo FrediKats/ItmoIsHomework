@@ -1,37 +1,43 @@
 var quoteLink = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&jsonp=parseQuote";
-var imgSourceLink = "https://source.unsplash.com/collection/1127163/300x200";
+var imgSourceLink = "https://source.unsplash.com/collection/1127163/500x500";
 
-function parseQuote(response) {
-    return response.quoteText;
-}
+var canvas = document.createElement('canvas');
 
-function imageLoader() {
-    var xhr = new XMLHttpRequest();
-    //xhr.responseType = "blob";
-    xhr.open('GET', imgSourceLink, false);
-    xhr.send();
-    console.log(xhr.status);
-    return xhr.status === 200 ? xhr.response : null;
-}
-
-function createElements() {
-    var canvas = document.createElement('canvas');
+function createHtmlElements() {
     canvas.height = 500;
     canvas.width = 500;
-    canvas.style.width = "500px";
-    canvas.style.height = "500px";
+    document.body.appendChild(canvas);
 
     var btn = document.createElement('button');
     btn.innerText = "Save";
-
-    var img = new Image();
-    img.src = URL.createObjectURL(imageLoader());
-
-    var imgContext = canvas.getContext("2d");
-    imgContext.drawImage(img, 0, 0);
-
-    document.body.appendChild(canvas);
     document.body.appendChild(btn);
 }
 
-createElements();
+function parseQuote(response) {
+    text = response.quoteText;
+    var ctx = canvas.getContext("2d");
+    ctx.font = "20px serif";
+    ctx.fillText(text, 100, 100);
+    
+    console.log(text);
+}
+
+function loadQuota() {
+    $.ajax({
+        url: quoteLink,
+        dataType: 'jsonp'
+    });
+}
+
+function loadImage() {
+    var img = new Image();
+    img.src = imgSourceLink;
+    img.onload = function () {
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        loadQuota();
+    }
+}
+
+createHtmlElements();
+loadImage();
