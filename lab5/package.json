@@ -6,12 +6,11 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-
-    "build-back": "babel ./backend dist",
-    "server-nodemon": "nodemon ./dist/index.js"
+    "server-nodemon": "babel ./backend dist & nodemon ./dist/index.js"
   },
   "dependencies": {
     "express": "^4.16.4",
+    "marked": "^0.6.1",
     "mongoose": "^5.4.20",
     "vue": "^2.6.6"
   },
