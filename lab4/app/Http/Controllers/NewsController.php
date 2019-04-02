@@ -3,21 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\NewsModel;
 
 class NewsController extends Controller
 {
     public function index()
     {
-        return view('news', ['newsList' => []]);
+        $newsElement = new NewsModel;
+        $newsElement->id = 1;
+        $newsElement->title = 'title';
+        $newsElement->content = 'content';
+
+        return view('news', ['newsList' => [$newsElement]]);
     }
 
-    public function store($id)
+    public function store()
     {
-        return view('news');
+        return view('/welcome');
     }
 
     public function destroy($id)
     {
-        return view('news');
+        return view('/welcome');
     }
 }
