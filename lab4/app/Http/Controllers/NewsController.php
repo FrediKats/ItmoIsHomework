@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\NewsModel;
+use App\NewsModel;
 
 class NewsController extends Controller
 {
     public function index()
     {
-        $newsElement = new NewsModel;
-        $newsElement->id = 1;
-        $newsElement->title = 'title';
-        $newsElement->content = 'content';
-
-        return view('news', ['newsList' => [$newsElement]]);
+        return view('news', ['newsList' => NewsModel::all()]);
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        return view('/welcome');
+        NewsModel::create([
+            'title' => $request->title,
+            'content' => $request->content
+        ]);
+        return redirect('/news');
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        return view('/welcome');
+        NewsModel::where('id', $id)->delete();
+        return redirect('/news');
     }
 }
