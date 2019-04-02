@@ -16,14 +16,17 @@
             <p>{{ $newsElement->id }} | {{ $newsElement->title }}</p>
             <p>{{ $newsElement->content }}</p>
 
-            <form>
+            <form action="{{ url('news/'.$newsElement->id) }}" method="POST">
+                <!-- DAT IS JEWISH'S TRICKS -->
+                <!-- https://nobuhiroharada.com/2018/05/26/laravel-ajax-419/ -->
+                {{ method_field('DELETE') }} {{ csrf_field() }}
                 <button type="submit">Delete</button>
             </form>
         </li>
         @endforeach
     </ul>
 
-    <form>
+    <form action="{{ url('news') }}" method="POST">
         <div>
             <label for="title">Title</label>
             <input type="text" name="title">
@@ -32,6 +35,7 @@
             <label for="content">Content</label>
             <textarea name="content"></textarea>
         </div>
+        {{ csrf_field() }}
         <button type="submit">Add</button>
     </form>
 </body>
