@@ -16,10 +16,11 @@
             <p>{{ $newsElement->id }} | {{ $newsElement->title }}</p>
             <p>{{ $newsElement->content }}</p>
 
-            <form action="{{ url('news/'.$newsElement->id) }}" method="POST">
+        <form action="{{ url('news/'.$newsElement->id) }}" method="POST">
                 <!-- DAT IS JEWISH'S TRICKS -->
                 <!-- https://nobuhiroharada.com/2018/05/26/laravel-ajax-419/ -->
-                {{ method_field('DELETE') }} {{ csrf_field() }}
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
                 <button type="submit">Delete</button>
             </form>
         </li>
