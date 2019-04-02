@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// https://laravel.com/docs/5.8/controllers
+Route::resource('news', 'NewsController')->only([
+    'index', 'store', 'destroy'
+]);
