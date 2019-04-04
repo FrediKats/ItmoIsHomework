@@ -5,10 +5,8 @@ namespace AppliedMath.LoadBalancer.Models
 {
     public class LoadBalancer
     {
-        private readonly List<RequestInvoker> _invokerList;
-        private const int Size = 4;
-        private int _selectedWorker;
-
+        public const int Size = 4;
+        
         public LoadBalancer(Logger logger)
         {
             _invokerList = Enumerable.Range(1, Size).Select(id => new RequestInvoker(logger, id)).ToList();
@@ -24,5 +22,13 @@ namespace AppliedMath.LoadBalancer.Models
         {
             _invokerList.ForEach(invoker => invoker.Start());
         }
+
+        public List<int> GetSizes()
+        {
+            return _invokerList.Select(i => i.GetQueueSize()).ToList();
+        }
+
+        private readonly List<RequestInvoker> _invokerList;
+        private int _selectedWorker;
     }
 }
