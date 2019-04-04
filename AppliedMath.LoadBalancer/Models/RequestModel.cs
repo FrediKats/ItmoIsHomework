@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using AppliedMath.LoadBalancer.Tools;
 
 namespace AppliedMath.LoadBalancer.Models
 {
@@ -10,7 +11,7 @@ namespace AppliedMath.LoadBalancer.Models
 
         public static RequestModel Create()
         {
-            return new RequestModel(Tools.Random.Next(1, 2000));
+            return new RequestModel(Config.Random.Next(1, Config.MaxTaskDelay));
         }
 
         private RequestModel(int time)

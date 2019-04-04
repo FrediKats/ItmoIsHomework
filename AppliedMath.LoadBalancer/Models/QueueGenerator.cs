@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AppliedMath.LoadBalancer.Tools;
 
 namespace AppliedMath.LoadBalancer.Models
 {
     public class QueueGenerator
     {
-        private readonly LoadBalancer _balancer;
+        public readonly LoadBalancer Balancer;
 
         public QueueGenerator(Logger logger)
         {
-            _balancer = new LoadBalancer(logger);
+            Balancer = new LoadBalancer(logger);
         }
 
         public void Start()
         {
-            _balancer.Start();
+            Balancer.Start();
             Task.Run(Executing);
         }
 
@@ -23,8 +24,8 @@ namespace AppliedMath.LoadBalancer.Models
         {
             while (true)
             {
-                _balancer.Add(RequestModel.Create());
-                Thread.Sleep(Tools.Random.Next(400) + 100);
+                Balancer.Add(RequestModel.Create());
+                Thread.Sleep(Config.Random.Next(400) + 100);
             }
         }
     }

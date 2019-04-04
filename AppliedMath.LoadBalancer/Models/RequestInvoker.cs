@@ -26,6 +26,14 @@ namespace AppliedMath.LoadBalancer.Models
             thread.Start();
         }
 
+        public int GetQueueSize()
+        {
+            lock (_queue)
+            {
+                return _queue.Count;
+            }
+        }
+
         private void RunInternal()
         {
             while (true)

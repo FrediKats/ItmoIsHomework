@@ -74,7 +74,7 @@
     <Compile Include="Models\QueueGenerator.cs" />
     <Compile Include="Models\RequestInvoker.cs" />
     <Compile Include="Models\RequestModel.cs" />
-    <Compile Include="Models\Tools.cs" />
+    <Compile Include="Tools\Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -100,6 +100,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="OxyPlot.Wpf">
+      <Version>1.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
