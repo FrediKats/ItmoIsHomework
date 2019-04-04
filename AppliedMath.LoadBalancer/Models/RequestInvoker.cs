@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 
 namespace AppliedMath.LoadBalancer.Models
 {
     public class RequestInvoker
     {
-        private readonly Queue<RequestModel> _queue = new Queue<RequestModel>();
-        private readonly AutoResetEvent _resetEvent = new AutoResetEvent(false);
-        private readonly Logger _logger;
-
-        public RequestInvoker(Logger logger)
+        public RequestInvoker(Logger logger, int workerId)
         {
             _logger = logger;
+            _workerId = workerId;
         }
 
         public void Add(RequestModel request)
@@ -26,7 +22,7 @@ namespace AppliedMath.LoadBalancer.Models
 
         public void Start()
         {
-            var thread = new Thread(RunInternal);
+            var thread = new Thread(RunInternal) {Name = $"Worker {_workerId}"};
             thread.Start();
         }
 
@@ -44,10 +40,15 @@ namespace AppliedMath.LoadBalancer.Models
 
                 if (request != null)
                 {
-                    _logger.AddLog($"Run {request.TaskId} on {Thread.CurrentThread.ManagedThreadId}");
                     request.Execute();
+                    _logger.AddLog($"[{_workerId}] {request}");
                 }
             }
         }
+
+        private readonly Queue<RequestModel> _queue = new Queue<RequestModel>();
+        private readonly AutoResetEvent _resetEvent = new AutoResetEvent(false);
+        private readonly Logger _logger;
+        private readonly int _workerId;
     }
 }

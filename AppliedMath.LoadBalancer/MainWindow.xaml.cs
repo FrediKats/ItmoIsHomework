@@ -14,12 +14,15 @@ namespace AppliedMath.LoadBalancer
             InitializeComponent();
             var logger = new Logger((s) =>
             {
-                LogList.Items.Add(s);
-                if (VisualTreeHelper.GetChildrenCount(LogList) > 0)
+                lock (LogList)
                 {
-                    var border = (Border)VisualTreeHelper.GetChild(LogList, 0);
-                    var scrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
-                    scrollViewer.ScrollToBottom();
+                    LogList.Items.Add(s);
+                    if (VisualTreeHelper.GetChildrenCount(LogList) > 0)
+                    {
+                        var border = (Border)VisualTreeHelper.GetChild(LogList, 0);
+                        var scrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
+                        scrollViewer.ScrollToBottom();
+                    }
                 }
             });
             _queueGenerator = new QueueGenerator(logger);
