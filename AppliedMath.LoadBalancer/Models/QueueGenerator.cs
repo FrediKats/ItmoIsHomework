@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppliedMath.LoadBalancer.Models
@@ -23,7 +24,7 @@ namespace AppliedMath.LoadBalancer.Models
             while (true)
             {
                 _balancer.Add(RequestModel.Create());
-                Thread.Sleep(100);
+                Thread.Sleep(Tools.Random.Next(400) + 100);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace AppliedMath.LoadBalancer.Models
@@ -9,7 +10,7 @@ namespace AppliedMath.LoadBalancer.Models
 
         public static RequestModel Create()
         {
-            return new RequestModel(Random.Next(1, 2000));
+            return new RequestModel(Tools.Random.Next(1, 2000));
         }
 
         private RequestModel(int time)
@@ -18,16 +19,22 @@ namespace AppliedMath.LoadBalancer.Models
 
             TaskId = _globalId;
             _globalId++;
+            _stopwatch.Start();
         }
 
         public void Execute()
         {
+            _stopwatch.Stop();
             Thread.Sleep(_time);
         }
 
-        private static readonly Random Random = new Random();
+        public override string ToString()
+        {
+            return $"Task-{TaskId} was executed after {_stopwatch.Elapsed:g}";
+        }
 
         private static int _globalId;
         private readonly int _time;
+        private readonly Stopwatch _stopwatch = new Stopwatch();
     }
 }

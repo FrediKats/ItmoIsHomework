@@ -74,6 +74,7 @@
     <Compile Include="Models\QueueGenerator.cs" />
     <Compile Include="Models\RequestInvoker.cs" />
     <Compile Include="Models\RequestModel.cs" />
+    <Compile Include="Models\Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
