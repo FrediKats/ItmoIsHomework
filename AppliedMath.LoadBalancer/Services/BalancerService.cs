@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AppliedMath.LoadBalancer.Models;
+using AppliedMath.LoadBalancer.Tools;
 
-namespace AppliedMath.LoadBalancer.Models
+namespace AppliedMath.LoadBalancer.Services
 {
-    public class LoadBalancer
+    public class BalancerService
     {
-        public const int Size = 4;
-        
-        public LoadBalancer(Logger logger)
+        public BalancerService(LoggerService loggerService)
         {
-            _invokerList = Enumerable.Range(1, Size).Select(id => new RequestInvoker(logger, id)).ToList();
+            _invokerList = Enumerable.Range(1, Config.BalancerHandlersCount).Select(id => new TaskHandler(loggerService, id)).ToList();
         }
 
         public void Add(RequestModel request)
         {
             _invokerList[_selectedWorker].Add(request);
-            _selectedWorker = (_selectedWorker + 1) % Size;
+            _selectedWorker = (_selectedWorker + 1) % Config.BalancerHandlersCount;
         }
 
         public void Start()
@@ -28,7 +28,7 @@ namespace AppliedMath.LoadBalancer.Models
             return _invokerList.Select(i => i.GetQueueSize()).ToList();
         }
 
-        private readonly List<RequestInvoker> _invokerList;
+        private readonly List<TaskHandler> _invokerList;
         private int _selectedWorker;
     }
 }

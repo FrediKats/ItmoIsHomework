@@ -1,13 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using AppliedMath.LoadBalancer.Models;
 
-namespace AppliedMath.LoadBalancer.Models
+namespace AppliedMath.LoadBalancer.Services
 {
-    public class RequestInvoker
+    public class TaskHandler
     {
-        public RequestInvoker(Logger logger, int workerId)
+        private readonly LoggerService _loggerService;
+
+        private readonly Queue<RequestModel> _queue = new Queue<RequestModel>();
+        private readonly AutoResetEvent _resetEvent = new AutoResetEvent(false);
+        private readonly int _workerId;
+
+        public TaskHandler(LoggerService loggerService, int workerId)
         {
-            _logger = logger;
+            _loggerService = loggerService;
             _workerId = workerId;
         }
 
@@ -43,20 +50,17 @@ namespace AppliedMath.LoadBalancer.Models
                 lock (_queue)
                 {
                     if (_queue.Count != 0)
+                    {
                         request = _queue.Dequeue();
+                    }
                 }
 
                 if (request != null)
                 {
                     request.Execute();
-                    _logger.AddLog($"[{_workerId}] {request}");
+                    _loggerService.AddLog($"[{_workerId}] {request}");
                 }
             }
         }
-
-        private readonly Queue<RequestModel> _queue = new Queue<RequestModel>();
-        private readonly AutoResetEvent _resetEvent = new AutoResetEvent(false);
-        private readonly Logger _logger;
-        private readonly int _workerId;
     }
 }
