@@ -1,6 +1,6 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
@@ -22,8 +22,8 @@ mongoose
         });
 
 const markdownFileModel = mongoose.model('MarkdownFileModel', {
-    title: String,
-    content: String
+    fileName: String,
+    fileContent: String
 });
 
 app.use(function (req, res, next) {
@@ -32,28 +32,49 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Access-Control-Allow-Origin');
 
     next();
-    
 });
 
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({
-//     extended: true
-// }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 app.post('/save', (request, response) => {
+    // eslint-disable-next-line no-console
+    console.log(request.body.fileName);
+    console.log(request.body.fileContent);
     markdownFileModel.findOneAndUpdate({
-        name: request.body.title
+        fileName: request.body.fileName
     }, {
-        text: request.body.text
+        fileContent: request.body.content
     }, {
         upsert: true
     }, function (err) {
-        if (err)
+        if (err) {
             // eslint-disable-next-line no-console
             console.log(err);
-        else
+            return response.send(err);
+        } else {
+            // eslint-disable-next-line no-console
+            console.log("ok");
             return response.sendStatus(200);
+        }
     });
+});
+
+app.get('/load', function (request, response) {
+
+    markdownFileModel.find({}, function (err, res) {
+        if (err) {
+            // eslint-disable-next-line no-console
+            console.log(err);
+            return response.send(err);
+        } else {
+            // eslint-disable-next-line no-console
+            return response.json(res);
+        }
+    });
+
 });
 
 app.get('*', function (request, response) {

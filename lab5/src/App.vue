@@ -1,12 +1,23 @@
 <template>
   <div id="app">
     <div class="input-container">
-      <input type="text" :value="title">
-      <button v-on:click="save(title,input)">save</button>
+      <input type="text" v-model="fileName">
+      <button v-on:click="save(fileName,fileContent)">save</button>
+      <button v-on:click="load">load</button>
     </div>
 
-    <textarea :value="input" @input="update"></textarea>
+    <textarea v-model="fileContent" @input="update"></textarea>
     <div class="output-block" v-html="compiledMarkdown"></div>
+
+    <section>
+      <ul>
+        <li
+          v-for="file in files"
+          v-bind:key="file._id"
+          v-on:click="renderFile(file)"
+        >{{ file.fileName }}</li>
+      </ul>
+    </section>
   </div>
 </template>
 
@@ -18,19 +29,20 @@ export default {
 
   data: function() {
     return {
-      input: "__testing text__",
-      title: "Testing header"
+      fileContent: "__testing text__",
+      fileName: "Testing header",
+      files: []
     };
   },
 
   methods: {
     update: function(element) {
-      this.input = element.target.value;
+      this.fileContent = element.target.value;
     },
-    save: function(title, content) {
+    save: function(fileName, fileContent) {
       const body = {
-        title,
-        content
+        fileName,
+        fileContent
       };
       fetch("http://localhost:3000/save", {
         method: "POST",
@@ -41,12 +53,25 @@ export default {
         },
         body: JSON.stringify(body)
       });
+    },
+    load: function() {
+      fetch("http://localhost:3000/load")
+        .then(response => {
+          return response.json();
+        })
+        .then(filesList => {
+          this.files = filesList;
+        });
+    },
+    renderFile: function(item) {
+      console.log(item.fileContent);
+      this.fileContent = item.fileContent;
     }
   },
 
   computed: {
     compiledMarkdown: function() {
-      return marked(this.input);
+      return marked(this.fileContent);
     }
   }
 };
