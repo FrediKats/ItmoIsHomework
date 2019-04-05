@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "server-nodemon": "babel ./backend dist & nodemon ./dist/index.js"
+    "server-nodemon": "nodemon ./backend/index.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
