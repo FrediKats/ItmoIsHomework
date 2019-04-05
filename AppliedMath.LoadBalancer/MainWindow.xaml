@@ -10,6 +10,7 @@
     <Grid>
         <ListBox Name="LogList" HorizontalAlignment="Left" Height="341" Margin="10,25,0,0" VerticalAlignment="Top" Width="383"/>
         <Button Content="Run" HorizontalAlignment="Left" Margin="680,25,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <oxy:Plot Name="MainChart" Height="200" Margin="427,136,27,82"/>
+        <oxy:Plot Name="MainChart" Margin="427,136,27,52"/>
+        <TextBlock Name="StatusOutput" HorizontalAlignment="Left" Margin="491,25,0,0" TextWrapping="Wrap" Text="StatusOutput" VerticalAlignment="Top"/>
     </Grid>
 </Window>
