@@ -7,9 +7,14 @@
             return "Product creating";
         }
 
+        public bool IsActive(SystemState state)
+        {
+            return (state.K >= 1 && state.M >= 2 && state.N >= 3 && state.S < 2);
+        }
+
         public bool Invoke(SystemState state)
         {
-            if (state.K >= 1 && state.M >= 2 && state.N >= 3 && state.S < 2)
+            if (IsActive(state))
             {
                 state.K -= 1;
                 state.M -= 2;

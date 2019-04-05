@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,6 +24,7 @@ namespace AppliedMath.Lab4
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string info = Iteration();
+            UpdateUi(CheckAvailable());
             UpdateUi(info);
         }
 
@@ -38,10 +40,19 @@ namespace AppliedMath.Lab4
             }
         }
 
+
+        private string CheckAvailable()
+        {
+            return
+                $"Resource: {_transitions[2].IsActive(_state)}; Creator: {_transitions[0].IsActive(_state)}; Seller: {_transitions[1].IsActive(_state)}";
+        }
+
         private string Iteration()
         {
-            int index = _random.Next(_transitions.Length);
-            ITransition current = _transitions[index];
+            ITransition[] available = _transitions.Where(t => t.IsActive(_state)).ToArray();
+
+            int index = _random.Next(available.Length);
+            ITransition current = available[index];
             string description = current.GetTransitionName();
 
             bool isActive = current.Invoke(_state);
