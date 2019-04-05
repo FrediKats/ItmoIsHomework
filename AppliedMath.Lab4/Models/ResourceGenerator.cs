@@ -18,6 +18,11 @@
             return "ResourceCreate";
         }
 
+        public bool IsActive(SystemState state)
+        {
+            return true;
+        }
+
         public bool Invoke(SystemState state)
         {
             switch (_state)

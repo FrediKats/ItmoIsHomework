@@ -7,9 +7,14 @@
             return "Product sold";
         }
 
+        public bool IsActive(SystemState state)
+        {
+            return (state.S > 0);
+        }
+
         public bool Invoke(SystemState state)
         {
-            if (state.S > 0)
+            if (IsActive(state))
             {
                 state.S--;
                 return true;
