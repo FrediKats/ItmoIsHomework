@@ -23,9 +23,9 @@ namespace AppliedMath.LoadBalancer.Services
             _invokerList.ForEach(invoker => invoker.Start());
         }
 
-        public List<int> GetSizes()
+        public List<HandlerStateInfo> GetStates()
         {
-            return _invokerList.Select(i => i.GetQueueSize()).ToList();
+            return _invokerList.Select(i => i.GetStateInfo()).ToList();
         }
 
         private readonly List<TaskHandler> _invokerList;

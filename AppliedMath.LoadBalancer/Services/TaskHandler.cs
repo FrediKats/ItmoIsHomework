@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using AppliedMath.LoadBalancer.Models;
 
@@ -7,10 +8,14 @@ namespace AppliedMath.LoadBalancer.Services
     public class TaskHandler
     {
         private readonly LoggerService _loggerService;
+        private readonly Stopwatch _onExecuting = new Stopwatch();
+        private readonly Stopwatch _onTaskWaiting = new Stopwatch();
 
         private readonly Queue<RequestModel> _queue = new Queue<RequestModel>();
         private readonly AutoResetEvent _resetEvent = new AutoResetEvent(false);
         private readonly int _workerId;
+        private bool _isExecuting;
+
 
         public TaskHandler(LoggerService loggerService, int workerId)
         {
@@ -33,11 +38,18 @@ namespace AppliedMath.LoadBalancer.Services
             thread.Start();
         }
 
-        public int GetQueueSize()
+        public HandlerStateInfo GetStateInfo()
         {
             lock (_queue)
             {
-                return _queue.Count;
+                int size = _queue.Count;
+                if (_isExecuting)
+                {
+                    size++;
+                }
+
+                return new HandlerStateInfo(_workerId, size, _onTaskWaiting.ElapsedMilliseconds,
+                    _onExecuting.ElapsedMilliseconds);
             }
         }
 
@@ -45,7 +57,10 @@ namespace AppliedMath.LoadBalancer.Services
         {
             while (true)
             {
+                _onTaskWaiting.Start();
                 _resetEvent.WaitOne();
+                _onTaskWaiting.Stop();
+
                 RequestModel request = null;
                 lock (_queue)
                 {
@@ -57,8 +72,12 @@ namespace AppliedMath.LoadBalancer.Services
 
                 if (request != null)
                 {
+                    _isExecuting = true;
+                    _onExecuting.Start();
                     request.Execute();
+                    _onExecuting.Stop();
                     _loggerService.AddLog($"[{_workerId}] {request}");
+                    _isExecuting = false;
                 }
             }
         }

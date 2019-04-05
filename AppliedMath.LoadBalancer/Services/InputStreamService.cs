@@ -22,6 +22,10 @@ namespace AppliedMath.LoadBalancer.Services
 
         private void Executing()
         {
+            Balancer.Add(RequestModel.Create());
+            Balancer.Add(RequestModel.Create());
+            Balancer.Add(RequestModel.Create());
+            Balancer.Add(RequestModel.Create());
             while (true)
             {
                 Balancer.Add(RequestModel.Create());

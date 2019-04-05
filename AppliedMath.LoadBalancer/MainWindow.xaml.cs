@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using AppliedMath.LoadBalancer.Services;
+using OxyPlot;
 
 namespace AppliedMath.LoadBalancer
 {
@@ -12,9 +13,11 @@ namespace AppliedMath.LoadBalancer
         public MainWindow()
         {
             InitializeComponent();
-            _logger = new LoggerService(LogList, MainChart);
+            _logger = new LoggerService(LogList, MainChart, StatusOutput);
 
             _inputStreamService = new InputStreamService(_logger);
+
+            MainChart.LegendPosition = LegendPosition.LeftTop;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -28,7 +31,7 @@ namespace AppliedMath.LoadBalancer
         {
             while (true)
             {
-                _logger.UpdatePlot(_inputStreamService.Balancer.GetSizes());
+                _logger.UpdatePlot(_inputStreamService.Balancer.GetStates());
             }
         }
     }

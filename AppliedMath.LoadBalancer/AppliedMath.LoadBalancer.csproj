@@ -69,6 +69,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\HandlerStateInfo.cs" />
     <Compile Include="Services\BalancerService.cs" />
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\InputStreamService.cs" />
