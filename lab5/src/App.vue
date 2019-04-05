@@ -14,8 +14,7 @@
         <li
           v-for="file in files"
           v-bind:key="file._id"
-          v-on:click="renderFile(file)"
-        >{{ file.fileName }}</li>
+        ><button v-on:click="renderFile(file)">{{ file.fileName }}</button></li>
       </ul>
     </section>
   </div>
@@ -37,6 +36,7 @@ export default {
 
   methods: {
     update: function(element) {
+      console.log(element.target.value);
       this.fileContent = element.target.value;
     },
     save: function(fileName, fileContent) {
@@ -64,7 +64,6 @@ export default {
         });
     },
     renderFile: function(item) {
-      console.log(item.fileContent);
       this.fileContent = item.fileContent;
     }
   },
