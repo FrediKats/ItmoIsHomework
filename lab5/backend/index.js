@@ -40,13 +40,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.post('/save', (request, response) => {
-    // eslint-disable-next-line no-console
-    console.log(request.body.fileName);
-    console.log(request.body.fileContent);
     markdownFileModel.findOneAndUpdate({
         fileName: request.body.fileName
     }, {
-        fileContent: request.body.content
+        fileContent: request.body.fileContent
     }, {
         upsert: true
     }, function (err) {
@@ -55,8 +52,6 @@ app.post('/save', (request, response) => {
             console.log(err);
             return response.send(err);
         } else {
-            // eslint-disable-next-line no-console
-            console.log("ok");
             return response.sendStatus(200);
         }
     });
@@ -70,7 +65,6 @@ app.get('/load', function (request, response) {
             console.log(err);
             return response.send(err);
         } else {
-            // eslint-disable-next-line no-console
             return response.json(res);
         }
     });
