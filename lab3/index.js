@@ -1,8 +1,14 @@
 var quoteLink = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&jsonp=parseQuote";
-var imgSourceLink = "https://source.unsplash.com/collection/1127163/500x500";
+var imgSourceLink = "https://source.unsplash.com/collection/1127163/250x500";
+var unsplash = "https://source.unsplash.com/collection/112716";
+var size = "/250x500"
+
+
+var canvas;
+var canvasCtx;
 
 function createHtmlElements() {
-    var canvas = document.createElement('canvas');
+    canvas = document.createElement('canvas');
     canvas.height = 500;
     canvas.width = 500;
     document.body.appendChild(canvas);
@@ -15,18 +21,10 @@ function createHtmlElements() {
 
     btn.addEventListener('click', function () {
         var dataURL = canvas.toDataURL('image/jpg');
-        console.log("dataURL")
         btn.href = dataURL;
         btn.download = "image-name.jpg";
-        console.log("click");
-    });
-
-    return new Promise(function (resolve, reject) {
-        resolve(canvas);
     });
 }
-
-var canvasCtx;
 
 function parseQuote(response) {
     text = response.quoteText;
@@ -35,7 +33,7 @@ function parseQuote(response) {
     lines.map((r, i) => canvasCtx.fillText(r, 100, 100 + 30 * i));
 }
 
-function loadQuota(canvas) {
+function loadQuota() {
     $.ajax({
         url: quoteLink,
         dataType: 'jsonp'
@@ -43,26 +41,25 @@ function loadQuota(canvas) {
     canvasCtx = canvas.getContext("2d");
 }
 
-function loadImage(canvas) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://source.unsplash.com/collection/1127163/550x400');
-    xhr.send();
+function loadImage(marginLeft) {
     return new Promise(function (resolve, reject) {
+        console.log('test');
         var img;
-        xhr.onload = function (data) {
-            img = new Image();
-            img.crossOrigin = "anonymous";
-            img.src = data.srcElement.responseURL;
-            img.onload = function () {
-                var ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0);
-                resolve(canvas);
-            }
-
-        };
+        img = new Image();
+        img.crossOrigin = "anonymous";
+        var url = unsplash + Math.floor(Math.random() * 10).toString() + size;
+        img.src = url;
+        img.onload = function () {
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, marginLeft, 0);
+            console.log(marginLeft);
+            resolve();
+        }
     });
 }
 
-createHtmlElements()
-    .then(canvas => loadImage(canvas))
-    .then(canvas => loadQuota(canvas));
+createHtmlElements();
+var firstImage = loadImage(0);
+var secondImage = loadImage(250);
+
+Promise.all([firstImage, secondImage]).then(loadQuota);
