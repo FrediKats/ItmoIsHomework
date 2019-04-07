@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace AppliedMath.Lab1
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             string[] data = DataReader.ReadInput("InputData.txt");
-            List<int> ints = data.Select(int.Parse).OrderBy(i => i).ToList();
+            List<int> valueList = data.Select(int.Parse).OrderBy(i => i).ToList();
 
-            StatisticAggregation aggregation = new StatisticAggregation(ints);
+            var aggregation = new StatisticAggregation(valueList);
             Console.WriteLine(aggregation);
-
-            File.WriteAllText("out.txt", string.Join("\n", ints));
         }
     }
 }
