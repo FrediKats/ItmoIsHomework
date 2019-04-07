@@ -1,10 +1,10 @@
 ﻿using System;
 using MathNet.Numerics.LinearAlgebra;
-using Vector = MathNet.Numerics.LinearAlgebra.Double.Vector;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace AppliedMath.Lab2
 {
-    public class MarkovChainExecutor
+    public static class MarkovChainExecutor
     {
         public static Vector<double> RunBrutForce(Matrix<double> m, Vector<double> current, bool printData = false)
         {
@@ -21,8 +21,9 @@ namespace AppliedMath.Lab2
                 current = m.Multiply(current);
                 delta = MathHelper.LengthToVector(prev, current);
                 if (printData)
+                {
                     Console.WriteLine($"Next state is \n{current.ToVectorString()}with delta {delta}\n");
-
+                }
             } while (delta > 1e-8);
 
             return current;
@@ -30,7 +31,7 @@ namespace AppliedMath.Lab2
 
         public static Vector<double> SolverWithSystemOfLinearEquations(Matrix<double> p)
         {
-            for (int i = 0; i < p.RowCount; i++)
+            for (var i = 0; i < p.RowCount; i++)
             {
                 p[i, i] = p[i, i] - 1;
             }
