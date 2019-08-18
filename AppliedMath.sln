@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppliedMath.Lab4", "Applied
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppliedMath.LoadBalancer", "AppliedMath.LoadBalancer\AppliedMath.LoadBalancer.csproj", "{DF0D8382-82E7-43B8-AA23-CF142D27F7B6}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AppliedMath.Lab1.FSharp", "AppliedMath.Lab1.FSharp\AppliedMath.Lab1.FSharp.fsproj", "{EB8C9381-0404-4049-A82D-04B6D3943814}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DF0D8382-82E7-43B8-AA23-CF142D27F7B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF0D8382-82E7-43B8-AA23-CF142D27F7B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF0D8382-82E7-43B8-AA23-CF142D27F7B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB8C9381-0404-4049-A82D-04B6D3943814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB8C9381-0404-4049-A82D-04B6D3943814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB8C9381-0404-4049-A82D-04B6D3943814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB8C9381-0404-4049-A82D-04B6D3943814}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
