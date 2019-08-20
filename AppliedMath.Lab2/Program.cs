@@ -9,7 +9,21 @@ namespace AppliedMath.Lab2
         private static void Main(string[] args)
         {
             const bool isPrintOutput = true;
-            Matrix<double> p = Matrix.Build.DenseOfRowArrays(MatrixReader.ReadMatrix()).Transpose();
+
+            double[][] matrix =
+            {
+                new[] {0.4, 0, 0.6, 0, 0, 0, 0, 0},
+                new[] {0.7, 0.1, 0.2, 0, 0, 0, 0, 0},
+                new[] {0, 0, 0.6, 0.3, 0.1, 0, 0, 0},
+                new[] {0, 0, 0.8, 0.1, 0.1, 0, 0, 0},
+                new[] {0, 0, 0.1, 0.4, 0.5, 0, 0, 0},
+                new[] {0, 0, 0, 0.2, 0.3, 0.1, 0.2, 0.2},
+                new[] {0, 0, 0, 0, 0, 0.1, 0.8, 0.1},
+                new[] {0, 0, 0, 0, 0, 0.2, 0.6, 0.2}
+            };
+
+            
+            Matrix<double> p = Matrix.Build.DenseOfRowArrays(matrix).Transpose();
 
             Console.WriteLine("First try");
             Vector<double> firstStart = Vector.Build.Dense(new double[] {1, 0, 0, 0, 0, 0, 0, 0});
