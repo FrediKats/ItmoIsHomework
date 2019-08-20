@@ -1,4 +1,4 @@
-﻿open System
+﻿module LabFirst
 open System.IO
 
 let ReadInput fileName =
@@ -52,8 +52,7 @@ let Skewness dataSet =
 let Kurtosis dataSet =
     (dataSet |> CentralMoment 4) / (pown (dataSet |> StandardDeviation) 4)
 
-[<EntryPoint>]
-let main argv =
+let Output =
     let dataSet = ReadInput "Input.txt"
     
     printfn "Avg: %A"  (dataSet |> AverageValue)
@@ -68,4 +67,3 @@ let main argv =
     printfn "Kurtosis: %A" (dataSet |> Kurtosis)
     printfn "Min: %A" (dataSet |> Seq.min)
     printfn "Max: %A" (dataSet |> Seq.max)
-    0 // return an integer exit code
