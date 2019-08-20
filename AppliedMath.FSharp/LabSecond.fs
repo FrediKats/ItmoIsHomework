@@ -1,4 +1,5 @@
-﻿open MathNet.Numerics.LinearAlgebra
+﻿module LabSecond
+open MathNet.Numerics.LinearAlgebra
 
 let LengthToVector (a: Vector<double> ,b: Vector<double>) =
     a.Subtract(b)
@@ -23,10 +24,7 @@ let SolverWithSystemOfLinearEquations (matrix: Matrix<float>) =
     let result = Vector.Build.Dense(m.RowCount, fun i -> if i = m.RowCount - 1 then 1.0 else 0.0)
     m.Solve(result)
 
-
-[<EntryPoint>]
-let main argv =
-    
+let Init =
     let A = matrix [[ 0.4; 0.0; 0.6; 0.0; 0.0; 0.0; 0.0; 0.0]
                     [0.7; 0.1; 0.2; 0.0; 0.0; 0.0; 0.0; 0.0]
                     [0.0; 0.0; 0.6; 0.3; 0.1; 0.0; 0.0; 0.0]
@@ -43,4 +41,4 @@ let main argv =
     
     printfn "%A" firstRes
     printfn "%A" secondRes
-    0 // return an integer exit code
+
