@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppliedMath.LoadBalancer", 
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AppliedMath.Lab1.FSharp", "AppliedMath.Lab1.FSharp\AppliedMath.Lab1.FSharp.fsproj", "{EB8C9381-0404-4049-A82D-04B6D3943814}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AplliedMath.Lab2.FSharp", "AplliedMath.Lab2.FSharp\AplliedMath.Lab2.FSharp.fsproj", "{AFE63222-107A-4206-BE79-548DBFCDBA0C}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AppliedMath.Lab2.FSharp", "AppliedMath.Lab2.FSharp\AppliedMath.Lab2.FSharp.fsproj", "{AFE63222-107A-4206-BE79-548DBFCDBA0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
