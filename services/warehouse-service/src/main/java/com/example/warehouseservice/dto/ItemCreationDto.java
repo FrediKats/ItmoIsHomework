@@ -1,8 +1,11 @@
 package com.example.warehouseservice.dto;
 
+import org.joda.money.Money;
+
 public class ItemCreationDto {
     private String _name;
     private Integer _amount;
+    private Money _price;
 
     public String getName() {
         return _name;
@@ -18,5 +21,13 @@ public class ItemCreationDto {
 
     public void setAmount(Integer amount) {
         _amount = amount;
+    }
+
+    public Money getPrice() {
+        return _price;
+    }
+
+    public void setPrice(Money price) {
+        _price = price;
     }
 }
