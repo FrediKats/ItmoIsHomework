@@ -1,13 +1,13 @@
-package com.example.microservicesmarketplace;
+package com.microservicesmarketplace.warehouseservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MicroservicesMarketPlaceApplication {
+public class WarehouseServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MicroservicesMarketPlaceApplication.class, args);
+        SpringApplication.run(WarehouseServiceApplication.class, args);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.microservicesmarketplace;
+package com.microservicesmarketplace.warehouseservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MicroservicesMarketPlaceApplicationTests {
+public class WarehouseServiceApplicationTests {
 
     @Test
     public void contextLoads() {
