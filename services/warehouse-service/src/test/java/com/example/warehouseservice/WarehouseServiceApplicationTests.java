@@ -1,4 +1,4 @@
-package com.microservicesmarketplace.warehouseservice;
+package com.example.warehouseservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

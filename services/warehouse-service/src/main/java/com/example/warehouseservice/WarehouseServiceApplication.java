@@ -1,4 +1,4 @@
-package com.microservicesmarketplace.warehouseservice;
+package com.example.warehouseservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
