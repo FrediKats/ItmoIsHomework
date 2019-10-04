@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.lang.management.MonitorInfo;
 
 @Entity
 public class Item {
@@ -13,6 +14,7 @@ public class Item {
     private String name;
     private Integer amount;
     private Integer reversedAmount;
+    private Double price;
 
     public Integer getId() {
         return id;
@@ -44,5 +46,13 @@ public class Item {
 
     public void setReversedAmount(Integer reversedAmount) {
         this.reversedAmount = reversedAmount;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

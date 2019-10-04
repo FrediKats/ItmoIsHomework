@@ -1,11 +1,11 @@
 package com.tef.warehouse.dto;
 
-import org.joda.money.Money;
+import com.tef.warehouse.models.Item;
 
 public class ItemCreationDto {
     private String _name;
     private Integer _amount;
-    private Money _price;
+    private Double _price;
 
     public String getName() {
         return _name;
@@ -23,11 +23,20 @@ public class ItemCreationDto {
         _amount = amount;
     }
 
-    public Money getPrice() {
+    public Double getPrice() {
         return _price;
     }
 
-    public void setPrice(Money price) {
+    public void setPrice(Double price) {
         _price = price;
+    }
+
+    public Item toItem() {
+        Item item = new Item();
+        item.setAmount(getAmount());
+        item.setReversedAmount(0);
+        item.setName(getName());
+        item.setPrice(getPrice());
+        return item;
     }
 }
