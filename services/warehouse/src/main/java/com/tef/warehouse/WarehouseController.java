@@ -2,67 +2,41 @@ package com.tef.warehouse;
 
 import com.tef.warehouse.dto.ItemCreationDto;
 import com.tef.warehouse.dto.ItemDto;
-import com.tef.warehouse.models.Item;
-import com.tef.warehouse.repositories.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tef.warehouse.services.WarehouseService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
 public class WarehouseController {
-    @Autowired
-    private ItemRepository itemRepository;
+    private WarehouseService warehouseService;
+
+    public WarehouseController() {
+        warehouseService = new WarehouseService();
+    }
 
     @PutMapping("api/warehouse/items/{id}/addition/{amount}")
-    public ItemDto AddProduct(@PathVariable Integer id, @PathVariable Integer amount)
-    {
-        Item item = itemRepository
-                .findById(id)
-                .get();
-
-        item.setAmount(item.getAmount() + amount);
-        return ItemDto.fromItem(itemRepository.save(item));
+    public ItemDto addProduct(@PathVariable Integer id, @PathVariable Integer amount) throws Exception {
+        return warehouseService.addProduct(id, amount);
     }
 
     @GetMapping("api/warehouse/items")
-    public List<ItemDto> GetItems()
-    {
-        return StreamSupport
-                .stream(itemRepository
-                        .findAll()
-                        .spliterator(), false)
-                .map(ItemDto::fromItem)
-                .collect(Collectors.toList());
+    public List<ItemDto> getItems() {
+        return warehouseService.getItems();
     }
 
     @GetMapping("api/warehouse/items/{id}")
-    public ItemDto GetItemById(@PathVariable Integer id)
-    {
-        return ItemDto.fromItem(
-                itemRepository
-                        .findById(id)
-                        .get());
+    public ItemDto getItemById(@PathVariable Integer id) throws Exception {
+        return warehouseService.getItemById(id);
     }
 
     @PostMapping("api/warehouse/items")
-    public ItemDto CreateProduct(ItemCreationDto item)
-    {
-        return ItemDto.fromItem(
-                itemRepository.save(
-                        item.toItem()));
+    public ItemDto createProduct(ItemCreationDto item) {
+        return warehouseService.createProduct(item);
     }
 
     @PutMapping("api/warehouse/items")
-    public ItemDto RemoveProduct(Integer id, Integer amount)
-    {
-        Item item = itemRepository
-                .findById(id)
-                .get();
-
-        item.setAmount(item.getAmount() - amount);
-        return ItemDto.fromItem(itemRepository.save(item));
+    public ItemDto removeProduct(Integer id, Integer amount) throws Exception {
+        return warehouseService.removeProduct(id, amount);
     }
 }
