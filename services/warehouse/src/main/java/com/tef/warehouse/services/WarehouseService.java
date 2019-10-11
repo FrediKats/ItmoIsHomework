@@ -5,6 +5,7 @@ import com.tef.warehouse.dto.ItemDto;
 import com.tef.warehouse.models.Item;
 import com.tef.warehouse.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Service
 public class WarehouseService {
     @Autowired
     private ItemRepository itemRepository;
