@@ -3,17 +3,16 @@ package com.tef.warehouse;
 import com.tef.warehouse.dto.ItemCreationDto;
 import com.tef.warehouse.dto.ItemDto;
 import com.tef.warehouse.services.WarehouseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class WarehouseController {
+    @Autowired
     private WarehouseService warehouseService;
-
-    public WarehouseController() {
-        warehouseService = new WarehouseService();
-    }
+    Logger logger = LoggerFactory.getLogger(WarehouseService.class);
 
     @PutMapping("api/warehouse/items/{id}/addition/{amount}")
     public ItemDto addProduct(@PathVariable Integer id, @PathVariable Integer amount) throws Exception {
