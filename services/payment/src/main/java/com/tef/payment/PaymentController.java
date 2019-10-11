@@ -1,7 +1,9 @@
 package com.tef.payment;
 
+import com.tef.payment.dtos.OrderDto;
 import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.services.PaymentService;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,8 +20,8 @@ public class PaymentController {
     }
 
     @PostMapping("api/payment/{order_id}/info")
-    public PaymentInfoDto addPaymentInfo(@PathVariable Integer order_id) {
-        return paymentService.addPaymentInfo(order_id);
+    public PaymentInfoDto addPaymentInfo(@PathVariable OrderDto orderDto) {
+        return paymentService.addPaymentInfo(orderDto);
     }
 
     @PostMapping("api/payment/{order_id}/cancel")
