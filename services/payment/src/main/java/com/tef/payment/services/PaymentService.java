@@ -1,12 +1,12 @@
 package com.tef.payment.services;
 
 import com.tef.payment.dtos.PaymentInfoDto;
-import com.tef.payment.repositories.PaymentRepository;
+import com.tef.payment.repositories.OrderInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class PaymentService {
     @Autowired
-    private PaymentRepository paymentRepository;
+    private OrderInfoRepository orderInfoRepository;
 
     public PaymentInfoDto performPayment(Integer orderId) {
     }

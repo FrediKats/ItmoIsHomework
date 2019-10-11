@@ -1,9 +1,6 @@
 package com.tef.payment.dtos;
 
-enum CardAuthorizationInfo {
-    authorized,
-    unauthorized
-}
+import com.tef.payment.types.CardAuthorizationInfo;
 
 public class UserDetailDto {
     private String _userName;
