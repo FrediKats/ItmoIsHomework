@@ -12,6 +12,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Service
 public class WarehouseService {
     @Autowired
     private ItemRepository itemRepository;
@@ -27,6 +31,7 @@ public class WarehouseService {
     }
 
     public List<ItemDto> getItems() {
+        logger.debug("Get items");
         return StreamSupport
                 .stream(itemRepository
                         .findAll()
