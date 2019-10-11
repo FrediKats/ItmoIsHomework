@@ -3,9 +3,13 @@ package com.tef.warehouse;
 import com.tef.warehouse.dto.ItemCreationDto;
 import com.tef.warehouse.dto.ItemDto;
 import com.tef.warehouse.services.WarehouseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 public class WarehouseController {
@@ -22,6 +26,7 @@ public class WarehouseController {
 
     @GetMapping("api/warehouse/items")
     public List<ItemDto> getItems() {
+        logger.debug("Get items");
         return warehouseService.getItems();
     }
 
