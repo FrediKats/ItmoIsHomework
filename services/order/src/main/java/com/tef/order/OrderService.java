@@ -23,22 +23,22 @@ public class OrderController {
 
 
 	@GetMapping("api/orders/{order_id}")
-	public void getOrderById(@PathVariable Integer order_id) {
-//		return orderService.getOrderById(order_id);
+	public OrderDto getOrderById(@PathVariable Integer order_id) throws Exception {
+		return orderService.getOrderById(order_id);
 	}
 
 	@PutMapping("api/orders/{order_id}/item/{item_id}")
-	public void addItemToOrder(@PathVariable Integer order_id, @PathVariable Integer item_id) {
-//		return orderService.addItemToOrder(order_id, item_id);
+	public void addItemToOrder(@PathVariable Integer order_id, @PathVariable Integer item_id) throws Exception {
+		 orderService.addItemToOrder(order_id, item_id);
 	}
 
 	@PostMapping("api/orders/{order_id}/status/{status}")
-	public void changeOrderStatus(@PathVariable Integer order_id, @PathVariable OrderStatus status) {
-//		return orderService.changeOrderStatus(order_id, status);
+	public void changeOrderStatus(@PathVariable Integer order_id, @PathVariable OrderStatus status) throws Exception {
+		 orderService.changeOrderStatus(order_id, status);
 	}
 
 	@DeleteMapping("api/orders/{order_id}/remove/")
-	public ItemDto removeItemFromOrder(@PathVariable Integer order_id) {
-		return orderService.removeItemFromOrder(order_id);
+	public void removeItemFromOrder(@PathVariable Integer order_id, @PathVariable Integer item_id) {
+		 orderService.removeItemFromOrder(order_id, item_id);
 	}
 }
