@@ -5,10 +5,12 @@ import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.dtos.UserDetailDto;
 import com.tef.payment.services.PaymentService;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PaymentController {
+    @Autowired
     private PaymentService paymentService;
 
     public PaymentController() {
