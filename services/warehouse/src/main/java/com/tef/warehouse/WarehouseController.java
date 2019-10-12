@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 public class WarehouseController {
     @Autowired
     private WarehouseService warehouseService;
-    Logger logger = LoggerFactory.getLogger(WarehouseService.class);
 
     @PutMapping("api/warehouse/items/{id}/addition/{amount}")
     public ItemDto addProduct(@PathVariable Integer id, @PathVariable Integer amount) throws Exception {

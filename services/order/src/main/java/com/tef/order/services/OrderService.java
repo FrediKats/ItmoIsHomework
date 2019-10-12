@@ -8,6 +8,8 @@ import com.tef.order.repositories.OrderRepository;
 import com.tef.order.types.OrderItemId;
 import com.tef.order.types.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.lang.reflect.Array;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Service
 public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
