@@ -4,12 +4,14 @@ import com.tef.order.dtos.ItemDto;
 import com.tef.order.dtos.OrderDto;
 import com.tef.order.services.OrderService;
 import com.tef.order.types.OrderStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class OrderController {
+	@Autowired
 	private OrderService orderService;
 
 	public OrderController() {
