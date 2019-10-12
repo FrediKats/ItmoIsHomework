@@ -4,6 +4,8 @@ import com.tef.payment.dtos.OrderDto;
 import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.dtos.UserDetailDto;
 import com.tef.payment.services.PaymentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;
+    private Logger logger = LoggerFactory.getLogger(PaymentController.class);
 
     public PaymentController() {
         paymentService = new PaymentService();

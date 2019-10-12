@@ -13,11 +13,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Service
 public class WarehouseService {
     @Autowired
     private ItemRepository itemRepository;
-
+    private Logger logger = LoggerFactory.getLogger(WarehouseService.class);
     public ItemDto addProduct(@PathVariable Integer id, @PathVariable Integer amount) throws Exception {
         Optional<Item> item = itemRepository.findById(id);
         if (item.isEmpty())
@@ -29,6 +31,8 @@ public class WarehouseService {
     }
 
     public List<ItemDto> getItems() {
+
+        logger.debug("Get items");
         return StreamSupport
                 .stream(itemRepository
                         .findAll()
