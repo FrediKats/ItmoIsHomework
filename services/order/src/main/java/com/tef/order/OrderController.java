@@ -1,6 +1,5 @@
 package com.tef.order;
 
-import com.tef.order.dtos.ItemDto;
 import com.tef.order.dtos.OrderDto;
 import com.tef.order.services.OrderService;
 import com.tef.order.types.OrderStatus;
@@ -17,16 +16,11 @@ public class OrderController {
 	private OrderService orderService;
 	private Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-	public OrderController() {
-		orderService = new OrderService();
-	}
-
 	@GetMapping("api/orders")
 	public List<OrderDto> getOrders() {
 		logger.debug("getOrders");
 		return orderService.getOrders();
 	}
-
 
 	@GetMapping("api/orders/{order_id}")
 	public OrderDto getOrderById(@PathVariable Integer order_id) throws Exception {

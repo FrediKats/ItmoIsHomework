@@ -34,12 +34,12 @@ public class WarehouseController {
     }
 
     @PostMapping("api/warehouse/items")
-    public ItemDto createProduct(ItemCreationDto item) {
+    public ItemDto createProduct(@RequestBody ItemCreationDto item) {
         return warehouseService.createProduct(item);
     }
 
-    @PutMapping("api/warehouse/items")
-    public ItemDto removeProduct(Integer id, Integer amount) throws Exception {
+    @PutMapping("api/warehouse/items/{id}/remove/{amount}")
+    public ItemDto removeProduct(@PathVariable Integer id, @PathVariable Integer amount) throws Exception {
         return warehouseService.removeProduct(id, amount);
     }
 }
