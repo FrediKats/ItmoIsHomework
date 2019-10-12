@@ -1,6 +1,8 @@
 package com.tef.payment.models;
 
 
+import com.tef.payment.types.OrderStatus;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,10 +11,10 @@ import javax.persistence.Id;
 @Entity
 public class OrderInfo {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer orderId;
     private String address;
     private String username;
+    private OrderStatus orderStatus;
 
     public Integer getOrderId() {
         return orderId;
@@ -41,4 +43,11 @@ public class OrderInfo {
         return this;
     }
 
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }
