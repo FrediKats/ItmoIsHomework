@@ -4,6 +4,11 @@ import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.dtos.UserDetailDto;
 import com.tef.payment.models.OrderInfo;
 import com.tef.payment.repositories.OrderInfoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.tef.payment.types.CardAuthorizationInfo;
 import com.tef.payment.types.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,7 @@ import java.util.Optional;
 public class PaymentService {
     @Autowired
     private OrderInfoRepository orderInfoRepository;
+    private Logger logger = LoggerFactory.getLogger(PaymentService.class);
 
     //TODO: изменить с void
     public void performPayment(Integer orderId, UserDetailDto userDetailDto) throws Exception {

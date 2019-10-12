@@ -7,10 +7,11 @@ import com.tef.order.repositories.OrderItemRepository;
 import com.tef.order.repositories.OrderRepository;
 import com.tef.order.types.OrderItemId;
 import com.tef.order.types.OrderStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
     private OrderItemRepository orderItemRepository;
+    private Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     public List<OrderDto> getOrders() {
         // TODO: count

@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 public class WarehouseController {
     @Autowired
     private WarehouseService warehouseService;
+    private Logger logger = LoggerFactory.getLogger(WarehouseService.class);
 
     @PutMapping("api/warehouse/items/{id}/addition/{amount}")
     public ItemDto addProduct(@PathVariable Integer id, @PathVariable Integer amount) throws Exception {
@@ -20,6 +24,7 @@ public class WarehouseController {
 
     @GetMapping("api/warehouse/items")
     public List<ItemDto> getItems() {
+        logger.debug("Get items");
         return warehouseService.getItems();
     }
 
