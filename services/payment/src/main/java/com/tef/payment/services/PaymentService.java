@@ -7,9 +7,11 @@ import com.tef.payment.repositories.OrderInfoRepository;
 import com.tef.payment.types.CardAuthorizationInfo;
 import com.tef.payment.types.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class PaymentService {
     @Autowired
     private OrderInfoRepository orderInfoRepository;
