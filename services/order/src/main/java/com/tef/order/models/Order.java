@@ -12,8 +12,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-    private OrderStatus status;
-    private String username;
+    private OrderStatus orderStatus;
 
     public Integer getId() {
         return id;
@@ -23,19 +22,11 @@ public class Order {
         this.id = id;
     }
 
-    public OrderStatus getStatus() {
-        return status;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setOrderStatus(OrderStatus status) {
+        this.orderStatus = status;
     }
 }

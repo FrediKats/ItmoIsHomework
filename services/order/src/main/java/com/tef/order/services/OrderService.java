@@ -18,11 +18,11 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class OrderService {
+    private Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     @Autowired
     private OrderRepository orderRepository;
     private OrderItemRepository orderItemRepository;
-    private Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     public List<OrderDto> getOrders() {
         // TODO: count
@@ -31,10 +31,6 @@ public class OrderService {
                         .findAll()
                         .spliterator(), false)
                 .map(OrderDto::fromOrder)
-                .map(orderDto -> {
-
-                    return orderDto;
-                })
                 .collect(Collectors.toList());
     }
 
@@ -51,10 +47,11 @@ public class OrderService {
         OrderItem orderItem = new OrderItem();
         orderItem.setOrderId(orderId);
         orderItem.setItemId(itemId);
+        orderItem.setAmount(1);
 
-        if (order.isEmpty())
-            throw new Exception("order not found: " + orderId);
-
+        //TODO: handle order creating
+//        if (order.isEmpty())
+//            throw new Exception("order not found: " + orderId);
 
         orderItemRepository.save(orderItem);
     }
@@ -70,7 +67,7 @@ public class OrderService {
             throw new Exception("order not found: " + id);
 
         Order instance = order.get();
-        instance.setStatus(status);
+        instance.setOrderStatus(status);
         orderRepository.save(instance);
     }
 }
