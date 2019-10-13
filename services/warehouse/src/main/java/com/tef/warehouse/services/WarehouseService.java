@@ -15,12 +15,15 @@ import java.util.stream.StreamSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 @Service
 public class WarehouseService {
+    private Logger logger = LoggerFactory.getLogger(WarehouseService.class);
+
     @Autowired
     private ItemRepository itemRepository;
-    private Logger logger = LoggerFactory.getLogger(WarehouseService.class);
-    public ItemDto addProduct(@PathVariable Integer id, @PathVariable Integer amount) throws Exception {
+
+    public ItemDto addProduct(Integer id, Integer amount) throws Exception {
         Optional<Item> item = itemRepository.findById(id);
         if (item.isEmpty())
             throw new Exception("Item not found: " + id);
