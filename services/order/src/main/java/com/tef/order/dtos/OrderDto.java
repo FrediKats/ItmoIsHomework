@@ -10,7 +10,6 @@ public class OrderDto {
     private OrderStatus status;
     private Double totalCost;
     private Integer totalAmount;
-    private String username;
     private ArrayList<ItemDto> items;
 
     public Integer getId() {
@@ -45,14 +44,6 @@ public class OrderDto {
         this.totalAmount = totalAmount;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public ArrayList<ItemDto> getItems() {
         return items;
     }
@@ -64,8 +55,7 @@ public class OrderDto {
     public static OrderDto fromOrder(Order order) {
         OrderDto dto = new OrderDto();
         dto.setId(order.getId());
-        dto.setStatus(order.getStatus());
-        dto.setUsername(order.getUsername());
+        dto.setStatus(order.getOrderStatus());
         return dto;
     }
 }
