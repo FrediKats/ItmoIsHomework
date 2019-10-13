@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;
-    private Logger logger = LoggerFactory.getLogger(PaymentController.class);
 
     public PaymentController() {
         paymentService = new PaymentService();

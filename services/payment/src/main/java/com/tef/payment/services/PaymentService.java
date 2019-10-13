@@ -20,7 +20,6 @@ import java.util.Optional;
 public class PaymentService {
     @Autowired
     private OrderInfoRepository orderInfoRepository;
-    private Logger logger = LoggerFactory.getLogger(PaymentService.class);
 
     //TODO: изменить с void
     public void performPayment(Integer orderId, UserDetailDto userDetailDto) throws Exception {
