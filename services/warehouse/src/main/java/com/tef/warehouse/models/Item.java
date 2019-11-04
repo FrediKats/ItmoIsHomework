@@ -12,7 +12,6 @@ public class Item {
     private Integer id;
     private String name;
     private Integer amount;
-    private Integer reversedAmount;
     private Double price;
 
     public Integer getId() {
@@ -37,14 +36,6 @@ public class Item {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
-    }
-
-    public Integer getReversedAmount() {
-        return reversedAmount;
-    }
-
-    public void setReversedAmount(Integer reversedAmount) {
-        this.reversedAmount = reversedAmount;
     }
 
     public Double getPrice() {
