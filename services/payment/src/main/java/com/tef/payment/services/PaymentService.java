@@ -18,10 +18,13 @@ import java.util.Optional;
 
 @Service
 public class PaymentService {
-    @Autowired
-    private OrderInfoRepository orderInfoRepository;
+    private final OrderInfoRepository orderInfoRepository;
 
-    //TODO: изменить с void
+    public PaymentService(OrderInfoRepository orderInfoRepository) {
+        this.orderInfoRepository = orderInfoRepository;
+    }
+
+    //TODO: return order state
     public void performPayment(Integer orderId, UserDetailDto userDetailDto) throws Exception {
         Optional<OrderInfo> orderInfo = orderInfoRepository.findById(orderId);
         if (!orderInfo.isPresent())
@@ -31,13 +34,15 @@ public class PaymentService {
         if (userDetailDto.getCardAuthorizationInfo() == CardAuthorizationInfo.AUTHORIZED)
             instance.setOrderStatus(OrderStatus.Payed);
         else
+            //TODO: remove order from order service
             instance.setOrderStatus(OrderStatus.Failed);
 
         orderInfoRepository.save(instance);
+
     }
 
     //TODO: разобраться с OrderDto
-    //TODO: изменить с void
+    //TODO: return order state
     public void addPaymentInfo(PaymentInfoDto paymentInfoDto) throws Exception {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setUsername(paymentInfoDto.getUserName());
@@ -46,7 +51,7 @@ public class PaymentService {
         orderInfoRepository.save(orderInfo);
     }
 
-    //TODO: изменить с void
+    //TODO: return order state
     public void cancelPayment(Integer orderId) throws Exception {
         Optional<OrderInfo> orderInfo = orderInfoRepository.findById(orderId);
         if (!orderInfo.isPresent())
@@ -55,5 +60,6 @@ public class PaymentService {
         OrderInfo instance = orderInfo.get();
         instance.setOrderStatus(OrderStatus.Canceled);
         orderInfoRepository.save(instance);
+        //TODO: remove order from order service
     }
 }
