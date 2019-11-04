@@ -22,6 +22,7 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
     private OrderItemRepository orderItemRepository;
 
     public List<OrderDto> getOrders() {
@@ -42,16 +43,28 @@ public class OrderService {
         return OrderDto.fromOrder(order.get());
     }
 
-    public void addItemToOrder(Integer orderId, Integer itemId) throws Exception {
-        Optional<Order> order = orderRepository.findById(orderId);
+    public void addItemToOrder(Optional<Integer> orderId, Integer itemId) throws Exception {
+        Order order;
+
+        if (orderId.isEmpty()) {
+            order = new Order();
+            //TODO: add smth?
+            order = orderRepository.save(order);
+        }
+        else {
+            Optional<Order> orderInDb = orderRepository.findById(orderId.get());
+            if (orderInDb.isEmpty())
+                throw new Exception("order not found: " + orderId);
+            order = orderInDb.get();
+        }
+
         OrderItem orderItem = new OrderItem();
-        orderItem.setOrderId(orderId);
+        orderItem.setOrderId(order.getId());
         orderItem.setItemId(itemId);
+        //TODO: check if item exist - inc amount
         orderItem.setAmount(1);
 
-        //TODO: handle order creating
-//        if (order.isEmpty())
-//            throw new Exception("order not found: " + orderId);
+        //TODO: get item from other service and save info here
 
         orderItemRepository.save(orderItem);
     }

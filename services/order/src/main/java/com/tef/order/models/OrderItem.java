@@ -14,6 +14,8 @@ public class OrderItem {
     @Id
     private Integer itemId;
     private Integer amount;
+    private String name;
+    private Double price;
 
     public Integer getOrderId() {
         return orderId;
@@ -37,5 +39,21 @@ public class OrderItem {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }
