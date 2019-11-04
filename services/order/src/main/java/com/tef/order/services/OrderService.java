@@ -7,9 +7,6 @@ import com.tef.order.repositories.OrderItemRepository;
 import com.tef.order.repositories.OrderRepository;
 import com.tef.order.types.OrderItemId;
 import com.tef.order.types.OrderStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +15,15 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class OrderService {
-    private Logger logger = LoggerFactory.getLogger(OrderService.class);
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
-    private OrderItemRepository orderItemRepository;
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
+        this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
+    }
 
+    //TODO: add method for removing order on cancel or failing
     public List<OrderDto> getOrders() {
         // TODO: count
         return StreamSupport
@@ -42,16 +42,30 @@ public class OrderService {
         return OrderDto.fromOrder(order.get());
     }
 
-    public void addItemToOrder(Integer orderId, Integer itemId) throws Exception {
-        Optional<Order> order = orderRepository.findById(orderId);
+    public void addItemToOrder(Optional<Integer> orderId, Integer itemId) throws Exception {
+        Order order;
+
+        if (orderId.isEmpty()) {
+            order = new Order();
+            //TODO: add smth?
+            order = orderRepository.save(order);
+        }
+        else {
+            Optional<Order> orderInDb = orderRepository.findById(orderId.get());
+            if (orderInDb.isEmpty())
+                throw new Exception("order not found: " + orderId);
+            order = orderInDb.get();
+        }
+
+        //TODO: add to warehouse method for removing
+        //TODO: remove item from warehouse service
         OrderItem orderItem = new OrderItem();
-        orderItem.setOrderId(orderId);
+        orderItem.setOrderId(order.getId());
         orderItem.setItemId(itemId);
+        //TODO: check if item exist - inc amount
         orderItem.setAmount(1);
 
-        //TODO: handle order creating
-//        if (order.isEmpty())
-//            throw new Exception("order not found: " + orderId);
+        //TODO: get item from other service and save info here
 
         orderItemRepository.save(orderItem);
     }
