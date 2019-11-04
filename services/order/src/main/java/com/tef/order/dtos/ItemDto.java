@@ -1,5 +1,7 @@
 package com.tef.order.dtos;
 
+//TODO: Rename to OrdreItem
+//TODO: Add price
 public class ItemDto {
     private Integer _id;
     private String _name;

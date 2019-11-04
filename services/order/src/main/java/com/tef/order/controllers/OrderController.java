@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class OrderController {
@@ -30,16 +31,21 @@ public class OrderController {
 
 	@PutMapping("api/orders/{orderId}/item/{itemId}")
 	public void addItemToOrder(@PathVariable Integer orderId, @PathVariable Integer itemId) throws Exception {
-		 orderService.addItemToOrder(orderId, itemId);
+		//TODO: validation if orderId passed
+		//TODO: dirty hacks
+		if (orderId == -1)
+			orderService.addItemToOrder(Optional.empty(), orderId);
+		else
+			orderService.addItemToOrder(Optional.of(orderId), itemId);
 	}
 
 	@PostMapping("api/orders/{orderId}/status/{status}")
 	public void changeOrderStatus(@PathVariable Integer orderId, @PathVariable OrderStatus status) throws Exception {
-		 orderService.changeOrderStatus(orderId, status);
+		orderService.changeOrderStatus(orderId, status);
 	}
 
 	@DeleteMapping("api/orders/{orderId}/remove/{itemId}")
 	public void removeItemFromOrder(@PathVariable Integer orderId, @PathVariable Integer itemId) {
-		 orderService.removeItemFromOrder(orderId, itemId);
+		orderService.removeItemFromOrder(orderId, itemId);
 	}
 }
