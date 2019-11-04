@@ -3,9 +3,6 @@ package com.tef.order.controllers;
 import com.tef.order.dtos.OrderDto;
 import com.tef.order.services.OrderService;
 import com.tef.order.types.OrderStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,14 +10,14 @@ import java.util.Optional;
 
 @RestController
 public class OrderController {
-	private Logger logger = LoggerFactory.getLogger(OrderController.class);
+	private final OrderService orderService;
 
-	@Autowired
-	private OrderService orderService;
+	public OrderController(OrderService orderService) {
+		this.orderService = orderService;
+	}
 
 	@GetMapping("api/orders")
 	public List<OrderDto> getOrders() {
-		logger.debug("getOrders");
 		return orderService.getOrders();
 	}
 
