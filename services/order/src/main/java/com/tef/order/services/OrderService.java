@@ -1,7 +1,7 @@
 package com.tef.order.services;
 
 import com.tef.order.dtos.OrderDto;
-import com.tef.order.models.Order;
+import com.tef.order.models.OrderModel;
 import com.tef.order.models.OrderItem;
 import com.tef.order.repositories.OrderItemRepository;
 import com.tef.order.repositories.OrderRepository;
@@ -35,7 +35,7 @@ public class OrderService {
     }
 
     public OrderDto getOrderById(Integer id) throws Exception {
-        Optional<Order> order = orderRepository.findById(id);
+        Optional<OrderModel> order = orderRepository.findById(id);
         if (order.isEmpty())
             throw new Exception("order not found: " + id);
 
@@ -43,24 +43,24 @@ public class OrderService {
     }
 
     public void addItemToOrder(Optional<Integer> orderId, Integer itemId) throws Exception {
-        Order order;
+        OrderModel orderModel;
 
         if (orderId.isEmpty()) {
-            order = new Order();
+            orderModel = new OrderModel();
             //TODO: add smth?
-            order = orderRepository.save(order);
+            orderModel = orderRepository.save(orderModel);
         }
         else {
-            Optional<Order> orderInDb = orderRepository.findById(orderId.get());
+            Optional<OrderModel> orderInDb = orderRepository.findById(orderId.get());
             if (orderInDb.isEmpty())
                 throw new Exception("order not found: " + orderId);
-            order = orderInDb.get();
+            orderModel = orderInDb.get();
         }
 
         //TODO: add to warehouse method for removing
         //TODO: remove item from warehouse service
         OrderItem orderItem = new OrderItem();
-        orderItem.setOrderId(order.getId());
+        orderItem.setOrderId(orderModel.getId());
         orderItem.setItemId(itemId);
         //TODO: check if item exist - inc amount
         orderItem.setAmount(1);
@@ -76,11 +76,11 @@ public class OrderService {
     }
 
     public void changeOrderStatus(Integer id, OrderStatus status) throws Exception {
-        Optional<Order> order = orderRepository.findById(id);
+        Optional<OrderModel> order = orderRepository.findById(id);
         if (order.isEmpty())
             throw new Exception("order not found: " + id);
 
-        Order instance = order.get();
+        OrderModel instance = order.get();
         instance.setOrderStatus(status);
         orderRepository.save(instance);
     }
