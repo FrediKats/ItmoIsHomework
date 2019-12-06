@@ -1,5 +1,6 @@
 package com.tef.order.models;
 
+import com.tef.order.dtos.ItemDto;
 import com.tef.order.types.OrderItemId;
 
 import javax.persistence.Entity;
@@ -55,5 +56,13 @@ public class OrderItem {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public static OrderItem CreateFrom(ItemDto item) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItemId(item.getId());
+        orderItem.setName(item.getName());
+        orderItem.setPrice(item.getPrice());
+        return orderItem;
     }
 }
