@@ -6,6 +6,7 @@ public class ItemDto {
     private Integer _id;
     private String _name;
     private Integer _amount;
+    private Double price;
 
     public Integer getId() {
         return _id;
@@ -29,5 +30,13 @@ public class ItemDto {
 
     public void setAmount(Integer amount) {
         _amount = amount;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }
