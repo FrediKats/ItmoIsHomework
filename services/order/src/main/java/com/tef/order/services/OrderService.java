@@ -1,5 +1,6 @@
 package com.tef.order.services;
 
+import com.tef.order.dtos.ItemDto;
 import com.tef.order.dtos.OrderDto;
 import com.tef.order.models.OrderModel;
 import com.tef.order.models.OrderItem;
@@ -8,15 +9,20 @@ import com.tef.order.repositories.OrderRepository;
 import com.tef.order.types.OrderItemId;
 import com.tef.order.types.OrderStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static com.tef.order.types.OrderStatus.Collecting;
+
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final String wareHouseUrl = "http://localhost:8181/api/warehouse/";
 
     public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
@@ -42,12 +48,12 @@ public class OrderService {
         return OrderDto.fromOrder(order.get());
     }
 
-    public void addItemToOrder(Optional<Integer> orderId, Integer itemId) throws Exception {
+    public Integer addItemToOrder(Optional<Integer> orderId, Integer itemId) throws Exception {
         OrderModel orderModel;
 
         if (orderId.isEmpty()) {
             orderModel = new OrderModel();
-            //TODO: add smth?
+            orderModel.setOrderStatus(Collecting);
             orderModel = orderRepository.save(orderModel);
         }
         else {
@@ -57,17 +63,16 @@ public class OrderService {
             orderModel = orderInDb.get();
         }
 
+        String getItemUrl = wareHouseUrl + "/items/" + itemId.toString();
+        ItemDto item =  new RestTemplate().getForObject(getItemUrl, ItemDto.class);
+        //TODO: check if item exist - inc amount
         //TODO: add to warehouse method for removing
         //TODO: remove item from warehouse service
-        OrderItem orderItem = new OrderItem();
+        OrderItem orderItem = OrderItem.CreateFrom(item);
         orderItem.setOrderId(orderModel.getId());
-        orderItem.setItemId(itemId);
-        //TODO: check if item exist - inc amount
-        orderItem.setAmount(1);
-
-        //TODO: get item from other service and save info here
-
         orderItemRepository.save(orderItem);
+
+        return orderModel.getId();
     }
 
     public void removeItemFromOrder(Integer orderId, Integer itemId) {

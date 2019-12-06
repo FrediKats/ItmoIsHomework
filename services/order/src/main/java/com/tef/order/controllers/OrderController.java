@@ -31,7 +31,7 @@ public class OrderController {
 		//TODO: validation if orderId passed
 		//TODO: dirty hacks
 		if (orderId == -1)
-			orderService.addItemToOrder(Optional.empty(), orderId);
+			orderService.addItemToOrder(Optional.empty(), itemId);
 		else
 			orderService.addItemToOrder(Optional.of(orderId), itemId);
 	}
