@@ -1,8 +1,9 @@
 package com.tef.order.types;
 
-public enum OrderStatus {
+public enum DeprecatedOrderStatus {
     Collecting,
-    Paying,
+    Payed,
+    Shipping,
     Complete,
     Failed,
     Canceled
