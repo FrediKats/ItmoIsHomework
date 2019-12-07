@@ -27,8 +27,7 @@ public class PaymentService {
         this.orderInfoRepository = orderInfoRepository;
     }
 
-    //TODO: return order state
-    public void performPayment(Integer orderId, UserDetailDto userDetailDto) throws Exception {
+    public OrderStatus performPayment(Integer orderId, UserDetailDto userDetailDto) throws Exception {
         Optional<OrderInfo> orderInfo = orderInfoRepository.findById(orderId);
         if (!orderInfo.isPresent())
             throw new Exception("order not found: " + orderId);
@@ -41,12 +40,11 @@ public class PaymentService {
 
         updateStateRemote(orderId, instance.getOrderStatus());
         orderInfoRepository.save(instance);
-
+        return instance.getOrderStatus();
     }
 
     //TODO: разобраться с OrderDto
-    //TODO: return order state
-    public void addPaymentInfo(PaymentInfoDto paymentInfoDto) throws Exception {
+    public OrderStatus addPaymentInfo(PaymentInfoDto paymentInfoDto) throws Exception {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setUsername(paymentInfoDto.getUserName());
         orderInfo.setOrderId(paymentInfoDto.getOrderId());
@@ -54,10 +52,10 @@ public class PaymentService {
 
         updateStateRemote(orderInfo.getOrderId(), orderInfo.getOrderStatus());
         orderInfoRepository.save(orderInfo);
+        return orderInfo.getOrderStatus();
     }
 
-    //TODO: return order state
-    public void cancelPayment(Integer orderId) throws Exception {
+    public OrderStatus cancelPayment(Integer orderId) throws Exception {
         Optional<OrderInfo> orderInfo = orderInfoRepository.findById(orderId);
         if (!orderInfo.isPresent())
             throw new Exception("order not found: " + orderId);
@@ -67,6 +65,7 @@ public class PaymentService {
         updateStateRemote(orderId, instance.getOrderStatus());
         orderInfoRepository.save(instance);
         //TODO: remove order from order service
+        return instance.getOrderStatus();
     }
 
     private void updateStateRemote(Integer orderId, OrderStatus status) {

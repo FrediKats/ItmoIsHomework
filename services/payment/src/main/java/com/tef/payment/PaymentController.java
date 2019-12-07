@@ -3,6 +3,7 @@ package com.tef.payment;
 import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.dtos.UserDetailDto;
 import com.tef.payment.services.PaymentService;
+import com.tef.payment.types.OrderStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,20 +16,17 @@ public class PaymentController {
 
     //TODO: fix null
     @PostMapping("api/payment/{orderId}")
-    public PaymentInfoDto performPayment(@PathVariable Integer orderId, @RequestBody UserDetailDto userDetailDto) throws Exception {
-        paymentService.performPayment(orderId, userDetailDto);
-        return null;
+    public OrderStatus performPayment(@PathVariable Integer orderId, @RequestBody UserDetailDto userDetailDto) throws Exception {
+        return paymentService.performPayment(orderId, userDetailDto);
     }
 
     @PostMapping("api/payment/add-info")
-    public PaymentInfoDto addPaymentInfo(@RequestBody PaymentInfoDto orderDto) throws Exception {
-        paymentService.addPaymentInfo(orderDto);
-        return null;
+    public OrderStatus addPaymentInfo(@RequestBody PaymentInfoDto orderDto) throws Exception {
+        return paymentService.addPaymentInfo(orderDto);
     }
 
     @PostMapping("api/payment/{orderId}/cancel")
-    public PaymentInfoDto cancelPayment(@PathVariable Integer orderId) throws Exception {
-        paymentService.cancelPayment(orderId);
-        return null;
+    public OrderStatus cancelPayment(@PathVariable Integer orderId) throws Exception {
+        return paymentService.cancelPayment(orderId);
     }
 }
