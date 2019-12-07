@@ -1,5 +1,6 @@
 package com.tef.payment.services;
 
+import com.tef.payment.dtos.ItemDto;
 import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.dtos.UserDetailDto;
 import com.tef.payment.models.OrderInfo;
@@ -13,12 +14,14 @@ import com.tef.payment.types.CardAuthorizationInfo;
 import com.tef.payment.types.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
 @Service
 public class PaymentService {
     private final OrderInfoRepository orderInfoRepository;
+    private final String orderServiceUrl = "http://localhost:8182/api/orders/";
 
     public PaymentService(OrderInfoRepository orderInfoRepository) {
         this.orderInfoRepository = orderInfoRepository;
@@ -34,9 +37,9 @@ public class PaymentService {
         if (userDetailDto.getCardAuthorizationInfo() == CardAuthorizationInfo.AUTHORIZED)
             instance.setOrderStatus(OrderStatus.Payed);
         else
-            //TODO: remove order from order service
             instance.setOrderStatus(OrderStatus.Failed);
 
+        updateStateRemote(orderId, instance.getOrderStatus());
         orderInfoRepository.save(instance);
 
     }
@@ -48,6 +51,8 @@ public class PaymentService {
         orderInfo.setUsername(paymentInfoDto.getUserName());
         orderInfo.setOrderId(paymentInfoDto.getOrderId());
         orderInfo.setOrderStatus(OrderStatus.Collecting);
+
+        updateStateRemote(orderInfo.getOrderId(), orderInfo.getOrderStatus());
         orderInfoRepository.save(orderInfo);
     }
 
@@ -59,7 +64,13 @@ public class PaymentService {
 
         OrderInfo instance = orderInfo.get();
         instance.setOrderStatus(OrderStatus.Canceled);
+        updateStateRemote(orderId, instance.getOrderStatus());
         orderInfoRepository.save(instance);
         //TODO: remove order from order service
+    }
+
+    private void updateStateRemote(Integer orderId, OrderStatus status) {
+        String getItemUrl = orderServiceUrl + orderId.toString() + "/status/" + status.toString();
+        new RestTemplate().postForLocation(getItemUrl, null);
     }
 }
