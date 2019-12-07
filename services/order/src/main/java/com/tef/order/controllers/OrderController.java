@@ -28,8 +28,7 @@ public class OrderController {
 
 	@PutMapping("api/orders/{orderId}/item/{itemId}")
 	public void addItemToOrder(@PathVariable Integer orderId, @PathVariable Integer itemId) throws Exception {
-		//TODO: validation if orderId passed
-		//TODO: dirty hacks
+		//TODO: dirty hacks. validation if orderId passed
 		if (orderId == -1)
 			orderService.addItemToOrder(Optional.empty(), itemId);
 		else

@@ -12,15 +12,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class OrderApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OrderApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(OrderApplication.class, args);
+    }
 
-	@Bean(name="conversionService")
-	@Qualifier("webFluxConversionService")
-	public ConversionService getConversionService() {
-		ConversionServiceFactoryBean bean = new ConversionServiceFactoryBean();
-		bean.afterPropertiesSet();
-		return bean.getObject();
-	}
+    @Bean(name = "conversionService")
+    @Qualifier("webFluxConversionService")
+    public ConversionService getConversionService() {
+        ConversionServiceFactoryBean bean = new ConversionServiceFactoryBean();
+        bean.afterPropertiesSet();
+        return bean.getObject();
+    }
 }

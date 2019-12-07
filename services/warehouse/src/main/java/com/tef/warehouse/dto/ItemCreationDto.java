@@ -34,7 +34,6 @@ public class ItemCreationDto {
     public Item toItem() {
         Item item = new Item();
         item.setAmount(getAmount());
-        item.setReversedAmount(0);
         item.setName(getName());
         item.setPrice(getPrice());
         return item;
