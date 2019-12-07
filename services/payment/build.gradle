@@ -34,7 +34,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
-	implementation 'org.springframework.kafka:spring-kafka'
 	compile 'io.springfox:springfox-swagger2:2.8.0'
 	compile 'io.springfox:springfox-swagger-ui:2.8.0'
 	compileOnly 'org.projectlombok:lombok'
@@ -42,8 +41,10 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-stream-rabbit
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version: '2.2.0.RELEASE'
 }
 
 dependencyManagement {
