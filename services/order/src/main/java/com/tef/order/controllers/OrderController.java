@@ -3,10 +3,14 @@ package com.tef.order.controllers;
 import com.tef.order.dtos.OrderDto;
 import com.tef.order.services.OrderService;
 import com.tef.order.types.OrderStatus;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 public class OrderController {
@@ -28,10 +32,9 @@ public class OrderController {
 
 	@PutMapping("api/orders/{orderId}/item/{itemId}")
 	public void addItemToOrder(@PathVariable Integer orderId, @PathVariable Integer itemId) throws Exception {
-		//TODO: validation if orderId passed
-		//TODO: dirty hacks
+		//TODO: dirty hacks. validation if orderId passed
 		if (orderId == -1)
-			orderService.addItemToOrder(Optional.empty(), orderId);
+			orderService.addItemToOrder(Optional.empty(), itemId);
 		else
 			orderService.addItemToOrder(Optional.of(orderId), itemId);
 	}
