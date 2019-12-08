@@ -1,5 +1,6 @@
 package com.tef.order;
 
+import com.tef.order.dtos.OrderStatusUpdateMessage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,9 +29,8 @@ public class OrderApplication {
         return bean.getObject();
     }
 
-
     @StreamListener(target= Sink.INPUT)
-    public void logfast(String msg) {
-        System.out.println(msg);
+    public void logfast(OrderStatusUpdateMessage msg) {
+        System.out.println(msg.getNewStatus());
     }
 }

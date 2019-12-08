@@ -1,5 +1,6 @@
 package com.tef.payment.services;
 
+import com.tef.payment.dtos.OrderStatusUpdateMessage;
 import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.dtos.UserDetailDto;
 import com.tef.payment.models.OrderInfo;
@@ -18,15 +19,13 @@ import java.util.Optional;
 @EnableBinding(Source.class)
 @Service
 public class PaymentService {
-    private final OrderInfoRepository orderInfoRepository;
     private final String orderServiceUrl = "http://localhost:8182/api/orders/";
 
     @Autowired
-    private Source mysource;
+    private OrderInfoRepository orderInfoRepository;
 
-    public PaymentService(OrderInfoRepository orderInfoRepository) {
-        this.orderInfoRepository = orderInfoRepository;
-    }
+    @Autowired
+    private Source mysource;
 
     public OrderStatus performPayment(Integer orderId, UserDetailDto userDetailDto) throws Exception {
         Optional<OrderInfo> orderInfo = orderInfoRepository.findById(orderId);
@@ -39,7 +38,10 @@ public class PaymentService {
         else
             instance.setOrderStatus(OrderStatus.Failed);
 
-        updateStateRemote(orderId, instance.getOrderStatus());
+        OrderStatusUpdateMessage orderStatusUpdateMessage = new OrderStatusUpdateMessage();
+        orderStatusUpdateMessage.setNewStatus(instance.getOrderStatus());
+        orderStatusUpdateMessage.setOrderId(orderId);
+        updateStateRemote(orderStatusUpdateMessage);
         orderInfoRepository.save(instance);
         return instance.getOrderStatus();
     }
@@ -51,7 +53,11 @@ public class PaymentService {
         orderInfo.setOrderId(paymentInfoDto.getOrderId());
         orderInfo.setOrderStatus(OrderStatus.Collecting);
 
-        updateStateRemote(orderInfo.getOrderId(), orderInfo.getOrderStatus());
+        OrderStatusUpdateMessage orderStatusUpdateMessage = new OrderStatusUpdateMessage();
+        orderStatusUpdateMessage.setNewStatus(orderInfo.getOrderStatus());
+        orderStatusUpdateMessage.setOrderId(orderInfo.getOrderId());
+        updateStateRemote(orderStatusUpdateMessage);
+
         orderInfoRepository.save(orderInfo);
         return orderInfo.getOrderStatus();
     }
@@ -63,15 +69,16 @@ public class PaymentService {
 
         OrderInfo instance = orderInfo.get();
         instance.setOrderStatus(OrderStatus.Canceled);
-        updateStateRemote(orderId, instance.getOrderStatus());
+        OrderStatusUpdateMessage orderStatusUpdateMessage = new OrderStatusUpdateMessage();
+        orderStatusUpdateMessage.setNewStatus(instance.getOrderStatus());
+        orderStatusUpdateMessage.setOrderId(orderId);
+        updateStateRemote(orderStatusUpdateMessage);
         orderInfoRepository.save(instance);
         //TODO: remove order from order service
         return instance.getOrderStatus();
     }
 
-    private void updateStateRemote(Integer orderId, OrderStatus status) {
-        String getItemUrl = orderServiceUrl + orderId.toString() + "/status/" + status.toString();
-
-        mysource.output().send(MessageBuilder.withPayload(status.toString()).build());
+    private void updateStateRemote(OrderStatusUpdateMessage orderStatusUpdateInfo) {
+        mysource.output().send(MessageBuilder.withPayload(orderStatusUpdateInfo).build());
     }
 }
