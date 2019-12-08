@@ -15,6 +15,12 @@ import java.util.logging.Logger;
 @Configuration
 public class RabbitConfiguration {
     Logger logger = Logger.getLogger(RabbitConfiguration.class.getName());
+
+    @Bean
+    public Jackson2JsonMessageConverter converter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory =
@@ -25,13 +31,6 @@ public class RabbitConfiguration {
     @Bean
     public AmqpAdmin amqpAdmin() {
         return new RabbitAdmin(connectionFactory());
-    }
-
-    @Bean
-    public RabbitTemplate rabbitTemplate() {
-        RabbitTemplate template = new RabbitTemplate(connectionFactory());
-        template.setMessageConverter(new Jackson2JsonMessageConverter());
-        return template;
     }
 
     @Bean
