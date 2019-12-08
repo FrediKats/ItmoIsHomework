@@ -5,6 +5,7 @@ import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.dtos.UserDetailDto;
 import com.tef.payment.models.OrderInfo;
 import com.tef.payment.repositories.OrderInfoRepository;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
@@ -23,6 +24,9 @@ public class PaymentService {
 
     @Autowired
     private OrderInfoRepository orderInfoRepository;
+
+    @Autowired
+    AmqpTemplate template;
 
     @Autowired
     private Source mysource;
@@ -79,6 +83,6 @@ public class PaymentService {
     }
 
     private void updateStateRemote(OrderStatusUpdateMessage orderStatusUpdateInfo) {
-        mysource.output().send(MessageBuilder.withPayload(orderStatusUpdateInfo).build());
+        template.convertAndSend("order-status-update", orderStatusUpdateInfo);
     }
 }
