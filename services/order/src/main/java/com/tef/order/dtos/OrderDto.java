@@ -1,6 +1,6 @@
 package com.tef.order.dtos;
 
-import com.tef.order.models.Order;
+import com.tef.order.models.OrderModel;
 import com.tef.order.types.OrderStatus;
 
 import java.util.ArrayList;
@@ -52,10 +52,10 @@ public class OrderDto {
         this.items = items;
     }
 
-    public static OrderDto fromOrder(Order order) {
+    public static OrderDto fromOrder(OrderModel orderModel) {
         OrderDto dto = new OrderDto();
-        dto.setId(order.getId());
-        dto.setStatus(order.getOrderStatus());
+        dto.setId(orderModel.getId());
+        dto.setStatus(orderModel.getOrderStatus());
         return dto;
     }
 }
