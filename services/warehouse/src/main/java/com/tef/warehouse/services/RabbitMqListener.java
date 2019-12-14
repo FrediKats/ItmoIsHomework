@@ -14,7 +14,12 @@ public class RabbitMqListener {
     private WarehouseService warehouseService;
 
     @RabbitListener(queues = "item-add")
-    public void OrderStatusUpdateProcess(@Payload ItemUpdateCountDto itemUpdate) throws Exception {
+    public void ItemAddHandler(@Payload ItemUpdateCountDto itemUpdate) throws Exception {
         warehouseService.addProduct(itemUpdate.getId(), itemUpdate.getAmount());
+    }
+
+    @RabbitListener(queues = "item-remove")
+    public void ItemRemoveHandler(@Payload ItemUpdateCountDto itemUpdate) throws Exception {
+        warehouseService.addProduct(itemUpdate.getId(), itemUpdate.getAmount() * -1);
     }
 }
