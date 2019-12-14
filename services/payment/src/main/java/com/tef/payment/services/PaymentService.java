@@ -32,22 +32,22 @@ public class PaymentService {
     private Source mysource;
 
     public OrderStatus performPayment(Integer orderId, UserDetailDto userDetailDto) throws Exception {
-        Optional<OrderInfo> orderInfo = orderInfoRepository.findById(orderId);
-        if (!orderInfo.isPresent())
-            throw new Exception("order not found: " + orderId);
+        //Optional<OrderInfo> orderInfo = orderInfoRepository.findById(orderId);
+        //if (!orderInfo.isPresent())
+        //    throw new Exception("order not found: " + orderId);
 
-        OrderInfo instance = orderInfo.get();
+        OrderStatus instance = OrderStatus.Payed;
         if (userDetailDto.getCardAuthorizationInfo() == CardAuthorizationInfo.AUTHORIZED)
-            instance.setOrderStatus(OrderStatus.Payed);
+            instance = (OrderStatus.Payed);
         else
-            instance.setOrderStatus(OrderStatus.Failed);
+            instance = (OrderStatus.Failed);
 
         OrderStatusUpdateMessage orderStatusUpdateMessage = new OrderStatusUpdateMessage();
-        orderStatusUpdateMessage.setNewStatus(instance.getOrderStatus());
+        orderStatusUpdateMessage.setNewStatus(instance);
         orderStatusUpdateMessage.setOrderId(orderId);
         updateStateRemote(orderStatusUpdateMessage);
-        orderInfoRepository.save(instance);
-        return instance.getOrderStatus();
+        //orderInfoRepository.save(instance);
+        return instance;
     }
 
     //TODO: разобраться с OrderDto
@@ -67,19 +67,19 @@ public class PaymentService {
     }
 
     public OrderStatus cancelPayment(Integer orderId) throws Exception {
-        Optional<OrderInfo> orderInfo = orderInfoRepository.findById(orderId);
-        if (!orderInfo.isPresent())
-            throw new Exception("order not found: " + orderId);
+        //Optional<OrderInfo> orderInfo = orderInfoRepository.findById(orderId);
+        //if (!orderInfo.isPresent())
+         //   throw new Exception("order not found: " + orderId);
 
-        OrderInfo instance = orderInfo.get();
-        instance.setOrderStatus(OrderStatus.Canceled);
+        //OrderInfo instance = orderInfo.get();
+        //instance.setOrderStatus(OrderStatus.Canceled);
         OrderStatusUpdateMessage orderStatusUpdateMessage = new OrderStatusUpdateMessage();
-        orderStatusUpdateMessage.setNewStatus(instance.getOrderStatus());
+        orderStatusUpdateMessage.setNewStatus(OrderStatus.Canceled);
         orderStatusUpdateMessage.setOrderId(orderId);
         updateStateRemote(orderStatusUpdateMessage);
-        orderInfoRepository.save(instance);
+        //orderInfoRepository.save(instance);
         //TODO: remove order from order service
-        return instance.getOrderStatus();
+        return OrderStatus.Canceled;
     }
 
     private void updateStateRemote(OrderStatusUpdateMessage orderStatusUpdateInfo) {
