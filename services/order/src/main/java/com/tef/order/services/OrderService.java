@@ -1,5 +1,6 @@
 package com.tef.order.services;
 
+import com.tef.order.dtos.ItemAdditionParametersDto;
 import com.tef.order.dtos.ItemDto;
 import com.tef.order.dtos.ItemUpdateCountDto;
 import com.tef.order.dtos.OrderDto;
@@ -54,7 +55,9 @@ public class OrderService {
         return OrderDto.fromOrder(order.get());
     }
 
-    public Integer addItemToOrder(Optional<Integer> orderId, Integer itemId) throws Exception {
+    public Integer addItemToOrder(Optional<Integer> orderId,
+                                  Integer itemId,
+                                  ItemAdditionParametersDto addInfo) throws Exception {
         OrderModel orderModel;
 
         if (orderId.isEmpty()) {
@@ -74,11 +77,12 @@ public class OrderService {
         //TODO: check if item exist - inc amount
         OrderItem orderItem = OrderItem.CreateFrom(item);
         orderItem.setOrderId(orderModel.getId());
+        orderItem.setAmount(addInfo.getAmount());
         orderItemRepository.save(orderItem);
 
         ItemUpdateCountDto itemUpdate = new ItemUpdateCountDto();
         itemUpdate.setId(itemId);
-        itemUpdate.setAmount(1);
+        itemUpdate.setAmount(addInfo.getAmount());
         template.convertAndSend("item-remove", itemUpdate);
 
         return orderModel.getId();
