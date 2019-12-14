@@ -4,13 +4,14 @@ import com.tef.order.models.OrderModel;
 import com.tef.order.types.OrderStatus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDto {
     private Integer id;
     private OrderStatus status;
     private Double totalCost;
     private Integer totalAmount;
-    private ArrayList<ItemDto> items;
+    private List<ItemDto> items;
 
     public Integer getId() {
         return id;
@@ -44,11 +45,11 @@ public class OrderDto {
         this.totalAmount = totalAmount;
     }
 
-    public ArrayList<ItemDto> getItems() {
+    public List<ItemDto> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<ItemDto> items) {
+    public void setItems(List<ItemDto> items) {
         this.items = items;
     }
 

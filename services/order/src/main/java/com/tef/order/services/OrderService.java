@@ -31,19 +31,25 @@ public class OrderService {
     @Autowired
     AmqpTemplate template;
 
-    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) throws Exception {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
     }
 
     //TODO: add method for removing order on cancel or failing
     public List<OrderDto> getOrders() {
-        // TODO: count
         return StreamSupport
                 .stream(orderRepository
                         .findAll()
                         .spliterator(), false)
-                .map(OrderDto::fromOrder)
+                .map(m -> {
+                    try {
+                        return getOrderById(m.getId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                })
                 .collect(Collectors.toList());
     }
 
@@ -52,7 +58,25 @@ public class OrderService {
         if (order.isEmpty())
             throw new Exception("order not found: " + id);
 
-        return OrderDto.fromOrder(order.get());
+        var orderDto = OrderDto.fromOrder(order.get());
+        var items = StreamSupport
+                .stream(orderItemRepository
+                        .findAll()
+                        .spliterator(), false)
+                .filter(i -> i.getOrderId() == id)
+                .map(ItemDto::CreateFrom)
+                .collect(Collectors.toList());
+
+        Double totalPrice = 0.0;
+        int totalAmount = 0;
+        for (int i = 0; i < items.size(); i++) {
+            totalAmount += items.get(i).getAmount();
+            totalPrice += items.get(i).getPrice() * items.get(i).getAmount();
+        }
+        orderDto.setItems(items);
+        orderDto.setTotalAmount(totalAmount);
+        orderDto.setTotalCost(totalPrice);
+        return orderDto;
     }
 
     public Integer addItemToOrder(Optional<Integer> orderId,
