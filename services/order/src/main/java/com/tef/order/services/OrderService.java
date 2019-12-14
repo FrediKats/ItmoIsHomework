@@ -1,6 +1,7 @@
 package com.tef.order.services;
 
 import com.tef.order.dtos.ItemDto;
+import com.tef.order.dtos.ItemUpdateCountDto;
 import com.tef.order.dtos.OrderDto;
 import com.tef.order.models.OrderModel;
 import com.tef.order.models.OrderItem;
@@ -8,6 +9,8 @@ import com.tef.order.repositories.OrderItemRepository;
 import com.tef.order.repositories.OrderRepository;
 import com.tef.order.types.OrderItemId;
 import com.tef.order.types.OrderStatus;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,6 +26,9 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final String wareHouseUrl = "http://localhost:8181/api/warehouse/";
+
+    @Autowired
+    AmqpTemplate template;
 
     public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
@@ -66,11 +72,14 @@ public class OrderService {
         String getItemUrl = wareHouseUrl + "/items/" + itemId.toString();
         ItemDto item =  new RestTemplate().getForObject(getItemUrl, ItemDto.class);
         //TODO: check if item exist - inc amount
-        //TODO: add to warehouse method for removing
-        //TODO: remove item from warehouse service
         OrderItem orderItem = OrderItem.CreateFrom(item);
         orderItem.setOrderId(orderModel.getId());
         orderItemRepository.save(orderItem);
+
+        ItemUpdateCountDto itemUpdate = new ItemUpdateCountDto();
+        itemUpdate.setId(itemId);
+        itemUpdate.setAmount(1);
+        template.convertAndSend("item-remove", itemUpdate);
 
         return orderModel.getId();
     }
@@ -78,6 +87,11 @@ public class OrderService {
     public void removeItemFromOrder(Integer orderId, Integer itemId) {
         OrderItemId orderItemId = new OrderItemId(orderId, itemId);
         orderItemRepository.deleteById(orderItemId);
+
+        ItemUpdateCountDto itemUpdate = new ItemUpdateCountDto();
+        itemUpdate.setId(itemId);
+        itemUpdate.setAmount(1);
+        template.convertAndSend("item-add", itemUpdate);
     }
 
     public void changeOrderStatus(Integer id, OrderStatus status) throws Exception {
