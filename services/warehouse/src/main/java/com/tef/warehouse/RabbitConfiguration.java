@@ -32,7 +32,12 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public Queue OrderStatusUpdateQueue() {
+    public Queue AddItemQueue() {
         return new Queue("item-add");
+    }
+
+    @Bean
+    public Queue RemoveItemQueue() {
+        return new Queue("item-remove");
     }
 }
