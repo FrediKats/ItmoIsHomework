@@ -44,6 +44,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version: '2.2.0.RELEASE'
 }
 
 dependencyManagement {
