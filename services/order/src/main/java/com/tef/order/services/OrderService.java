@@ -26,17 +26,16 @@ import static com.tef.order.types.OrderStatus.*;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final String wareHouseUrl = "http://localhost:8181/api/warehouse/";
+    private final String warehouseUrl = "http://localhost:8181/api/warehouse/";
 
     @Autowired
     AmqpTemplate template;
 
-    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) throws Exception {
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
     }
 
-    //TODO: add method for removing order on cancel or failing
     public List<OrderDto> getOrders() {
         return StreamSupport
                 .stream(orderRepository
@@ -96,9 +95,9 @@ public class OrderService {
             orderModel = orderInDb.get();
         }
 
-        String getItemUrl = wareHouseUrl + "/items/" + itemId.toString();
-        ItemDto item =  new RestTemplate().getForObject(getItemUrl, ItemDto.class);
+        ItemDto item = getItemFromWarehouse(itemId);
         //TODO: check if item exist - inc amount
+
         OrderItem orderItem = OrderItem.CreateFrom(item);
         orderItem.setOrderId(orderModel.getId());
         orderItem.setAmount(addInfo.getAmount());
@@ -135,5 +134,11 @@ public class OrderService {
         OrderModel instance = orderModel.get();
         instance.setOrderStatus(status);
         orderRepository.save(instance);
+    }
+
+    private ItemDto getItemFromWarehouse(Integer itemId) {
+        String getItemUrl = warehouseUrl + "/items/" + itemId.toString();
+        ItemDto item =  new RestTemplate().getForObject(getItemUrl, ItemDto.class);
+        return item;
     }
 }
