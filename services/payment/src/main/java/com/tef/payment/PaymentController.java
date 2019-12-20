@@ -1,6 +1,5 @@
 package com.tef.payment;
 
-import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.dtos.UserDetailDto;
 import com.tef.payment.services.PaymentService;
 import com.tef.payment.types.OrderStatus;
@@ -18,11 +17,6 @@ public class PaymentController {
     @PostMapping("api/payment/{orderId}")
     public OrderStatus performPayment(@PathVariable Integer orderId, @RequestBody UserDetailDto userDetailDto) throws Exception {
         return paymentService.performPayment(orderId, userDetailDto);
-    }
-
-    @PostMapping("api/payment/add-info")
-    public OrderStatus addPaymentInfo(@RequestBody PaymentInfoDto orderDto) throws Exception {
-        return paymentService.addPaymentInfo(orderDto);
     }
 
     @PostMapping("api/payment/{orderId}/cancel")
