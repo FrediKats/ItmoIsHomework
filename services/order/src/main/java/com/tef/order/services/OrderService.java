@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.tef.order.types.OrderStatus.Collecting;
+import static com.tef.order.types.OrderStatus.*;
 
 @Service
 public class OrderService {
@@ -123,11 +123,16 @@ public class OrderService {
     }
 
     public void changeOrderStatus(Integer id, OrderStatus status) throws Exception {
-        Optional<OrderModel> order = orderRepository.findById(id);
-        if (order.isEmpty())
-            throw new Exception("order not found: " + id);
+        if (status == Failed || status == Canceled) {
+            OrderDto order = getOrderById(id);
+            var items = order.getItems();
+            for (int i = 0; i < items.size(); i++) {
+                removeItemFromOrder(id, items.get(i).getId());
+            }
+        }
 
-        OrderModel instance = order.get();
+        Optional<OrderModel> orderModel = orderRepository.findById(id);
+        OrderModel instance = orderModel.get();
         instance.setOrderStatus(status);
         orderRepository.save(instance);
     }

@@ -20,11 +20,6 @@ public class PaymentController {
         return paymentService.performPayment(orderId, userDetailDto);
     }
 
-    @PostMapping("api/payment/add-info")
-    public OrderStatus addPaymentInfo(@RequestBody PaymentInfoDto orderDto) throws Exception {
-        return paymentService.addPaymentInfo(orderDto);
-    }
-
     @PostMapping("api/payment/{orderId}/cancel")
     public OrderStatus cancelPayment(@PathVariable Integer orderId) throws Exception {
         return paymentService.cancelPayment(orderId);
