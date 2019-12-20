@@ -28,9 +28,4 @@ public class OrderApplication {
         bean.afterPropertiesSet();
         return bean.getObject();
     }
-
-    @StreamListener(target= Sink.INPUT)
-    public void logfast(OrderStatusUpdateMessage msg) {
-        System.out.println(msg.getNewStatus());
-    }
 }

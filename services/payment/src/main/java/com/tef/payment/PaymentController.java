@@ -1,6 +1,5 @@
 package com.tef.payment;
 
-import com.tef.payment.dtos.PaymentInfoDto;
 import com.tef.payment.dtos.UserDetailDto;
 import com.tef.payment.services.PaymentService;
 import com.tef.payment.types.OrderStatus;
