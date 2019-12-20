@@ -1,11 +1,9 @@
-package com.tef.order.controllers;
+package com.tef.order;
 
+import com.tef.order.dtos.ItemAdditionParametersDto;
 import com.tef.order.dtos.OrderDto;
 import com.tef.order.services.OrderService;
 import com.tef.order.types.OrderStatus;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,12 +29,14 @@ public class OrderController {
 	}
 
 	@PutMapping("api/orders/{orderId}/item/{itemId}")
-	public void addItemToOrder(@PathVariable Integer orderId, @PathVariable Integer itemId) throws Exception {
+	public void addItemToOrder(@PathVariable Integer orderId,
+							   @PathVariable Integer itemId,
+							   @RequestBody ItemAdditionParametersDto addInfo) throws Exception {
 		//TODO: dirty hacks. validation if orderId passed
 		if (orderId == -1)
-			orderService.addItemToOrder(Optional.empty(), itemId);
+			orderService.addItemToOrder(Optional.empty(), itemId, addInfo);
 		else
-			orderService.addItemToOrder(Optional.of(orderId), itemId);
+			orderService.addItemToOrder(Optional.of(orderId), itemId, addInfo);
 	}
 
 	@PostMapping("api/orders/{orderId}/status/{status}")

@@ -1,4 +1,4 @@
-package com.tef.payment.services;
+package com.tef.warehouse;
 
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;
@@ -10,11 +10,8 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.logging.Logger;
-
 @Configuration
 public class RabbitConfiguration {
-    Logger logger = Logger.getLogger(RabbitConfiguration.class.getName());
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory =
@@ -33,7 +30,12 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public Queue OrderStatusUpdateQueue() {
-        return new Queue("order-status-update");
+    public Queue AddItemQueue() {
+        return new Queue("item-add");
+    }
+
+    @Bean
+    public Queue RemoveItemQueue() {
+        return new Queue("item-remove");
     }
 }
