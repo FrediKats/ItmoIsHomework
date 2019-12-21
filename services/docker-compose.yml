@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+
+  rabbitmq:
+    image: rabbitmq
+    hostname: rabbitmq
+    expose:
+      - 5672
+      - 15672
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
+
+  order:
+    build: order/
+    ports:
+      - 8182:8182
+    depends_on:
+      - rabbitmq
+
+  payment:
+    build: payment/
+    ports:
+      - 8183:8183
+    depends_on:
+    - rabbitmq
+
+  warehouse:
+    build: warehouse/
+    ports:
+      - 8181:8181
+    depends_on:
+      - rabbitmq
