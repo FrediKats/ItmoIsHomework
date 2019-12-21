@@ -113,11 +113,12 @@ public class OrderService {
 
     public void removeItemFromOrder(Integer orderId, Integer itemId) {
         OrderItemId orderItemId = new OrderItemId(orderId, itemId);
+        Optional<OrderItem> item = orderItemRepository.findById(orderItemId);
         orderItemRepository.deleteById(orderItemId);
 
         ItemUpdateCountDto itemUpdate = new ItemUpdateCountDto();
         itemUpdate.setId(itemId);
-        itemUpdate.setAmount(1);
+        itemUpdate.setAmount(item.get().getAmount());
         template.convertAndSend("item-add", itemUpdate);
     }
 
