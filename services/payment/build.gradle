@@ -45,6 +45,8 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-stream-rabbit
 	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version: '2.2.0.RELEASE'
+	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-eureka', version: '1.4.7.RELEASE'
+
 }
 
 dependencyManagement {
