@@ -1,0 +1,11 @@
+zuul:
+  routes:
+    warehouse:
+      path: /api/warehouse/**
+      url: http://localhost:8181/api/warehouse
+    order:
+      path: /api/order/**
+      url: http://localhost:8182/api/order
+    payment:
+      path: /api/payment/**
+      url: http://localhost:8183/api/payment
