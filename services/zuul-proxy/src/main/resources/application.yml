@@ -2,10 +2,16 @@ zuul:
   routes:
     warehouse:
       path: /api/warehouse/**
-      url: http://localhost:8181/api/warehouse
+      serviceId: warehouse-client
+      stripPrefix: false
     order:
-      path: /api/order/**
-      url: http://localhost:8182/api/order
+      path: /api/orders/**
+      serviceId: order-client
+      stripPrefix: false
     payment:
       path: /api/payment/**
-      url: http://localhost:8183/api/payment
+      serviceId: payment-client
+      stripPrefix: false
+ribbon:
+  eureka:
+    enabled: true
