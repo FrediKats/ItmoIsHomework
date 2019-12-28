@@ -57,7 +57,7 @@ public class PaymentService {
     }
 
     private OrderDto getOrderFromService(Integer id) {
-        String getItemUrl = orderServiceUrl + "/orders/" + id.toString();
+        String getItemUrl = orderServiceUrl + id.toString();
         OrderDto order =  new RestTemplate().getForObject(getItemUrl, OrderDto.class);
         return order;
     }
