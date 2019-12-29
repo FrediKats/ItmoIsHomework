@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableBinding(Source.class)
 @Service
 public class PaymentService {
-    private final String orderServiceUrl = "http://localhost:8182/api/orders/";
+    private final String orderServiceUrl = "http://order:8182/api/orders/";
 
     @Autowired
     AmqpTemplate template;

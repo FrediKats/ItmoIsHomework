@@ -26,7 +26,7 @@ import static com.tef.order.types.OrderStatus.*;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final String warehouseUrl = "http://localhost:8181/api/warehouse/";
+    private final String warehouseUrl = "http://warehouse:8181/api/warehouse/";
 
     @Autowired
     AmqpTemplate template;
