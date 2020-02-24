@@ -6,6 +6,48 @@ namespace itmo_8_sem_ml
 {
     class Program
     {
+        static void Main(string[] args)
+        {
+            
+        }
+    }
+
+    public class TaskA
+    {
+        public static void Run()
+        {
+            var input = Console.ReadLine().Split(' ').Select(int.Parse);
+            Console.ReadLine()
+                .Split(' ')
+                .Select((s, i) => (Value: int.Parse(s), Index: i + 1))
+                .OrderBy(t => t.Value)
+                .Select((t, newIndex) => (Prev: t.Index, New: newIndex))
+                .GroupBy(t => t.New % input.ElementAt(2), t => t.Prev)
+                .Select(g => $"{g.Count()} {string.Join(" ", g)}")
+                .ToList()
+                .ForEach(Console.WriteLine);
+
+        }
+    }
+
+    public static class TaskB
+    {
+        public static void Run()
+        {
+            var count = int.Parse(Console.ReadLine());
+
+            List<Int32[]> dataSet = new List<Int32[]>(count);
+            for (int i = 0; i < count; i++)
+            {
+                dataSet.Add(Console.ReadLine().Split(' ').Select(int.Parse).ToArray());
+            }
+
+            var context = new Context(dataSet);
+
+            Console.WriteLine(context.MacroF());
+            Console.WriteLine(context.MicroF());
+        }
+
         public class Context
         {
             public static int Beta = 1;
@@ -28,7 +70,7 @@ namespace itmo_8_sem_ml
                 FP = new Int32[dataSet.Count];
                 FN = new Int32[dataSet.Count];
                 TN = new Int32[dataSet.Count];
-                
+
                 for (int i = 0; i < dataSet.Count; i++)
                 {
                     for (int j = 0; j < dataSet.Count; j++)
@@ -67,43 +109,6 @@ namespace itmo_8_sem_ml
             public double MacroF() => (1 + Beta) * (PrecW * RecallW) / (Beta * Beta * PrecW + RecallW);
 
             private double ValueOrZero(double value) => double.IsNaN(value) ? 0 : value;
-        }
-
-        static void Main(string[] args)
-        {
-            
-        }
-
-        public static void TaskB()
-        {
-            var count = int.Parse(Console.ReadLine());
-
-            List<Int32[]> dataSet = new List<Int32[]>(count);
-            for (int i = 0; i < count; i++)
-            {
-                dataSet.Add(Console.ReadLine().Split(' ').Select(int.Parse).ToArray());
-            }
-
-            var context = new Context(dataSet);
-
-            Console.WriteLine(context.MacroF());
-            Console.WriteLine(context.MicroF());
-        }
-
-
-        public static void TaskA()
-        {
-            var input = Console.ReadLine().Split(' ').Select(int.Parse);
-            Console.ReadLine()
-                .Split(' ')
-                .Select((s, i) => (Value: int.Parse(s), Index: i + 1))
-                .OrderBy(t => t.Value)
-                .Select((t, newIndex) => (Prev: t.Index, New: newIndex))
-                .GroupBy(t => t.New % input.ElementAt(2), t => t.Prev)
-                .Select(g => $"{g.Count()} {string.Join(" ", g)}")
-                .ToList()
-                .ForEach(Console.WriteLine);
-
         }
     }
 }
