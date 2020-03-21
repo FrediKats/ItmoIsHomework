@@ -316,5 +316,38 @@ namespace itmo_8_sem_ml
                     .Sum() / count);
             }
         }
+
+        public class TaskN
+        {
+            public static void Run()
+            {
+                var size = Program.ReadPair();
+                int count = Int32.Parse(ReadLine());
+                double[,] data = new double[size.Item1, size.Item2];
+                double[] p = new Double[size.Item1];
+
+                for (int i = 0; i < count; i++)
+                {
+                    var value = Program.ReadPair();
+                    data[value.Item1 - 1, value.Item2 - 1]++;
+                    p[value.Item1 - 1]++;
+                }
+
+                double result = 0;
+                for (int i = 0; i < size.Item1; i++)
+                {
+                    double sum = 0;
+                    for (int j = 0; j < size.Item2; j++)
+                    {
+                        sum += data[i, j] == 0 ? 0 : data[i, j] / p[i] * Log(data[i, j] / p[i]);
+
+                    }
+
+                    result += sum * p[i] / count;
+                }
+
+                WriteLine(result * -1);
+            }
+        }
     }
 }
