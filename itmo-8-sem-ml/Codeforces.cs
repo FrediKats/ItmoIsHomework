@@ -236,12 +236,14 @@ namespace itmo_8_sem_ml
                     y.Add(el[1]);
                 }
 
-                var deltaX = x.To(v => v - x.Average());
-                var deltaY = y.To(v => v - y.Average());
+                var xAvg = x.Average();
+                var yAvg = y.Average();
+                var deltaX = x.To(v => v - xAvg);
+                var deltaY = y.To(v => v - yAvg);
                 double res = deltaX.Zip(deltaY, (a, b) => a * b).Sum()
                              / Sqrt(deltaX.Sum(v => Pow(v, 2)) * deltaY.Sum(v => Pow(v, 2)));
 
-                Console.WriteLine(res);
+                Console.WriteLine(double.IsNaN(res) ? 0 : res);
             }
         }
     }
