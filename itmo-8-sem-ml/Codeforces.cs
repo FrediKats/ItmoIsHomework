@@ -246,5 +246,25 @@ namespace itmo_8_sem_ml
                 Console.WriteLine(double.IsNaN(res) ? 0 : res);
             }
         }
+
+        public static class TaskJ
+        {
+            public static void Run()
+            {
+                var count = int.Parse(Console.ReadLine());
+
+                List<Int32> x = new List<Int32>(count);
+                List<Int32> y = new List<Int32>(count);
+                for (int i = 0; i < count; i++)
+                {
+                    (int xValue, int yValue) = Program.ReadPair();
+                    x.Add(xValue);
+                    y.Add(yValue);
+                }
+
+                double result = 1 - 6 * x.Rank().Zip(y.Rank(), (a, b) => Pow(a - b, 2)).Sum() / count / (Pow(count, 2) - 1);
+                Console.WriteLine(result);
+            }
+        }
     }
 }
