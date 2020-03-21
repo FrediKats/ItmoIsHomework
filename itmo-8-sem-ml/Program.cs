@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static System.Math;
@@ -17,5 +17,6 @@ namespace itmo_8_sem_ml
         }
 
         public static T2 Return<T1, T2>(this T1 input, Func<T1, T2> result) => result(input);
+        public static List<T2> To<T1, T2>(this List<T1> input, Func<T1, T2> result) => input.Select(result).ToList();
     }
 }
