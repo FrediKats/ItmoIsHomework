@@ -298,5 +298,23 @@ namespace itmo_8_sem_ml
                 WriteLine((outerSum - innerSum) * 2);
             }
         }
+
+        public static class TaskL
+        {
+            public static void Run()
+            {
+                var classCount = int.Parse(ReadLine());
+                var count = int.Parse(ReadLine());
+
+                List<(Int32 category, Int32 value)> x = new List<(Int32, Int32)>(count);
+                for (Int32 i = 0; i < count; i++)
+                    x.Add(Program.ReadPair());
+
+                Write(x
+                    .GroupBy(v => v.category)
+                    .Select(c => c.Select(v => v.value).ToArray().CentralMoment(2) * c.Count())
+                    .Sum() / count);
+            }
+        }
     }
 }
