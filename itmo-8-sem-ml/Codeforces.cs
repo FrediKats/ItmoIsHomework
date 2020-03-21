@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Console;
 using static System.Math;
 
 namespace itmo_8_sem_ml
@@ -12,7 +13,7 @@ namespace itmo_8_sem_ml
             public static void Run()
             {
                 var input = Program.ReadArray();
-                Console.ReadLine()
+                ReadLine()
                     .Split(' ')
                     .Select((s, i) => (Value: int.Parse(s), Index: i + 1))
                     .OrderBy(t => t.Value)
@@ -20,7 +21,7 @@ namespace itmo_8_sem_ml
                     .GroupBy(t => t.New % input.ElementAt(2), t => t.Prev)
                     .Select(g => $"{g.Count()} {string.Join(" ", g)}")
                     .ToList()
-                    .ForEach(Console.WriteLine);
+                    .ForEach(WriteLine);
 
             }
         }
@@ -29,18 +30,18 @@ namespace itmo_8_sem_ml
         {
             public static void Run()
             {
-                var count = int.Parse(Console.ReadLine());
+                var count = int.Parse(ReadLine());
 
                 List<Int32[]> dataSet = new List<Int32[]>(count);
                 for (int i = 0; i < count; i++)
                 {
-                    dataSet.Add(Console.ReadLine().Split(' ').Select(int.Parse).ToArray());
+                    dataSet.Add(ReadLine().Split(' ').Select(int.Parse).ToArray());
                 }
 
                 var context = new Context(dataSet);
 
-                Console.WriteLine(context.MacroF());
-                Console.WriteLine(context.MicroF());
+                WriteLine(context.MacroF());
+                WriteLine(context.MicroF());
             }
 
             public class Context
@@ -124,12 +125,12 @@ namespace itmo_8_sem_ml
                 var context = new Context(
                     dataSet,
                     target,
-                    Console.ReadLine(),
-                    Console.ReadLine(),
-                    Console.ReadLine(),
-                    Int32.Parse(Console.ReadLine()));
+                    ReadLine(),
+                    ReadLine(),
+                    ReadLine(),
+                    Int32.Parse(ReadLine()));
 
-                Console.WriteLine(context.Execute());
+                WriteLine(context.Execute());
             }
 
 
@@ -225,7 +226,7 @@ namespace itmo_8_sem_ml
         {
             public static void Run()
             {
-                var count = int.Parse(Console.ReadLine());
+                var count = int.Parse(ReadLine());
 
                 List<Int32> x = new List<Int32>(count);
                 List<Int32> y = new List<Int32>(count);
@@ -243,7 +244,7 @@ namespace itmo_8_sem_ml
                 double res = deltaX.Zip(deltaY, (a, b) => a * b).Sum()
                              / Sqrt(deltaX.Sum(v => Pow(v, 2)) * deltaY.Sum(v => Pow(v, 2)));
 
-                Console.WriteLine(double.IsNaN(res) ? 0 : res);
+                WriteLine(double.IsNaN(res) ? 0 : res);
             }
         }
 
@@ -251,7 +252,7 @@ namespace itmo_8_sem_ml
         {
             public static void Run()
             {
-                var count = int.Parse(Console.ReadLine());
+                var count = int.Parse(ReadLine());
 
                 List<Int32> x = new List<Int32>(count);
                 List<Int32> y = new List<Int32>(count);
@@ -263,7 +264,38 @@ namespace itmo_8_sem_ml
                 }
 
                 double result = 1 - 6 * x.Rank().Zip(y.Rank(), (a, b) => Pow(a - b, 2)).Sum() / count / (Pow(count, 2) - 1);
-                Console.WriteLine(result);
+                WriteLine(result);
+            }
+        }
+
+        public class TaskK
+        {
+            public static void Run()
+            {
+                var classCount = int.Parse(ReadLine());
+                var count = int.Parse(ReadLine());
+
+                List<(Int64, Int64)> inner = Enumerable.Repeat(0, classCount).Select(_ => ((Int64)0, (Int64)0)).ToList();
+                var outer = ((Int64)0, (Int64)0);
+
+                Int64 innerSum = 0;
+                Int64 outerSum = 0;
+
+                List<(Int32 value, Int32 category)> x = new List<(Int32, Int32)>(count);
+                for (Int32 i = 0; i < count; i++)
+                    x.Add(Program.ReadPair());
+
+                foreach ((Int32 value, Int32 category) v in x.OrderBy(v => v.value))
+                {
+                    outer = (outer.Item1 + 1, outer.Item2 + v.value);
+                    outerSum += outer.Item1 * v.value - outer.Item2;
+
+                    inner[v.category - 1] = (inner[v.category - 1].Item1 + 1, inner[v.category - 1].Item2 + v.value);
+                    innerSum += inner[v.category - 1].Item1 * v.value - inner[v.category - 1].Item2;
+                }
+
+                WriteLine(innerSum * 2);
+                WriteLine((outerSum - innerSum) * 2);
             }
         }
     }
