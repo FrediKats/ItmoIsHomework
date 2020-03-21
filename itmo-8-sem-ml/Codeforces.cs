@@ -220,5 +220,29 @@ namespace itmo_8_sem_ml
                 }
             }
         }
+
+        public static class TaskI
+        {
+            public static void Run()
+            {
+                var count = int.Parse(Console.ReadLine());
+
+                List<Int32> x = new List<Int32>(count);
+                List<Int32> y = new List<Int32>(count);
+                for (int i = 0; i < count; i++)
+                {
+                    int[] el = Program.ReadArray();
+                    x.Add(el[0]);
+                    y.Add(el[1]);
+                }
+
+                var deltaX = x.To(v => v - x.Average());
+                var deltaY = y.To(v => v - y.Average());
+                double res = deltaX.Zip(deltaY, (a, b) => a * b).Sum()
+                             / Sqrt(deltaX.Sum(v => Pow(v, 2)) * deltaY.Sum(v => Pow(v, 2)));
+
+                Console.WriteLine(res);
+            }
+        }
     }
 }
