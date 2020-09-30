@@ -2,24 +2,28 @@
 
 namespace KnowledgeManagement
 {
-    [Table("Competency")]
+    [Table("COMPETENCY")]
     public class Competency
     {
         public int Id { get; set; }
         public int Skill { get; set; }
+        [ForeignKey("Skill")]
         public Skill SkillEntity { get; set; }
         public int Level { get; set; }
+
+
         public int Owner { get; set; }
+        [ForeignKey("Owner")]
         public Profile OwnerEntity { get; set; }
     }
 
-    [Table("Profile")]
+    [Table("PROFILE")]
     public class Profile
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Title_RU { get; set; }
-        public double Price { get; set; }
+        public int Price { get; set; }
     }
 
     [Table("SKILL")]
