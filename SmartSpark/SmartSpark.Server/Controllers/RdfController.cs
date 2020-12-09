@@ -2,19 +2,22 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.SignalR;
 using SmartSpark.Core;
 
 namespace SmartSpark.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RdsController : ControllerBase
+    public class RdfController : ControllerBase
     {
         private readonly RdfHandler _rdfHandler;
+        private readonly IHubContext<NotificationHub, INotificationClient> _context;
 
-        public RdsController(RdfHandler rdfHandler)
+        public RdfController(RdfHandler rdfHandler, IHubContext<NotificationHub, INotificationClient> context)
         {
             _rdfHandler = rdfHandler;
+            _context = context;
         }
 
         [HttpGet("get")]
@@ -29,9 +32,13 @@ namespace SmartSpark.Server.Controllers
         }
 
         [HttpGet("create")]
-        public void Create(string subject, string predicate, string obj)
+        public ActionResult Create(string subject, string predicate, string obj)
         {
             _rdfHandler.Create(subject, predicate, obj);
+            var tripletDto = new TripletDto(subject, predicate, predicate);
+            _context.Clients.All.ReceiveNewMessage(tripletDto);
+            
+            return Ok();
         }
     }
 }
