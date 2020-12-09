@@ -35,9 +35,8 @@ namespace SmartSpark.Server.Controllers
         public ActionResult Create(string subject, string predicate, string obj)
         {
             _rdfHandler.Create(subject, predicate, obj);
-            var tripletDto = new TripletDto(subject, predicate, predicate);
+            var tripletDto = new TripletDto(subject, predicate, obj);
             _context.Clients.All.ReceiveNewMessage(tripletDto);
-            
             return Ok();
         }
     }
