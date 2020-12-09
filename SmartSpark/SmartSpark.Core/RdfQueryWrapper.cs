@@ -24,12 +24,18 @@ namespace SmartSpark.Core
 
         public void Create(Uri graph, string subject, string predicate, string obj)
         {
-            SparqlUpdateParser sparqlparser = new SparqlUpdateParser();
-            String updates = $"INSERT DATA {{ GRAPH <{graph}> {{ <{subject}> <{predicate}> <{obj}> }} }};";
-            SparqlUpdateCommandSet cmds = sparqlparser.ParseFromString(updates);
+            var subjectNode = _dataset[graph].CreateLiteralNode(subject);
+            var predicateNode = _dataset[graph].CreateLiteralNode(predicate);
+            var objNod = _dataset[graph].CreateLiteralNode(obj);
 
-            LeviathanUpdateProcessor processor = new LeviathanUpdateProcessor(_dataset);
-            processor.ProcessCommandSet(cmds);
+            _dataset[graph].Assert(new Triple(subjectNode, predicateNode, objNod));
+            
+            //SparqlUpdateParser sparqlparser = new SparqlUpdateParser();
+            //String updates = $"INSERT DATA {{ GRAPH <{graph}> {{ {subjectNode} {predicateNode} {objNod} }} }};";
+            //SparqlUpdateCommandSet cmds = sparqlparser.ParseFromString(updates);
+
+            //LeviathanUpdateProcessor processor = new LeviathanUpdateProcessor(_dataset);
+            //processor.ProcessCommandSet(cmds);
         }
     }
 }
