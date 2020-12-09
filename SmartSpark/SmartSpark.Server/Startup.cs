@@ -20,6 +20,9 @@ namespace SmartSpark.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<RdfHandler>();
+            services
+                .AddSignalR()
+                .AddJsonProtocol(options => options.PayloadSerializerOptions.PropertyNamingPolicy = null);
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -43,6 +46,12 @@ namespace SmartSpark.Server
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<NotificationHub>("/Notifications");
+                endpoints.MapControllers();
+            });
 
             app.UseEndpoints(endpoints =>
             {
