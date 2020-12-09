@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartSpark.Core", "SmartSpa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartSpark.Server", "SmartSpark\SmartSpark.Server\SmartSpark.Server.csproj", "{CAC96363-77B6-4074-AFF0-CFCD87F73460}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartSpark.Client", "SmartSpark\SmartSpark.Client\SmartSpark.Client.csproj", "{60ACE39E-2171-46E1-B4D1-EC870BAC63BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{CAC96363-77B6-4074-AFF0-CFCD87F73460}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAC96363-77B6-4074-AFF0-CFCD87F73460}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAC96363-77B6-4074-AFF0-CFCD87F73460}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60ACE39E-2171-46E1-B4D1-EC870BAC63BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60ACE39E-2171-46E1-B4D1-EC870BAC63BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60ACE39E-2171-46E1-B4D1-EC870BAC63BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60ACE39E-2171-46E1-B4D1-EC870BAC63BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{34F8550E-C88B-440A-B98F-B53B427344B7} = {50CAF85C-01D1-481B-9CFE-B47DD2A1FF17}
 		{CAC96363-77B6-4074-AFF0-CFCD87F73460} = {50CAF85C-01D1-481B-9CFE-B47DD2A1FF17}
+		{60ACE39E-2171-46E1-B4D1-EC870BAC63BF} = {50CAF85C-01D1-481B-9CFE-B47DD2A1FF17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {01297EF6-7BF3-4015-9FA8-79B08A523184}
