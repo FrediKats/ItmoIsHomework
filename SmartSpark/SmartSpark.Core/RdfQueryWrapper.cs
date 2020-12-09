@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using VDS.RDF;
-using VDS.RDF.Parsing;
 using VDS.RDF.Query.Datasets;
-using VDS.RDF.Update;
 
 namespace SmartSpark.Core
 {
@@ -19,7 +17,9 @@ namespace SmartSpark.Core
         
         public List<Triple> GetAll(Uri graph)
         {
-            return _dataset[graph].Triples.ToList();
+            return _dataset[graph]
+                .GetTriplesWithPredicate(_dataset[graph].CreateLiteralNode("say"))
+                .ToList();
         }
 
         public void Create(Uri graph, string subject, string predicate, string obj)
@@ -29,13 +29,6 @@ namespace SmartSpark.Core
             var objNod = _dataset[graph].CreateLiteralNode(obj);
 
             _dataset[graph].Assert(new Triple(subjectNode, predicateNode, objNod));
-            
-            //SparqlUpdateParser sparqlparser = new SparqlUpdateParser();
-            //String updates = $"INSERT DATA {{ GRAPH <{graph}> {{ {subjectNode} {predicateNode} {objNod} }} }};";
-            //SparqlUpdateCommandSet cmds = sparqlparser.ParseFromString(updates);
-
-            //LeviathanUpdateProcessor processor = new LeviathanUpdateProcessor(_dataset);
-            //processor.ProcessCommandSet(cmds);
         }
     }
 }

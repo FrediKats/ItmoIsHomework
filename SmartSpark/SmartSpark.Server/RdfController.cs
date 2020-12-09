@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SmartSpark.Core;
 
-namespace SmartSpark.Server.Controllers
+namespace SmartSpark.Server
 {
     [ApiController]
     [Route("[controller]")]

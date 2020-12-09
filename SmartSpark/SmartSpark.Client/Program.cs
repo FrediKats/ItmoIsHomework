@@ -50,12 +50,10 @@ namespace SmartSpark.Client
             _reader = reader;
             NotificationHandler.Instance.Value.StartHandling(Guid.NewGuid()).Wait();
             NotificationHandler.Instance.Value.NewMessageReceive += OnMessage;
+            
             var speech = _reader.TrySayFirst();
             if (speech is not null)
-            {
-                Console.WriteLine($"\n\n{Name}: {speech.Content}");
-                Send("say", speech.Content);
-            }
+                Say(speech.Content);
         }
 
         public String Name { get; set; }
@@ -65,31 +63,28 @@ namespace SmartSpark.Client
             _httpClient.GetAsync($"http://localhost:51798/Rdf/create?subject={Name}&predicate={predicate}&obj={HttpUtility.UrlEncode(message)}");
         }
 
+        public void Say(string message)
+        {
+            Console.WriteLine($"[{Name}] heard: {message}");
+            _httpClient.GetAsync($"http://localhost:51798/Rdf/create?subject={Name}&predicate=say&obj={HttpUtility.UrlEncode(message)}");
+        }
+
         public Task OnMessage(TripletDto message)
         {
-            if (message.Subject == Name)
-                return Task.CompletedTask;
-            
             Thread.Sleep(1000);
-            if (message.Predicate == "leave")
-            {
-                Console.WriteLine($"[{Name}] see that {message.Subject} leave scene");
+
+            if (message.Subject == Name || message.Predicate != "say")
                 return Task.CompletedTask;
-            }
             
             Console.WriteLine($"[{Name}] heard: {message.Object}");
             var speech = _reader.TryContinue(message.Object);
             if (speech is not null)
             {
-                Console.WriteLine($"\n\n{Name}: {speech.Content}");
-                Send("say", speech.Content);
+                Say(speech.Content);
             }
-            else
+            else if (_reader.IsEnd(message.Object))
             {
-                if (_reader.IsEnd(message.Object))
-                {
-                    IsEnd.Set();
-                }
+                IsEnd.Set();
             }
 
             return Task.CompletedTask;
