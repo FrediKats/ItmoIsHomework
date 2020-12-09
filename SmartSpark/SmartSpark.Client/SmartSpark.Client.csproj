@@ -9,4 +9,10 @@
     <ProjectReference Include="..\SmartSpark.Core\SmartSpark.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="text.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

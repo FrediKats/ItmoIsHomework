@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using SmartSpark.Core;
 
 namespace SmartSpark.Client
@@ -9,51 +11,93 @@ namespace SmartSpark.Client
     {
         static async Task Main(string[] args)
         {
-            using (var rdfClient = new RdfClient())
-            {
-                Console.WriteLine($"[{rdfClient.Tag}] Start");
+            Console.Write("Select role: ");
+            var role = SelectRole(Console.ReadLine());
+            var speechReader = new SpeechReader(SpeechLoader.GetAll(), role);
 
-                NotificationHandler.Instance.Value.NewMessageReceive += rdfClient.OnMessage;
-                while (true)
-                {
-                    var readLine = Console.ReadLine();
-                    if (string.IsNullOrEmpty(readLine))
-                        return;
-                
-                    rdfClient.Send(readLine);
-                }
+
+            using (var rdfClient = new RdfClient(role, speechReader))
+            {
+                rdfClient.IsEnd.WaitOne();
             }
+        }
+
+        private static string SelectRole(string index)
+        {
+            if (index == "1")
+                return "Бернардо";
+
+            if (index == "2")
+                return "Франциско";
+
+            if (index == "3")
+                return "Горацио";
+
+            return "Марцелл";
         }
     }
 
     public class RdfClient : IDisposable
     {
+        public ManualResetEvent IsEnd = new ManualResetEvent(false);
         private static HttpClient _httpClient;
-
-        public RdfClient()
+        private SpeechReader _reader;
+        
+        public RdfClient(string name, SpeechReader reader)
         {
             _httpClient = new HttpClient();
-            Id = Guid.NewGuid();
-            NotificationHandler.Instance.Value.StartHandling(Id).Wait();
+            Name = name;
+            _reader = reader;
+            NotificationHandler.Instance.Value.StartHandling(Guid.NewGuid()).Wait();
             NotificationHandler.Instance.Value.NewMessageReceive += OnMessage;
+            var speech = _reader.TrySayFirst();
+            if (speech is not null)
+            {
+                Console.WriteLine($"\n\n{Name}: {speech.Content}");
+                Send("say", speech.Content);
+            }
         }
 
-        public Guid Id { get; set; }
-        public String Tag => Id.ToString().Substring(0, 4);
+        public String Name { get; set; }
 
-        public void Send(string message)
+        public void Send(string predicate, string message)
         {
-            _httpClient.GetAsync($"http://localhost:51798/Rdf/create?subject={Tag}&predicate=say&obj={message}");
+            _httpClient.GetAsync($"http://localhost:51798/Rdf/create?subject={Name}&predicate={predicate}&obj={HttpUtility.UrlEncode(message)}");
         }
 
         public Task OnMessage(TripletDto message)
         {
-            Console.WriteLine($"[{Tag}] New message get: {message}");
+            if (message.Subject == Name)
+                return Task.CompletedTask;
+            
+            Thread.Sleep(1000);
+            if (message.Predicate == "leave")
+            {
+                Console.WriteLine($"[{Name}] see that {message.Subject} leave scene");
+                return Task.CompletedTask;
+            }
+            
+            Console.WriteLine($"[{Name}] heard: {message.Object}");
+            var speech = _reader.TryContinue(message.Object);
+            if (speech is not null)
+            {
+                Console.WriteLine($"\n\n{Name}: {speech.Content}");
+                Send("say", speech.Content);
+            }
+            else
+            {
+                if (_reader.IsEnd(message.Object))
+                {
+                    IsEnd.Set();
+                }
+            }
+
             return Task.CompletedTask;
         }
 
         public void Dispose()
         {
+            Send("leave", "this");
             NotificationHandler.Instance.Value.NewMessageReceive -= OnMessage;
         }
     }
