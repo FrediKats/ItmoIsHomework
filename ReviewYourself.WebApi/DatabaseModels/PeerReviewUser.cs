@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using ReviewYourself.WebApi.Models;
 
 namespace ReviewYourself.WebApi.DatabaseModels
