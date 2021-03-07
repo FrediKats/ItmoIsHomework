@@ -51,12 +51,19 @@ lab1::matrix create_matrix(int argc, char** argv)
 
 std::chrono::duration<double> benchmark_run(const std::function<void(void)>& functor)
 {
-	//TODO: eval mean value
-	const auto start = std::chrono::system_clock::now();
-	functor();
-	const auto end = std::chrono::system_clock::now();
+	const auto run_count = 30;
+	
+	std::chrono::duration<double> result = std::chrono::duration<double>::zero();
+	for (auto i = 0; i < run_count; i++)
+	{
+		const auto start = std::chrono::high_resolution_clock::now();
+		functor();
+		const auto end = std::chrono::high_resolution_clock::now();
 
-	return end - start;
+		result += (end - start);
+	}
+	
+	return result / run_count;
 }
 
 void common_run(int argc, char** argv)
@@ -73,7 +80,7 @@ void common_run(int argc, char** argv)
 	const auto start = std::chrono::system_clock::now();
 	const float result = current->determinant();
 	const auto end = std::chrono::system_clock::now();
-
+	
 	const std::chrono::duration<double> difference = end - start;
 
 	std::cout << "Determinant: " << result << std::endl;
@@ -82,17 +89,17 @@ void common_run(int argc, char** argv)
 
 void benchmark_run()
 {
-	const auto thread_count = 4;
-	lab1::matrix matrix = lab1::random_matrix_provider::generate(5);
-	auto multithread_matrix = lab1::multithread_matrix(matrix, thread_count);
+	lab1::matrix matrix = lab1::random_matrix_provider::generate(6);
 
-	std::cout << "Dynamic: " << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << " ms" << std::endl;
-	std::cout << "Static: " << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << " ms" << std::endl;
-	std::cout << "Guided: " << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << " ms" << std::endl;
-
-	std::cout << "Time (single thread(s)): " << benchmark_run([&matrix] { matrix.determinant(); }).count() * 1000 << " ms" << std::endl;
+	std::cout << "Single thread:\t" << benchmark_run([&matrix] { matrix.determinant(); }).count() * 1000 << " ms" << std::endl;
 	for (int i = 1; i <= omp_get_num_procs(); i++)
-		std::cout << "Time (" << i << " thread(s)): " << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << " ms" << std::endl;
+	{
+		auto multithread_matrix = lab1::multithread_matrix(matrix, i);
+
+		std::cout << "Dynamic\t" << i << "thread(s))\t" << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << " ms" << std::endl;
+		std::cout << "Static\t" << i << "thread(s))\t" << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << " ms" << std::endl;
+		std::cout << "Guided\t" << i << "thread(s))\t" << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << " ms" << std::endl;
+	}
 }
 
 int main(int argc, char** argv)
