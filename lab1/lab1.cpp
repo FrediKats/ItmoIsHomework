@@ -40,15 +40,6 @@ lab1::matrix parse_file(const std::string& file_path)
 	}
 }
 
-lab1::matrix create_matrix(int argc, char** argv)
-{
-	if (argc <= 1)
-		return lab1::random_matrix_provider::generate(6);
-
-	const std::string file_path(argv[1]);
-	return parse_file(file_path);
-}
-
 std::chrono::duration<double> benchmark_run(const std::function<void(void)>& functor)
 {
 	const auto run_count = 30;
@@ -96,9 +87,9 @@ void benchmark_run()
 	{
 		auto multithread_matrix = lab1::multithread_matrix(matrix, i);
 
-		std::cout << "Dynamic\t" << i << "thread(s))\t" << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << " ms" << std::endl;
-		std::cout << "Static\t" << i << "thread(s))\t" << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << " ms" << std::endl;
-		std::cout << "Guided\t" << i << "thread(s))\t" << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << " ms" << std::endl;
+		std::cout << "Dynamic\t" << i << " thread(s))\t" << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << " ms" << std::endl;
+		std::cout << "Static\t" << i << " thread(s))\t" << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << " ms" << std::endl;
+		std::cout << "Guided\t" << i << " thread(s))\t" << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << " ms" << std::endl;
 	}
 }
 
@@ -106,11 +97,17 @@ int main(int argc, char** argv)
 {
 	try
 	{
-		benchmark_run();
-		return 0;
 		//NB: exec_path file_path thread_count
 		if (argc == 3)
+		{
 			common_run(argc, argv);
+			return 0;
+		}
+		else if (argc == 1)
+		{
+			benchmark_run();
+			return 0;
+		}
 		else
 		{
 			std::cout << "Unexpected argument count";
@@ -119,7 +116,7 @@ int main(int argc, char** argv)
 	}
 	catch (std::exception& e)
 	{
-		std::cout << e.what();
+		std::cout << "Unexpected error.\n" << e.what();
 		return 1;
 	}
 	catch (...)
