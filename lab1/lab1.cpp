@@ -9,5 +9,8 @@ int main()
 	auto matrix = lab1::random_matrix_provider::generate(4);
 
 	std::cout << matrix.to_string();
-	std::cout << "Hello World!\n";
+	auto minor = matrix.get_minor(1, 2);
+
+	std::cout << std::endl;
+	std::cout << minor.to_string();
 }
