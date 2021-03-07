@@ -9,7 +9,6 @@ namespace lab1
 	public:
 		explicit matrix(std::vector<std::vector<float>> data);
 		std::string to_string();
-		matrix get_minor(size_t excluded_column, size_t excluded_row);
 		virtual float determinant();
 
 	protected:
