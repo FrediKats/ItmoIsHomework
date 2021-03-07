@@ -61,10 +61,11 @@ void common_run(int argc, char** argv)
 {
 	const std::string file_path(argv[1]);
 	const int thread_count = atoi(argv[2]);
+	const int optimal_thread_count = atoi(argv[2]);
 	
 	lab1::matrix matrix = parse_file(file_path);
-	auto multithread_matrix = lab1::multithread_matrix(matrix, thread_count == 0 ? omp_get_num_procs() : thread_count);
-	lab1::matrix* current = thread_count > 0
+	auto multithread_matrix = lab1::multithread_matrix(matrix, thread_count == 0 ? optimal_thread_count : thread_count);
+	lab1::matrix* current = thread_count >= 0
 		                        ? &multithread_matrix
 		                        : &matrix;
 
@@ -80,7 +81,7 @@ void common_run(int argc, char** argv)
 
 void benchmark_run()
 {
-	lab1::matrix matrix = lab1::random_matrix_provider::generate(6);
+	lab1::matrix matrix = lab1::random_matrix_provider::generate(9);
 
 	std::cout << "Single thread:\t" << benchmark_run([&matrix] { matrix.determinant(); }).count() * 1000 << " ms" << std::endl;
 	for (int i = 1; i <= omp_get_num_procs(); i++)
@@ -103,11 +104,12 @@ int main(int argc, char** argv)
 			common_run(argc, argv);
 			return 0;
 		}
-		else if (argc == 1)
+		//NB: for test propose
+		/*else if (argc == 1)
 		{
 			benchmark_run();
 			return 0;
-		}
+		}*/
 		else
 		{
 			std::cout << "Unexpected argument count";
