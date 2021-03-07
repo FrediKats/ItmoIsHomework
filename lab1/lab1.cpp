@@ -1,3 +1,4 @@
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -39,24 +40,34 @@ lab1::matrix parse_file(const std::string& file_path)
 lab1::matrix create_matrix(int argc, char** argv)
 {
 	if (argc <= 1)
-		return lab1::random_matrix_provider::generate(4);
+		return lab1::random_matrix_provider::generate(6);
 
 	const std::string file_path(argv[0]);
 	return parse_file(file_path);
+}
+
+void f(lab1::matrix matrix, int thread_count)
+{
+	auto start = std::chrono::system_clock::now();
+	std::cout << "Determinant: " << matrix.determinant(thread_count) << std::endl;
+	auto end = std::chrono::system_clock::now();
+
+	const std::chrono::duration<double> difference = end - start;
+
+	std::cout << "\nTime (%i thread(s)): " << difference.count() * 1000 << " ms" << std::endl;
 }
 
 int main(int argc, char** argv)
 {
 	try
 	{
-		auto matrix = create_matrix(argc, argv);
+		const auto matrix = create_matrix(argc, argv);
 
-		std::cout << matrix.to_string();
-		auto minor = matrix.get_minor(1, 2);
-
-		std::cout << minor.determinant();
+		for (int i = 1; i < 6; i++)
+			f(matrix, i);
+		
 	}
-	catch (std::exception e)
+	catch (std::exception& e)
 	{
 		std::cout << e.what();
 	}
