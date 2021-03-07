@@ -37,11 +37,18 @@ namespace lab1
 		float result = 0;
 
 		for (size_t row_index = 0; row_index < data_.size(); row_index++)
-			for (size_t column_index = 0; column_index < data_[row_index].size(); column_index++)
-				result +=
-					(row_index + column_index % 2 ? 1.0f : -1.0f)
+		{
+			size_t column_index = 0;
+			//NB: i do not know math. At all.
+			//for (size_t column_index = 0; column_index < data_[row_index].size(); column_index++)
+			{
+				const auto tmp_res = 
+					((row_index + column_index) % 2 ? -1.0f : 1.0f)
 					* data_[row_index][column_index]
 					* matrix(get_minor_as_vector(column_index, row_index)).determinant();
+				result += tmp_res;
+			}
+		}
 
 		return result;
 	}
