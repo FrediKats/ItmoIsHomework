@@ -1,6 +1,5 @@
 ﻿#include "matrix.h"
 
-#include <omp.h>
 #include <ostream>
 #include <sstream>
 
@@ -8,7 +7,11 @@ namespace lab1
 {
 	matrix::matrix(std::vector<std::vector<float>> data) : data_(std::move(data))
 	{
-		//TODO: ensure is NxN size
+		for (auto vector : data_)
+		{
+			if (vector.size() != data_.size())
+				throw std::exception("Matrix must be NxN size");
+		}
 	}
 
 	std::string matrix::to_string()
@@ -36,7 +39,7 @@ namespace lab1
 		for (size_t row_index = 0; row_index < data_.size(); row_index++)
 			for (size_t column_index = 0; column_index < data_[row_index].size(); column_index++)
 				result +=
-					pow(-1, row_index + column_index)
+					(row_index + column_index % 2 ? 1.0f : -1.0f)
 					* data_[row_index][column_index]
 					* matrix(get_minor_as_vector(column_index, row_index)).determinant();
 
@@ -64,10 +67,5 @@ namespace lab1
 		}
 
 		return result;
-	}
-
-	matrix matrix::get_minor(const size_t excluded_column, const size_t excluded_row)
-	{
-		return matrix(get_minor_as_vector(excluded_column, excluded_row));
 	}
 }

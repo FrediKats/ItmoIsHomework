@@ -48,25 +48,19 @@ lab1::matrix create_matrix(int argc, char** argv)
 	return parse_file(file_path);
 }
 
-std::chrono::duration<double> bench_result(lab1::matrix matrix, int thread_count)
+std::chrono::duration<double> common_run(lab1::matrix matrix, int thread_count)
 {
 	lab1::matrix* current = &matrix;
 	if (thread_count == 0)
-	{
 		thread_count = omp_get_num_procs();
-	}
-	
-	auto t = lab1::multithread_matrix(matrix, thread_count);
 
+	auto multithread_matrix = lab1::multithread_matrix(matrix, thread_count);
 	if (thread_count > 0)
-	{
-		current = &t;
-	}
+		current = &multithread_matrix;
 
-	float result;
-	auto start = std::chrono::system_clock::now();
-	result = current->determinant();
-	auto end = std::chrono::system_clock::now();
+	const auto start = std::chrono::system_clock::now();
+	const float result = current->determinant();
+	const auto end = std::chrono::system_clock::now();
 
 	const std::chrono::duration<double> difference = end - start;
 
@@ -75,18 +69,48 @@ std::chrono::duration<double> bench_result(lab1::matrix matrix, int thread_count
 	return difference;
 }
 
+void common_run(int argc, char** argv)
+{
+	const std::string file_path(argv[1]);
+	const int thread_count = atoi(argv[2]);
+	
+	lab1::matrix matrix = parse_file(file_path);
+	auto multithread_matrix = lab1::multithread_matrix(matrix, thread_count == 0 ? omp_get_num_procs() : thread_count);
+	lab1::matrix* current = thread_count > 0
+		                        ? &multithread_matrix
+		                        : &matrix;
+
+	const auto start = std::chrono::system_clock::now();
+	const float result = current->determinant();
+	const auto end = std::chrono::system_clock::now();
+
+	const std::chrono::duration<double> difference = end - start;
+
+	std::cout << "Determinant: " << result << std::endl;
+	std::cout << "\nTime (" << thread_count << " thread(s)): " << difference.count() * 1000 << " ms" << std::endl;
+}
+
 int main(int argc, char** argv)
 {
 	try
 	{
-		auto matrix = create_matrix(argc, argv);
-		for (int i = -1; i < 8; i++)
+		//NB: exec_path file_path thread_count
+		if (argc == 3)
+			common_run(argc, argv);
+		else
 		{
-			bench_result(matrix, i);
+			std::cout << "Unexpected argument count";
+			return 1;
 		}
 	}
 	catch (std::exception& e)
 	{
 		std::cout << e.what();
+		return 1;
+	}
+	catch (...)
+	{
+		std::cout << "Unexpected error.";
+		return 1;
 	}
 }
