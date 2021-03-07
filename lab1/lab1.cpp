@@ -11,6 +11,5 @@ int main()
 	std::cout << matrix.to_string();
 	auto minor = matrix.get_minor(1, 2);
 
-	std::cout << std::endl;
-	std::cout << minor.to_string();
+	std::cout << minor.determinant();
 }
