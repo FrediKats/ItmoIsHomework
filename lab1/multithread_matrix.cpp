@@ -18,7 +18,7 @@ namespace lab1
 
 	float multithread_matrix::determinant()
 	{
-		return determinant_guided_schedule();
+		return determinant_static_schedule();
 	}
 
 	float multithread_matrix::determinant_static_schedule()
@@ -32,7 +32,17 @@ namespace lab1
 #pragma omp for schedule(static)
 			for (int row_index = 0; row_index < data_.size(); row_index++)
 			{
-				const auto row_result = eval_determinant_internal(row_index);
+				float row_result = 0;
+				for (size_t column_index = 0; column_index < data_[row_index].size(); column_index++)
+				{
+					const float tmp =
+						(row_index + column_index % 2 ? 1.0f : -1.0f)
+						* data_[row_index][column_index]
+						* multithread_matrix(get_minor_as_vector(column_index, row_index), parallel_thread_count_).
+						determinant_static_schedule();
+
+					row_result += tmp;
+				}
 #pragma omp atomic
 				result += row_result;
 			}
@@ -52,7 +62,17 @@ namespace lab1
 #pragma omp for schedule(dynamic)
 			for (int row_index = 0; row_index < data_.size(); row_index++)
 			{
-				const auto row_result = eval_determinant_internal(row_index);
+				float row_result = 0;
+				for (size_t column_index = 0; column_index < data_[row_index].size(); column_index++)
+				{
+					const float tmp =
+						(row_index + column_index % 2 ? 1.0f : -1.0f)
+						* data_[row_index][column_index]
+						* multithread_matrix(get_minor_as_vector(column_index, row_index), parallel_thread_count_).
+						determinant_dynamic_schedule();
+
+					row_result += tmp;
+				}
 #pragma omp atomic
 				result += row_result;
 			}
@@ -72,7 +92,17 @@ namespace lab1
 #pragma omp for schedule(guided)
 			for (int row_index = 0; row_index < data_.size(); row_index++)
 			{
-				const auto row_result = eval_determinant_internal(row_index);
+				float row_result = 0;
+				for (size_t column_index = 0; column_index < data_[row_index].size(); column_index++)
+				{
+					const float tmp =
+						(row_index + column_index % 2 ? 1.0f : -1.0f)
+						* data_[row_index][column_index]
+						* multithread_matrix(get_minor_as_vector(column_index, row_index), parallel_thread_count_).
+						determinant_guided_schedule();
+
+					row_result += tmp;
+				}
 #pragma omp atomic
 				result += row_result;
 			}
