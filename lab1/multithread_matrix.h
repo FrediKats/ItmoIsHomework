@@ -15,7 +15,6 @@ namespace lab1
 		float determinant_guided_schedule();
 
 	private:
-		float eval_determinant_internal(int row_index);
 		const int parallel_thread_count_;
 	};
 }
