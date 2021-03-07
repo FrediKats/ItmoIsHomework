@@ -142,10 +142,12 @@
   <ItemGroup>
     <ClCompile Include="lab1.cpp" />
     <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="multithread_matrix.cpp" />
     <ClCompile Include="random_matrix_provider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="matrix.h" />
+    <ClInclude Include="multithread_matrix.h" />
     <ClInclude Include="random_matrix_provider.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
