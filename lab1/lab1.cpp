@@ -1,6 +1,7 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <omp.h>
 #include <string>
 
 #include "matrix.h"
@@ -47,27 +48,39 @@ lab1::matrix create_matrix(int argc, char** argv)
 	return parse_file(file_path);
 }
 
-void bench_result(lab1::matrix matrix, int thread_count)
+std::chrono::duration<double> bench_result(lab1::matrix matrix, int thread_count)
 {
-	if (thread_count > 0)
-		matrix = lab1::multithread_matrix(matrix, thread_count);
+	lab1::matrix* current = &matrix;
+	if (thread_count == 0)
+	{
+		thread_count = omp_get_num_procs();
+	}
 	
+	auto t = lab1::multithread_matrix(matrix, thread_count);
+
+	if (thread_count > 0)
+	{
+		current = &t;
+	}
+
+	float result;
 	auto start = std::chrono::system_clock::now();
-	std::cout << "Determinant: " << matrix.determinant() << std::endl;
+	result = current->determinant();
 	auto end = std::chrono::system_clock::now();
 
 	const std::chrono::duration<double> difference = end - start;
 
-	std::cout << "\nTime (" << thread_count <<" thread(s)): " << difference.count() * 1000 << " ms" << std::endl;
+	std::cout << "Determinant: " << result << std::endl;
+	std::cout << "\nTime (" << thread_count << " thread(s)): " << difference.count() * 1000 << " ms" << std::endl;
+	return difference;
 }
 
 int main(int argc, char** argv)
 {
 	try
 	{
-		const auto matrix = create_matrix(argc, argv);
-
-		for (int i = 0; i < 6; i++)
+		auto matrix = create_matrix(argc, argv);
+		for (int i = -1; i < 8; i++)
 		{
 			bench_result(matrix, i);
 		}
