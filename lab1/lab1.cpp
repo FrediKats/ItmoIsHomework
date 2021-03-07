@@ -4,6 +4,7 @@
 #include <string>
 
 #include "matrix.h"
+#include "multithread_matrix.h"
 #include "random_matrix_provider.h"
 
 lab1::matrix parse_file(const std::string& file_path)
@@ -42,19 +43,22 @@ lab1::matrix create_matrix(int argc, char** argv)
 	if (argc <= 1)
 		return lab1::random_matrix_provider::generate(6);
 
-	const std::string file_path(argv[0]);
+	const std::string file_path(argv[1]);
 	return parse_file(file_path);
 }
 
-void f(lab1::matrix matrix, int thread_count)
+void bench_result(lab1::matrix matrix, int thread_count)
 {
+	if (thread_count > 0)
+		matrix = lab1::multithread_matrix(matrix, thread_count);
+	
 	auto start = std::chrono::system_clock::now();
-	std::cout << "Determinant: " << matrix.determinant(thread_count) << std::endl;
+	std::cout << "Determinant: " << matrix.determinant() << std::endl;
 	auto end = std::chrono::system_clock::now();
 
 	const std::chrono::duration<double> difference = end - start;
 
-	std::cout << "\nTime (%i thread(s)): " << difference.count() * 1000 << " ms" << std::endl;
+	std::cout << "\nTime (" << thread_count <<" thread(s)): " << difference.count() * 1000 << " ms" << std::endl;
 }
 
 int main(int argc, char** argv)
@@ -63,9 +67,10 @@ int main(int argc, char** argv)
 	{
 		const auto matrix = create_matrix(argc, argv);
 
-		for (int i = 1; i < 6; i++)
-			f(matrix, i);
-		
+		for (int i = 0; i < 6; i++)
+		{
+			bench_result(matrix, i);
+		}
 	}
 	catch (std::exception& e)
 	{

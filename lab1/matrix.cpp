@@ -1,7 +1,5 @@
 ﻿#include "matrix.h"
 
-
-#include <iostream>
 #include <omp.h>
 #include <ostream>
 #include <sstream>
@@ -40,42 +38,12 @@ namespace lab1
 				result +=
 					pow(-1, row_index + column_index)
 					* data_[row_index][column_index]
-					* get_minor(column_index, row_index).determinant();
+					* matrix(get_minor_as_vector(column_index, row_index)).determinant();
 
 		return result;
 	}
 
-	float matrix::determinant(int parallel_thread_count)
-	{
-		if (data_.size() == 1)
-			return data_[0][0];
-
-		float result = 0;
-#pragma omp parallel num_threads(parallel_thread_count)
-		{
-#pragma omp for
-			for (int row_index = 0; row_index < data_.size(); row_index++)
-			{
-				float row_result = 0;
-				for (size_t column_index = 0; column_index < data_[row_index].size(); column_index++)
-				{
-					const auto tmp =
-						pow(-1, row_index + column_index)
-						* data_[row_index][column_index]
-						* get_minor(column_index, row_index).determinant();
-
-					row_result += tmp;
-				}
-#pragma omp atomic
-				result += row_result;
-			}
-		}
-
-
-		return result;
-	}
-
-	matrix matrix::get_minor(const size_t excluded_column, const size_t excluded_row)
+	std::vector<std::vector<float>> matrix::get_minor_as_vector(size_t excluded_column, size_t excluded_row)
 	{
 		std::vector<std::vector<float>> result(data_.size() - 1, std::vector<float>(data_.size() - 1));
 
@@ -95,6 +63,11 @@ namespace lab1
 			}
 		}
 
-		return matrix(result);
+		return result;
+	}
+
+	matrix matrix::get_minor(const size_t excluded_column, const size_t excluded_row)
+	{
+		return matrix(get_minor_as_vector(excluded_column, excluded_row));
 	}
 }
