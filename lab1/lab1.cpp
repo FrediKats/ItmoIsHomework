@@ -27,34 +27,9 @@ std::chrono::duration<double> benchmark_run(const std::function<void(void)>& fun
 	return result / run_count;
 }
 
-void common_run(int argc, char** argv)
+void common_run(const std::string& file_path, const int thread_count)
 {
-	const std::string file_path(argv[1]);
-	const int thread_count = atoi(argv[2]);
-	const int optimal_thread_count = atoi(argv[2]);
-	
-	lab1::matrix matrix = lab1::matrix_provider::parse_file(file_path);
-	lab1::fast_matrix fm = lab1::fast_matrix(matrix);
-	auto multithread_matrix = lab1::fast_multithread_matrix(matrix, thread_count == 0 ? optimal_thread_count : thread_count);
-	lab1::matrix* current = thread_count >= 0
-		                        ? &multithread_matrix
-		                        : &fm;
-
-	const auto start = std::chrono::system_clock::now();
-	const float result = current->determinant();
-	const auto end = std::chrono::system_clock::now();
-	
-	const std::chrono::duration<double> difference = end - start;
-
-	std::cout << "Determinant: " << result << std::endl;
-	std::cout << "\nTime (" << thread_count << " thread(s)): " << difference.count() * 1000 << " ms" << std::endl;
-}
-
-void common_run()
-{
-	const std::string file_path("D:\\coding\\itmo-master\\LikeCtButCheaper\\lab1\\Debug\\data.txt");
-	const int thread_count = 4;
-	const int optimal_thread_count = -1;
+	const int optimal_thread_count = 8;
 
 	lab1::matrix matrix = lab1::matrix_provider::parse_file(file_path);
 	lab1::fast_matrix fm = lab1::fast_matrix(matrix);
@@ -114,16 +89,16 @@ int main(int argc, char** argv)
 		//NB: exec_path file_path thread_count
 		if (argc == 3)
 		{
-			common_run(argc, argv);
+			common_run(std::string(argv[1]), atoi(argv[2]));
 			return 0;
 		}
 		//NB: for test propose
-		//else if (argc == 1)
-		//{
-		//	benchmark_run();
-		//	//common_run();
-		//	return 0;
-		//}
+		else if (argc == 1)
+		{
+			benchmark_run();
+			common_run("data.txt", 4);
+			return 0;
+		}
 		else
 		{
 			std::cout << "Unexpected argument count";
