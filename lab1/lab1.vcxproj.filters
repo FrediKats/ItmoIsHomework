@@ -21,7 +21,7 @@
     <ClCompile Include="matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="random_matrix_provider.cpp">
+    <ClCompile Include="matrix_provider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="multithread_matrix.cpp">
@@ -38,7 +38,7 @@
     <ClInclude Include="matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="random_matrix_provider.h">
+    <ClInclude Include="matrix_provider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="multithread_matrix.h">

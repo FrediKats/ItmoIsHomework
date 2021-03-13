@@ -148,14 +148,14 @@
     <ClCompile Include="lab1.cpp" />
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="multithread_matrix.cpp" />
-    <ClCompile Include="random_matrix_provider.cpp" />
+    <ClCompile Include="matrix_provider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fast_matrix.h" />
     <ClInclude Include="fast_multithread_matrix.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="multithread_matrix.h" />
-    <ClInclude Include="random_matrix_provider.h" />
+    <ClInclude Include="matrix_provider.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
