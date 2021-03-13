@@ -3,10 +3,11 @@
 
 namespace lab1
 {
-	class random_matrix_provider
+	class matrix_provider
 	{
 	public:
-		random_matrix_provider();
+		matrix_provider();
 		static matrix generate(size_t size);
+		static matrix parse_file(const std::string& file_path);
 	};
 }

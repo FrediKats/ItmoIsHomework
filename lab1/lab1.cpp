@@ -8,39 +8,7 @@
 #include "fast_matrix.h"
 #include "fast_multithread_matrix.h"
 #include "matrix.h"
-#include "multithread_matrix.h"
-#include "random_matrix_provider.h"
-
-lab1::matrix parse_file(const std::string& file_path)
-{
-	std::ifstream file_descriptor(file_path.c_str());
-	if (!file_descriptor.good())
-		throw std::exception("Can not open file");
-
-	try
-	{
-		size_t size;
-		file_descriptor >> size;
-		std::vector<std::vector<float>> result(size);
-
-		for (size_t row_index = 0; row_index < size; row_index++)
-		{
-			std::vector<float> temp(size);
-			for (size_t column_index = 0; column_index < size; column_index++)
-			{
-				file_descriptor >> temp[column_index];
-			}
-			result[row_index] = temp;
-		}
-
-		return lab1::matrix(result);
-	}
-	catch (...)
-	{
-		file_descriptor.close();
-		throw;
-	}
-}
+#include "matrix_provider.h"
 
 std::chrono::duration<double> benchmark_run(const std::function<void(void)>& functor)
 {
@@ -65,7 +33,7 @@ void common_run(int argc, char** argv)
 	const int thread_count = atoi(argv[2]);
 	const int optimal_thread_count = atoi(argv[2]);
 	
-	lab1::matrix matrix = parse_file(file_path);
+	lab1::matrix matrix = lab1::matrix_provider::parse_file(file_path);
 	lab1::fast_matrix fm = lab1::fast_matrix(matrix);
 	auto multithread_matrix = lab1::fast_multithread_matrix(matrix, thread_count == 0 ? optimal_thread_count : thread_count);
 	lab1::matrix* current = thread_count >= 0
@@ -88,7 +56,7 @@ void common_run()
 	const int thread_count = 4;
 	const int optimal_thread_count = -1;
 
-	lab1::matrix matrix = parse_file(file_path);
+	lab1::matrix matrix = lab1::matrix_provider::parse_file(file_path);
 	lab1::fast_matrix fm = lab1::fast_matrix(matrix);
 	auto multithread_matrix = lab1::fast_multithread_matrix(matrix, thread_count == 0 ? optimal_thread_count : thread_count);
 	lab1::matrix* current = thread_count >= 0
@@ -107,7 +75,7 @@ void common_run()
 
 void benchmark_run()
 {
-	lab1::matrix matrix = lab1::random_matrix_provider::generate(300);
+	lab1::matrix matrix = lab1::matrix_provider::generate(300);
 	auto slow_matrix = lab1::matrix(matrix);
 	auto fast_matrix = lab1::fast_matrix(matrix);
 	lab1::fast_multithread_matrix multithread_matrix = lab1::fast_multithread_matrix(matrix, 4);
