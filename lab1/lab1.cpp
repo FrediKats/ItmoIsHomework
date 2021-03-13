@@ -50,10 +50,9 @@ void common_run(const std::string& file_path, const int thread_count)
 
 void benchmark_run()
 {
-	lab1::matrix matrix = lab1::matrix_provider::generate(300);
+	lab1::matrix matrix = lab1::matrix_provider::generate(400);
 
-	std::cout << "ThreadCount;Single;Dynamic;Static;Guided" << std::endl;
-	
+	std::cout << "ThreadCount;Single;Dynamic;Static;Guided;Static-align" << std::endl;
 	for (int i = 1; i <= omp_get_num_procs(); i++)
 	{
 		auto multithread_matrix = lab1::fast_multithread_matrix(matrix, i);
@@ -64,11 +63,12 @@ void benchmark_run()
 			<< benchmark_run([&fast_matrix] { fast_matrix.determinant(); }).count() * 1000 << ";"
 			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << ";"
 			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << std::endl;
+			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << ";"
+			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule_with_align(); }).count() * 1000
+			<< std::endl;
 	}
 
-	std::cout << "Count;Single;Dynamic-4;Static-4;Guided-4" << std::endl;
-
+	std::cout << "Count;Single;Dynamic-4;Static-4;Guided-4;Static-align-4" << std::endl;
 	for (int i = 100; i <= 1000; i += 100)
 	{
 		auto matrix = lab1::matrix_provider::generate(i);
@@ -80,11 +80,12 @@ void benchmark_run()
 			<< benchmark_run([&fast_matrix] { fast_matrix.determinant(); }).count() * 1000 << ";"
 			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << ";"
 			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << std::endl;
+			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << ";"
+			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule_with_align(); }).count() * 1000
+			<< std::endl;
 	}
 
-	std::cout << "Single;Dynamic-8;Static-8;Guided-8" << std::endl;
-
+	std::cout << "Single;Dynamic-8;Static-8;Guided-8;Static-align-8" << std::endl;
 	for (int i = 100; i <= 1000; i += 100)
 	{
 		auto matrix = lab1::matrix_provider::generate(i);
@@ -96,7 +97,9 @@ void benchmark_run()
 			<< benchmark_run([&fast_matrix] { fast_matrix.determinant(); }).count() * 1000 << ";"
 			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << ";"
 			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << std::endl;
+			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << ";"
+			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule_with_align(); }).count() * 1000
+		<< std::endl;
 	}
 }
 
@@ -111,12 +114,11 @@ int main(int argc, char** argv)
 			return 0;
 		}
 		//NB: for test propose
-		else if (argc == 1)
+		/*else if (argc == 1)
 		{
 			benchmark_run();
-			//common_run("D:\\coding\\itmo-master\\LikeCtButCheaper\\lab1\\Debug\\data.txt", 4);
 			return 0;
-		}
+		}*/
 		else
 		{
 			std::cout << "Unexpected argument count";

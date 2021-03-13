@@ -50,5 +50,8 @@
     <ClInclude Include="fast_multithread_matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="aligned_allocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
