@@ -10,6 +10,7 @@ namespace lab1
 		fast_multithread_matrix(const matrix& data, int parallel_thread_count);
 
 		float determinant() override;
+		float determinant_static_schedule_with_align();
 		float determinant_static_schedule();
 		float determinant_dynamic_schedule();
 		float determinant_guided_schedule();
