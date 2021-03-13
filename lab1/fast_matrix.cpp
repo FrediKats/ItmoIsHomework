@@ -15,7 +15,8 @@ float lab1::fast_matrix::determinant()
     std::vector <std::vector<float> > a = data_;
 
     float det = 1;
-    for (int i = 0; i < n; ++i) {
+
+	for (int i = 0; i < n; ++i) {
         int k = i;
         for (int j = i + 1; j < n; ++j)
             if (abs(a[j][i]) > abs(a[k][i]))

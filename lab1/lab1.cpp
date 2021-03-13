@@ -51,13 +51,13 @@ void common_run(const std::string& file_path, const int thread_count)
 void benchmark_run()
 {
 	lab1::matrix matrix = lab1::matrix_provider::generate(300);
-	auto fast_matrix = lab1::fast_matrix(matrix);
 
 	std::cout << "ThreadCount;Single;Dynamic;Static;Guided" << std::endl;
 	
 	for (int i = 1; i <= omp_get_num_procs(); i++)
 	{
 		auto multithread_matrix = lab1::fast_multithread_matrix(matrix, i);
+		auto fast_matrix = lab1::fast_matrix(matrix);
 		
 		std::cout
 			<< i << ";"
@@ -69,9 +69,11 @@ void benchmark_run()
 
 	std::cout << "Count;Single;Dynamic-4;Static-4;Guided-4" << std::endl;
 
-	for (int i = 100; i <= 600; i += 100)
+	for (int i = 100; i <= 1000; i += 100)
 	{
-		auto multithread_matrix = lab1::fast_multithread_matrix(lab1::matrix_provider::generate(i), 4);
+		auto matrix = lab1::matrix_provider::generate(i);
+		auto fast_matrix = lab1::fast_matrix(matrix);
+		auto multithread_matrix = lab1::fast_multithread_matrix(matrix, 4);
 
 		std::cout
 			<< i << ";"
@@ -83,9 +85,11 @@ void benchmark_run()
 
 	std::cout << "Single;Dynamic-8;Static-8;Guided-8" << std::endl;
 
-	for (int i = 100; i <= 600; i += 100)
+	for (int i = 100; i <= 1000; i += 100)
 	{
-		auto multithread_matrix = lab1::fast_multithread_matrix(lab1::matrix_provider::generate(i), 8);
+		auto matrix = lab1::matrix_provider::generate(i);
+		auto fast_matrix = lab1::fast_matrix(matrix);
+		auto multithread_matrix = lab1::fast_multithread_matrix(matrix, 8);
 
 		std::cout
 			<< i << ";"
