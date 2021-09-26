@@ -28,7 +28,7 @@ namespace lab1
 
 	matrix matrix_provider::parse_file(const std::string& file_path)
 	{
-		std::ifstream file_descriptor(file_path.c_str());
+		std::ifstream file_descriptor(file_path);
 		if (!file_descriptor.good())
 			throw std::exception("Can not open file");
 
@@ -48,6 +48,7 @@ namespace lab1
 				result[row_index] = temp;
 			}
 
+			file_descriptor.close();
 			return matrix(result);
 		}
 		catch (...)
