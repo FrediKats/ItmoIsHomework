@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="benchmark_runner.cpp" />
     <ClCompile Include="fast_matrix.cpp" />
     <ClCompile Include="fast_multithread_matrix.cpp" />
     <ClCompile Include="lab1.cpp" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aligned_allocator.h" />
+    <ClInclude Include="benchmark_runner.h" />
     <ClInclude Include="fast_matrix.h" />
     <ClInclude Include="fast_multithread_matrix.h" />
     <ClInclude Include="matrix.h" />

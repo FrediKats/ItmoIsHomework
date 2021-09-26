@@ -5,27 +5,11 @@
 #include <omp.h>
 #include <string>
 
+#include "benchmark_runner.h"
 #include "fast_matrix.h"
 #include "fast_multithread_matrix.h"
 #include "matrix.h"
 #include "matrix_provider.h"
-
-std::chrono::duration<double> benchmark_run(const std::function<void(void)>& functor)
-{
-	const auto run_count = 5;
-	
-	std::chrono::duration<double> result = std::chrono::duration<double>::zero();
-	for (auto i = 0; i < run_count; i++)
-	{
-		const auto start = std::chrono::high_resolution_clock::now();
-		functor();
-		const auto end = std::chrono::high_resolution_clock::now();
-
-		result += (end - start);
-	}
-	
-	return result / run_count;
-}
 
 void common_run(const std::string& file_path, const int thread_count)
 {
@@ -50,6 +34,7 @@ void common_run(const std::string& file_path, const int thread_count)
 
 void benchmark_run()
 {
+	lab1::benchmark_runner benchmark = lab1::benchmark_runner(5);
 	lab1::matrix matrix = lab1::matrix_provider::generate(100);
 
 	std::cout << "ThreadCount;Single;Dynamic;Static;Guided;Static-align" << std::endl;
@@ -60,10 +45,10 @@ void benchmark_run()
 		
 		std::cout
 			<< i << ";"
-			<< benchmark_run([&fast_matrix] { fast_matrix.determinant(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&fast_matrix] { fast_matrix.determinant(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << ";"
 			//<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule_with_align(); }).count() * 1000
 			<< std::endl;
 	}
@@ -77,11 +62,11 @@ void benchmark_run()
 
 		std::cout
 			<< i << ";"
-			<< benchmark_run([&fast_matrix] { fast_matrix.determinant(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << ";"
-			//<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule_with_align(); }).count() * 1000
+			<< benchmark.benchmark_run([&fast_matrix] { fast_matrix.determinant(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << ";"
+			// << benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule_with_align(); }).count() * 1000
 			<< std::endl;
 	}
 
@@ -94,10 +79,10 @@ void benchmark_run()
 
 		std::cout
 			<< i << ";"
-			<< benchmark_run([&fast_matrix] { fast_matrix.determinant(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << ";"
-			<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&fast_matrix] { fast_matrix.determinant(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&multithread_matrix] { multithread_matrix.determinant_dynamic_schedule(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule(); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&multithread_matrix] { multithread_matrix.determinant_guided_schedule(); }).count() * 1000 << ";"
 			//<< benchmark_run([&multithread_matrix] { multithread_matrix.determinant_static_schedule_with_align(); }).count() * 1000
 		<< std::endl;
 	}
