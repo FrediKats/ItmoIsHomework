@@ -141,6 +141,11 @@
   <ItemGroup>
     <ClCompile Include="omp2.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lab1\lab1.vcxproj">
+      <Project>{6c6a3765-bbc6-404b-b655-14ac8dad345d}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
