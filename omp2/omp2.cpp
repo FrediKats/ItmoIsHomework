@@ -9,9 +9,9 @@ int main()
 	auto reader = omp2::color_reader("img");
 	auto color_normalizer = omp2::color_normalizer();
 
-	std::vector<omp2::color> colors = reader.read();
+	const omp2::image_descriptor image_descriptor = reader.read();
 	//TODO: change type to double
-	auto modified_color = color_normalizer.modify(colors, 0, 1);
+	auto modified_color = color_normalizer.modify(image_descriptor.color, 0, 1);
 
 
 
