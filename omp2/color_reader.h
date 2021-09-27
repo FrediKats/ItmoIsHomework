@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include <string>
-#include <vector>
 
-#include "color.h"
+#include "image_descriptor.h"
 
 namespace omp2
 {
@@ -11,7 +10,7 @@ namespace omp2
 	public:
 		explicit color_reader(const std::string& file_path);
 
-		std::vector<color> read() const;
+		image_descriptor read() const;
 
 	private:
 		const std::string& file_path_;

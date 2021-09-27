@@ -11,7 +11,7 @@ omp2::color_reader::color_reader(const std::string& file_path): file_path_(file_
 {
 }
 
-std::vector<omp2::color> omp2::color_reader::read() const
+omp2::image_descriptor omp2::color_reader::read() const
 {
 	std::ifstream file_descriptor(file_path_);
 	if (!file_descriptor.good())
@@ -57,7 +57,8 @@ std::vector<omp2::color> omp2::color_reader::read() const
 
 		delete[] pixel_data;
 		file_descriptor.close();
-		return colors;
+
+		return image_descriptor(colors, width, height);
 	}
 	catch (...)
 	{
