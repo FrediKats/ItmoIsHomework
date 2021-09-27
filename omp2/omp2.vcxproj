@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="color.cpp" />
+    <ClCompile Include="color_normalizer.cpp" />
     <ClCompile Include="color_reader.cpp" />
     <ClCompile Include="functional_extension.cpp" />
     <ClCompile Include="omp2.cpp" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="color.h" />
+    <ClInclude Include="color_normalizer.h" />
     <ClInclude Include="color_reader.h" />
     <ClInclude Include="functional_extension.h" />
   </ItemGroup>
