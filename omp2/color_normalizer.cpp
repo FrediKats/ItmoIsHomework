@@ -28,18 +28,19 @@ std::vector<omp2::color> omp2::color_normalizer::modify(const std::vector<color>
 	const auto green_selector = std::function<unsigned char(color)>([](const color c) { return c.green; });
 	const auto blue_selector = std::function<unsigned char(color)>([](const color c) { return c.blue; });
 
-	const auto red_color_morphism = morphism_producer(red_selector, input_colors);
-	const auto green_color_morphism = morphism_producer(green_selector, input_colors);
-	const auto blue_color_morphism = morphism_producer(blue_selector, input_colors);
+	const auto red_color_morphism = morphism_producer(red_selector, input_colors).produce();
+	const auto green_color_morphism = morphism_producer(green_selector, input_colors).produce();
+	const auto blue_color_morphism = morphism_producer(blue_selector, input_colors).produce();
 
 	auto result = std::vector<color>(input_colors.size());
+
 	for (size_t index = 0; index < input_colors.size(); index++)
 	{
 		const color original_color = input_colors[index];
 		const auto changed_color = color(
-			change_color(original_color.red, red_color_morphism.produce()),
-			change_color(original_color.green, green_color_morphism.produce()),
-			change_color(original_color.blue, blue_color_morphism.produce()));
+			change_color(original_color.red, red_color_morphism),
+			change_color(original_color.green, green_color_morphism),
+			change_color(original_color.blue, blue_color_morphism));
 
 		result[index] = changed_color;
 	}

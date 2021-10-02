@@ -54,6 +54,9 @@
     <ClCompile Include="color_image_reader.cpp">
       <Filter>Source Files\FileOperation</Filter>
     </ClCompile>
+    <ClCompile Include="color_histogram.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="color_normalizer.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="color_image_writer.h">
       <Filter>Header Files\FileOperation</Filter>
+    </ClInclude>
+    <ClInclude Include="color_histogram.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
