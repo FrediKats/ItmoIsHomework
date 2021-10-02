@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="color.cpp" />
+    <ClCompile Include="color_histogram.cpp" />
     <ClCompile Include="color_image_writer.cpp" />
     <ClCompile Include="color_morphism.cpp" />
     <ClCompile Include="color_normalizer.cpp" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="color.h" />
+    <ClInclude Include="color_histogram.h" />
     <ClInclude Include="color_image_writer.h" />
     <ClInclude Include="color_morphism.h" />
     <ClInclude Include="color_normalizer.h" />
