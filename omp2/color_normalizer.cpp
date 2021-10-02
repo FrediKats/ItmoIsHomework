@@ -1,76 +1,46 @@
 ﻿#include "color_normalizer.h"
 
+#include "color_morphism.h"
 #include "functional_extension.h"
-
-unsigned char get_delta(const std::vector<omp2::color>& input_colors, const std::function<unsigned char(omp2::color)>& color_selector)
-{
-	const auto min_value_index = input_colors.size() / omp2::color_normalizer::ignore_percent;
-	return color_selector(input_colors[min_value_index]);
-}
-
-double get_coefficient(
-	const std::vector<omp2::color>& input_colors,
-	const std::function<unsigned char(omp2::color)>& color_selector,
-	const unsigned char max_value)
-{
-	const auto min_value_index = input_colors.size() / omp2::color_normalizer::ignore_percent;
-	const auto max_value_index = input_colors.size() - input_colors.size() / omp2::color_normalizer::ignore_percent;
-	const auto value_range = color_selector(input_colors[max_value_index]) - color_selector(input_colors[min_value_index]);
-	if (value_range == 0)
-		return 0;
-
-	return max_value / (static_cast<double>(value_range));
-}
+#include "morphism_producer.h"
 
 
-std::vector<omp2::color> get_ordered(std::vector<omp2::color> input_colors, const std::function<unsigned char(omp2::color)>& color_selector)
-{
-	std::sort(
-		std::begin(input_colors),
-		std::end(input_colors),
-		[color_selector](const omp2::color a, const omp2::color b)
-		{
-			return color_selector(a) < color_selector(b);
-		});
-
-	return input_colors;
-}
 unsigned char change_color(
-	const std::vector<omp2::color>& original_colors,
-	const std::vector<omp2::color>& ordered_colors,
-	const size_t index,
-	const std::function<unsigned char(omp2::color)>& color_selector)
+	const unsigned char original_color_value,
+	const color_morphism morphism)
 {
-	const auto delta = get_delta(ordered_colors, color_selector);
-	//TODO: fix max value
-	const auto coefficient = get_coefficient(ordered_colors, color_selector, 255);
-	if (coefficient == 0.0)
-		return color_selector(original_colors[index]);
+	const auto delta = morphism.get_delta();
+	const auto coefficient = morphism.get_coefficient();
 
-	if (color_selector(original_colors[index]) < delta)
+	if (coefficient == 0.0)
+		return original_color_value;
+
+	if (original_color_value < delta)
 		return 0;
-	const double result = static_cast<double>(color_selector(original_colors[index]) - delta) * coefficient;
+	const double result = static_cast<double>(original_color_value - delta) * coefficient;
 	return result;
 }
 
-std::vector<omp2::color> omp2::color_normalizer::modify(
-	const std::vector<color>& input_colors)
+//TODO: fix namespaces
+std::vector<omp2::color> omp2::color_normalizer::modify(const std::vector<color>& input_colors)
 {
 	const auto red_selector = std::function<unsigned char(color)>([](const color c) { return c.red; });
-	const auto blue_selector = std::function<unsigned char(color)>([](const color c) { return c.blue; });
 	const auto green_selector = std::function<unsigned char(color)>([](const color c) { return c.green; });
+	const auto blue_selector = std::function<unsigned char(color)>([](const color c) { return c.blue; });
 
-	auto ordered_red = get_ordered(input_colors, red_selector);
-	auto ordered_green = get_ordered(input_colors, green_selector);
-	auto ordered_blue = get_ordered(input_colors, blue_selector);
+	const auto red_color_morphism = morphism_producer(red_selector, input_colors);
+	const auto green_color_morphism = morphism_producer(green_selector, input_colors);
+	const auto blue_color_morphism = morphism_producer(blue_selector, input_colors);
 
 	auto result = std::vector<color>(input_colors.size());
 	for (size_t index = 0; index < input_colors.size(); index++)
 	{
+		const color original_color = input_colors[index];
 		const auto changed_color = color(
-			change_color(input_colors, ordered_red, index, red_selector),
-			change_color(input_colors, ordered_green, index, green_selector),
-			change_color(input_colors, ordered_blue, index, blue_selector));
+			change_color(original_color.red, red_color_morphism.produce()),
+			change_color(original_color.green, green_color_morphism.produce()),
+			change_color(original_color.blue, blue_color_morphism.produce()));
+
 		result[index] = changed_color;
 	}
 
