@@ -25,12 +25,15 @@
     <Filter Include="Source Files\FileOperation">
       <UniqueIdentifier>{c75e5361-69c3-488a-8590-59f5697bf3ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Normalizers">
+      <UniqueIdentifier>{72af07c4-03ab-4cbb-98df-d9b2084c7999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Normalizers">
+      <UniqueIdentifier>{2fb7620b-c02e-4b25-a279-4e37deb45393}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="omp2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="color_normalizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="functional_extension.cpp">
@@ -57,11 +60,14 @@
     <ClCompile Include="color_histogram.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="color_normalizer.cpp">
+      <Filter>Source Files\Normalizers</Filter>
+    </ClCompile>
+    <ClCompile Include="single_thread_color_normalizer.cpp">
+      <Filter>Source Files\Normalizers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="color_normalizer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="functional_extension.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -85,6 +91,12 @@
     </ClInclude>
     <ClInclude Include="color_histogram.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="color_normalizer.h">
+      <Filter>Header Files\Normalizers</Filter>
+    </ClInclude>
+    <ClInclude Include="single_thread_color_normalizer.h">
+      <Filter>Header Files\Normalizers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
