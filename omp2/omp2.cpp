@@ -1,6 +1,7 @@
 #include "color_image_reader.h"
 #include "color_image_writer.h"
 #include "color_normalizer.h"
+#include "multithread_color_normalizer.h"
 #include "single_thread_color_normalizer.h"
 
 int main()
@@ -13,7 +14,10 @@ int main()
 
 	const omp2::pnm_image_descriptor image_descriptor = reader.read();
 	auto color_normalizer = omp2::single_thread_color_normalizer();
+	auto mt_color_normalizer = omp2::multithread_color_normalizer(4);
+
 	auto modified_colors = color_normalizer.modify(image_descriptor.color);
+	modified_colors = mt_color_normalizer.modify(image_descriptor.color);
 
 	auto result = omp2::pnm_image_descriptor(
 		image_descriptor.version, modified_colors, image_descriptor.width, image_descriptor.height, image_descriptor.max_value);
