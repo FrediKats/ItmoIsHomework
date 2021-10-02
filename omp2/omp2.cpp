@@ -1,6 +1,7 @@
 #include "color_image_reader.h"
 #include "color_image_writer.h"
 #include "color_normalizer.h"
+#include "single_thread_color_normalizer.h"
 
 int main()
 {
@@ -11,7 +12,7 @@ int main()
 	auto writer = omp2::color_image_writer(destination_file);
 
 	const omp2::pnm_image_descriptor image_descriptor = reader.read();
-	auto color_normalizer = omp2::color_normalizer();
+	auto color_normalizer = omp2::single_thread_color_normalizer();
 	auto modified_colors = color_normalizer.modify(image_descriptor.color);
 
 	auto result = omp2::pnm_image_descriptor(

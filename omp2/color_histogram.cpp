@@ -11,8 +11,8 @@ namespace omp2
 		: colors_(colors),
 		  color_selector_(color_selector)
 	{
-		const auto max_value_index = colors.size() - colors.size() / color_normalizer::ignore_percent;
-		const auto min_value_index = colors.size() / color_normalizer::ignore_percent;
+		const auto max_value_index = colors.size() - colors.size() / ignore_percent;
+		const auto min_value_index = colors.size() / ignore_percent;
 
 		auto nth_iterator = colors.begin() + max_value_index;
 		std::nth_element(colors.begin(), nth_iterator, colors.end(), [color_selector](const color a, const color b)
