@@ -6,15 +6,15 @@
 #include <string>
 #include <vector>
 
-#include "color_reader.h"
+#include "color_image_reader.h"
 #include "color.h"
 
-omp2::color_reader::color_reader(std::string file_path)
+omp2::color_image_reader::color_image_reader(std::string file_path)
 {
 	file_path_ = file_path;
 }
 
-omp2::image_descriptor omp2::color_reader::read() const
+omp2::image_descriptor omp2::color_image_reader::read() const
 {
 	//std::ifstream file_descriptor(file_path_);
 	//if (!file_descriptor.good())
@@ -74,45 +74,6 @@ omp2::image_descriptor omp2::color_reader::read() const
 	catch (...)
 	{
 		//file_descriptor.close();
-		throw;
-	}
-}
-
-void omp2::color_reader::write(const std::string& file_path, image_descriptor image) const
-{
-	/*std::ofstream file_descriptor(file_path);
-	if (!file_descriptor.good())
-		throw std::exception("Can not open file");*/
-
-	FILE* file = fopen(file_path.c_str(), "wb");
-
-
-	try
-	{
-		//NB: https://stackoverflow.com/a/36184106
-		//TODO: type
-		int p_type = 6;
-		int max_value = 255;
-
-		fprintf(file, "P%i\n%i %i\n%i\n", p_type, image.width, image.height, max_value);
-
-		int buffer_size = 3 * image.width * image.height;
-		auto pixel_data = new char[buffer_size];
-
-		for (int index = 0; index < image.color.size(); index++)
-		{
-			auto current_pixel = image.color[index];
-			pixel_data[index * 3] = current_pixel.red;
-			pixel_data[index * 3 + 1] = current_pixel.green;
-			pixel_data[index * 3 + 2] = current_pixel.blue;
-		}
-
-		fwrite(pixel_data, sizeof(char), buffer_size, file);
-		fclose(file);
-	}
-	catch (...)
-	{
-		
 		throw;
 	}
 }

@@ -18,7 +18,7 @@
     <ClCompile Include="omp2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="color_reader.cpp">
+    <ClCompile Include="color_image_reader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="color.cpp">
@@ -33,9 +33,12 @@
     <ClCompile Include="image_descriptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="color_image_writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="color_reader.h">
+    <ClInclude Include="color_image_reader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="color.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="image_descriptor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="color_image_writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
