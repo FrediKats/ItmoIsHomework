@@ -144,7 +144,7 @@
     <ClCompile Include="color_normalizer.cpp" />
     <ClCompile Include="color_image_reader.cpp" />
     <ClCompile Include="functional_extension.cpp" />
-    <ClCompile Include="image_descriptor.cpp" />
+    <ClCompile Include="pnm_image_descriptor.cpp" />
     <ClCompile Include="omp2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,7 +158,7 @@
     <ClInclude Include="color_normalizer.h" />
     <ClInclude Include="color_image_reader.h" />
     <ClInclude Include="functional_extension.h" />
-    <ClInclude Include="image_descriptor.h" />
+    <ClInclude Include="pnm_image_descriptor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

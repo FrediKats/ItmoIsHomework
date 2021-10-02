@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -14,47 +13,24 @@ omp2::color_image_reader::color_image_reader(std::string file_path)
 	file_path_ = file_path;
 }
 
-omp2::image_descriptor omp2::color_image_reader::read() const
+omp2::pnm_image_descriptor omp2::color_image_reader::read() const
 {
-	//std::ifstream file_descriptor(file_path_);
-	//if (!file_descriptor.good())
-	//	throw std::exception("Can not open file");
-
 	FILE* file = fopen(file_path_.c_str(), "rb");
 
 	try
 	{
-		/*size_t size;
-		file_descriptor >> size;
-		std::vector<std::vector<float>> result(size);
-
-		for (size_t row_index = 0; row_index < size; row_index++)
-		{
-			std::vector<float> temp(size);
-			for (size_t column_index = 0; column_index < size; column_index++)
-			{
-				file_descriptor >> temp[column_index];
-			}
-			result[row_index] = temp;
-		}*/
-
-
 		//NB: https://stackoverflow.com/a/36184106
-		int p_type;
-		int width, height = 0, max_value;
+		int version;
+		int width;
+		int height;
+		int max_value;
 
-		fscanf(file, "P%i\n%i %i\n%i\n", &p_type, &width, &height, &max_value);
+		fscanf(file, "P%i\n%i %i\n%i\n", &version, &width, &height, &max_value);
 
-		//file_descriptor >> p6;
-		//file_descriptor >> width;
-		//file_descriptor >> height;
-		//file_descriptor >> max_value;
-
-		int buffer_size = 3 * width * height;
-		auto pixel_data = new char[buffer_size];
+		const int buffer_size = 3 * width * height;
+		const auto pixel_data = new char[buffer_size];
 
 		fread(pixel_data, sizeof(char), buffer_size, file);
-
 
 		//file_descriptor.read(pixel_data, buffer_size);
 		auto colors = std::vector<color>();
@@ -69,7 +45,7 @@ omp2::image_descriptor omp2::color_image_reader::read() const
 		delete[] pixel_data;
 		//file_descriptor.close();
 		fclose(file);
-		return image_descriptor(colors, width, height);
+		return pnm_image_descriptor(version, colors, width, height, max_value);
 	}
 	catch (...)
 	{

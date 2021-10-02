@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string>
 
-#include "image_descriptor.h"
+#include "pnm_image_descriptor.h"
 
 namespace omp2
 {
@@ -11,7 +11,7 @@ namespace omp2
 		//TODO: add const
 		explicit color_image_writer(std::string file_path);
 
-		void write(image_descriptor image) const;
+		void write(pnm_image_descriptor image) const;
 
 	private:
 		std::string file_path_;

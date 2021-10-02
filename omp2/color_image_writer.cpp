@@ -4,18 +4,13 @@ omp2::color_image_writer::color_image_writer(std::string file_path) : file_path_
 {
 }
 
-void omp2::color_image_writer::write(const image_descriptor image) const
+void omp2::color_image_writer::write(const pnm_image_descriptor image) const
 {
 	FILE* file = fopen(file_path_.c_str(), "wb");
 
 	try
 	{
-		//NB: https://stackoverflow.com/a/36184106
-		//TODO: type
-		int p_type = 6;
-		int max_value = 255;
-
-		fprintf(file, "P%i\n%i %i\n%i\n", p_type, image.width, image.height, max_value);
+		fprintf(file, "P%i\n%i %i\n%i\n", image.version, image.width, image.height, image.max_value);
 
 		int buffer_size = 3 * image.width * image.height;
 		auto pixel_data = new char[buffer_size];

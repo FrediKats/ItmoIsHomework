@@ -30,7 +30,7 @@
     <ClCompile Include="functional_extension.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="image_descriptor.cpp">
+    <ClCompile Include="pnm_image_descriptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="color_image_writer.cpp">
@@ -50,7 +50,7 @@
     <ClInclude Include="functional_extension.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="image_descriptor.h">
+    <ClInclude Include="pnm_image_descriptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="color_image_writer.h">
