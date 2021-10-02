@@ -10,5 +10,6 @@ namespace omp2
 		unsigned char blue;
 
 		color(unsigned char red, unsigned char green, unsigned char blue);
+		color();
 	};
 }
