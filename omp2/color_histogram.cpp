@@ -5,38 +5,38 @@
 
 namespace omp2
 {
-	std::vector<color> get_ordered(std::vector<color> input_colors,
-	                               const std::function<unsigned char(color)>& color_selector)
-	{
-		std::sort(
-			std::begin(input_colors),
-			std::end(input_colors),
-			[color_selector](const color a, const color b)
-			{
-				return color_selector(a) < color_selector(b);
-			});
-
-		return input_colors;
-	}
-
 	color_histogram::color_histogram(
 		std::vector<color> colors,
 		const std::function<unsigned char(color)>& color_selector)
 		: colors_(colors),
 		  color_selector_(color_selector)
 	{
-		colors_ = get_ordered(colors, color_selector_);
+		const auto max_value_index = colors.size() - colors.size() / color_normalizer::ignore_percent;
+		const auto min_value_index = colors.size() / color_normalizer::ignore_percent;
+
+		auto nth_iterator = colors.begin() + max_value_index;
+		std::nth_element(colors.begin(), nth_iterator, colors.end(), [color_selector](const color a, const color b)
+		{
+			return color_selector(a) < color_selector(b);
+		});
+
+		nth_iterator = std::begin(colors) + min_value_index;
+		std::nth_element(colors.begin(), nth_iterator, colors.end(), [color_selector](const color a, const color b)
+		{
+			return color_selector(a) < color_selector(b);
+		});
+
+		min_ = color_selector_(colors[min_value_index]);
+		max_ = color_selector_(colors[max_value_index]);
 	}
 
-	unsigned char color_histogram::get_max_value()
+	unsigned char color_histogram::get_max_value() const
 	{
-		const auto max_value_index = colors_.size() - colors_.size() / color_normalizer::ignore_percent;
-		return color_selector_(colors_[max_value_index]);
+		return max_;
 	}
 
-	unsigned char color_histogram::get_min_value()
+	unsigned char color_histogram::get_min_value() const
 	{
-		const auto min_value_index = colors_.size() / color_normalizer::ignore_percent;
-		return color_selector_(colors_[min_value_index]);
+		return min_;
 	}
 }
