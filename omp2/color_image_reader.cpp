@@ -3,14 +3,14 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "color_image_reader.h"
 #include "color.h"
 
-omp2::color_image_reader::color_image_reader(std::string file_path)
+omp2::color_image_reader::color_image_reader(std::string file_path): file_path_(std::move(file_path))
 {
-	file_path_ = file_path;
 }
 
 omp2::pnm_image_descriptor omp2::color_image_reader::read() const
