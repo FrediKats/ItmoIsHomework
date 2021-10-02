@@ -66,6 +66,9 @@
     <ClCompile Include="single_thread_color_normalizer.cpp">
       <Filter>Source Files\Normalizers</Filter>
     </ClCompile>
+    <ClCompile Include="multithread_color_normalizer.cpp">
+      <Filter>Source Files\Normalizers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functional_extension.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files\Normalizers</Filter>
     </ClInclude>
     <ClInclude Include="single_thread_color_normalizer.h">
+      <Filter>Header Files\Normalizers</Filter>
+    </ClInclude>
+    <ClInclude Include="multithread_color_normalizer.h">
       <Filter>Header Files\Normalizers</Filter>
     </ClInclude>
   </ItemGroup>
