@@ -1,8 +1,33 @@
+#include <iostream>
+#include <omp.h>
+#include <ostream>
+
 #include "color_image_reader.h"
 #include "color_image_writer.h"
 #include "color_normalizer.h"
 #include "multithread_color_normalizer.h"
 #include "single_thread_color_normalizer.h"
+#include "../lab1/benchmark_runner.h"
+#include "../lab1/benchmark_runner.cpp"
+
+void benchmark_run(omp2::pnm_image_descriptor image_descriptor)
+{
+	lab1::benchmark_runner benchmark = lab1::benchmark_runner(10);
+
+	auto color_normalizer = omp2::single_thread_color_normalizer();
+
+	std::cout << "ThreadCount;Single;Static" << std::endl;
+	for (int i = 1; i <= omp_get_num_procs(); i++)
+	{
+		auto mt_color_normalizer = omp2::multithread_color_normalizer(i);
+
+		std::cout
+			<< i << ";"
+			<< benchmark.benchmark_run([&color_normalizer, &image_descriptor] { color_normalizer.modify(image_descriptor.color); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify(image_descriptor.color); }).count() * 1000 << ";"
+			<< std::endl;
+	}
+}
 
 int main()
 {
@@ -16,10 +41,12 @@ int main()
 	auto color_normalizer = omp2::single_thread_color_normalizer();
 	auto mt_color_normalizer = omp2::multithread_color_normalizer(4);
 
-	auto modified_colors = color_normalizer.modify(image_descriptor.color);
-	modified_colors = mt_color_normalizer.modify(image_descriptor.color);
+	benchmark_run(image_descriptor);
 
-	auto result = omp2::pnm_image_descriptor(
-		image_descriptor.version, modified_colors, image_descriptor.width, image_descriptor.height, image_descriptor.max_value);
-	writer.write(result);
+	//auto modified_colors = color_normalizer.modify(image_descriptor.color);
+	//modified_colors = mt_color_normalizer.modify(image_descriptor.color);
+
+	//auto result = omp2::pnm_image_descriptor(
+	//	image_descriptor.version, modified_colors, image_descriptor.width, image_descriptor.height, image_descriptor.max_value);
+	//writer.write(result);
 }
