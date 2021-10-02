@@ -4,15 +4,18 @@
 
 #include "color.h"
 
-class color_histogram
+namespace omp2
 {
-public:
-	color_histogram(std::vector<omp2::color> colors, const std::function<unsigned char(omp2::color)>& color_selector);
+	class color_histogram
+	{
+	public:
+		color_histogram(std::vector<color> colors, const std::function<unsigned char(color)>& color_selector);
 
-	unsigned char get_max_value();
-	unsigned char get_min_value();
+		unsigned char get_max_value();
+		unsigned char get_min_value();
 
-private:
-	std::vector<omp2::color> colors_;
-	const std::function<unsigned char(omp2::color)>& color_selector_;
-};
+	private:
+		std::vector<color> colors_;
+		const std::function<unsigned char(color)>& color_selector_;
+	};
+}
