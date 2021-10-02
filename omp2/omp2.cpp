@@ -1,19 +1,21 @@
 #include <iostream>
 #include <sstream>
 
-#include "color_reader.h"
+#include "color_image_reader.h"
+#include "color_image_writer.h"
 #include "color_normalizer.h"
 
 int main()
 {
-	auto reader = omp2::color_reader("img");
-	auto color_normalizer = omp2::color_normalizer();
+	const auto source_file = "";
+	const auto destination_file = "";
 
-	const omp2::image_descriptor image_descriptor = reader.read();
-	//TODO: change type to double
-	auto modified_color = color_normalizer.modify(image_descriptor.color, 0, 1);
+	auto reader = omp2::color_image_reader(source_file);
+	auto writer = omp2::color_image_writer(destination_file);
+	//auto color_normalizer = omp2::color_normalizer();
 
-
-
-    std::cout << "Hello World!\n";
+	const omp2::pnm_image_descriptor image_descriptor = reader.read();
+	writer.write(image_descriptor);
+	////TODO: change type to double
+	//auto modified_color = color_normalizer.modify(pnm_image_descriptor.color, 0, 1);
 }
