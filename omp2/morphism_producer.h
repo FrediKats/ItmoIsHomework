@@ -5,16 +5,19 @@
 #include "color.h"
 #include "color_morphism.h"
 
-class morphism_producer
+namespace omp2
 {
-public:
-	morphism_producer();
-	morphism_producer(
-		const std::function<unsigned char(omp2::color)>& color_selector,
-		std::vector<omp2::color> input_colors);
+	class morphism_producer
+	{
+	public:
+		morphism_producer();
+		morphism_producer(
+			const std::function<unsigned char(color)>& color_selector,
+			std::vector<color> input_colors);
 
-	color_morphism produce() const;
+		color_morphism produce() const;
 
-private:
-	color_morphism value_;
-};
+	private:
+		color_morphism value_;
+	};
+}
