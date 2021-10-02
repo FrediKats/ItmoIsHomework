@@ -16,7 +16,7 @@ namespace omp2
 		if (original_color_value < min_)
 			return 0;
 
-		double coefficient = static_cast<double>(original_color_value - min_) / value_range;
+		const double coefficient = static_cast<double>(original_color_value - min_) / value_range;
 
 		//TODO: fix max value
 		double result = 255 * coefficient;
