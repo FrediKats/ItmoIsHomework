@@ -69,6 +69,9 @@
     <ClCompile Include="multithread_color_normalizer.cpp">
       <Filter>Source Files\Normalizers</Filter>
     </ClCompile>
+    <ClCompile Include="image_resizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functional_extension.h">
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="multithread_color_normalizer.h">
       <Filter>Header Files\Normalizers</Filter>
+    </ClInclude>
+    <ClInclude Include="image_resizer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

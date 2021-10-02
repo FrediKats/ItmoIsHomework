@@ -146,6 +146,7 @@
     <ClCompile Include="color_normalizer.cpp" />
     <ClCompile Include="color_image_reader.cpp" />
     <ClCompile Include="functional_extension.cpp" />
+    <ClCompile Include="image_resizer.cpp" />
     <ClCompile Include="morphism_producer.cpp" />
     <ClCompile Include="multithread_color_normalizer.cpp" />
     <ClCompile Include="pnm_image_descriptor.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="color_normalizer.h" />
     <ClInclude Include="color_image_reader.h" />
     <ClInclude Include="functional_extension.h" />
+    <ClInclude Include="image_resizer.h" />
     <ClInclude Include="morphism_producer.h" />
     <ClInclude Include="multithread_color_normalizer.h" />
     <ClInclude Include="pnm_image_descriptor.h" />
