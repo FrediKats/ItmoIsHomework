@@ -11,7 +11,6 @@ namespace omp2
 		explicit color_image_reader(std::string file_path);
 
 		image_descriptor read() const;
-		static void write(const std::string& file_path, image_descriptor image);
 
 	private:
 		std::string file_path_;
