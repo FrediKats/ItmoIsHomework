@@ -6,22 +6,6 @@
 
 namespace omp2
 {
-	unsigned char change_color(
-		const unsigned char original_color_value,
-		const color_morphism morphism)
-	{
-		const auto delta = morphism.get_delta();
-		const auto coefficient = morphism.get_coefficient();
-
-		if (coefficient == 0.0)
-			return original_color_value;
-
-		if (original_color_value < delta)
-			return 0;
-		const double result = static_cast<double>(original_color_value - delta) * coefficient;
-		return result;
-	}
-
 	std::vector<color> color_normalizer::modify(const std::vector<color>& input_colors)
 	{
 		const auto red_selector = std::function<unsigned char(color)>([](const color c) { return c.red; });
@@ -52,9 +36,9 @@ namespace omp2
 		{
 			const color original_color = input_colors[index];
 			const auto changed_color = color(
-				change_color(original_color.red, total_morphism),
-				change_color(original_color.green, total_morphism),
-				change_color(original_color.blue, total_morphism));
+				total_morphism.change_color(original_color.red),
+				total_morphism.change_color(original_color.green),
+				total_morphism.change_color(original_color.blue));
 
 			result[index] = changed_color;
 		}
