@@ -8,11 +8,10 @@ namespace omp2
 		color_morphism();
 		color_morphism(unsigned char min, unsigned char max);
 
-		unsigned char get_delta() const;
-		double get_coefficient() const;
+		unsigned char change_color(unsigned char original_color_value) const;
 
 	private:
-		unsigned char delta_;
-		double coefficient_;
+		unsigned char min_;
+		unsigned char max_;
 	};
 }
