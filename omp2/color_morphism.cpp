@@ -1,15 +1,29 @@
 ﻿#include "color_morphism.h"
 
+double calc_coefficient(
+	unsigned char min_value,
+	unsigned char max_value,
+	const unsigned char limit_value)
+{
+	const auto value_range = max_value - min_value;
+	if (value_range == 0)
+		return 0;
+
+	return limit_value / (static_cast<double>(value_range));
+}
+
 color_morphism::color_morphism() : delta_(0), coefficient_(0)
 {
 }
 
-color_morphism::color_morphism(
-	const unsigned char delta,
-	const double coefficient)
-	: delta_(delta),
-	  coefficient_(coefficient)
+color_morphism::color_morphism(unsigned char min, unsigned char max)
 {
+	delta_ = min;
+	//TODO: fix max value
+	coefficient_ = calc_coefficient(
+		min,
+		max,
+		255);
 }
 
 unsigned char color_morphism::get_delta() const
