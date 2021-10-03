@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <functional>
+
 #include "color_normalizer.h"
 
 namespace omp2
@@ -12,5 +14,6 @@ namespace omp2
 
 	private:
 		int parallel_thread_count_;
+		std::vector<std::function<unsigned char(color)>> selectors_;
 	};
 }
