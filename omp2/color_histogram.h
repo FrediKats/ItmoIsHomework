@@ -11,10 +11,13 @@ namespace omp2
 	public:
 		static constexpr int ignore_percent = 256;
 
+		color_histogram();
 		color_histogram(std::vector<color> colors, const std::function<unsigned char(color)>& color_selector);
 
 		unsigned char get_max_value() const;
 		unsigned char get_min_value() const;
+
+		color_histogram& operator=(const color_histogram& source);
 
 	private:
 		unsigned char min_;

@@ -13,7 +13,7 @@
 
 void benchmark_run(omp2::pnm_image_descriptor image_descriptor)
 {
-	lab1::benchmark_runner benchmark = lab1::benchmark_runner(5);
+	lab1::benchmark_runner benchmark = lab1::benchmark_runner(10);
 
 	auto color_normalizer = omp2::single_thread_color_normalizer();
 
@@ -42,11 +42,11 @@ int main()
 	auto color_normalizer = omp2::single_thread_color_normalizer();
 	auto mt_color_normalizer = omp2::multithread_color_normalizer(4);
 
-	auto resizer = image_resizer();
-	auto resized = resizer.resize(image_descriptor, 8);
-	writer.write(resized);
+	//auto resizer = image_resizer();
+	//auto resized = resizer.resize(image_descriptor, 4);
+	//writer.write(resized);
 
-	//benchmark_run(image_descriptor);
+	benchmark_run(image_descriptor);
 
 	//auto modified_colors = color_normalizer.modify(image_descriptor.color);
 	//modified_colors = mt_color_normalizer.modify(image_descriptor.color);
