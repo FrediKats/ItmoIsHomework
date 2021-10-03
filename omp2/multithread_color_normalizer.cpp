@@ -13,30 +13,39 @@ std::vector<omp2::color> omp2::multithread_color_normalizer::modify(const std::v
 	const auto green_selector = std::function<unsigned char(color)>([](const color c) { return c.green; });
 	const auto blue_selector = std::function<unsigned char(color)>([](const color c) { return c.blue; });
 
-	auto red_histogram = color_histogram(input_colors, red_selector);
-	auto green_histogram = color_histogram(input_colors, green_selector);
-	auto blue_histogram = color_histogram(input_colors, blue_selector);
-
-	auto total_max = std::max(
-		red_histogram.get_max_value(),
-		std::max(
-			green_histogram.get_max_value(),
-			blue_histogram.get_max_value()));
-
-	auto total_min = std::min(
-		red_histogram.get_min_value(),
-		std::min(
-			green_histogram.get_min_value(),
-			blue_histogram.get_min_value()));
-
-	auto total_morphism = color_morphism(total_min, total_max);
-
 	auto result = std::vector<color>(input_colors.size());
+
+	const auto selectors = std::vector<std::function<unsigned char(color)>>
+	{
+		red_selector,
+		green_selector,
+		blue_selector
+	};
+	auto histograms = std::vector<color_histogram>(3);
 
 #pragma omp parallel num_threads(parallel_thread_count_)
 	{
-#pragma omp for schedule(static)
-		for (size_t index = 0; index < input_colors.size(); index++)
+#pragma omp for schedule(guided)
+		for (int i = 0; i < selectors.size(); i++)
+		{
+			histograms[i] = color_histogram(input_colors, selectors[i]);
+		}
+	}
+
+	unsigned char min = histograms[0].get_min_value();
+	unsigned char max = histograms[0].get_max_value();
+	for (auto& histogram : histograms)
+	{
+		min = std::min(min, histogram.get_min_value());
+		max = std::max(max, histogram.get_max_value());
+	}
+
+	const auto total_morphism = color_morphism(min, max);
+
+#pragma omp parallel num_threads(parallel_thread_count_)
+	{
+#pragma omp for schedule(guided)
+		for (int index = 0; index < input_colors.size(); index++)
 		{
 			const color original_color = input_colors[index];
 			const auto changed_color = color(

@@ -5,6 +5,10 @@
 
 namespace omp2
 {
+	color_histogram::color_histogram() : color_selector_(std::function<unsigned char(color)>([](const color c) { return c.red; }))
+	{
+	}
+
 	color_histogram::color_histogram(
 		std::vector<color> colors,
 		const std::function<unsigned char(color)>& color_selector)
@@ -38,5 +42,12 @@ namespace omp2
 	unsigned char color_histogram::get_min_value() const
 	{
 		return min_;
+	}
+
+	color_histogram& color_histogram::operator=(const color_histogram& source)
+	{
+		this->min_ = source.min_;
+		this->max_ = source.max_;
+		return *this;
 	}
 }
