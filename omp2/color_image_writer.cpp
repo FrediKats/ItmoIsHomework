@@ -15,9 +15,10 @@ void omp2::color_image_writer::write(const pnm_image_descriptor& image) const
 
 	try
 	{
-		const auto argument_count = fprintf(file, "P%i\n%i %i\n%i\n", image.version, image.width, image.height, image.max_value);
-		if (argument_count != 4)
-			throw std::exception("Failed to write arguments to file");
+		const int argument_count = fprintf(file, "P%i\n%i %i\n%i\n", image.version, image.width, image.height,
+		                                   image.max_value);
+		if (argument_count < 0)
+			throw std::exception(("Failed to write arguments to file. Return: " + std::to_string(argument_count)).c_str());
 
 		const size_t buffer_size = 3 * image.width * image.height;
 		pixel_data = new unsigned char[buffer_size];
