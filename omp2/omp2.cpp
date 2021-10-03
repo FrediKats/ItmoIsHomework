@@ -17,7 +17,7 @@ void benchmark_run(omp2::pnm_image_descriptor image_descriptor)
 
 	auto color_normalizer = omp2::single_thread_color_normalizer();
 
-	std::cout << "ThreadCount;Single;Static" << std::endl;
+	std::cout << "ThreadCount;Single;Dynamic;Static;Guided" << std::endl;
 	for (int i = 1; i <= omp_get_num_procs(); i++)
 	{
 		auto mt_color_normalizer = omp2::multithread_color_normalizer(i);
@@ -25,7 +25,9 @@ void benchmark_run(omp2::pnm_image_descriptor image_descriptor)
 		std::cout
 			<< i << ";"
 			<< benchmark.benchmark_run([&color_normalizer, &image_descriptor] { color_normalizer.modify(image_descriptor.color); }).count() * 1000 << ";"
-			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify(image_descriptor.color); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_dynamic(image_descriptor.color); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_static(image_descriptor.color); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_guid(image_descriptor.color); }).count() * 1000 << ";"
 			<< std::endl;
 	}
 }
