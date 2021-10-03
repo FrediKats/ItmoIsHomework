@@ -64,7 +64,7 @@ int console_run(int argc, char** argv)
 	try
 	{
 		//NB: exec_path input_file_path output_file_path thread_count
-		if (argc == 3)
+		if (argc == 4)
 		{
 			common_run(std::string(argv[1]), std::string(argv[2]), atoi(argv[3]));
 			return 0;
