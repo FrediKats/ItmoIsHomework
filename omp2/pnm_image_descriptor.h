@@ -9,6 +9,7 @@ namespace omp2
 	{
 	public:
 		pnm_image_descriptor(int version, std::vector<color> color, int width, int height, int max_value);
+		pnm_image_descriptor update_colors(std::vector<color> new_colors) const;
 
 		const int version;
 		const std::vector<color> color;
