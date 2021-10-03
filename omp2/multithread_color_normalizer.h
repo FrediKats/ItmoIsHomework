@@ -5,7 +5,7 @@
 
 namespace omp2
 {
-	class multithread_color_normalizer : color_normalizer
+	class multithread_color_normalizer : public color_normalizer
 	{
 	public:
 		explicit multithread_color_normalizer(int parallel_thread_count);

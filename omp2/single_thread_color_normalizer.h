@@ -3,7 +3,7 @@
 
 namespace omp2
 {
-	class single_thread_color_normalizer : color_normalizer
+	class single_thread_color_normalizer : public  color_normalizer
 	{
 	public:
 		std::vector<color> modify(const std::vector<color>& input_colors) override;

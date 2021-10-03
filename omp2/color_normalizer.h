@@ -8,7 +8,6 @@ namespace omp2
 	class color_normalizer
 	{
 	public:
-		virtual ~color_normalizer() = default;
-		virtual std::vector<color> modify(const std::vector<color>& input_colors) = 0;
+		virtual std::vector<color> modify(const std::vector<color>& input_colors);
 	};
 }
