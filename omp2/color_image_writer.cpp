@@ -11,15 +11,18 @@ omp2::color_image_writer::color_image_writer(std::string file_path) : file_path_
 void omp2::color_image_writer::write(const pnm_image_descriptor& image) const
 {
 	FILE* file = fopen(file_path_.c_str(), "wb");
+	unsigned char* pixel_data = nullptr;
 
 	try
 	{
-		fprintf(file, "P%i\n%i %i\n%i\n", image.version, image.width, image.height, image.max_value);
+		const auto argument_count = fprintf(file, "P%i\n%i %i\n%i\n", image.version, image.width, image.height, image.max_value);
+		if (argument_count != 4)
+			throw std::exception("Failed to write arguments to file");
 
-		const int buffer_size = 3 * image.width * image.height;
-		const auto pixel_data = new char[buffer_size];
+		const size_t buffer_size = 3 * image.width * image.height;
+		pixel_data = new unsigned char[buffer_size];
 
-		for (int index = 0; index < image.color.size(); index++)
+		for (size_t index = 0; index < image.color.size(); index++)
 		{
 			const auto current_pixel = image.color[index];
 			pixel_data[index * 3] = current_pixel.red;
@@ -27,12 +30,17 @@ void omp2::color_image_writer::write(const pnm_image_descriptor& image) const
 			pixel_data[index * 3 + 2] = current_pixel.blue;
 		}
 
-		fwrite(pixel_data, sizeof(char), buffer_size, file);
+		const size_t pixel_count = fwrite(pixel_data, sizeof(char), buffer_size, file);
+		if (pixel_count != buffer_size)
+			throw std::exception("Failed to write pixels to file");
+
+		delete[] pixel_data;
 		fclose(file);
 	}
 	catch (...)
 	{
-
+		delete[] pixel_data;
+		fclose(file);
 		throw;
 	}
 }

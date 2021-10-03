@@ -16,6 +16,7 @@ omp2::color_image_reader::color_image_reader(std::string file_path): file_path_(
 omp2::pnm_image_descriptor omp2::color_image_reader::read() const
 {
 	FILE* file = fopen(file_path_.c_str(), "rb");
+	unsigned char* pixel_data = nullptr;
 
 	try
 	{
@@ -25,17 +26,20 @@ omp2::pnm_image_descriptor omp2::color_image_reader::read() const
 		int height;
 		int max_value;
 
-		fscanf(file, "P%i\n%i %i\n%i\n", &version, &width, &height, &max_value);
+		const auto read_argument_count = fscanf(file, "P%i\n%i %i\n%i\n", &version, &width, &height, &max_value);
+		if (read_argument_count != 4)
+			throw std::exception("Failed to read arguments from file");
 
-		const int buffer_size = 3 * width * height;
-		const auto pixel_data = new char[buffer_size];
+		const size_t buffer_size = 3 * width * height;
+		pixel_data = new unsigned char[buffer_size];
 
-		fread(pixel_data, sizeof(char), buffer_size, file);
+		const size_t pixel_count = fread(pixel_data, sizeof(char), buffer_size, file);
+		if (pixel_count != buffer_size)
+			throw std::exception("Failed to read pixels from file");
 
-		//file_descriptor.read(pixel_data, buffer_size);
 		auto colors = std::vector<color>();
 
-		for (int i = 0; i < buffer_size; i += 3) {
+		for (size_t i = 0; i < buffer_size; i += 3) {
 			unsigned char red = pixel_data[i];
 			unsigned char green = pixel_data[i + 1];
 			unsigned char blue = pixel_data[i + 2];
@@ -43,13 +47,13 @@ omp2::pnm_image_descriptor omp2::color_image_reader::read() const
 		}
 
 		delete[] pixel_data;
-		//file_descriptor.close();
 		fclose(file);
 		return pnm_image_descriptor(version, colors, width, height, max_value);
 	}
 	catch (...)
 	{
-		//file_descriptor.close();
+		delete[] pixel_data;
+		fclose(file);
 		throw;
 	}
 }
