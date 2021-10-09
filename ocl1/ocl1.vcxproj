@@ -152,7 +152,11 @@
     <Text Include="kernel.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cl_device_provider.cpp" />
     <ClCompile Include="ocl1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cl_device_provider.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
