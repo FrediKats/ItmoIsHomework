@@ -5,52 +5,29 @@
 #include <CL/opencl.h>
 #include <vector>
 #include "cl_device_provider.h"
+#include "execution_context.h"
 #include "kernel_file_source.h"
+#include "program_builder.h"
 
 
 int main()
 {
     int err;
-    cl_context context;
-    cl_command_queue command_queue;
+
+    kernel_file_source kernel_source = kernel_file_source("kernel.txt");
+    const std::string kernel_source_code = kernel_source.get_kernel_source_code();
 
     cl_device_provider device_provider = cl_device_provider();
     //TODO: read index from args
     device device = device_provider.select_device(0);
 
 
-    //create context
-    //TODO: need to dispose this context
-    context = clCreateContext(nullptr, 1, &device.id, nullptr, nullptr, &err);
-    if (!context)
-    {
-        printf("Error: Failed to create a compute context!\n");
-        return EXIT_FAILURE;
-    }
+    execution_context execution_context_instance = execution_context(device);
+    cl_context context = execution_context_instance.context;
+    cl_command_queue command_queue = execution_context_instance.command_queue;
 
-    // TODO: Allow profiling
-    command_queue = clCreateCommandQueue(context, device.id, 0, &err);
-    if (!command_queue)
-    {
-        printf("Error: Failed to create a command commands!\n");
-        return EXIT_FAILURE;
-    }
-
-    kernel_file_source kernel_source = kernel_file_source("kernel.txt");
-    const std::string kernel_source_code = kernel_source.get_kernel_source_code();
-    const char* kernel_source_code_link = kernel_source_code.c_str();
-
-    //TODO: prebuild
-    cl_program program = clCreateProgramWithSource(context, 1, &kernel_source_code_link, nullptr, &err);
-    if (!program)
-    {
-        printf("Error: Failed to create compute program!\n");
-        return EXIT_FAILURE;
-    }
-
-    //TODO: handle error
-    //TODO: clGetProgramBuildLog
-    err = clBuildProgram(program, 0, nullptr, nullptr, nullptr, nullptr);
+    program_builder builder = program_builder();
+    const cl_program program = builder.build(context, kernel_source_code);
 
     int a = 1;
     int b = 2;
