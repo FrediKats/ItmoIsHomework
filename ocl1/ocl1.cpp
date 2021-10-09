@@ -35,7 +35,7 @@ std::vector<cl_platform_id> get_platforms()
 	return result;
 }
 
-cl_device_id select_device(const cl_platform_id platform_id)
+cl_device_id select_device(cl_platform_id platform_id)
 {
     cl_device_id device_id;
     //TODO: select discrete video card
@@ -51,25 +51,27 @@ cl_device_id select_device(const cl_platform_id platform_id)
 
 int main()
 {
-	const auto cl_platform_ids = get_platforms();
 
     int err;
     cl_context context;
     cl_command_queue command_queue;
 
 
+    const auto cl_platform_ids = get_platforms();
     //TODO: fix [0]
-	const cl_device_id device_id = select_device(cl_platform_ids[0]);
+	cl_device_id device_id = select_device(cl_platform_ids[0]);
 
 
     //create context
+    //TODO: need to dispose this context
     context = clCreateContext(nullptr, 1, &device_id, nullptr, nullptr, &err);
     if (!context)
     {
         printf("Error: Failed to create a compute context!\n");
         return EXIT_FAILURE;
     }
-    //
+
+    // TODO: Allow profiling
     command_queue = clCreateCommandQueue(context, device_id, 0, &err);
     if (!command_queue)
     {
@@ -78,24 +80,48 @@ int main()
     }
 
     std::string data = get_file_string();
-    const char* KernelSource = data.c_str();
+    const char* kernel_source = data.c_str();
     //TODO: prebuild
-    cl_program program = clCreateProgramWithSource(context, 1, &KernelSource, nullptr, &err);
+    cl_program program = clCreateProgramWithSource(context, 1, &kernel_source, nullptr, &err);
     if (!program)
     {
         printf("Error: Failed to create compute program!\n");
         return EXIT_FAILURE;
     }
 
+    //TODO: handle error
+    //TODO: clGetProgramBuildLog
     err = clBuildProgram(program, 0, nullptr, nullptr, nullptr, nullptr);
+
     int a = 1;
     int b = 2;
-    cl_kernel kernel = clCreateKernel(program, "allToOne", &err);
-    clSetKernelArg(kernel, 0, 4, &a);
-    clSetKernelArg(kernel, 1, 4, &b);
+    int c = 0;
+
+    // -37 - invalid host ptr
+    cl_mem input_a = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(int), &a, &err);
+    cl_mem input_b = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(int), &b, NULL);
+    cl_mem output = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(int), NULL, NULL);
+    
+    cl_kernel kernel = clCreateKernel(program, "sum", &err);
+    clSetKernelArg(kernel, 0, sizeof(cl_mem), &input_a);
+    clSetKernelArg(kernel, 1, sizeof(cl_mem), &input_b);
+    clSetKernelArg(kernel, 2, sizeof(cl_mem), &output);
+
     size_t global_item_size = 4;
-    clEnqueueNDRangeKernel(command_queue, kernel, 1, nullptr, &global_item_size, nullptr, 0, nullptr, nullptr);
+    size_t local_item_size = 4;
+    err = clEnqueueNDRangeKernel(command_queue, kernel, 1, nullptr, &global_item_size, &local_item_size, 0, nullptr, nullptr);
+    clFinish(command_queue);
+    err = clEnqueueReadBuffer(command_queue, output, CL_TRUE, 0, sizeof(int), &c, 0, NULL, NULL);
 
+    //auto buffer = clCreateBuffer(context, 0, sizeof(cl_int), nullptr, nullptr);
 
-    return 0;
+    std::cout << c;
+
+    //TODO: release memory object
+    //auto buffer = clCreateBuffer(context, 0, sizeof(cl_int), nullptr, nullptr);
+    //TODO: add sync | async
+    //cl_int write_byte_count = clEnqueueWriteBuffer(command_queue, buffer, false, 0, sizeof(cl_int), nullptr, 0, nullptr, nullptr);
+    //cl_int read_byte_count = clEnqueueReadBuffer(command_queue, buffer, false, 0, sizeof(cl_int), nullptr, 0, nullptr, nullptr);
+
+	return 0;
 }
