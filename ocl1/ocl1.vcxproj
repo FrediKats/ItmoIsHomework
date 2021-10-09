@@ -149,7 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="kernel.txt" />
+    <Text Include="sum.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cl_device_provider.cpp" />
