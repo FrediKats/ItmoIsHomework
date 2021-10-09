@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="multiplication.txt" />
     <Text Include="sum.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +157,7 @@
     <ClCompile Include="device.cpp" />
     <ClCompile Include="execution_context.cpp" />
     <ClCompile Include="kernel_file_source.cpp" />
+    <ClCompile Include="multiplication_kernel_argument.cpp" />
     <ClCompile Include="ocl1.cpp" />
     <ClCompile Include="program_builder.cpp" />
     <ClCompile Include="sum_kernel.cpp" />
@@ -171,6 +173,7 @@
     <ClInclude Include="kernel_file_source.h" />
     <ClInclude Include="kernel_response.h" />
     <ClInclude Include="kernel_source.h" />
+    <ClInclude Include="multiplication_kernel_argument.h" />
     <ClInclude Include="program_builder.h" />
     <ClInclude Include="sum_kernel.h" />
     <ClInclude Include="sum_kernel_argument.h" />
