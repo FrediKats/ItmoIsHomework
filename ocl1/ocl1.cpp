@@ -1,4 +1,4 @@
-#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
+﻿#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
 
 #include <fstream>
 #include <iostream>
@@ -8,7 +8,7 @@
 std::string get_file_string() {
     std::ifstream ifs("kernel.txt");
     return std::string((std::istreambuf_iterator<char>(ifs)),
-                       (std::istreambuf_iterator<char>()));
+        (std::istreambuf_iterator<char>()));
 }
 
 int main()
@@ -49,14 +49,14 @@ int main()
 
     std::string data = get_file_string();
     const char* KernelSource = data.c_str();
-	//TODO: prebuild
+    //TODO: prebuild
     cl_program program = clCreateProgramWithSource(context, 1, &KernelSource, NULL, &err);
     if (!program)
     {
         printf("Error: Failed to create compute program!\n");
         return EXIT_FAILURE;
     }
-	
+
     err = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
     int a = 1;
     int b = 2;
@@ -66,6 +66,6 @@ int main()
     size_t global_item_size = 4;
     clEnqueueNDRangeKernel(commands, kernel, 1, NULL, &global_item_size, NULL, 0, NULL, NULL);
 
-	
-	return 0;
+
+    return 0;
 }
