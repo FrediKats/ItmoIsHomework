@@ -154,14 +154,18 @@
   <ItemGroup>
     <ClCompile Include="cl_device_provider.cpp" />
     <ClCompile Include="device.cpp" />
+    <ClCompile Include="execution_context.cpp" />
     <ClCompile Include="kernel_file_source.cpp" />
     <ClCompile Include="ocl1.cpp" />
+    <ClCompile Include="program_builder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_device_provider.h" />
     <ClInclude Include="device.h" />
+    <ClInclude Include="execution_context.h" />
     <ClInclude Include="kernel_file_source.h" />
     <ClInclude Include="kernel_source.h" />
+    <ClInclude Include="program_builder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
