@@ -65,7 +65,7 @@ cl_device_id select_device(cl_platform_id platform_id, cl_device_type device_typ
     cl_int err = clGetDeviceIDs(platform_id, device_type, 0, nullptr, &device_count);
 
     cl_device_id* device_ids = static_cast<cl_device_id*>(malloc(sizeof(cl_device_id) * device_count));
-    err = clGetDeviceIDs(platform_id, device_type, 0, device_ids, &device_count);
+    err = clGetDeviceIDs(platform_id, device_type, device_count, device_ids, &device_count);
     for (int i = 0; i < device_count; i++)
     {
         size_t return_size;
