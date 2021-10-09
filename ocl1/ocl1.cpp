@@ -98,10 +98,13 @@ int main()
     int c = 0;
 
     // -37 - invalid host ptr
-    cl_mem input_a = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(int), &a, &err);
-    cl_mem input_b = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(int), &b, NULL);
-    cl_mem output = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(int), NULL, NULL);
-    
+    cl_mem input_a = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(int), nullptr, &err);
+    cl_mem input_b = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(int), nullptr, &err);
+    cl_mem output = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(int), nullptr, &err);
+
+    err = clEnqueueWriteBuffer(command_queue, input_a, CL_TRUE, 0, sizeof(int), &a, 0, nullptr, nullptr);
+    err = clEnqueueWriteBuffer(command_queue, input_b, CL_TRUE, 0, sizeof(int), &b, 0, nullptr, nullptr);
+
     cl_kernel kernel = clCreateKernel(program, "sum", &err);
     clSetKernelArg(kernel, 0, sizeof(cl_mem), &input_a);
     clSetKernelArg(kernel, 1, sizeof(cl_mem), &input_b);
@@ -111,7 +114,7 @@ int main()
     size_t local_item_size = 4;
     err = clEnqueueNDRangeKernel(command_queue, kernel, 1, nullptr, &global_item_size, &local_item_size, 0, nullptr, nullptr);
     clFinish(command_queue);
-    err = clEnqueueReadBuffer(command_queue, output, CL_TRUE, 0, sizeof(int), &c, 0, NULL, NULL);
+    err = clEnqueueReadBuffer(command_queue, output, CL_TRUE, 0, sizeof(int), &c, 0, nullptr, nullptr);
 
     //auto buffer = clCreateBuffer(context, 0, sizeof(cl_int), nullptr, nullptr);
 
