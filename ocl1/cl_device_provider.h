@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include <CL/cl.h>
 
+#include "device.h"
+
 class cl_device_provider
 {
 public:
-	cl_device_id get_device_id(int requested_index);
+	device select_device(int requested_index);
 };

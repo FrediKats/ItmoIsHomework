@@ -16,12 +16,12 @@ int main()
 
     cl_device_provider device_provider = cl_device_provider();
     //TODO: read index from args
-	cl_device_id device_id = device_provider.get_device_id(0);
+    device device = device_provider.select_device(0);
 
 
     //create context
     //TODO: need to dispose this context
-    context = clCreateContext(nullptr, 1, &device_id, nullptr, nullptr, &err);
+    context = clCreateContext(nullptr, 1, &device.id, nullptr, nullptr, &err);
     if (!context)
     {
         printf("Error: Failed to create a compute context!\n");
@@ -29,7 +29,7 @@ int main()
     }
 
     // TODO: Allow profiling
-    command_queue = clCreateCommandQueue(context, device_id, 0, &err);
+    command_queue = clCreateCommandQueue(context, device.id, 0, &err);
     if (!command_queue)
     {
         printf("Error: Failed to create a command commands!\n");

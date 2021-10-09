@@ -29,6 +29,9 @@
     <ClCompile Include="kernel_file_source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="device.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_device_provider.h">
@@ -38,6 +41,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="kernel_file_source.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
