@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Kernels\Sum">
       <UniqueIdentifier>{027ee291-dd45-4fca-bfc8-09cd6aeb560f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Kernels\Contracts">
+      <UniqueIdentifier>{e7eb79a6-c8e4-4c3f-a8ab-6e5f68e07c84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="kernel.txt">
@@ -87,6 +90,15 @@
     </ClInclude>
     <ClInclude Include="sum_kernel.h">
       <Filter>Header Files\Kernels\Sum</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel_argument.h">
+      <Filter>Header Files\Kernels\Contracts</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel_response.h">
+      <Filter>Header Files\Kernels\Contracts</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel_contract.h">
+      <Filter>Header Files\Kernels\Contracts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

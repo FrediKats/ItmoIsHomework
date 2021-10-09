@@ -166,7 +166,10 @@
     <ClInclude Include="cl_device_provider.h" />
     <ClInclude Include="device.h" />
     <ClInclude Include="execution_context.h" />
+    <ClInclude Include="kernel_argument.h" />
+    <ClInclude Include="kernel_contract.h" />
     <ClInclude Include="kernel_file_source.h" />
+    <ClInclude Include="kernel_response.h" />
     <ClInclude Include="kernel_source.h" />
     <ClInclude Include="program_builder.h" />
     <ClInclude Include="sum_kernel.h" />
