@@ -23,5 +23,13 @@
     <ClCompile Include="ocl1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cl_device_provider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cl_device_provider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
