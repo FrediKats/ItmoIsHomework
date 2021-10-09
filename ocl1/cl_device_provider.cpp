@@ -30,7 +30,7 @@ std::vector<cl_platform_id> get_platforms()
 	size_t infoSize;
 
     auto result = std::vector<cl_platform_id>(num_platforms);
-    for (int i = 0; i < num_platforms; i++)
+    for (cl_uint i = 0; i < num_platforms; i++)
 	{
 		for (int j = 0; j < 5; j++)
 		{
@@ -49,12 +49,12 @@ std::vector<cl_platform_id> get_platforms()
 	return result;
 }
 
-std::vector<cl_device_id> get_devices(cl_platform_id platform_id, cl_device_type device_type)
+std::vector<device> get_devices(cl_platform_id platform_id, cl_device_type device_type)
 {
     cl_uint device_count;
     cl_int err = clGetDeviceIDs(platform_id, device_type, 0, nullptr, &device_count);
     if (err == CL_DEVICE_NOT_FOUND)
-        return std::vector<cl_device_id>();
+        return std::vector<device>();
 
     if (err != CL_SUCCESS)
         throw std::exception("Error: Failed to get devices ids for platform ");
@@ -63,7 +63,7 @@ std::vector<cl_device_id> get_devices(cl_platform_id platform_id, cl_device_type
     if (err != CL_SUCCESS)
         throw std::exception("Error: Failed to get devices ids for platform ");
 
-    std::vector<cl_device_id> result = std::vector<cl_device_id>(device_count);
+    std::vector<device> result = std::vector<device>(device_count);
 	for (cl_uint i = 0; i < device_count; i++)
     {
         size_t return_size;
@@ -78,19 +78,17 @@ std::vector<cl_device_id> get_devices(cl_platform_id platform_id, cl_device_type
 
         std::string name = std::string(cBuffer);
 
-        std::cout << name;
-
-        result[i] = device_ids[i];
+        result[i] = device(device_ids[i], name);
     }
 
     return result;
 }
 
-cl_device_id cl_device_provider::get_device_id(int requested_index)
+device cl_device_provider::select_device(int requested_index)
 {
     //TODO: detect discrete and integrated cards
 
-    std::vector<cl_device_id> devices = std::vector<cl_device_id>();
+    std::vector<device> devices = std::vector<device>();
     const auto cl_platform_ids = get_platforms();
 
     for (int i = 0; i < cl_platform_ids.size(); i++)

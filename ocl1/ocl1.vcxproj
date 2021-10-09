@@ -153,11 +153,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cl_device_provider.cpp" />
+    <ClCompile Include="device.cpp" />
     <ClCompile Include="kernel_file_source.cpp" />
     <ClCompile Include="ocl1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_device_provider.h" />
+    <ClInclude Include="device.h" />
     <ClInclude Include="kernel_file_source.h" />
     <ClInclude Include="kernel_source.h" />
   </ItemGroup>
