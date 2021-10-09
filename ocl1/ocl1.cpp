@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <CL/opencl.h>
-#include <vector>
 #include "cl_device_provider.h"
 #include "execution_context.h"
 #include "kernel_file_source.h"

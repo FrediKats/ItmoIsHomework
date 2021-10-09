@@ -6,7 +6,6 @@ sum_kernel::sum_kernel(kernel_source& source, execution_context execution_contex
 {
     //TODO: error handling
     int err;
-
     
     const std::string kernel_source_code = source.get_kernel_source_code();
     program_builder builder = program_builder();
@@ -20,22 +19,18 @@ sum_kernel_response sum_kernel::execute(sum_kernel_argument argument)
 {
     argument.write_arguments(execution_context_instance_, kernel_);
 
-    cl_context context = execution_context_instance_.context;
-    cl_command_queue command_queue = execution_context_instance_.command_queue;
-
     //TODO: error handling
-    int err;
-    cl_mem output = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(int), nullptr, &err);
+    sum_kernel_response response = sum_kernel_response();
 
+    response.setup(execution_context_instance_, kernel_);
 
-    clSetKernelArg(kernel_, 2, sizeof(cl_mem), &output);
-
-    int c;
     size_t global_item_size = 4;
     size_t local_item_size = 4;
-    err = clEnqueueNDRangeKernel(command_queue, kernel_, 1, nullptr, &global_item_size, &local_item_size, 0, nullptr, nullptr);
-    clFinish(command_queue);
-    err = clEnqueueReadBuffer(command_queue, output, CL_TRUE, 0, sizeof(int), &c, 0, nullptr, nullptr);
+    int err;
+    err = clEnqueueNDRangeKernel(execution_context_instance_.command_queue, kernel_, 1, nullptr, &global_item_size, &local_item_size, 0, nullptr, nullptr);
+    clFinish(execution_context_instance_.command_queue);
 
-    return sum_kernel_response(c);
+    response.read_result(execution_context_instance_);
+
+    return response;
 }
