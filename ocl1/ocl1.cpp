@@ -5,20 +5,11 @@
 #include <CL/opencl.h>
 #include <vector>
 #include "cl_device_provider.h"
-
-//NB: https://stackoverflow.com/a/28344440
-std::string get_file_string() {
-    std::ifstream ifs("kernel.txt");
-    return std::string((std::istreambuf_iterator<char>(ifs)),
-        (std::istreambuf_iterator<char>()));
-}
-
-
+#include "kernel_file_source.h"
 
 
 int main()
 {
-
     int err;
     cl_context context;
     cl_command_queue command_queue;
@@ -45,10 +36,12 @@ int main()
         return EXIT_FAILURE;
     }
 
-    std::string data = get_file_string();
-    const char* kernel_source = data.c_str();
+    kernel_file_source kernel_source = kernel_file_source("kernel.txt");
+    const std::string kernel_source_code = kernel_source.get_kernel_source_code();
+    const char* kernel_source_code_link = kernel_source_code.c_str();
+
     //TODO: prebuild
-    cl_program program = clCreateProgramWithSource(context, 1, &kernel_source, nullptr, &err);
+    cl_program program = clCreateProgramWithSource(context, 1, &kernel_source_code_link, nullptr, &err);
     if (!program)
     {
         printf("Error: Failed to create compute program!\n");
