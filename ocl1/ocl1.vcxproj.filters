@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Kernels">
+      <UniqueIdentifier>{f4e4c77f-4a6a-4098-81fb-06eee3f51ce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Kernels">
+      <UniqueIdentifier>{f45ed05e-5760-40f7-bece-dcdad9c00c9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Kernels\Sum">
+      <UniqueIdentifier>{0ffa30b4-4de0-4626-861f-4e40ca079329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Kernels\Sum">
+      <UniqueIdentifier>{027ee291-dd45-4fca-bfc8-09cd6aeb560f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="kernel.txt">
@@ -38,6 +50,15 @@
     <ClCompile Include="execution_context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sum_kernel_argument.cpp">
+      <Filter>Source Files\Kernels\Sum</Filter>
+    </ClCompile>
+    <ClCompile Include="sum_kernel.cpp">
+      <Filter>Source Files\Kernels\Sum</Filter>
+    </ClCompile>
+    <ClCompile Include="sum_kernel_response.cpp">
+      <Filter>Source Files\Kernels\Sum</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_device_provider.h">
@@ -57,6 +78,15 @@
     </ClInclude>
     <ClInclude Include="execution_context.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sum_kernel_argument.h">
+      <Filter>Header Files\Kernels\Sum</Filter>
+    </ClInclude>
+    <ClInclude Include="sum_kernel_response.h">
+      <Filter>Header Files\Kernels\Sum</Filter>
+    </ClInclude>
+    <ClInclude Include="sum_kernel.h">
+      <Filter>Header Files\Kernels\Sum</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
