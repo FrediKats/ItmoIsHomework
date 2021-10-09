@@ -16,7 +16,7 @@ int main()
     device device = device_provider.select_device(0);
     execution_context execution_context_instance = execution_context(device);
 
-    kernel_file_source kernel_source = kernel_file_source("kernel.txt");
+    kernel_file_source kernel_source = kernel_file_source("sum.txt");
     sum_kernel_argument argument = sum_kernel_argument(1, 2);
     sum_kernel sum = create_sum_kernel(kernel_source, execution_context_instance);
     sum_kernel_response response = sum.execute(argument);

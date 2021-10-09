@@ -30,11 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="kernel.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="ocl1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,5 +95,10 @@
     <ClInclude Include="kernel_contract.h">
       <Filter>Header Files\Kernels\Contracts</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="sum.txt">
+      <Filter>Header Files\Kernels\Sum</Filter>
+    </Text>
   </ItemGroup>
 </Project>
