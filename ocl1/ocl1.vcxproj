@@ -149,10 +149,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lab2.cpp" />
+    <Text Include="kernel.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="kernel.txt" />
+    <ClCompile Include="ocl1.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
