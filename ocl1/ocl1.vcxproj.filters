@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Kernels\Contracts">
       <UniqueIdentifier>{e7eb79a6-c8e4-4c3f-a8ab-6e5f68e07c84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Kernels\Multiplication">
+      <UniqueIdentifier>{299dc8f7-3c68-4da9-93a6-c64cb99bf962}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ocl1.cpp">
@@ -56,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="sum_kernel_response.cpp">
       <Filter>Source Files\Kernels\Sum</Filter>
+    </ClCompile>
+    <ClCompile Include="multiplication_kernel_argument.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,10 +101,16 @@
     <ClInclude Include="kernel_contract.h">
       <Filter>Header Files\Kernels\Contracts</Filter>
     </ClInclude>
+    <ClInclude Include="multiplication_kernel_argument.h">
+      <Filter>Header Files\Kernels\Multiplication</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="sum.txt">
       <Filter>Header Files\Kernels\Sum</Filter>
+    </Text>
+    <Text Include="multiplication.txt">
+      <Filter>Header Files\Kernels\Multiplication</Filter>
     </Text>
   </ItemGroup>
 </Project>
