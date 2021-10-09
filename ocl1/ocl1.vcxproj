@@ -158,6 +158,9 @@
     <ClCompile Include="kernel_file_source.cpp" />
     <ClCompile Include="ocl1.cpp" />
     <ClCompile Include="program_builder.cpp" />
+    <ClCompile Include="sum_kernel.cpp" />
+    <ClCompile Include="sum_kernel_argument.cpp" />
+    <ClCompile Include="sum_kernel_response.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_device_provider.h" />
@@ -166,6 +169,9 @@
     <ClInclude Include="kernel_file_source.h" />
     <ClInclude Include="kernel_source.h" />
     <ClInclude Include="program_builder.h" />
+    <ClInclude Include="sum_kernel.h" />
+    <ClInclude Include="sum_kernel_argument.h" />
+    <ClInclude Include="sum_kernel_response.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
