@@ -35,22 +35,32 @@ std::vector<cl_platform_id> get_platforms()
 	return result;
 }
 
+cl_device_id select_device(const cl_platform_id platform_id)
+{
+    cl_device_id device_id;
+    //TODO: select discrete video card
+    // use clGetDeviceIDS | clGetDeviceInfo
+    cl_int err = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_GPU, 1, &device_id, nullptr);
+    if (err != CL_SUCCESS)
+    {
+        throw std::exception("Error: Failed to create a device group!");
+    }
+
+    return device_id;
+}
+
 int main()
 {
 	const auto cl_platform_ids = get_platforms();
 
     int err;
     cl_context context;
-    cl_device_id device_id;
     cl_command_queue command_queue;
 
-    //get Device
-    err = clGetDeviceIDs(cl_platform_ids[0], CL_DEVICE_TYPE_GPU, 1, &device_id, nullptr);
-    if (err != CL_SUCCESS)
-    {
-        printf("Error: Failed to create a device group!\n");
-        return EXIT_FAILURE;
-    }
+
+    //TODO: fix [0]
+	const cl_device_id device_id = select_device(cl_platform_ids[0]);
+
 
     //create context
     context = clCreateContext(nullptr, 1, &device_id, nullptr, nullptr, &err);
