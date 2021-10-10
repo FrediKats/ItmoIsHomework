@@ -47,7 +47,8 @@ void execute_mult()
     float* b = static_cast<float*>(malloc(sizeof(float)));
     a[0] = 2;
     b[0] = 3;
-    float* c = static_cast<float*>(malloc(sizeof(float)));
+    float* c = static_cast<float*>(calloc(1, sizeof(float)));
+    c[0] = -1;
 
     multiplication_kernel_argument argument = multiplication_kernel_argument(1, 1, 1, a, b);
     multiplication_kernel_response response = multiplication_kernel_response(1, c);

@@ -33,8 +33,8 @@ void kernel_contract<TArguments, TResponse>::execute(TArguments& argument, TResp
 
 	response.setup(execution_context_instance_, kernel_);
 
-	size_t global_item_size = 4;
-	size_t local_item_size = 4;
+	size_t global_item_size = 1024;
+	size_t local_item_size = 1024;
 
 	int err;
 	err = clEnqueueNDRangeKernel(
@@ -42,8 +42,8 @@ void kernel_contract<TArguments, TResponse>::execute(TArguments& argument, TResp
 		kernel_,
 		1,
 		nullptr,
-		&global_item_size,
-		&local_item_size,
+		nullptr,
+		nullptr,
 		0,
 		nullptr,
 		nullptr);
@@ -51,8 +51,10 @@ void kernel_contract<TArguments, TResponse>::execute(TArguments& argument, TResp
 	validate_error(err).or_throw(error_message::about_kernel_enqueue);
 
 	//TODO: not sure about order
-	err = clFinish(execution_context_instance_.command_queue);
-	validate_error(err).or_throw(error_message::about_waiting_processing);
+	//err = clFinish(execution_context_instance_.command_queue);
+	//validate_error(err).or_throw(error_message::about_waiting_processing);
 
 	response.read_result(execution_context_instance_);
+	err = clFinish(execution_context_instance_.command_queue);
+	validate_error(err).or_throw(error_message::about_waiting_processing);
 }

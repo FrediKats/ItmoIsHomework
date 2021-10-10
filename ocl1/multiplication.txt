@@ -8,15 +8,18 @@ __kernel void simpleMultiply(
 {
 	//Get global position in Y direction
 	//int row = get_global_id(1);
+	int row = 0;
 	//Get global position in X direction
 	//int col = get_global_id(0); 
+	int col = 0;
 
 	float sum = 0.0f; 
 	//Calculate result of one element
-	for (int i = 0; i < Wa; i++)
+	for (int i = 0; i < (*Wa); i++)
 	{
-		sum += a[row*Wa+i] * b[i*Wb+col];
+		sum += a[row * (*Wa) + i] * b[i * (*Wb) + col];
 	}
 
-	c[row * Wb + col] = sum;
+	c[row * (*Wb) + col] = sum;
+	c[0] = a[0];
 }
