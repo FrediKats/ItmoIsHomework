@@ -102,6 +102,9 @@
     <ClCompile Include="ocl_exception.cpp">
       <Filter>Source Files\ErrorHandling</Filter>
     </ClCompile>
+    <ClCompile Include="multiplication_kernel.cpp">
+      <Filter>Source Files\Kernels\Multiplication</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sum_kernel_argument.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="ocl_exception.h">
       <Filter>Header Files\ErrorHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="multiplication_kernel.h">
+      <Filter>Header Files\Kernels\Multiplication</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
