@@ -4,7 +4,10 @@
 class multiplication_kernel_response : kernel_response
 {
 public:
+	size_t size;
 	float* result;
+
+	multiplication_kernel_response(size_t size, float* result);
 
 	void setup(execution_context execution_context_instance, cl_kernel kernel) override;
 	void read_result(execution_context execution_context_instance) override;

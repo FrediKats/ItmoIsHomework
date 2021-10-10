@@ -19,7 +19,8 @@ int main()
     kernel_file_source kernel_source = kernel_file_source("sum.txt");
     sum_kernel_argument argument = sum_kernel_argument(1, 2);
     sum_kernel sum = create_sum_kernel(kernel_source, execution_context_instance);
-    sum_kernel_response response = sum.execute(argument);
+    sum_kernel_response response = sum_kernel_response();
+    sum.execute(argument, response);
     std::cout << response.c;
 
     //auto buffer = clCreateBuffer(context, 0, sizeof(cl_int), nullptr, nullptr);
