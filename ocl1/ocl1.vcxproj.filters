@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Kernels\Multiplication">
       <UniqueIdentifier>{299dc8f7-3c68-4da9-93a6-c64cb99bf962}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Kernels\Multiplication">
+      <UniqueIdentifier>{3f87c4cb-ae91-45b6-8e85-5364c0ffaa7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ocl1.cpp">
@@ -61,10 +64,10 @@
       <Filter>Source Files\Kernels\Sum</Filter>
     </ClCompile>
     <ClCompile Include="multiplication_kernel_argument.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Kernels\Multiplication</Filter>
     </ClCompile>
     <ClCompile Include="multiplication_kernel_response.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Kernels\Multiplication</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

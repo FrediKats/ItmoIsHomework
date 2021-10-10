@@ -10,7 +10,7 @@ class kernel_contract
 public:
 	kernel_contract(const execution_context& execution_context_instance, cl_kernel kernel);
 
-	TResponse execute(TArguments argument);
+	TResponse execute(TArguments argument, TResponse& response);
 
 protected:
 	execution_context execution_context_instance_;
@@ -27,13 +27,11 @@ kernel_contract<TArguments, TResponse>::kernel_contract(
 }
 
 template <typename TArguments, typename TResponse>
-TResponse kernel_contract<TArguments, TResponse>::execute(TArguments argument)
+TResponse kernel_contract<TArguments, TResponse>::execute(TArguments argument, TResponse& response)
 {
 	argument.write_arguments(execution_context_instance_, kernel_);
 
 	//TODO: error handling
-	TResponse response = TResponse();
-
 	response.setup(execution_context_instance_, kernel_);
 
 	size_t global_item_size = 4;
