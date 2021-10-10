@@ -52,6 +52,12 @@
     <Filter Include="Source Files\Algorithms">
       <UniqueIdentifier>{5d70d458-e7b0-48a4-8e5d-d145490e03ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ErrorHandling">
+      <UniqueIdentifier>{cbee26cd-b007-4637-8988-98bf75ae7dba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ErrorHandling">
+      <UniqueIdentifier>{5e428e40-2645-413d-ad69-26cac1821939}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ocl1.cpp">
@@ -86,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="program_builder.cpp">
       <Filter>Source Files\Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="error_validator.cpp">
+      <Filter>Source Files\ErrorHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="error_message.h">
+      <Filter>Header Files\ErrorHandling</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="program_builder.h">
       <Filter>Header Files\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="error_validator.h">
+      <Filter>Header Files\ErrorHandling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
