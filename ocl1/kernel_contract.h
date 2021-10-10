@@ -10,7 +10,7 @@ class kernel_contract
 public:
 	kernel_contract(const execution_context& execution_context_instance, cl_kernel kernel);
 
-	void execute(TArguments argument, TResponse& response);
+	void execute(TArguments& argument, TResponse& response);
 
 protected:
 	execution_context execution_context_instance_;
@@ -27,7 +27,7 @@ kernel_contract<TArguments, TResponse>::kernel_contract(
 }
 
 template <typename TArguments, typename TResponse>
-void kernel_contract<TArguments, TResponse>::execute(TArguments argument, TResponse& response)
+void kernel_contract<TArguments, TResponse>::execute(TArguments& argument, TResponse& response)
 {
 	argument.write_arguments(execution_context_instance_, kernel_);
 
@@ -50,6 +50,7 @@ void kernel_contract<TArguments, TResponse>::execute(TArguments argument, TRespo
 
 	validate_error(err).or_throw(error_message::about_kernel_enqueue);
 
+	//TODO: not sure about order
 	err = clFinish(execution_context_instance_.command_queue);
 	validate_error(err).or_throw(error_message::about_waiting_processing);
 
