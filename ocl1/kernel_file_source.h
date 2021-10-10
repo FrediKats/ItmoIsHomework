@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "kernel_source.h"
 
-class kernel_file_source : public kernel_source
+class kernel_file_source final : public kernel_source
 {
 public:
 	explicit kernel_file_source(std::string file_path);
