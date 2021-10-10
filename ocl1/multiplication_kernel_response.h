@@ -1,13 +1,10 @@
 ﻿#pragma once
-#include "execution_context.h"
 #include "kernel_response.h"
 
-class sum_kernel_response : kernel_response
+class multiplication_kernel_response : kernel_response
 {
 public:
-	int c;
-
-	sum_kernel_response();
+	float* result;
 
 	void setup(execution_context execution_context_instance, cl_kernel kernel) override;
 	void read_result(execution_context execution_context_instance) override;

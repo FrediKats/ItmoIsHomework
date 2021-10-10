@@ -6,6 +6,7 @@ sum_kernel_response::sum_kernel_response()
 
 void sum_kernel_response::setup(execution_context execution_context_instance, cl_kernel kernel)
 {
+	//TODO: error handling
 	int err;
 	cl_mem output = clCreateBuffer(execution_context_instance.context, CL_MEM_WRITE_ONLY, sizeof(int), nullptr, &err);
 	clSetKernelArg(kernel, 2, sizeof(cl_mem), &output);
