@@ -11,10 +11,11 @@ void sum_kernel_response::setup(execution_context execution_context_instance, cl
 {
 	int err;
 	const cl_mem output = clCreateBuffer(execution_context_instance.context, CL_MEM_WRITE_ONLY, sizeof(int), nullptr, &err);
-
 	validate_error(err).or_throw(error_message::about_kernel_response_setup);
 
-	clSetKernelArg(kernel, 2, sizeof(cl_mem), &output);
+	err = clSetKernelArg(kernel, 2, sizeof(cl_mem), &output);
+	validate_error(err).or_throw(error_message::about_set_kernel_argument);
+
 	output_memory_ = output;
 }
 
