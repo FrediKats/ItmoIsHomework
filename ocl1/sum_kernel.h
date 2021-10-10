@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include "error_message.h"
+#include "error_validator.h"
 #include "kernel_contract.h"
 #include "kernel_source.h"
 #include "program_builder.h"
@@ -13,13 +15,13 @@ public:
 
 inline sum_kernel create_sum_kernel(kernel_source& source, const execution_context execution_context_instance)
 {
-    //TODO: error handling
-    int err;
-
     const std::string kernel_source_code = source.get_kernel_source_code();
     program_builder builder = program_builder();
     const cl_program program = builder.build(execution_context_instance.context, kernel_source_code);
+
+    int err;
     cl_kernel kernel = clCreateKernel(program, "sum", &err);
+    validate_error(err).or_throw(error_message::about_create_kernel);
 
     return sum_kernel(execution_context_instance, kernel);
 }
