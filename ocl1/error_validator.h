@@ -12,7 +12,7 @@ public:
 
 	explicit error_validator(bool is_success);
 
-	void or_throw(const std::string message) const;
+	void or_throw(const std::string& message) const;
 	void or_throw(const error_message message) const;
 };
 
