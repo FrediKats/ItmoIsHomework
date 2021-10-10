@@ -15,4 +15,6 @@ execution_context::execution_context(device device)
 	command_queue = clCreateCommandQueue(context, device.id, 0, &err);
 	if (!command_queue)
 		throw std::exception("Error: Failed to create a command commands!");
+
+	selected_device = device;
 }

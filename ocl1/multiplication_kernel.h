@@ -21,7 +21,7 @@ inline multiplication_kernel create_multiplication_kernel(kernel_source& source,
 {
     const std::string kernel_source_code = source.get_kernel_source_code();
     program_builder builder = program_builder();
-    const cl_program program = builder.build(execution_context_instance.context, kernel_source_code);
+    const cl_program program = builder.build(execution_context_instance.context, kernel_source_code, execution_context_instance.selected_device);
 
     int err;
     cl_kernel kernel = clCreateKernel(program, "simpleMultiply", &err);
