@@ -63,6 +63,9 @@
     <ClCompile Include="multiplication_kernel_argument.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="multiplication_kernel_response.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_device_provider.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files\Kernels\Contracts</Filter>
     </ClInclude>
     <ClInclude Include="multiplication_kernel_argument.h">
+      <Filter>Header Files\Kernels\Multiplication</Filter>
+    </ClInclude>
+    <ClInclude Include="multiplication_kernel_response.h">
       <Filter>Header Files\Kernels\Multiplication</Filter>
     </ClInclude>
   </ItemGroup>
