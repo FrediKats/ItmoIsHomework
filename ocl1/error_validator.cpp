@@ -6,7 +6,7 @@ error_validator::error_validator(const bool is_success): is_success(is_success)
 {
 }
 
-void error_validator::or_throw(const std::string message) const
+void error_validator::or_throw(const std::string& message) const
 {
 	if (is_success)
 		return;

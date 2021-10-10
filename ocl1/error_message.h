@@ -15,7 +15,7 @@ enum error_message
 	about_waiting_processing,
 };
 
-inline std::string error_message_to_string(error_message message)
+inline std::string error_message_to_string(const error_message& message)
 {
 	switch (message)
 	{
