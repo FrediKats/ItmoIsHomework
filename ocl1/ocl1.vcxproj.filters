@@ -99,6 +99,9 @@
     <ClCompile Include="error_message.h">
       <Filter>Header Files\ErrorHandling</Filter>
     </ClCompile>
+    <ClCompile Include="ocl_exception.cpp">
+      <Filter>Source Files\ErrorHandling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sum_kernel_argument.h">
@@ -144,6 +147,9 @@
       <Filter>Header Files\Algorithms</Filter>
     </ClInclude>
     <ClInclude Include="error_validator.h">
+      <Filter>Header Files\ErrorHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="ocl_exception.h">
       <Filter>Header Files\ErrorHandling</Filter>
     </ClInclude>
   </ItemGroup>
