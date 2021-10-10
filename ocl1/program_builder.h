@@ -5,5 +5,5 @@
 class program_builder
 {
 public:
-	cl_program build(cl_context context, std::string kernel_source_code);
+	cl_program build(cl_context context, const std::string& kernel_source_code);
 };

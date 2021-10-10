@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "kernel_response.h"
 
-class multiplication_kernel_response : kernel_response
+class multiplication_kernel_response final : kernel_response
 {
 public:
 	size_t size;

@@ -11,7 +11,7 @@ public:
     explicit sum_kernel(const execution_context& execution_context_instance, cl_kernel kernel);
 };
 
-inline sum_kernel create_sum_kernel(kernel_source& source, execution_context execution_context_instance)
+inline sum_kernel create_sum_kernel(kernel_source& source, const execution_context execution_context_instance)
 {
     //TODO: error handling
     int err;

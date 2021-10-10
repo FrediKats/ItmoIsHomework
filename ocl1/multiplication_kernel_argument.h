@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "kernel_argument.h"
 
-class multiplication_kernel_argument : kernel_argument
+class multiplication_kernel_argument final : kernel_argument
 {
 public:
 	multiplication_kernel_argument(int n, int k, int m, float* a, float* b);

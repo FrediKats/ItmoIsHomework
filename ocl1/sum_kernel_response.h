@@ -2,7 +2,7 @@
 #include "execution_context.h"
 #include "kernel_response.h"
 
-class sum_kernel_response : kernel_response
+class sum_kernel_response final : public kernel_response
 {
 public:
 	int c;
