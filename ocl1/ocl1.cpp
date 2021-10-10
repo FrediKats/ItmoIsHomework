@@ -11,18 +11,22 @@
 #include "sum_kernel.h"
 #include "sum_kernel_argument.h"
 
-void execute_sum()
+void execute_sum(int requested_index)
 {
     cl_device_provider device_provider = cl_device_provider();
-    //TODO: read index from args
-    device device = device_provider.select_device(0);
+    device device = device_provider.select_device(requested_index);
     execution_context execution_context_instance = execution_context(device);
 
+    program_builder builder = program_builder();
     kernel_file_source kernel_source = kernel_file_source("sum.txt");
+    cl_kernel kernel = kernel_source.get_kernel_source_code(execution_context_instance, "sum", builder);
+
+    sum_kernel sum = sum_kernel(execution_context_instance, kernel);
     sum_kernel_argument argument = sum_kernel_argument(1, 2);
-    sum_kernel sum = create_sum_kernel(kernel_source, execution_context_instance);
     sum_kernel_response response = sum_kernel_response();
+
     sum.execute(argument, response);
+
     std::cout << response.c;
 
     //auto buffer = clCreateBuffer(context, 0, sizeof(cl_int), nullptr, nullptr);
@@ -34,14 +38,15 @@ void execute_sum()
     //cl_int read_byte_count = clEnqueueReadBuffer(command_queue, buffer, false, 0, sizeof(cl_int), nullptr, 0, nullptr, nullptr);
 }
 
-void execute_mult()
+void execute_mult(int requested_index)
 {
     cl_device_provider device_provider = cl_device_provider();
-    //TODO: read index from args
-    device device = device_provider.select_device(0);
+    device device = device_provider.select_device(requested_index);
     execution_context execution_context_instance = execution_context(device);
 
+    program_builder builder = program_builder();
     kernel_file_source kernel_source = kernel_file_source("multiplication.txt");
+    cl_kernel kernel = kernel_source.get_kernel_source_code(execution_context_instance, "simpleMultiply", builder);
 
     float* a = static_cast<float*>(malloc(sizeof(float)));
     float* b = static_cast<float*>(malloc(sizeof(float)));
@@ -50,17 +55,19 @@ void execute_mult()
     float* c = static_cast<float*>(calloc(1, sizeof(float)));
     c[0] = -1;
 
+    multiplication_kernel mult_kernel = multiplication_kernel(execution_context_instance, kernel);
     multiplication_kernel_argument argument = multiplication_kernel_argument(1, 1, 1, a, b);
     multiplication_kernel_response response = multiplication_kernel_response(1, c);
-    multiplication_kernel kernel = create_multiplication_kernel(kernel_source, execution_context_instance);
-    kernel.execute(argument, response);
+
+    mult_kernel.execute(argument, response);
+
     std::cout << c[0];
-    return;
 }
 
 int main()
 {
-    execute_mult();
+    //TODO: read index from args
+    execute_mult(0);
 
 	return 0;
 }

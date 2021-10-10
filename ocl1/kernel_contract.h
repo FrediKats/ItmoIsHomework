@@ -3,6 +3,8 @@
 #include <CL/cl.h>
 
 #include "execution_context.h"
+#include "error_validator.h"
+#include "error_message.h"
 
 template <typename TArguments, typename TResponse>
 class kernel_contract
