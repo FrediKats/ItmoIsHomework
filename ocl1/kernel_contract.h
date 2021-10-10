@@ -44,8 +44,8 @@ void kernel_contract<TArguments, TResponse>::execute(TArguments& argument, TResp
 		kernel_,
 		1,
 		nullptr,
-		nullptr,
-		nullptr,
+		&global_item_size,
+		&local_item_size,
 		0,
 		nullptr,
 		nullptr);
