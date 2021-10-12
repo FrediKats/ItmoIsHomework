@@ -4,5 +4,5 @@
 class image_resizer
 {
 public:
-	static omp2::pnm_image_descriptor resize(omp2::pnm_image_descriptor original, int zoom_level);
+	static omp2::pnm_image_descriptor<omp2::color> resize(omp2::pnm_image_descriptor<omp2::color> original, int zoom_level);
 };

@@ -11,7 +11,7 @@
 #include "../lab1/benchmark_runner.h"
 #include "../lab1/benchmark_runner.cpp"
 
-void benchmark_run(omp2::pnm_image_descriptor image_descriptor)
+void benchmark_run(omp2::pnm_image_descriptor<omp2::color> image_descriptor)
 {
 	lab1::benchmark_runner benchmark = lab1::benchmark_runner(10);
 
@@ -36,7 +36,7 @@ void common_run(const std::string& input_file_path, const std::string& output_fi
 {
 	auto reader = omp2::color_image_reader(input_file_path);
 	auto writer = omp2::color_image_writer(output_file_path);
-	omp2::pnm_image_descriptor image_descriptor = reader.read();
+	omp2::pnm_image_descriptor<omp2::color> image_descriptor = reader.read();
 
 	const int optimal_thread_count = omp_get_num_procs();
 	auto multithread_color_normalizer = omp2::multithread_color_normalizer(thread_count == 0 ? optimal_thread_count : thread_count);
