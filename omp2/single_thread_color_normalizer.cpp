@@ -5,29 +5,19 @@
 
 namespace omp2
 {
-	std::vector<color> single_thread_color_normalizer::modify(const std::vector<color>& input_colors)
+	std::vector<color> single_thread_color_normalizer::modify(pnm_image_descriptor<omp2::color> image_descriptor)
 	{
-		const auto red_selector = std::function<unsigned char(color)>([](const color c) { return c.red; });
-		const auto green_selector = std::function<unsigned char(color)>([](const color c) { return c.green; });
-		const auto blue_selector = std::function<unsigned char(color)>([](const color c) { return c.blue; });
+		auto input_colors = image_descriptor.color;
+		auto selectors = image_descriptor.get_selectors();
 
-		auto red_histogram = color_histogram(input_colors, red_selector);
-		auto green_histogram = color_histogram(input_colors, green_selector);
-		auto blue_histogram = color_histogram(input_colors, blue_selector);
+		auto histograms = std::vector<color_histogram>(3);
 
-		auto total_max = std::max(
-			red_histogram.get_max_value(),
-			std::max(
-				green_histogram.get_max_value(),
-				blue_histogram.get_max_value()));
+		for (int i = 0; i < selectors.size(); i++)
+		{
+			histograms[i] = color_histogram(input_colors, selectors[i]);
+		}
 
-		auto total_min = std::min(
-			red_histogram.get_min_value(),
-			std::min(
-				green_histogram.get_min_value(),
-				blue_histogram.get_min_value()));
-
-		auto total_morphism = color_morphism(total_min, total_max);
+		const auto total_morphism = color_morphism(histograms);
 
 		auto result = std::vector<color>(input_colors.size());
 

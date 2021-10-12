@@ -24,10 +24,10 @@ void benchmark_run(omp2::pnm_image_descriptor<omp2::color> image_descriptor)
 
 		std::cout
 			<< i << ";"
-			<< benchmark.benchmark_run([&color_normalizer, &image_descriptor] { color_normalizer.modify(image_descriptor.color); }).count() * 1000 << ";"
-			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_dynamic(image_descriptor.color); }).count() * 1000 << ";"
-			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_static(image_descriptor.color); }).count() * 1000 << ";"
-			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_guid(image_descriptor.color); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&color_normalizer, &image_descriptor] { color_normalizer.modify(image_descriptor); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_dynamic(image_descriptor); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_static(image_descriptor); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_guid(image_descriptor); }).count() * 1000 << ";"
 			<< std::endl;
 	}
 }
@@ -49,7 +49,7 @@ void common_run(const std::string& input_file_path, const std::string& output_fi
 		normalizer = &singlethread_color_normalizer;
 
 	const auto start = std::chrono::system_clock::now();
-	const auto result = normalizer->modify(image_descriptor.color);
+	const auto result = normalizer->modify(image_descriptor);
 	const auto end = std::chrono::system_clock::now();
 
 	const std::chrono::duration<double> difference = end - start;
