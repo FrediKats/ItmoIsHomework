@@ -8,7 +8,7 @@ omp2::color_image_writer::color_image_writer(std::string file_path) : file_path_
 {
 }
 
-void omp2::color_image_writer::write(const pnm_image_descriptor& image) const
+void omp2::color_image_writer::write(const pnm_image_descriptor<color>& image) const
 {
 	FILE* file = fopen(file_path_.c_str(), "wb");
 	unsigned char* pixel_data = nullptr;

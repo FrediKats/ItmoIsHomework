@@ -10,7 +10,7 @@ namespace omp2
 	public:
 		explicit color_image_writer(std::string file_path);
 
-		void write(const pnm_image_descriptor& image) const;
+		void write(const pnm_image_descriptor<color>& image) const;
 
 	private:
 		std::string file_path_;

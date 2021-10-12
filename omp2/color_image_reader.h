@@ -10,7 +10,7 @@ namespace omp2
 	public:
 		explicit color_image_reader(std::string file_path);
 
-		pnm_image_descriptor read() const;
+		pnm_image_descriptor<color> read() const;
 
 	private:
 		std::string file_path_;
