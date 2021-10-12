@@ -6,34 +6,28 @@
 omp2::multithread_color_normalizer::multithread_color_normalizer(int parallel_thread_count)
 	: parallel_thread_count_(parallel_thread_count)
 {
-	const auto red_selector = std::function<unsigned char(color)>([](const color c) { return c.red; });
-	const auto green_selector = std::function<unsigned char(color)>([](const color c) { return c.green; });
-	const auto blue_selector = std::function<unsigned char(color)>([](const color c) { return c.blue; });
-
-	selectors_ = std::vector<std::function<unsigned char(color)>>
-	{
-		red_selector,
-		green_selector,
-		blue_selector
-	};
+	
 }
 
-std::vector<omp2::color> omp2::multithread_color_normalizer::modify(const std::vector<color>& input_colors)
+std::vector<omp2::color> omp2::multithread_color_normalizer::modify(pnm_image_descriptor<omp2::color> image_descriptor)
 {
-	return modify_static(input_colors);
+	return modify_static(image_descriptor);
 }
 
-std::vector<omp2::color> omp2::multithread_color_normalizer::modify_static(const std::vector<color>& input_colors)
+std::vector<omp2::color> omp2::multithread_color_normalizer::modify_static(pnm_image_descriptor<omp2::color> image_descriptor)
 {
+	auto input_colors = image_descriptor.color;
+	auto selectors = image_descriptor.get_selectors();
+
 	auto result = std::vector<color>(input_colors.size());
 	auto histograms = std::vector<color_histogram>(3);
 
 #pragma omp parallel num_threads(parallel_thread_count_)
 	{
 #pragma omp for schedule(static)
-		for (int i = 0; i < selectors_.size(); i++)
+		for (int i = 0; i < selectors.size(); i++)
 		{
-			histograms[i] = color_histogram(input_colors, selectors_[i]);
+			histograms[i] = color_histogram(input_colors, selectors[i]);
 		}
 	}
 
@@ -57,17 +51,20 @@ std::vector<omp2::color> omp2::multithread_color_normalizer::modify_static(const
 	return result;
 }
 
-std::vector<omp2::color> omp2::multithread_color_normalizer::modify_dynamic(const std::vector<color>& input_colors)
+std::vector<omp2::color> omp2::multithread_color_normalizer::modify_dynamic(pnm_image_descriptor<omp2::color> image_descriptor)
 {
+	auto input_colors = image_descriptor.color;
+	auto selectors = image_descriptor.get_selectors();
+
 	auto result = std::vector<color>(input_colors.size());
 	auto histograms = std::vector<color_histogram>(3);
 
 #pragma omp parallel num_threads(parallel_thread_count_)
 	{
 #pragma omp for schedule(dynamic)
-		for (int i = 0; i < selectors_.size(); i++)
+		for (int i = 0; i < selectors.size(); i++)
 		{
-			histograms[i] = color_histogram(input_colors, selectors_[i]);
+			histograms[i] = color_histogram(input_colors, selectors[i]);
 		}
 	}
 
@@ -91,17 +88,20 @@ std::vector<omp2::color> omp2::multithread_color_normalizer::modify_dynamic(cons
 	return result;
 }
 
-std::vector<omp2::color> omp2::multithread_color_normalizer::modify_guid(const std::vector<color>& input_colors)
+std::vector<omp2::color> omp2::multithread_color_normalizer::modify_guid(pnm_image_descriptor<omp2::color> image_descriptor)
 {
+	auto input_colors = image_descriptor.color;
+	auto selectors = image_descriptor.get_selectors();
+
 	auto result = std::vector<color>(input_colors.size());
 	auto histograms = std::vector<color_histogram>(3);
 
 #pragma omp parallel num_threads(parallel_thread_count_)
 	{
 #pragma omp for schedule(guided)
-		for (int i = 0; i < selectors_.size(); i++)
+		for (int i = 0; i < selectors.size(); i++)
 		{
-			histograms[i] = color_histogram(input_colors, selectors_[i]);
+			histograms[i] = color_histogram(input_colors, selectors[i]);
 		}
 	}
 

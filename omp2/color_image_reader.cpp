@@ -37,18 +37,33 @@ omp2::pnm_image_descriptor<omp2::color> omp2::color_image_reader::read() const
 		if (pixel_count != buffer_size)
 			throw std::exception("Failed to read pixels from file");
 
-		auto colors = std::vector<color>(buffer_size / 3);
+		if (version == 6)
+		{
+			auto colors = std::vector<color>(buffer_size / 3);
 
-		for (size_t i = 0; i < buffer_size; i += 3) {
-			unsigned char red = pixel_data[i];
-			unsigned char green = pixel_data[i + 1];
-			unsigned char blue = pixel_data[i + 2];
-			colors[i / 3] = color(red, green, blue);
+			for (size_t i = 0; i < buffer_size; i += 3) {
+				unsigned char red = pixel_data[i];
+				unsigned char green = pixel_data[i + 1];
+				unsigned char blue = pixel_data[i + 2];
+				colors[i / 3] = color(red, green, blue);
+			}
+
+			delete[] pixel_data;
+			fclose(file);
+			return pnm_image_descriptor<color>(version, colors, width, height, max_value);
 		}
+		else
+		{
+			auto colors = std::vector<color>(buffer_size);
 
-		delete[] pixel_data;
-		fclose(file);
-		return pnm_image_descriptor<color>(version, colors, width, height, max_value);
+			for (size_t i = 0; i < buffer_size; i++) {
+				colors[i / 3] = color(pixel_data[i], 0, 0);
+			}
+
+			delete[] pixel_data;
+			fclose(file);
+			return pnm_image_descriptor<color>(version, colors, width, height, max_value);
+		}
 	}
 	catch (...)
 	{
