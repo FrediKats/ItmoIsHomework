@@ -45,7 +45,7 @@ void kernel_contract<TArguments, TResponse>::execute(TArguments& argument, TResp
 		execution_context_instance_.dimension_config.size,
 		nullptr,
 		execution_context_instance_.dimension_config.global_size,
-		execution_context_instance_.dimension_config.local_size,
+		nullptr,
 		0,
 		nullptr,
 		nullptr);

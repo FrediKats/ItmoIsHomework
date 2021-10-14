@@ -44,9 +44,7 @@ void execute_sum(int requested_index)
 
 void execute_mult(int requested_index)
 {
-    size_t* local = new size_t[]{ 1 };
-    size_t* global = new size_t[]{ 1 };
-    const kernel_dimension_config dimension_config = kernel_dimension_config(1, local, global);
+    const kernel_dimension_config dimension_config = kernel_dimension_config(2, new size_t[]{ 32, 32 }, new size_t[]{ 1, 1 });
 
     cl_device_provider device_provider = cl_device_provider();
     device device = device_provider.select_device(requested_index);
@@ -75,8 +73,8 @@ void execute_mult(int requested_index)
 int main()
 {
     //TODO: read index from args
-    //execute_mult(0);
-    execute_sum(0);
+    execute_mult(0);
+    //execute_sum(0);
 
 	return 0;
 }
