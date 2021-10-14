@@ -16,7 +16,8 @@ cl_program program_builder::build(cl_context context, const std::string& kernel_
 	if (!program)
 		throw std::exception("Error: Failed to create compute program");
 
-	err = clBuildProgram(program, 0, nullptr, nullptr, nullptr, nullptr);
+	cl_device_id device_id = device.id;
+	err = clBuildProgram(program, 1, &device_id, nullptr, nullptr, nullptr);
 	if (err != CL_SUCCESS)
 	{
 		size_t len = 0;
@@ -24,7 +25,7 @@ cl_program program_builder::build(cl_context context, const std::string& kernel_
 		ret = clGetProgramBuildInfo(program, nullptr, CL_PROGRAM_BUILD_LOG, 0, nullptr, &len);
 		char* buffer = static_cast<char*>(calloc(len, sizeof(char)));
 		ret = clGetProgramBuildInfo(program, device.id, CL_PROGRAM_BUILD_LOG, len, buffer, nullptr);
-		//TODO: make log optional
+		//TODO: make log optionalf
 		std::cout << std::string(buffer);
 
 		throw std::exception("Build error");
