@@ -2,7 +2,7 @@
 
 #include "execution_context.h"
 
-execution_context::execution_context(device device)
+execution_context::execution_context(device device, kernel_dimension_config dimension_config): dimension_config(dimension_config)
 {
 	int err;
 	//create context
@@ -12,7 +12,6 @@ execution_context::execution_context(device device)
 		throw std::exception("Error: Failed to create a compute context!");
 
 	command_queue = clCreateCommandQueue(context, device.id, CL_QUEUE_PROFILING_ENABLE, &err);
-	command_queue = clCreateCommandQueue(context, device.id, 0, &err);
 	if (!command_queue)
 		throw std::exception("Error: Failed to create a command commands!");
 

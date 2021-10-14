@@ -13,9 +13,13 @@
 
 void execute_sum(int requested_index)
 {
+    size_t* local = new size_t[]{ 1 };
+    size_t* global = new size_t[] { 1 };
+    const kernel_dimension_config dimension_config = kernel_dimension_config(1, local, global);
+
     cl_device_provider device_provider = cl_device_provider();
     device device = device_provider.select_device(requested_index);
-    execution_context execution_context_instance = execution_context(device);
+    execution_context execution_context_instance = execution_context(device, dimension_config);
 
     program_builder builder = program_builder();
     kernel_file_source kernel_source = kernel_file_source("sum.txt");
@@ -40,9 +44,13 @@ void execute_sum(int requested_index)
 
 void execute_mult(int requested_index)
 {
+    size_t* local = new size_t[]{ 1 };
+    size_t* global = new size_t[]{ 1 };
+    const kernel_dimension_config dimension_config = kernel_dimension_config(1, local, global);
+
     cl_device_provider device_provider = cl_device_provider();
     device device = device_provider.select_device(requested_index);
-    execution_context execution_context_instance = execution_context(device);
+    execution_context execution_context_instance = execution_context(device, dimension_config);
 
     program_builder builder = program_builder();
     kernel_file_source kernel_source = kernel_file_source("multiplication.txt");
@@ -67,7 +75,8 @@ void execute_mult(int requested_index)
 int main()
 {
     //TODO: read index from args
-    execute_mult(0);
+    //execute_mult(0);
+    execute_sum(0);
 
 	return 0;
 }

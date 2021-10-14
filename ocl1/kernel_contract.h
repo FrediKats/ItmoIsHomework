@@ -42,10 +42,10 @@ void kernel_contract<TArguments, TResponse>::execute(TArguments& argument, TResp
 	err = clEnqueueNDRangeKernel(
 		execution_context_instance_.command_queue,
 		kernel_,
-		1,
+		execution_context_instance_.dimension_config.size,
 		nullptr,
-		&global_item_size,
-		&local_item_size,
+		execution_context_instance_.dimension_config.global_size,
+		execution_context_instance_.dimension_config.local_size,
 		0,
 		nullptr,
 		nullptr);

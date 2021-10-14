@@ -105,6 +105,9 @@
     <ClCompile Include="multiplication_kernel.cpp">
       <Filter>Source Files\Kernels\Multiplication</Filter>
     </ClCompile>
+    <ClCompile Include="kernel_dimension_config.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sum_kernel_argument.h">
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="multiplication_kernel.h">
       <Filter>Header Files\Kernels\Multiplication</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel_dimension_config.h">
+      <Filter>Header Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
