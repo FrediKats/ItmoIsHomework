@@ -30,7 +30,12 @@ omp2::pnm_image_descriptor<omp2::color> omp2::color_image_reader::read() const
 		if (read_argument_count != 4)
 			throw std::exception("Failed to read arguments from file");
 
-		const size_t buffer_size = 3 * width * height;
+		size_t buffer_size = 3 * width * height;
+		if (version == 5)
+		{
+			buffer_size = width * height;
+		}
+
 		pixel_data = new unsigned char[buffer_size];
 
 		const size_t pixel_count = fread(pixel_data, sizeof(char), buffer_size, file);
@@ -39,6 +44,7 @@ omp2::pnm_image_descriptor<omp2::color> omp2::color_image_reader::read() const
 
 		if (version == 6)
 		{
+
 			auto colors = std::vector<color>(buffer_size / 3);
 
 			for (size_t i = 0; i < buffer_size; i += 3) {
@@ -57,7 +63,7 @@ omp2::pnm_image_descriptor<omp2::color> omp2::color_image_reader::read() const
 			auto colors = std::vector<color>(buffer_size);
 
 			for (size_t i = 0; i < buffer_size; i++) {
-				colors[i / 3] = color(pixel_data[i], 0, 0);
+				colors[i] = color(pixel_data[i], 0, 0);
 			}
 
 			delete[] pixel_data;
