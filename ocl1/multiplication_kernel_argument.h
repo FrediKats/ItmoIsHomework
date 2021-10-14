@@ -14,4 +14,7 @@ private:
 	int m_;
 	float* matrix_a_;
 	float* matrix_b_;
+
+	cl_mem matrix_a_input_;
+	cl_mem matrix_b_input_;
 };
