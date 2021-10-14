@@ -108,6 +108,15 @@
     <ClCompile Include="kernel_dimension_config.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
+    <ClCompile Include="matrix.cpp">
+      <Filter>Source Files\Kernels\Multiplication</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix_provider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix_multiplication_context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sum_kernel_argument.h">
@@ -163,6 +172,15 @@
     </ClInclude>
     <ClInclude Include="kernel_dimension_config.h">
       <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix.h">
+      <Filter>Header Files\Kernels\Multiplication</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix_provider.h">
+      <Filter>Header Files\Kernels\Multiplication</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix_multiplication_context.h">
+      <Filter>Header Files\Kernels\Multiplication</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

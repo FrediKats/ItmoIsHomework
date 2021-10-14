@@ -45,6 +45,7 @@ void execute_sum(int requested_index)
 void execute_mult(int requested_index)
 {
     const kernel_dimension_config dimension_config = kernel_dimension_config(2, new size_t[]{ 32, 32 }, new size_t[]{ 1, 1 });
+    matrix_multiplication_context multiplication_context = matrix_multiplication_context(1, 1, 1, matrix(std::vector<std::vector<float>>{ {1}}), matrix(std::vector<std::vector<float>>{ {1}}));
 
     cl_device_provider device_provider = cl_device_provider();
     device device = device_provider.select_device(requested_index);
@@ -54,15 +55,11 @@ void execute_mult(int requested_index)
     kernel_file_source kernel_source = kernel_file_source("multiplication.txt");
     cl_kernel kernel = kernel_source.get_kernel_source_code(execution_context_instance, "simpleMultiply", builder);
 
-    float* a = static_cast<float*>(malloc(sizeof(float)));
-    float* b = static_cast<float*>(malloc(sizeof(float)));
-    a[0] = 2;
-    b[0] = 3;
     float* c = static_cast<float*>(calloc(1, sizeof(float)));
     c[0] = -1;
 
     multiplication_kernel mult_kernel = multiplication_kernel(execution_context_instance, kernel);
-    multiplication_kernel_argument argument = multiplication_kernel_argument(1, 1, 1, a, b);
+    multiplication_kernel_argument argument = multiplication_kernel_argument(multiplication_context);
     multiplication_kernel_response response = multiplication_kernel_response(1, c);
 
     mult_kernel.execute(argument, response);
