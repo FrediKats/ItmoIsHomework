@@ -20,20 +20,20 @@ void multiplication_kernel_argument::write_arguments(execution_context execution
 	int width_b = n_;
 
 	int err;
-	cl_mem matrix_a_input = clCreateBuffer(execution_context_instance.context, CL_MEM_READ_ONLY, matrix_a_size, nullptr, &err);
+	matrix_a_input_ = clCreateBuffer(execution_context_instance.context, CL_MEM_READ_ONLY, matrix_a_size, nullptr, &err);
 	validate_error(err).or_throw(error_message::about_kernel_argument_create_buffer);
-	err = clEnqueueWriteBuffer(execution_context_instance.command_queue, matrix_a_input, CL_TRUE, 0, matrix_a_size, &matrix_a_, 0, nullptr, nullptr);
+	err = clEnqueueWriteBuffer(execution_context_instance.command_queue, matrix_a_input_, CL_TRUE, 0, matrix_a_size, matrix_a_, 0, nullptr, nullptr);
 	validate_error(err).or_throw(error_message::about_kernel_argument_write);
-	err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &matrix_a_input);
+	err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &matrix_a_input_);
 
 	//NB: CL_INVALID_ARG_SIZE -51
 	validate_error(err).or_throw(error_message::about_set_kernel_argument);
 
-	cl_mem matrix_b_input = clCreateBuffer(execution_context_instance.context, CL_MEM_READ_ONLY, matrix_b_size, nullptr, &err);
+	matrix_b_input_ = clCreateBuffer(execution_context_instance.context, CL_MEM_READ_ONLY, matrix_b_size, nullptr, &err);
 	validate_error(err).or_throw(error_message::about_kernel_argument_create_buffer);
-	err = clEnqueueWriteBuffer(execution_context_instance.command_queue, matrix_b_input, CL_TRUE, 0, matrix_b_size, &matrix_b_, 0, nullptr, nullptr);
+	err = clEnqueueWriteBuffer(execution_context_instance.command_queue, matrix_b_input_, CL_TRUE, 0, matrix_b_size, matrix_b_, 0, nullptr, nullptr);
 	validate_error(err).or_throw(error_message::about_kernel_argument_write);
-	err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &matrix_b_input);
+	err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &matrix_b_input_);
 	validate_error(err).or_throw(error_message::about_set_kernel_argument);
 
 	cl_mem width_a_input = clCreateBuffer(execution_context_instance.context, CL_MEM_READ_ONLY, sizeof(int), nullptr, &err);
