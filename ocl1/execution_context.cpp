@@ -1,4 +1,4 @@
-﻿#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
+#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
 
 #include "execution_context.h"
 
@@ -11,7 +11,7 @@ execution_context::execution_context(device device)
 	if (!context)
 		throw std::exception("Error: Failed to create a compute context!");
 
-	// TODO: Allow profiling
+	command_queue = clCreateCommandQueue(context, device.id, CL_QUEUE_PROFILING_ENABLE, &err);
 	command_queue = clCreateCommandQueue(context, device.id, 0, &err);
 	if (!command_queue)
 		throw std::exception("Error: Failed to create a command commands!");
