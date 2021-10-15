@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="input_matrix.txt" />
     <Text Include="multiplication.txt" />
     <Text Include="sum.txt" />
   </ItemGroup>

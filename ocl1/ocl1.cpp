@@ -5,6 +5,7 @@
 #include "cl_device_provider.h"
 #include "execution_context.h"
 #include "kernel_file_source.h"
+#include "matrix_provider.h"
 #include "multiplication_kernel.h"
 #include "multiplication_kernel_argument.h"
 #include "multiplication_kernel_response.h"
@@ -44,8 +45,10 @@ void execute_sum(int requested_index)
 
 void execute_mult(int requested_index)
 {
-    const kernel_dimension_config dimension_config = kernel_dimension_config(2, new size_t[]{ 32, 32 }, new size_t[]{ 1, 1 });
-    matrix_multiplication_context multiplication_context = matrix_multiplication_context(1, 1, 1, matrix(std::vector<std::vector<float>>{ {1}}), matrix(std::vector<std::vector<float>>{ {1}}));
+    matrix_provider matrix_provider_instance = matrix_provider();
+    matrix_multiplication_context multiplication_context = matrix_provider_instance.parse_file("input_matrix.txt");
+    const kernel_dimension_config dimension_config = multiplication_context.create_config();
+    multiplication_kernel_argument argument = multiplication_kernel_argument(multiplication_context);
 
     cl_device_provider device_provider = cl_device_provider();
     device device = device_provider.select_device(requested_index);
@@ -57,11 +60,10 @@ void execute_mult(int requested_index)
 
     float* c = static_cast<float*>(calloc(1, sizeof(float)));
     c[0] = -1;
-
-    multiplication_kernel mult_kernel = multiplication_kernel(execution_context_instance, kernel);
-    multiplication_kernel_argument argument = multiplication_kernel_argument(multiplication_context);
     multiplication_kernel_response response = multiplication_kernel_response(1, c);
 
+
+    multiplication_kernel mult_kernel = multiplication_kernel(execution_context_instance, kernel);
     mult_kernel.execute(argument, response);
 
     std::cout << c[0];

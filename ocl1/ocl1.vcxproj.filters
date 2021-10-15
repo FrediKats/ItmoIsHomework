@@ -190,5 +190,8 @@
     <Text Include="multiplication.txt">
       <Filter>Header Files\Kernels\Multiplication</Filter>
     </Text>
+    <Text Include="input_matrix.txt">
+      <Filter>Header Files\Kernels\Multiplication</Filter>
+    </Text>
   </ItemGroup>
 </Project>
