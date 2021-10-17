@@ -7,6 +7,6 @@ namespace ocl1
 	class device_provider
 	{
 	public:
-		device select_device(int requested_index);
+		device select_device(int requested_index, const bool trace_detailed_info);
 	};
 }
