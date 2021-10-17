@@ -151,6 +151,7 @@
   <ItemGroup>
     <Text Include="input_matrix.txt" />
     <Text Include="multiplication.txt" />
+    <Text Include="OptimaizedMultiplication.txt" />
     <Text Include="sum.txt" />
   </ItemGroup>
   <ItemGroup>

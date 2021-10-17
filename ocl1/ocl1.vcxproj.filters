@@ -67,6 +67,12 @@
     <Filter Include="Source Files\KernelUsingImplementations\Multiplication">
       <UniqueIdentifier>{6f504920-ca58-455e-a4d9-1ccff7672d7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\KernelUsingImplementations\Multiplication\Naive">
+      <UniqueIdentifier>{21de8070-8b3b-4a12-9a0b-402106cff21e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\KernelUsingImplementations\Multiplication\LocalMemory">
+      <UniqueIdentifier>{9dc7bc36-8ae4-4fb1-a42d-86eee6a61f0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ocl1.cpp">
@@ -196,11 +202,14 @@
     <Text Include="sum.txt">
       <Filter>Header Files\KernelUsingImplementations\Sum</Filter>
     </Text>
-    <Text Include="multiplication.txt">
-      <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
-    </Text>
     <Text Include="input_matrix.txt">
       <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
+    </Text>
+    <Text Include="multiplication.txt">
+      <Filter>Header Files\KernelUsingImplementations\Multiplication\Naive</Filter>
+    </Text>
+    <Text Include="OptimaizedMultiplication.txt">
+      <Filter>Header Files\KernelUsingImplementations\Multiplication\LocalMemory</Filter>
     </Text>
   </ItemGroup>
 </Project>
