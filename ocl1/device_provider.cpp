@@ -8,7 +8,7 @@
 
 namespace ocl1
 {
-	std::vector<cl_platform_id> get_platforms()
+	std::vector<cl_platform_id> get_platforms(const bool trace_detailed_info)
 	{
 		cl_uint num_platforms;
 		cl_int err = clGetPlatformIDs(0, nullptr, &num_platforms);
@@ -35,6 +35,7 @@ namespace ocl1
 		{
 			for (int j = 0; j < 5; j++)
 			{
+				//TODO: add error validation
 				size_t info_size;
 				clGetPlatformInfo(cl_selected_platform_id[i], attribute_types[j], 0, nullptr, &info_size);
 				//TODO: clean resources
@@ -42,7 +43,9 @@ namespace ocl1
 
 				clGetPlatformInfo(cl_selected_platform_id[i], attribute_types[j], info_size, info, nullptr);
 
-				printf("  %d.%d %-11s: %s\n", i + 1, j + 1, attribute_names[j], info);
+				if (trace_detailed_info)
+					printf("  %d.%d %-11s: %s\n", i + 1, j + 1, attribute_names[j], info);
+
 				result[i] = cl_selected_platform_id[i];
 			}
 		}
@@ -50,7 +53,7 @@ namespace ocl1
 		return result;
 	}
 
-	std::vector<device> get_devices(cl_platform_id platform_id, cl_device_type device_type)
+	std::vector<device> get_devices(cl_platform_id platform_id, cl_device_type device_type, const bool trace_detailed_info)
 	{
 		cl_uint device_count;
 		cl_int err = clGetDeviceIDs(platform_id, device_type, 0, nullptr, &device_count);
@@ -78,28 +81,31 @@ namespace ocl1
 			err = clGetDeviceInfo(device_ids[i], CL_DEVICE_NAME, return_size, c_buffer, &return_size);
 			validate_error(err).or_throw(about_getting_device_info);
 
+			if (trace_detailed_info)
+				std::cout << "Device " << i << ": " << c_buffer << std::endl;
+
 			result[i] = device(device_ids[i], std::string(c_buffer));
 		}
 
 		return result;
 	}
 
-	device device_provider::select_device(const int requested_index)
+	device device_provider::select_device(const int requested_index, const bool trace_detailed_info)
 	{
 		//TODO: detect discrete and integrated cards
 
 		auto devices = std::vector<device>();
-		const auto cl_platform_ids = get_platforms();
+		const auto cl_platform_ids = get_platforms(trace_detailed_info);
 
 		for (size_t i = 0; i < cl_platform_ids.size(); i++)
 		{
-			auto devices_from_platform = get_devices(cl_platform_ids[i], CL_DEVICE_TYPE_GPU);
+			auto devices_from_platform = get_devices(cl_platform_ids[i], CL_DEVICE_TYPE_GPU, trace_detailed_info);
 			devices.insert(devices.end(), devices_from_platform.begin(), devices_from_platform.end());
 		}
 
 		for (size_t i = 0; i < cl_platform_ids.size(); i++)
 		{
-			auto devices_from_platform = get_devices(cl_platform_ids[i], CL_DEVICE_TYPE_CPU);
+			auto devices_from_platform = get_devices(cl_platform_ids[i], CL_DEVICE_TYPE_CPU, trace_detailed_info);
 			devices.insert(devices.end(), devices_from_platform.begin(), devices_from_platform.end());
 		}
 
