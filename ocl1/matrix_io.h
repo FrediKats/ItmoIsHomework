@@ -7,7 +7,7 @@
 class matrix_io
 {
 public:
-	matrix_multiplication_context matrix_io::parse_file(const std::string& file_path)
+	matrix_multiplication_context parse_file(const std::string& file_path)
 	{
 		std::ifstream file_descriptor(file_path);
 		if (!file_descriptor.good())
@@ -42,5 +42,39 @@ public:
 			result[row_index] = temp;
 		}
 		return matrix(result);
+	}
+
+	void write_matrix(matrix matrix, std::string file_path)
+	{
+		std::ofstream file_descriptor(file_path);
+		if (!file_descriptor.good())
+			throw std::exception("Can not open file");
+
+		try
+		{
+			auto data = matrix.data;
+
+			file_descriptor << data.size() << data[0].size();
+
+			for (size_t row = 0; row < data.size(); row++)
+			{
+				for (size_t column = 0; column < data[row].size(); column++)
+				{
+					auto value = data[row][column];
+					file_descriptor << value;
+					if (column < data[row].size() - 1)
+						file_descriptor << " ";
+				}
+				if (row < data.size() - 1)
+				{
+					file_descriptor << std::endl;
+				}
+			}
+		}
+		catch (...)
+		{
+			file_descriptor.close();
+			throw;
+		}
 	}
 };
