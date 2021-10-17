@@ -6,3 +6,4 @@ kernel_dimension_config::kernel_dimension_config(int size, size_t* local_size, s
 	global_size(global_size)
 {
 }
+

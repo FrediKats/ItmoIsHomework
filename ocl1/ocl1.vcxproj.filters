@@ -111,7 +111,7 @@
     <ClCompile Include="matrix.cpp">
       <Filter>Source Files\Kernels\Multiplication</Filter>
     </ClCompile>
-    <ClCompile Include="matrix_provider.cpp">
+    <ClCompile Include="matrix_io.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="matrix_multiplication_context.cpp">
@@ -176,7 +176,7 @@
     <ClInclude Include="matrix.h">
       <Filter>Header Files\Kernels\Multiplication</Filter>
     </ClInclude>
-    <ClInclude Include="matrix_provider.h">
+    <ClInclude Include="matrix_io.h">
       <Filter>Header Files\Kernels\Multiplication</Filter>
     </ClInclude>
     <ClInclude Include="matrix_multiplication_context.h">

@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "matrix_multiplication_context.h"
 
 class kernel_dimension_config
 {
