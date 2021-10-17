@@ -1,13 +1,17 @@
 ﻿#pragma once
-#include <string>
+
 #include <CL/cl.h>
+#include <string>
 
-class device
+namespace ocl1
 {
-public:
-	cl_device_id id;
-	std::string name;
+	class device
+	{
+	public:
+		cl_device_id id;
+		std::string name;
 
-	device();
-	device(cl_device_id id, std::string name);
-};
+		device();
+		device(cl_device_id id, std::string name);
+	};
+}

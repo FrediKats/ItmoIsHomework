@@ -13,50 +13,59 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Kernels">
+    <Filter Include="Header Files\KernelUsingImplementations">
       <UniqueIdentifier>{f4e4c77f-4a6a-4098-81fb-06eee3f51ce7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Kernels">
-      <UniqueIdentifier>{f45ed05e-5760-40f7-bece-dcdad9c00c9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Kernels\Sum">
+    <Filter Include="Header Files\KernelUsingImplementations\Sum">
       <UniqueIdentifier>{0ffa30b4-4de0-4626-861f-4e40ca079329}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Kernels\Sum">
-      <UniqueIdentifier>{027ee291-dd45-4fca-bfc8-09cd6aeb560f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Kernels\Contracts">
-      <UniqueIdentifier>{e7eb79a6-c8e4-4c3f-a8ab-6e5f68e07c84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Kernels\Multiplication">
+    <Filter Include="Header Files\KernelUsingImplementations\Multiplication">
       <UniqueIdentifier>{299dc8f7-3c68-4da9-93a6-c64cb99bf962}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\KernelSources">
-      <UniqueIdentifier>{8c96997c-2221-4a4a-97a6-1de40c3902ea}</UniqueIdentifier>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{1bbdf04c-ef37-4f0f-a7ee-9ed7ab557959}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\KernelSources">
-      <UniqueIdentifier>{334bb4bd-f381-4619-80a6-5de4f5ca25f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Models">
-      <UniqueIdentifier>{0f8b8036-73a1-4e13-ad47-d376b8e80450}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Models">
-      <UniqueIdentifier>{e623bc81-dfbe-4146-b34a-c6ed07ef5f23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Kernels\Multiplication">
-      <UniqueIdentifier>{6f504920-ca58-455e-a4d9-1ccff7672d7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Algorithms">
+    <Filter Include="Header Files\Core\Algorithms">
       <UniqueIdentifier>{adfe77ef-7fbf-4b95-8819-681f4cb87430}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Algorithms">
-      <UniqueIdentifier>{5d70d458-e7b0-48a4-8e5d-d145490e03ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ErrorHandling">
+    <Filter Include="Header Files\Core\ErrorHandling">
       <UniqueIdentifier>{cbee26cd-b007-4637-8988-98bf75ae7dba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ErrorHandling">
+    <Filter Include="Header Files\Core\KernelSources">
+      <UniqueIdentifier>{8c96997c-2221-4a4a-97a6-1de40c3902ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Models">
+      <UniqueIdentifier>{0f8b8036-73a1-4e13-ad47-d376b8e80450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\KernelExecutionContracts">
+      <UniqueIdentifier>{90cbc5b5-2d93-4f0b-88c6-4aaf3a9dc98b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{8ad7c824-7c56-498b-ae1c-65e380755045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Algorithms">
+      <UniqueIdentifier>{5d70d458-e7b0-48a4-8e5d-d145490e03ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\ErrorHandling">
       <UniqueIdentifier>{5e428e40-2645-413d-ad69-26cac1821939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\KernelSources">
+      <UniqueIdentifier>{334bb4bd-f381-4619-80a6-5de4f5ca25f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Models">
+      <UniqueIdentifier>{e623bc81-dfbe-4146-b34a-c6ed07ef5f23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\KernelExecutionContracts">
+      <UniqueIdentifier>{a4620c6e-f1dd-48b2-96e5-b31b008a2785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\KernelUsingImplementations">
+      <UniqueIdentifier>{f45ed05e-5760-40f7-bece-dcdad9c00c9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\KernelUsingImplementations\Sum">
+      <UniqueIdentifier>{027ee291-dd45-4fca-bfc8-09cd6aeb560f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\KernelUsingImplementations\Multiplication">
+      <UniqueIdentifier>{6f504920-ca58-455e-a4d9-1ccff7672d7e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,134 +73,134 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sum_kernel_argument.cpp">
-      <Filter>Source Files\Kernels\Sum</Filter>
+      <Filter>Source Files\KernelUsingImplementations\Sum</Filter>
     </ClCompile>
     <ClCompile Include="sum_kernel.cpp">
-      <Filter>Source Files\Kernels\Sum</Filter>
+      <Filter>Source Files\KernelUsingImplementations\Sum</Filter>
     </ClCompile>
     <ClCompile Include="sum_kernel_response.cpp">
-      <Filter>Source Files\Kernels\Sum</Filter>
+      <Filter>Source Files\KernelUsingImplementations\Sum</Filter>
     </ClCompile>
     <ClCompile Include="kernel_file_source.cpp">
-      <Filter>Source Files\KernelSources</Filter>
+      <Filter>Source Files\Core\KernelSources</Filter>
     </ClCompile>
     <ClCompile Include="device.cpp">
-      <Filter>Source Files\Models</Filter>
+      <Filter>Source Files\Core\Models</Filter>
     </ClCompile>
     <ClCompile Include="execution_context.cpp">
-      <Filter>Source Files\Models</Filter>
+      <Filter>Source Files\Core\Models</Filter>
     </ClCompile>
     <ClCompile Include="multiplication_kernel_argument.cpp">
-      <Filter>Source Files\Kernels\Multiplication</Filter>
+      <Filter>Source Files\KernelUsingImplementations\Multiplication</Filter>
     </ClCompile>
     <ClCompile Include="multiplication_kernel_response.cpp">
-      <Filter>Source Files\Kernels\Multiplication</Filter>
+      <Filter>Source Files\KernelUsingImplementations\Multiplication</Filter>
     </ClCompile>
-    <ClCompile Include="cl_device_provider.cpp">
-      <Filter>Source Files\Algorithms</Filter>
+    <ClCompile Include="device_provider.cpp">
+      <Filter>Source Files\Core\Algorithms</Filter>
     </ClCompile>
     <ClCompile Include="program_builder.cpp">
-      <Filter>Source Files\Algorithms</Filter>
+      <Filter>Source Files\Core\Algorithms</Filter>
     </ClCompile>
     <ClCompile Include="error_validator.cpp">
-      <Filter>Source Files\ErrorHandling</Filter>
+      <Filter>Source Files\Core\ErrorHandling</Filter>
     </ClCompile>
     <ClCompile Include="error_message.h">
-      <Filter>Header Files\ErrorHandling</Filter>
+      <Filter>Header Files\Core\ErrorHandling</Filter>
     </ClCompile>
     <ClCompile Include="ocl_exception.cpp">
-      <Filter>Source Files\ErrorHandling</Filter>
+      <Filter>Source Files\Core\ErrorHandling</Filter>
     </ClCompile>
     <ClCompile Include="multiplication_kernel.cpp">
-      <Filter>Source Files\Kernels\Multiplication</Filter>
+      <Filter>Source Files\KernelUsingImplementations\Multiplication</Filter>
     </ClCompile>
     <ClCompile Include="kernel_dimension_config.cpp">
-      <Filter>Source Files\Models</Filter>
+      <Filter>Source Files\Core\Models</Filter>
     </ClCompile>
     <ClCompile Include="matrix.cpp">
-      <Filter>Source Files\Kernels\Multiplication</Filter>
+      <Filter>Source Files\KernelUsingImplementations\Multiplication</Filter>
     </ClCompile>
     <ClCompile Include="matrix_io.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\KernelUsingImplementations\Multiplication</Filter>
     </ClCompile>
     <ClCompile Include="matrix_multiplication_context.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\KernelUsingImplementations\Multiplication</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sum_kernel_argument.h">
-      <Filter>Header Files\Kernels\Sum</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Sum</Filter>
     </ClInclude>
     <ClInclude Include="sum_kernel_response.h">
-      <Filter>Header Files\Kernels\Sum</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Sum</Filter>
     </ClInclude>
     <ClInclude Include="sum_kernel.h">
-      <Filter>Header Files\Kernels\Sum</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel_argument.h">
-      <Filter>Header Files\Kernels\Contracts</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel_response.h">
-      <Filter>Header Files\Kernels\Contracts</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel_contract.h">
-      <Filter>Header Files\Kernels\Contracts</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Sum</Filter>
     </ClInclude>
     <ClInclude Include="multiplication_kernel_argument.h">
-      <Filter>Header Files\Kernels\Multiplication</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
     </ClInclude>
     <ClInclude Include="multiplication_kernel_response.h">
-      <Filter>Header Files\Kernels\Multiplication</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
     </ClInclude>
     <ClInclude Include="kernel_file_source.h">
-      <Filter>Header Files\KernelSources</Filter>
+      <Filter>Header Files\Core\KernelSources</Filter>
     </ClInclude>
     <ClInclude Include="kernel_source.h">
-      <Filter>Header Files\KernelSources</Filter>
+      <Filter>Header Files\Core\KernelSources</Filter>
     </ClInclude>
     <ClInclude Include="device.h">
-      <Filter>Header Files\Models</Filter>
+      <Filter>Header Files\Core\Models</Filter>
     </ClInclude>
     <ClInclude Include="execution_context.h">
-      <Filter>Header Files\Models</Filter>
+      <Filter>Header Files\Core\Models</Filter>
     </ClInclude>
-    <ClInclude Include="cl_device_provider.h">
-      <Filter>Header Files\Algorithms</Filter>
+    <ClInclude Include="device_provider.h">
+      <Filter>Header Files\Core\Algorithms</Filter>
     </ClInclude>
     <ClInclude Include="program_builder.h">
-      <Filter>Header Files\Algorithms</Filter>
+      <Filter>Header Files\Core\Algorithms</Filter>
     </ClInclude>
     <ClInclude Include="error_validator.h">
-      <Filter>Header Files\ErrorHandling</Filter>
+      <Filter>Header Files\Core\ErrorHandling</Filter>
     </ClInclude>
     <ClInclude Include="ocl_exception.h">
-      <Filter>Header Files\ErrorHandling</Filter>
+      <Filter>Header Files\Core\ErrorHandling</Filter>
     </ClInclude>
     <ClInclude Include="multiplication_kernel.h">
-      <Filter>Header Files\Kernels\Multiplication</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
     </ClInclude>
     <ClInclude Include="kernel_dimension_config.h">
-      <Filter>Header Files\Models</Filter>
+      <Filter>Header Files\Core\Models</Filter>
     </ClInclude>
     <ClInclude Include="matrix.h">
-      <Filter>Header Files\Kernels\Multiplication</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
     </ClInclude>
     <ClInclude Include="matrix_io.h">
-      <Filter>Header Files\Kernels\Multiplication</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
     </ClInclude>
     <ClInclude Include="matrix_multiplication_context.h">
-      <Filter>Header Files\Kernels\Multiplication</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel_argument.h">
+      <Filter>Header Files\Core\KernelExecutionContracts</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel_contract.h">
+      <Filter>Header Files\Core\KernelExecutionContracts</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel_response.h">
+      <Filter>Header Files\Core\KernelExecutionContracts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="sum.txt">
-      <Filter>Header Files\Kernels\Sum</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Sum</Filter>
     </Text>
     <Text Include="multiplication.txt">
-      <Filter>Header Files\Kernels\Multiplication</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
     </Text>
     <Text Include="input_matrix.txt">
-      <Filter>Header Files\Kernels\Multiplication</Filter>
+      <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
     </Text>
   </ItemGroup>
 </Project>

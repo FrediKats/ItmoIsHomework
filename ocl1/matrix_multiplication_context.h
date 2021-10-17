@@ -25,8 +25,8 @@ public:
 	{
 	}
 
-	kernel_dimension_config create_config()
+	ocl1::kernel_dimension_config create_config()
 	{
-		return kernel_dimension_config(2, nullptr, new size_t[2] { n, m});
+		return ocl1::kernel_dimension_config(2, nullptr, new size_t[2] { n, m});
 	}
 };
