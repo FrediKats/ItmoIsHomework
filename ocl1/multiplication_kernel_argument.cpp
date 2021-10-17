@@ -3,9 +3,10 @@
 #include "error_message.h"
 #include "error_validator.h"
 
-multiplication_kernel_argument::multiplication_kernel_argument(int n, int k, int m, float* a, float* b): n_(n),
+multiplication_kernel_argument::multiplication_kernel_argument(int n, int k, int m, float* a, float* b):
+	second_matrix_width_(n),
 	k_(k),
-	m_(m),
+	first_matrix_height_(m),
 	matrix_a_(a),
 	matrix_b_(b)
 {
@@ -13,21 +14,22 @@ multiplication_kernel_argument::multiplication_kernel_argument(int n, int k, int
 
 multiplication_kernel_argument::multiplication_kernel_argument(
 	const matrix_multiplication_context& multiplication_context):
-	n_(multiplication_context.n),
+	second_matrix_width_(multiplication_context.second_matrix_width),
 	k_(multiplication_context.k),
-	m_(multiplication_context.m),
+	first_matrix_height_(multiplication_context.first_matrix_height),
 	matrix_a_(multiplication_context.first.to_array()),
 	matrix_b_(multiplication_context.second.to_array())
 {
 }
 
-void multiplication_kernel_argument::write_arguments(ocl1::execution_context execution_context_instance, cl_kernel kernel)
+void multiplication_kernel_argument::write_arguments(ocl1::execution_context execution_context_instance,
+                                                     cl_kernel kernel)
 {
-	unsigned long long matrix_a_size = sizeof(float) * k_ * m_;
-	unsigned long long matrix_b_size = sizeof(float) * n_ * k_;
+	unsigned long long matrix_a_size = sizeof(float) * k_ * first_matrix_height_;
+	unsigned long long matrix_b_size = sizeof(float) * second_matrix_width_ * k_;
 
 	size_t width_a = k_;
-	size_t width_b = n_;
+	size_t width_b = second_matrix_width_;
 
 	int err;
 	matrix_a_input_ = clCreateBuffer(execution_context_instance.context, CL_MEM_READ_ONLY, matrix_a_size, nullptr,

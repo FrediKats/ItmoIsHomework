@@ -11,7 +11,7 @@ void error_validator::or_throw(const std::string& message) const
 	if (is_success)
 		return;
 
-	throw ocl_exception(message);
+	throw ocl1::ocl_exception(message);
 }
 
 void error_validator::or_throw(error_message message) const
