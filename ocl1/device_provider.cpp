@@ -85,17 +85,18 @@ namespace ocl1
 			err = clGetDeviceInfo(device_ids[i], CL_DEVICE_NAME, return_size, c_buffer, &return_size);
 			validate_error(err).or_throw(about_getting_device_info);
 
-			bool is_unified_memory_subsystem;
-			err = clGetDeviceInfo(device_ids[i], CL_DEVICE_HOST_UNIFIED_MEMORY, 0, &is_unified_memory_subsystem, nullptr);
+			//TODO: fix selecting
+			/*bool is_unified_memory_subsystem;
+			err = clGetDeviceInfo(device_ids[i], CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(bool), &is_unified_memory_subsystem, nullptr);
 			validate_error(err).or_throw(about_getting_device_info);
 
 			if (trace_detailed_info)
 				std::cout << "Device " << i << ": " << c_buffer << " (" << is_unified_memory_subsystem << ")" << std::endl;
 
 			if (use_unified_memory_subsystem != is_unified_memory_subsystem)
-				continue;
+				continue;*/
 
-			result[i] = device(device_ids[i], std::string(c_buffer), is_unified_memory_subsystem);
+			result[i] = device(device_ids[i], std::string(c_buffer), false);
 		}
 
 		return result;
@@ -108,19 +109,19 @@ namespace ocl1
 
 		for (size_t i = 0; i < cl_platform_ids.size(); i++)
 		{
-			auto devices_from_platform = get_devices(cl_platform_ids[i], true, CL_DEVICE_TYPE_GPU, trace_detailed_info);
+			auto devices_from_platform = get_devices(cl_platform_ids[i], CL_DEVICE_TYPE_GPU, true, trace_detailed_info);
 			devices.insert(devices.end(), devices_from_platform.begin(), devices_from_platform.end());
 		}
 
 		for (size_t i = 0; i < cl_platform_ids.size(); i++)
 		{
-			auto devices_from_platform = get_devices(cl_platform_ids[i], false, CL_DEVICE_TYPE_GPU, trace_detailed_info);
+			auto devices_from_platform = get_devices(cl_platform_ids[i], CL_DEVICE_TYPE_GPU, false, trace_detailed_info);
 			devices.insert(devices.end(), devices_from_platform.begin(), devices_from_platform.end());
 		}
 
 		for (size_t i = 0; i < cl_platform_ids.size(); i++)
 		{
-			auto devices_from_platform = get_devices(cl_platform_ids[i], false, CL_DEVICE_TYPE_CPU, trace_detailed_info);
+			auto devices_from_platform = get_devices(cl_platform_ids[i], CL_DEVICE_TYPE_CPU, false, trace_detailed_info);
 			devices.insert(devices.end(), devices_from_platform.begin(), devices_from_platform.end());
 		}
 
