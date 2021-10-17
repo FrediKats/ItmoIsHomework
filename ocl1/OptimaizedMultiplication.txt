@@ -1,0 +1,61 @@
+// NB: https://cnugteren.github.io/tutorial/pages/page4.html
+// Tiled and coalesced version
+#define TS 32
+
+__kernel void multi_with_local_memory(
+	__global float* A,
+	__global float* B,
+	__global int* second_matrix_width_ref,
+	__global int* K_ref, 
+	__global int* first_matrix_height_ref, 
+	__global float* C)
+{
+    int K = *K_ref;
+    int first_matrix_height = *first_matrix_height_ref;
+    int second_matrix_width = *second_matrix_width_ref;
+    // Thread identifiers
+    const int row = get_local_id(0); // Local row ID (max: TS)
+    const int col = get_local_id(1); // Local col ID (max: TS)
+    const int globalRow = TS * get_group_id(0) + row; // Row ID of C (0..M)
+    const int globalCol = TS * get_group_id(1) + col; // Col ID of C (0..N)
+    printf("%d %d %d %d\n", get_group_id(0), get_group_id(1), row, col);
+ 
+
+    // Local memory to fit a tile of TS*TS elements of A and B
+    __local float Asub[TS][TS];
+    __local float Bsub[TS][TS];
+ 
+    // Initialise the accumulation register
+    float acc = 0.0f;
+    
+    // Loop over all tiles
+    int numTiles = K / TS;
+    if (K % TS != 0)
+        numTiles++;
+
+    for (int t = 0; t < numTiles; t++)
+    {
+ 
+        // Load one tile of A and B into local memory
+        const int tiledRow = TS * t + row;
+        const int tiledCol = TS * t + col;
+        Asub[row][col] = A[globalRow * K + tiledCol];
+        Bsub[row][col] = B[tiledRow * second_matrix_width + globalCol];
+ 
+        // Synchronise to make sure the tile is loaded
+        barrier(CLK_LOCAL_MEM_FENCE);
+ 
+        // Perform the computation for a single tile
+        for (int k = 0; k < TS; k++) {
+
+            acc += Asub[row][k] * Bsub[k][col];
+        }
+ 
+        // Synchronise before loading the next tile
+        barrier(CLK_LOCAL_MEM_FENCE);
+    }
+ 
+    // Store the final result in C
+    C[globalRow * second_matrix_width + globalCol] = acc;
+    printf("%d %f\n", globalRow * second_matrix_width + globalCol, acc);
+}

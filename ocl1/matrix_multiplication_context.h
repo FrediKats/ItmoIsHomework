@@ -23,10 +23,20 @@ public:
 		  first(first),
 		  second(second)
 	{
+		const size_t TS = 32;
+		local_ = new size_t[]{ TS, TS };
 	}
 
 	ocl1::kernel_dimension_config create_config()
 	{
 		return ocl1::kernel_dimension_config(2, nullptr, new size_t[2] { first_matrix_height, second_matrix_width});
 	}
+
+	ocl1::kernel_dimension_config create_config_with_local()
+	{
+		return ocl1::kernel_dimension_config(2, local_, new size_t[2]{ first_matrix_height, second_matrix_width });
+	}
+
+private:
+	size_t* local_;
 };
