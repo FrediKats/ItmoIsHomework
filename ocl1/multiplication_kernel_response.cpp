@@ -17,7 +17,7 @@ void multiplication_kernel_response::setup(ocl1::execution_context execution_con
 	cl_mem output = clCreateBuffer(execution_context_instance.context, CL_MEM_WRITE_ONLY, allocate_size, nullptr, &err);
 	validate_error(err).or_throw(about_kernel_response_setup);
 
-	clSetKernelArg(kernel, 4, sizeof(cl_mem), &output);
+	clSetKernelArg(kernel, 5, sizeof(cl_mem), &output);
 	validate_error(err).or_throw(about_set_kernel_argument);
 	output_memory_ = output;
 }
