@@ -8,7 +8,7 @@ public:
 	multiplication_kernel_argument(int n, int k, int m, float* a, float* b);
 	explicit multiplication_kernel_argument(const matrix_multiplication_context& multiplication_context);
 
-	void write_arguments(ocl1::execution_context execution_context_instance, cl_kernel kernel) override;
+	void write_arguments(ocl1::execution_context context, cl_kernel kernel) override;
 
 private:
 	size_t second_matrix_width_;
