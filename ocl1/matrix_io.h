@@ -15,12 +15,12 @@ public:
 
 		try
 		{
-			size_t n, m, k;
-			file_descriptor >> n >> m >> k;
+			size_t second_matrix_width, first_matrix_height, k;
+			file_descriptor >> second_matrix_width >> k >> first_matrix_height;
 
-			const matrix a = read_matrix(m, k, file_descriptor);
-			const matrix b = read_matrix(k, n, file_descriptor);
-			return matrix_multiplication_context(n, k, m, a, b);
+			const matrix first = read_matrix(first_matrix_height, k, file_descriptor);
+			const matrix second = read_matrix(k, second_matrix_width, file_descriptor);
+			return matrix_multiplication_context(second_matrix_width, k, first_matrix_height, first, second);
 		}
 		catch (...)
 		{
@@ -29,13 +29,13 @@ public:
 		}
 	}
 
-	matrix read_matrix(size_t row_count, size_t column_count, std::ifstream& file_descriptor)
+	matrix read_matrix(const size_t height, const size_t width, std::ifstream& file_descriptor)
 	{
-		std::vector<std::vector<float>> result(row_count * column_count);
-		for (size_t row_index = 0; row_index < row_count; row_index++)
+		std::vector<std::vector<float>> result(height * width);
+		for (size_t row_index = 0; row_index < height; row_index++)
 		{
-			std::vector<float> temp(column_count);
-			for (size_t column_index = 0; column_index < column_count; column_index++)
+			std::vector<float> temp(width);
+			for (size_t column_index = 0; column_index < width; column_index++)
 			{
 				file_descriptor >> temp[column_index];
 			}
@@ -44,37 +44,27 @@ public:
 		return matrix(result);
 	}
 
-	void write_matrix(matrix matrix, std::string file_path)
+	void write_matrix(const matrix& matrix, const std::string file_path)
 	{
 		std::ofstream file_descriptor(file_path);
 		if (!file_descriptor.good())
 			throw std::exception("Can not open file");
 
-		try
+		const auto data = matrix.data;
+		file_descriptor << data[0].size() << " " << data.size() << std::endl;
+
+		for (size_t row = 0; row < data.size(); row++)
 		{
-			auto data = matrix.data;
-
-			file_descriptor << data.size() << data[0].size();
-
-			for (size_t row = 0; row < data.size(); row++)
+			for (size_t column = 0; column < data[row].size(); column++)
 			{
-				for (size_t column = 0; column < data[row].size(); column++)
-				{
-					auto value = data[row][column];
-					file_descriptor << value;
-					if (column < data[row].size() - 1)
-						file_descriptor << " ";
-				}
-				if (row < data.size() - 1)
-				{
-					file_descriptor << std::endl;
-				}
+				file_descriptor << data[row][column];
+				if (column < data[row].size() - 1)
+					file_descriptor << " ";
 			}
-		}
-		catch (...)
-		{
-			file_descriptor.close();
-			throw;
+			if (row < data.size() - 1)
+			{
+				file_descriptor << std::endl;
+			}
 		}
 	}
 };

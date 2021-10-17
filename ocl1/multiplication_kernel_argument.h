@@ -11,9 +11,9 @@ public:
 	void write_arguments(ocl1::execution_context execution_context_instance, cl_kernel kernel) override;
 
 private:
-	size_t n_;
+	size_t second_matrix_width_;
 	size_t k_;
-	size_t m_;
+	size_t first_matrix_height_;
 	float* matrix_a_;
 	float* matrix_b_;
 

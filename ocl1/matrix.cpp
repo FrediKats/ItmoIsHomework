@@ -22,7 +22,7 @@ matrix::matrix(float* current_matrix, size_t column_count, size_t row_count)
 
 		for (size_t column = 0; column < column_count; column++)
 		{
-			local_result[column] = current_matrix[row * row_count + column];
+			local_result[column] = current_matrix[row * column_count + column];
 		}
 
 		result[row] = local_result;
@@ -44,4 +44,21 @@ std::string matrix::to_string()
 	}
 
 	return string_builder.str();
+}
+
+float* matrix::to_array() const
+{
+	const size_t buffer_size = data.size() * data[0].size();
+	float* result = new float[buffer_size];
+
+	for (size_t row = 0; row < data.size(); row++)
+	{
+		for (size_t column = 0; column < data[row].size(); column++)
+		{
+			result[row * data[row].size() + column] = data[row][column];
+				
+		}
+	}
+
+	return result;
 }

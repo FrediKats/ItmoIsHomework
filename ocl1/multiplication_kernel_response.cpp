@@ -3,9 +3,8 @@
 #include "error_message.h"
 #include "error_validator.h"
 
-//TODO: add column | row
 multiplication_kernel_response::multiplication_kernel_response(matrix_multiplication_context context)
-	: size(context.n * context.m),
+	: size(context.second_matrix_width * context.first_matrix_height),
 	  result(new float[size])
 {
 }
