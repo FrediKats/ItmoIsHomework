@@ -4,6 +4,7 @@
 
 #include "error_message.h"
 #include "error_validator.h"
+#include "ocl_exception.h"
 
 namespace ocl1
 {
@@ -24,7 +25,7 @@ namespace ocl1
 		cl_program program = clCreateProgramWithSource(context_, 1, &kernel_source_code_link, nullptr, &err);
 		validate_error(err).or_throw(error_message::about_create_program);
 		if (!program)
-			throw std::exception("Error: Failed to create compute program");
+			throw ocl_exception(error_message_to_string(about_create_program));
 
 		cl_device_id device_id = device_.id;
 		err = clBuildProgram(program, 1, &device_id, nullptr, nullptr, nullptr);
@@ -43,7 +44,7 @@ namespace ocl1
 
 		validate_error(err).or_throw(error_message::about_create_program);
 		if (!program)
-			throw std::exception("Error: Failed to create compute program");
+			throw ocl_exception(error_message_to_string(about_create_program));
 
 		return program;
 	}

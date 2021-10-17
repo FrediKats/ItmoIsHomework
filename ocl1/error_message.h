@@ -4,6 +4,10 @@
 
 enum error_message
 {
+	about_create_device_group,
+	about_getting_platform_devices,
+	about_getting_device_info,
+
 	about_kernel_response_setup,
 	about_kernel_response_read,
 	about_kernel_argument_create_buffer,
@@ -13,12 +17,23 @@ enum error_message
 	about_create_kernel,
 	about_kernel_enqueue,
 	about_waiting_processing,
+
+	about_create_context,
+	about_create_command_queue,
+
 };
 
 inline std::string error_message_to_string(const error_message& message)
 {
 	switch (message)
 	{
+	case about_create_device_group:
+		return "Error while create device group";
+	case about_getting_platform_devices:
+		return "Error while getting platform devices";
+	case about_getting_device_info:
+		return "Error while getting device info";
+
 	case about_kernel_response_setup:
 		return "Error while setup kernel response";
 	case about_kernel_response_read:
@@ -37,6 +52,11 @@ inline std::string error_message_to_string(const error_message& message)
 		return "Error: Failed to enqueue kernel";
 	case about_waiting_processing:
 		return "Error: Failed while wait cl execute result";
+
+	case about_create_context:
+		return "Error while create context";
+	case about_create_command_queue:
+		return "Error while create command queue";
 
 	default:
 		throw std::exception(("Unexpected error message type: " + std::to_string(message)).c_str());

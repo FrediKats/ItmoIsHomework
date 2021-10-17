@@ -4,22 +4,20 @@
 #include <iostream>
 #include <vector>
 
+#include "error_validator.h"
+
 namespace ocl1
 {
 	std::vector<cl_platform_id> get_platforms()
 	{
 		cl_uint num_platforms;
 		cl_int err = clGetPlatformIDs(0, nullptr, &num_platforms);
-		if (err != CL_SUCCESS)
-		{
-			throw std::exception("Error: Failed to create a device group!");
-		}
+		validate_error(err).or_throw(about_create_device_group);
 
 		//TODO: clean resources
 		auto cl_selected_platform_id = static_cast<cl_platform_id*>(malloc(sizeof(cl_platform_id) * num_platforms));
 		err = clGetPlatformIDs(num_platforms, cl_selected_platform_id, nullptr);
-		if (err != CL_SUCCESS)
-			throw std::exception("Error: Failed to create a device group!");
+		validate_error(err).or_throw(about_create_device_group);
 
 		// NB: https://stackoverflow.com/a/25926679
 		//TODO: add flag from ctor for extended logs
@@ -61,28 +59,24 @@ namespace ocl1
 		if (err == CL_DEVICE_NOT_FOUND)
 			return {};
 
-		if (err != CL_SUCCESS)
-			throw std::exception("Error: Failed to get devices ids for platform ");
+		validate_error(err).or_throw(about_getting_platform_devices);
 
 		//TODO: clean resources
 		auto device_ids = static_cast<cl_device_id*>(malloc(sizeof(cl_device_id) * device_count));
 		err = clGetDeviceIDs(platform_id, device_type, device_count, device_ids, &device_count);
-		if (err != CL_SUCCESS)
-			throw std::exception("Error: Failed to get devices ids for platform ");
+		validate_error(err).or_throw(about_getting_platform_devices);
 
 		auto result = std::vector<device>(device_count);
 		for (cl_uint i = 0; i < device_count; i++)
 		{
 			size_t return_size;
 			err = clGetDeviceInfo(device_ids[i], CL_DEVICE_NAME, 0, nullptr, &return_size);
-			if (err != CL_SUCCESS)
-				throw std::exception("Error: Failed to get device info");
+			validate_error(err).or_throw(about_getting_device_info);
 
 			//TODO: clean resources
 			const auto c_buffer = static_cast<char*>(malloc(sizeof(char) * return_size));
 			err = clGetDeviceInfo(device_ids[i], CL_DEVICE_NAME, return_size, c_buffer, &return_size);
-			if (err != CL_SUCCESS)
-				throw std::exception("Error: Failed to get device info");
+			validate_error(err).or_throw(about_getting_device_info);
 
 			result[i] = device(device_ids[i], std::string(c_buffer));
 		}
