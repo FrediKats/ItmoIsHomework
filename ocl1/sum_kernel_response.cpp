@@ -7,7 +7,7 @@ sum_kernel_response::sum_kernel_response()
 {
 }
 
-void sum_kernel_response::setup(execution_context execution_context_instance, cl_kernel kernel)
+void sum_kernel_response::setup(ocl1::execution_context execution_context_instance, cl_kernel kernel)
 {
 	int err;
 	const cl_mem output = clCreateBuffer(execution_context_instance.context, CL_MEM_WRITE_ONLY, sizeof(int), nullptr, &err);
@@ -19,7 +19,7 @@ void sum_kernel_response::setup(execution_context execution_context_instance, cl
 	output_memory_ = output;
 }
 
-void sum_kernel_response::read_result(execution_context execution_context_instance)
+void sum_kernel_response::read_result(ocl1::execution_context execution_context_instance)
 {
 	int err;
 	err = clEnqueueReadBuffer(execution_context_instance.command_queue, output_memory_, CL_TRUE, 0, sizeof(int), &c, 0, nullptr, nullptr);

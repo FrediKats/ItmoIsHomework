@@ -21,13 +21,13 @@ multiplication_kernel_argument::multiplication_kernel_argument(
 {
 }
 
-void multiplication_kernel_argument::write_arguments(execution_context execution_context_instance, cl_kernel kernel)
+void multiplication_kernel_argument::write_arguments(ocl1::execution_context execution_context_instance, cl_kernel kernel)
 {
 	unsigned long long matrix_a_size = sizeof(float) * k_ * m_;
 	unsigned long long matrix_b_size = sizeof(float) * n_ * k_;
 
-	int width_a = k_;
-	int width_b = n_;
+	size_t width_a = k_;
+	size_t width_b = n_;
 
 	int err;
 	matrix_a_input_ = clCreateBuffer(execution_context_instance.context, CL_MEM_READ_ONLY, matrix_a_size, nullptr,

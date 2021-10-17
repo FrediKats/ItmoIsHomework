@@ -2,18 +2,22 @@
 
 #include "execution_context.h"
 
-execution_context::execution_context(device device, kernel_dimension_config dimension_config): dimension_config(dimension_config)
+namespace ocl1
 {
-	int err;
-	//create context
-	//TODO: need to dispose this context
-	context = clCreateContext(nullptr, 1, &device.id, nullptr, nullptr, &err);
-	if (!context)
-		throw std::exception("Error: Failed to create a compute context!");
+	execution_context::execution_context(device device, const kernel_dimension_config dimension_config): dimension_config(dimension_config)
+	{
+		int err;
+		//create context
+		//TODO: need to dispose this context
+		context = clCreateContext(nullptr, 1, &device.id, nullptr, nullptr, &err);
+		if (!context)
+			throw std::exception("Error: Failed to create a compute context!");
 
-	command_queue = clCreateCommandQueue(context, device.id, CL_QUEUE_PROFILING_ENABLE, &err);
-	if (!command_queue)
-		throw std::exception("Error: Failed to create a command commands!");
+		command_queue = clCreateCommandQueue(context, device.id, CL_QUEUE_PROFILING_ENABLE, &err);
+		if (!command_queue)
+			throw std::exception("Error: Failed to create a command commands!");
 
-	selected_device = device;
+		selected_device = device;
+	}
+	
 }

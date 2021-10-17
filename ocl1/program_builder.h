@@ -1,11 +1,22 @@
 ﻿#pragma once
+
 #include <string>
-#include <CL/cl.h>
 
 #include "device.h"
+#include "execution_context.h"
 
-class program_builder
+namespace ocl1
 {
-public:
-	cl_program build(cl_context context, const std::string& kernel_source_code, device device);
-};
+	class program_builder
+	{
+	public:
+		program_builder(cl_context context, const device& device);
+		explicit program_builder(execution_context context);
+
+		cl_program build(const std::string& kernel_source_code);
+
+	private:
+		cl_context context_;
+		device device_;
+	};
+}

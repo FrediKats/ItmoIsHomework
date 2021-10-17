@@ -7,7 +7,7 @@ sum_kernel_argument::sum_kernel_argument(int a, int b): a(a), b(b)
 {
 }
 
-void sum_kernel_argument::write_arguments(execution_context execution_context_instance, cl_kernel kernel)
+void sum_kernel_argument::write_arguments(ocl1::execution_context execution_context_instance, cl_kernel kernel)
 {
 	int err;
 	// NB: -37 - invalid host ptr

@@ -2,13 +2,13 @@
 #include "kernel_argument.h"
 #include "matrix_multiplication_context.h"
 
-class multiplication_kernel_argument final : kernel_argument
+class multiplication_kernel_argument final : ocl1::kernel_argument
 {
 public:
 	multiplication_kernel_argument(int n, int k, int m, float* a, float* b);
 	explicit multiplication_kernel_argument(const matrix_multiplication_context& multiplication_context);
 
-	void write_arguments(execution_context execution_context_instance, cl_kernel kernel) override;
+	void write_arguments(ocl1::execution_context execution_context_instance, cl_kernel kernel) override;
 
 private:
 	size_t n_;

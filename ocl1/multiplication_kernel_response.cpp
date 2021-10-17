@@ -10,7 +10,7 @@ multiplication_kernel_response::multiplication_kernel_response(matrix_multiplica
 {
 }
 
-void multiplication_kernel_response::setup(execution_context execution_context_instance, cl_kernel kernel)
+void multiplication_kernel_response::setup(ocl1::execution_context execution_context_instance, cl_kernel kernel)
 {
 	auto allocate_size = sizeof(float) * size;
 
@@ -23,7 +23,7 @@ void multiplication_kernel_response::setup(execution_context execution_context_i
 	output_memory_ = output;
 }
 
-void multiplication_kernel_response::read_result(execution_context execution_context_instance)
+void multiplication_kernel_response::read_result(ocl1::execution_context execution_context_instance)
 {
 	auto allocate_size = sizeof(float) * size;
 
