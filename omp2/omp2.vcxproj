@@ -88,6 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -102,6 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,12 +143,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="color.cpp" />
+    <ClCompile Include="color_histogram.cpp" />
+    <ClCompile Include="color_image_writer.cpp" />
+    <ClCompile Include="color_morphism.cpp" />
+    <ClCompile Include="color_normalizer.cpp" />
+    <ClCompile Include="color_image_reader.cpp" />
+    <ClCompile Include="functional_extension.cpp" />
+    <ClCompile Include="image_resizer.cpp" />
+    <ClCompile Include="morphism_producer.cpp" />
+    <ClCompile Include="multithread_color_normalizer.cpp" />
+    <ClCompile Include="pnm_image_descriptor.cpp" />
     <ClCompile Include="omp2.cpp" />
+    <ClCompile Include="single_thread_color_normalizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lab1\lab1.vcxproj">
       <Project>{6c6a3765-bbc6-404b-b655-14ac8dad345d}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="color.h" />
+    <ClInclude Include="color_histogram.h" />
+    <ClInclude Include="color_image_writer.h" />
+    <ClInclude Include="color_morphism.h" />
+    <ClInclude Include="color_normalizer.h" />
+    <ClInclude Include="color_image_reader.h" />
+    <ClInclude Include="functional_extension.h" />
+    <ClInclude Include="image_resizer.h" />
+    <ClInclude Include="morphism_producer.h" />
+    <ClInclude Include="multithread_color_normalizer.h" />
+    <ClInclude Include="pnm_image_descriptor.h" />
+    <ClInclude Include="single_thread_color_normalizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
