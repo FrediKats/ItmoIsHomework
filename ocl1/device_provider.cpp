@@ -49,36 +49,18 @@ namespace ocl1
 		validate_error(err).or_throw(about_getting_platform_devices);
 
 		//TODO: clean resources
-		auto device_ids = static_cast<cl_device_id*>(malloc(sizeof(cl_device_id) * device_count));
+		cl_device_id* device_ids = new cl_device_id[device_count];
 		err = clGetDeviceIDs(platform.id, device_type, device_count, device_ids, &device_count);
 		validate_error(err).or_throw(about_getting_platform_devices);
 
 		auto result = std::vector<device>(device_count);
 		for (cl_uint i = 0; i < device_count; i++)
 		{
-			//TODO: clean resources
-			// TODO: CL_DEVICE_HOST_UNIFIED_MEMORY
-			//CL_DEVICE_HOST_UNIFIED_MEMORY
-
-			size_t return_size;
-			err = clGetDeviceInfo(device_ids[i], CL_DEVICE_NAME, 0, nullptr, &return_size);
-			validate_error(err).or_throw(about_getting_device_info);
-			const auto c_buffer = static_cast<char*>(malloc(sizeof(char) * return_size));
-			err = clGetDeviceInfo(device_ids[i], CL_DEVICE_NAME, return_size, c_buffer, &return_size);
-			validate_error(err).or_throw(about_getting_device_info);
-
-			//TODO: fix selecting
-			/*bool is_unified_memory_subsystem;
-			err = clGetDeviceInfo(device_ids[i], CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(bool), &is_unified_memory_subsystem, nullptr);
-			validate_error(err).or_throw(about_getting_device_info);
-
+			device current_device(device_ids[i]);
 			if (trace_detailed_info)
-				std::cout << "Device " << i << ": " << c_buffer << " (" << is_unified_memory_subsystem << ")" << std::endl;
+				std::cout << "Device " << current_device.to_string() << std::endl;
 
-			if (use_unified_memory_subsystem != is_unified_memory_subsystem)
-				continue;*/
-
-			result[i] = device(device_ids[i], std::string(c_buffer), false);
+			result[i] = current_device;
 		}
 
 		return result;
