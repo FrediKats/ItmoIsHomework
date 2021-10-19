@@ -13,6 +13,8 @@ public:
 	void setup(ocl1::execution_context execution_context_instance, cl_kernel kernel) override;
 	void read_result(ocl1::execution_context execution_context_instance) override;
 
+	~multiplication_kernel_response() override;
+
 private:
 	cl_mem output_memory_;
 };

@@ -7,9 +7,5 @@
 class multiplication_kernel : public ocl1::kernel_contract<multiplication_kernel_argument, multiplication_kernel_response>
 {
 public:
-	multiplication_kernel(const ocl1::execution_context& execution_context_instance, cl_kernel kernel)
-		: kernel_contract<multiplication_kernel_argument, multiplication_kernel_response>(
-			execution_context_instance, kernel)
-	{
-	}
+	multiplication_kernel(const ocl1::execution_context& execution_context_instance, cl_kernel kernel);
 };

@@ -8,10 +8,12 @@
 
 namespace ocl1
 {
-	execution_context::execution_context(device device, const kernel_dimension_config dimension_config): dimension_config(dimension_config)
+	execution_context::execution_context(const device device, const kernel_dimension_config dimension_config)
+		: dimension_config(dimension_config)
 	{
+		selected_device = device;
+
 		int err;
-		//TODO: need to dispose this context
 		context = clCreateContext(nullptr, 1, &device.id, nullptr, nullptr, &err);
 		validate_error(err).or_throw(about_create_context);
 		if (!context)
@@ -21,8 +23,11 @@ namespace ocl1
 		validate_error(err).or_throw(about_create_command_queue);
 		if (!command_queue)
 			throw ocl_exception(error_message_to_string(about_create_command_queue));
-
-		selected_device = device;
 	}
-	
+
+	execution_context::~execution_context()
+	{
+		//clReleaseCommandQueue(command_queue);
+		//clReleaseContext(context);
+	}
 }
