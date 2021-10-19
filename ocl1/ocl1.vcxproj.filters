@@ -135,6 +135,9 @@
     <ClCompile Include="matrix_size_changer.cpp">
       <Filter>Source Files\KernelUsingImplementations\Multiplication</Filter>
     </ClCompile>
+    <ClCompile Include="platform_info.cpp">
+      <Filter>Source Files\Core\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sum_kernel_argument.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="matrix_size_changer.h">
       <Filter>Header Files\KernelUsingImplementations\Multiplication</Filter>
+    </ClInclude>
+    <ClInclude Include="platform_info.h">
+      <Filter>Header Files\Core\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

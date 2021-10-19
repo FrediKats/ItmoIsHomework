@@ -170,6 +170,7 @@
     <ClCompile Include="multiplication_kernel_argument.cpp" />
     <ClCompile Include="ocl1.cpp" />
     <ClCompile Include="ocl_exception.cpp" />
+    <ClCompile Include="platform_info.cpp" />
     <ClCompile Include="program_builder.cpp" />
     <ClCompile Include="sum_kernel.cpp" />
     <ClCompile Include="sum_kernel_argument.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="multiplication_kernel.h" />
     <ClInclude Include="multiplication_kernel_argument.h" />
     <ClInclude Include="ocl_exception.h" />
+    <ClInclude Include="platform_info.h" />
     <ClInclude Include="program_builder.h" />
     <ClInclude Include="sum_kernel.h" />
     <ClInclude Include="sum_kernel_argument.h" />
