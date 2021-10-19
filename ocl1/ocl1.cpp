@@ -102,8 +102,52 @@ void execute_mult_with_local(int requested_index, std::string input_path, std::s
     matrix_io_instance.write_matrix(result_matrix, output_path);
 }
 
-int main()
+int cli_execute(int argc, char** argv)
 {
+    try
+    {
+        if (argc != 5)
+        {
+            std::cerr << "Unexpected argument count";
+            return 1;
+        }
+
+        int device_index = atoi(argv[1]);
+        std::string input_path(argv[2]);
+        std::string output_path(argv[3]);
+        int algo_type = atoi(argv[4]);
+
+        switch (algo_type)
+        {
+        case 1:
+            execute_mult(device_index, input_path, output_path);
+            return 0;
+
+        case 2:
+            execute_mult_with_local(device_index, input_path, output_path);
+            return 0;
+
+        default:
+	        std::cerr << "Not supported algo type.";
+            return 1;
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "Unexpected error.\n" << e.what();
+        return 1;
+    }
+    catch (...)
+    {
+        std::cerr << "Unexpected error.";
+        return 1;
+    }
+}
+
+int main(int argc, char** argv)
+{
+    return cli_execute(argc, argv);
+
     //TODO: replace alloc with float[]
     //TODO: release memory object
     //TODO: read index from args
