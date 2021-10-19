@@ -165,6 +165,7 @@
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="matrix_multiplication_context.cpp" />
     <ClCompile Include="matrix_io.cpp" />
+    <ClCompile Include="matrix_size_changer.cpp" />
     <ClCompile Include="multiplication_kernel.cpp" />
     <ClCompile Include="multiplication_kernel_argument.cpp" />
     <ClCompile Include="ocl1.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="matrix.h" />
     <ClInclude Include="matrix_multiplication_context.h" />
     <ClInclude Include="matrix_io.h" />
+    <ClInclude Include="matrix_size_changer.h" />
     <ClInclude Include="multiplication_kernel.h" />
     <ClInclude Include="multiplication_kernel_argument.h" />
     <ClInclude Include="ocl_exception.h" />
