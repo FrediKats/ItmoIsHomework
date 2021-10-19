@@ -12,7 +12,7 @@ matrix::matrix(std::vector<std::vector<float>> data) : data(std::move(data))
 	}
 }
 
-matrix::matrix(float* current_matrix, size_t column_count, size_t row_count)
+matrix::matrix(float* current_matrix, size_t row_count, size_t column_count)
 {
 	std::vector<std::vector<float>> result(row_count);
 
@@ -61,4 +61,30 @@ float* matrix::to_array() const
 	}
 
 	return result;
+}
+
+matrix matrix::resize(size_t new_height, size_t new_weight) const
+{
+	std::vector<std::vector<float>> result(new_height);
+
+	for (size_t row = 0; row < new_height; row++)
+	{
+		std::vector<float> local_result(new_weight);
+
+		for (size_t column = 0; column < new_weight; column++)
+		{
+			if (data.size() <= row || data[row].size() <= column)
+			{
+				local_result[column] = 0;
+			}
+			else
+			{
+				local_result[column] = data[row][column];
+			}
+		}
+
+		result[row] = local_result;
+	}
+
+	return matrix(result);
 }
