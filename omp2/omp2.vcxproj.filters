@@ -13,10 +13,102 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{17ad5d21-b43f-47d1-9d59-a0a8a53789e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{a79faa34-dbd1-4532-82d2-1b71faf13349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FileOperation">
+      <UniqueIdentifier>{26fd9627-dbab-4cc6-b260-f97191043fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileOperation">
+      <UniqueIdentifier>{c75e5361-69c3-488a-8590-59f5697bf3ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Normalizers">
+      <UniqueIdentifier>{72af07c4-03ab-4cbb-98df-d9b2084c7999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Normalizers">
+      <UniqueIdentifier>{2fb7620b-c02e-4b25-a279-4e37deb45393}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="omp2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="functional_extension.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="morphism_producer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="color.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="color_morphism.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="pnm_image_descriptor.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="color_image_writer.cpp">
+      <Filter>Source Files\FileOperation</Filter>
+    </ClCompile>
+    <ClCompile Include="color_image_reader.cpp">
+      <Filter>Source Files\FileOperation</Filter>
+    </ClCompile>
+    <ClCompile Include="color_histogram.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="color_normalizer.cpp">
+      <Filter>Source Files\Normalizers</Filter>
+    </ClCompile>
+    <ClCompile Include="single_thread_color_normalizer.cpp">
+      <Filter>Source Files\Normalizers</Filter>
+    </ClCompile>
+    <ClCompile Include="multithread_color_normalizer.cpp">
+      <Filter>Source Files\Normalizers</Filter>
+    </ClCompile>
+    <ClCompile Include="image_resizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="functional_extension.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="morphism_producer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="color.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="color_morphism.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="pnm_image_descriptor.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="color_image_reader.h">
+      <Filter>Header Files\FileOperation</Filter>
+    </ClInclude>
+    <ClInclude Include="color_image_writer.h">
+      <Filter>Header Files\FileOperation</Filter>
+    </ClInclude>
+    <ClInclude Include="color_histogram.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="color_normalizer.h">
+      <Filter>Header Files\Normalizers</Filter>
+    </ClInclude>
+    <ClInclude Include="single_thread_color_normalizer.h">
+      <Filter>Header Files\Normalizers</Filter>
+    </ClInclude>
+    <ClInclude Include="multithread_color_normalizer.h">
+      <Filter>Header Files\Normalizers</Filter>
+    </ClInclude>
+    <ClInclude Include="image_resizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

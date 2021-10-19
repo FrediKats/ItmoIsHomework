@@ -1,78 +1,93 @@
-// omp2.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
-#include <fstream>
 #include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
+#include <omp.h>
+#include <ostream>
 
-class color
+#include "color_image_reader.h"
+#include "color_image_writer.h"
+#include "color_normalizer.h"
+#include "image_resizer.h"
+#include "multithread_color_normalizer.h"
+#include "single_thread_color_normalizer.h"
+#include "../lab1/benchmark_runner.h"
+#include "../lab1/benchmark_runner.cpp"
+
+void benchmark_run(omp2::pnm_image_descriptor<omp2::color> image_descriptor)
 {
-public:
-	unsigned char red;
-	unsigned char green;
-	unsigned char blue;
-	
-	color(const unsigned char red, const unsigned char green, const unsigned char blue) :red(red), green(green), blue(blue) {  }
-};
+	lab1::benchmark_runner benchmark = lab1::benchmark_runner(10);
 
-std::vector<color> read(const std::string& file_path)
-{
-	std::ifstream file_descriptor(file_path);
-	if (!file_descriptor.good())
-		throw std::exception("Can not open file");
+	auto color_normalizer = omp2::single_thread_color_normalizer();
 
-	try
+	std::cout << "ThreadCount;Single;Dynamic;Static;Guided" << std::endl;
+	for (int i = 1; i <= omp_get_num_procs(); i++)
 	{
-		size_t size;
-		file_descriptor >> size;
-		std::vector<std::vector<float>> result(size);
+		auto mt_color_normalizer = omp2::multithread_color_normalizer(i);
 
-		for (size_t row_index = 0; row_index < size; row_index++)
-		{
-			std::vector<float> temp(size);
-			for (size_t column_index = 0; column_index < size; column_index++)
-			{
-				file_descriptor >> temp[column_index];
-			}
-			result[row_index] = temp;
-		}
-
-
-		//NB: https://stackoverflow.com/a/36184106
-		std::string line;
-		int width, height = 0;
-		std::getline(file_descriptor, line);       //type of file, skip, it will always be for this code p6
-		std::getline(file_descriptor, line);       // width and height of the image
-		std::stringstream line_stream(line); //extract the width and height;
-		line_stream >> width;
-		line_stream >> height;
-		
-		int buffer_size = 3 * width * height;
-		char* pixelData = new char[buffer_size];
-		file_descriptor.read(pixelData, buffer_size);
-		std::vector<color> colors = std::vector<color>();
-
-		for (int i = 0; i < buffer_size; i += 3) {
-			unsigned char red = pixelData[i];
-			unsigned char green = pixelData[i + 1];
-			unsigned char blue = pixelData[i + 2];
-			colors.emplace_back(red, green, blue);
-		}
-
-		delete pixelData;
-		file_descriptor.close();
-		return colors;
-	}
-	catch (...)
-	{
-		file_descriptor.close();
-		throw;
+		std::cout
+			<< i << ";"
+			<< benchmark.benchmark_run([&color_normalizer, &image_descriptor] { color_normalizer.modify(image_descriptor); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_dynamic(image_descriptor); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_static(image_descriptor); }).count() * 1000 << ";"
+			<< benchmark.benchmark_run([&mt_color_normalizer, &image_descriptor] { mt_color_normalizer.modify_guid(image_descriptor); }).count() * 1000 << ";"
+			<< std::endl;
 	}
 }
 
-int main()
+void common_run(const std::string& input_file_path, const std::string& output_file_path, const int thread_count)
 {
-    std::cout << "Hello World!\n";
+	auto reader = omp2::color_image_reader(input_file_path);
+	auto writer = omp2::color_image_writer(output_file_path);
+	omp2::pnm_image_descriptor<omp2::color> image_descriptor = reader.read();
+
+	const int optimal_thread_count = omp_get_num_procs();
+	auto multithread_color_normalizer = omp2::multithread_color_normalizer(thread_count == 0 ? optimal_thread_count : thread_count);
+	auto singlethread_color_normalizer = omp2::single_thread_color_normalizer();
+
+	omp2::color_normalizer* normalizer;
+	if (thread_count >= 0)
+		normalizer = &multithread_color_normalizer;
+	else
+		normalizer = &singlethread_color_normalizer;
+
+	const auto start = std::chrono::system_clock::now();
+	const auto result = normalizer->modify(image_descriptor);
+	const auto end = std::chrono::system_clock::now();
+
+	const std::chrono::duration<double> difference = end - start;
+
+	writer.write(image_descriptor.update_colors(result));
+
+	std::cout << "\nTime (" << thread_count << " thread(s)): " << difference.count() * 1000 << " ms" << std::endl;
+}
+
+int console_run(int argc, char** argv)
+{
+	try
+	{
+		//NB: exec_path input_file_path output_file_path thread_count
+		if (argc == 4)
+		{
+			common_run(std::string(argv[1]), std::string(argv[2]), atoi(argv[3]));
+			return 0;
+		}
+		else
+		{
+			std::cout << "Unexpected argument count";
+			return 1;
+		}
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "Unexpected error.\n" << e.what();
+		return 1;
+	}
+	catch (...)
+	{
+		std::cout << "Unexpected error.";
+		return 1;
+	}
+}
+
+int main(int argc, char** argv)
+{
+	return console_run(argc, argv);
 }
