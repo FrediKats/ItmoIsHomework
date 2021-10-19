@@ -13,6 +13,13 @@ namespace ocl1
 		bool is_unified_memory_subsystem;
 
 		device();
-		device(cl_device_id id, std::string name, bool is_unified_memory_subsystem);
+
+		explicit device(cl_device_id id);
+
+		std::string to_string() const;
+
+	private:
+		std::string get_value(cl_platform_info device_info_type) const;
+		bool get_bool_value(cl_platform_info device_info_type) const;
 	};
 }
