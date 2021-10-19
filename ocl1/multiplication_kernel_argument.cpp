@@ -65,11 +65,11 @@ void multiplication_kernel_argument::write_arguments(const ocl1::execution_conte
 	err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &matrix_b_input_);
 	validate_error(err).or_throw(about_set_kernel_argument);
 
-	cl_mem mem_second_matrix_width = clCreateBuffer(context.context, CL_MEM_READ_ONLY, sizeof(int), nullptr, &err);
+	mem_second_matrix_width_ = clCreateBuffer(context.context, CL_MEM_READ_ONLY, sizeof(int), nullptr, &err);
 	validate_error(err).or_throw(about_kernel_argument_create_buffer);
 	err = clEnqueueWriteBuffer(
 		context.command_queue,
-		mem_second_matrix_width,
+		mem_second_matrix_width_,
 		CL_TRUE,
 		0,
 		sizeof(int),
@@ -78,14 +78,14 @@ void multiplication_kernel_argument::write_arguments(const ocl1::execution_conte
 		nullptr,
 		nullptr);
 	validate_error(err).or_throw(about_kernel_argument_write);
-	err = clSetKernelArg(kernel, 2, sizeof(cl_mem), &mem_second_matrix_width);
+	err = clSetKernelArg(kernel, 2, sizeof(cl_mem), &mem_second_matrix_width_);
 	validate_error(err).or_throw(about_set_kernel_argument);
 
-	cl_mem mem_k = clCreateBuffer(context.context, CL_MEM_READ_ONLY, sizeof(int), nullptr, &err);
+	mem_k_ = clCreateBuffer(context.context, CL_MEM_READ_ONLY, sizeof(int), nullptr, &err);
 	validate_error(err).or_throw(about_kernel_argument_create_buffer);
 	err = clEnqueueWriteBuffer(
 		context.command_queue,
-		mem_k,
+		mem_k_,
 		CL_TRUE,
 		0,
 		sizeof(int),
@@ -94,14 +94,14 @@ void multiplication_kernel_argument::write_arguments(const ocl1::execution_conte
 		nullptr,
 		nullptr);
 	validate_error(err).or_throw(about_kernel_argument_write);
-	err = clSetKernelArg(kernel, 3, sizeof(cl_mem), &mem_k);
+	err = clSetKernelArg(kernel, 3, sizeof(cl_mem), &mem_k_);
 	validate_error(err).or_throw(about_set_kernel_argument);
 
-	cl_mem mem_first_matrix_height = clCreateBuffer(context.context, CL_MEM_READ_ONLY, sizeof(int), nullptr, &err);
+	mem_first_matrix_height_ = clCreateBuffer(context.context, CL_MEM_READ_ONLY, sizeof(int), nullptr, &err);
 	validate_error(err).or_throw(about_kernel_argument_create_buffer);
 	err = clEnqueueWriteBuffer(
 		context.command_queue,
-		mem_first_matrix_height,
+		mem_first_matrix_height_,
 		CL_TRUE,
 		0,
 		sizeof(int),
@@ -110,6 +110,6 @@ void multiplication_kernel_argument::write_arguments(const ocl1::execution_conte
 		nullptr,
 		nullptr);
 	validate_error(err).or_throw(about_kernel_argument_write);
-	err = clSetKernelArg(kernel, 4, sizeof(cl_mem), &mem_first_matrix_height);
+	err = clSetKernelArg(kernel, 4, sizeof(cl_mem), &mem_first_matrix_height_);
 	validate_error(err).or_throw(about_set_kernel_argument);
 }

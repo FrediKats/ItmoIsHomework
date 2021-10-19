@@ -11,23 +11,40 @@ multiplication_kernel_response::multiplication_kernel_response(matrix_multiplica
 
 void multiplication_kernel_response::setup(ocl1::execution_context execution_context_instance, cl_kernel kernel)
 {
-	auto allocate_size = sizeof(float) * size;
+	const auto allocate_size = sizeof(float) * size;
 
 	int err;
-	cl_mem output = clCreateBuffer(execution_context_instance.context, CL_MEM_WRITE_ONLY, allocate_size, nullptr, &err);
+	output_memory_ = clCreateBuffer(
+		execution_context_instance.context,
+		CL_MEM_WRITE_ONLY,
+		allocate_size,
+		nullptr,
+		&err);
 	validate_error(err).or_throw(about_kernel_response_setup);
 
-	clSetKernelArg(kernel, 5, sizeof(cl_mem), &output);
+	clSetKernelArg(kernel, 5, sizeof(cl_mem), &output_memory_);
 	validate_error(err).or_throw(about_set_kernel_argument);
-	output_memory_ = output;
 }
 
 void multiplication_kernel_response::read_result(ocl1::execution_context execution_context_instance)
 {
 	auto allocate_size = sizeof(float) * size;
 
-	int err;
-	err = clEnqueueReadBuffer(execution_context_instance.command_queue, output_memory_, CL_TRUE, 0, allocate_size,
-	                          result, 0, nullptr, nullptr);
+	const int err = clEnqueueReadBuffer(
+		execution_context_instance.command_queue,
+		output_memory_,
+		CL_TRUE,
+		0,
+		allocate_size,
+		result,
+		0,
+		nullptr,
+		nullptr);
 	validate_error(err).or_throw(about_kernel_response_read);
+}
+
+multiplication_kernel_response::~multiplication_kernel_response()
+{
+	//clReleaseMemObject(output_memory_);
+	//clReleaseMemObject(output_memory_);
 }

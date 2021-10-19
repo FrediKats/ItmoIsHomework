@@ -13,5 +13,7 @@ namespace ocl1
 		kernel_dimension_config dimension_config;
 
 		explicit execution_context(device device, kernel_dimension_config dimension_config);
+
+		~execution_context();
 	};
 }
