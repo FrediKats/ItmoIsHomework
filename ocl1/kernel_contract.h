@@ -37,9 +37,6 @@ namespace ocl1
 
 		response.setup(execution_context_instance_, kernel_);
 
-		size_t global_item_size = 1024;
-		size_t local_item_size = 1024;
-
 		int err;
 		err = clEnqueueNDRangeKernel(
 			execution_context_instance_.command_queue,
@@ -47,7 +44,7 @@ namespace ocl1
 			execution_context_instance_.dimension_config.size,
 			nullptr,
 			execution_context_instance_.dimension_config.global_size,
-			nullptr,
+			execution_context_instance_.dimension_config.local_size,
 			0,
 			nullptr,
 			nullptr);
