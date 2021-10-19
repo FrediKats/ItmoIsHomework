@@ -150,7 +150,6 @@ int main(int argc, char** argv)
 
     //TODO: replace alloc with float[]
     //TODO: release memory object
-    //TODO: read index from args
     //execute_mult(0, "input_matrix.txt", "output.txt");
     execute_mult_with_local(0, "input_matrix.txt", "output.txt");
     //execute_sum(0);
