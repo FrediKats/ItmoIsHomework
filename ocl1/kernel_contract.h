@@ -51,10 +51,6 @@ namespace ocl1
 
 		validate_error(err).or_throw(error_message::about_kernel_enqueue);
 
-		//TODO: not sure about order
-		//err = clFinish(execution_context_instance_.command_queue);
-		//validate_error(err).or_throw(error_message::about_waiting_processing);
-
 		response.read_result(execution_context_instance_);
 		err = clFinish(execution_context_instance_.command_queue);
 		validate_error(err).or_throw(error_message::about_waiting_processing);
