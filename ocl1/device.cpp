@@ -10,14 +10,16 @@ namespace ocl1
 	}
 
 	device::device(cl_device_id id)
+		: id(id),
+		  name(get_value(CL_DEVICE_NAME)),
+		  is_unified_memory_subsystem(get_bool_value(CL_DEVICE_HOST_UNIFIED_MEMORY))
 	{
-		name = get_value(CL_DEVICE_NAME);
-		is_unified_memory_subsystem = get_bool_value(CL_DEVICE_HOST_UNIFIED_MEMORY);
 	}
 
 	std::string device::to_string() const
 	{
-		return "Device" + name + " (" + "is_unified_memory_subsystem: " + std::to_string(is_unified_memory_subsystem) + ")";
+		return "Device" + name + " (" + "is_unified_memory_subsystem: " + std::to_string(is_unified_memory_subsystem) +
+			")";
 	}
 
 	std::string device::get_value(cl_platform_info device_info_type) const

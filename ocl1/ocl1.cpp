@@ -40,7 +40,7 @@ void execute_sum(int requested_index)
     sum_kernel_response response = sum_kernel_response();
 
     const bool trace_detailed_info = false;
-    const ocl1::device device = ocl1::device_provider().select_device(requested_index, trace_detailed_info);
+    const ocl1::device device = ocl1::device_provider(trace_detailed_info).select_device(requested_index);
     const ocl1::execution_context execution_context_instance = ocl1::execution_context(device, dimension_config);
     const ocl1::program_builder builder = ocl1::program_builder(execution_context_instance);
 
@@ -62,7 +62,7 @@ void execute_mult(int requested_index, std::string input_path, std::string outpu
     multiplication_kernel_response response = multiplication_kernel_response(multiplication_context);
 
     bool const trace_detailed_info = false;
-    const ocl1::device device = ocl1::device_provider().select_device(requested_index, trace_detailed_info);
+    const ocl1::device device = ocl1::device_provider(trace_detailed_info).select_device(requested_index);
     const ocl1::execution_context execution_context_instance = ocl1::execution_context(device, dimension_config);
     const ocl1::program_builder builder = ocl1::program_builder(execution_context_instance);
 
@@ -87,7 +87,7 @@ void execute_mult_with_local(int requested_index, std::string input_path, std::s
     multiplication_kernel_response response = multiplication_kernel_response(changer.modified_context_);
 
     bool const trace_detailed_info = false;
-    const ocl1::device device = ocl1::device_provider().select_device(requested_index, trace_detailed_info);
+    const ocl1::device device = ocl1::device_provider(trace_detailed_info).select_device(requested_index);
     const ocl1::execution_context execution_context_instance = ocl1::execution_context(device, dimension_config);
     const ocl1::program_builder builder = ocl1::program_builder(execution_context_instance);
 
