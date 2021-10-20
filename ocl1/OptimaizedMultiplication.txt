@@ -19,7 +19,6 @@ __kernel void multi_with_local_memory(
     const int col = get_local_id(1); // Local col ID (max: TS)
     const int globalRow = TS * get_group_id(0) + row; // Row ID of C (0..M)
     const int globalCol = TS * get_group_id(1) + col; // Col ID of C (0..N)
-    //printf("%d %d %d %d\n", get_group_id(0), get_group_id(1), row, col);
  
 
     // Local memory to fit a tile of TS*TS elements of A and B
@@ -58,10 +57,6 @@ __kernel void multi_with_local_memory(
  
     if (globalRow * second_matrix_width + globalCol < first_matrix_height * second_matrix_width)
     {
-        // Store the final result in C
-    C[globalRow * second_matrix_width + globalCol] = acc;
-    printf("%d %f\n", globalRow * second_matrix_width + globalCol, acc);
+        C[globalRow * second_matrix_width + globalCol] = acc;
     }
-
-
 }
