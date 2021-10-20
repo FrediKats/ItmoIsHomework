@@ -18,6 +18,4 @@ __kernel void simpleMultiply(
 	}
 
 	c[row * (*second_matrix_width) + col] = sum;
-	printf("%f\n", c[row * (*second_matrix_width) + col]);
-	printf("%d\n", row * (*second_matrix_width) + col);
 }
