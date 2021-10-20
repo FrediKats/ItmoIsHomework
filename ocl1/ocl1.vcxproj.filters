@@ -73,6 +73,12 @@
     <Filter Include="Header Files\KernelUsingImplementations\Multiplication\LocalMemory">
       <UniqueIdentifier>{9dc7bc36-8ae4-4fb1-a42d-86eee6a61f0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Benchmark">
+      <UniqueIdentifier>{1dac557e-e695-4bc4-b23c-c30dd4984228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Benchmark">
+      <UniqueIdentifier>{e91e70ce-bcaf-4af2-8ac1-80cb04e1c1d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ocl1.cpp">
@@ -137,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="platform_info.cpp">
       <Filter>Source Files\Core\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix_generator.cpp">
+      <Filter>Source Files\Benchmark</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="platform_info.h">
       <Filter>Header Files\Core\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix_generator.h">
+      <Filter>Header Files\Benchmark</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
