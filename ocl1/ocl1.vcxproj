@@ -163,6 +163,7 @@
     <ClCompile Include="kernel_dimension_config.cpp" />
     <ClCompile Include="kernel_file_source.cpp" />
     <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="matrix_generator.cpp" />
     <ClCompile Include="matrix_multiplication_context.cpp" />
     <ClCompile Include="matrix_io.cpp" />
     <ClCompile Include="matrix_size_changer.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="kernel_response.h" />
     <ClInclude Include="kernel_source.h" />
     <ClInclude Include="matrix.h" />
+    <ClInclude Include="matrix_generator.h" />
     <ClInclude Include="matrix_multiplication_context.h" />
     <ClInclude Include="matrix_io.h" />
     <ClInclude Include="matrix_size_changer.h" />
