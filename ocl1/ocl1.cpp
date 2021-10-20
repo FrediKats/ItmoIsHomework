@@ -16,7 +16,7 @@
 #include "sum_kernel.h"
 #include "sum_kernel_argument.h"
 
-void execute_sum(int requested_index)
+execution_benchmark_result execute_sum(int requested_index)
 {
     size_t* local = new size_t[]{ 1 };
     size_t* global = new size_t[] { 1 };
@@ -36,9 +36,11 @@ void execute_sum(int requested_index)
     execution_benchmark_result benchmark_result = sum.execute(argument, response);
 
     std::cout << response.c;
+
+    return benchmark_result;
 }
 
-void execute_mult(int requested_index, std::string input_path, std::string output_path)
+execution_benchmark_result execute_mult(int requested_index, std::string input_path, std::string output_path)
 {
     matrix_io matrix_io_instance = matrix_io();
     matrix_multiplication_context multiplication_context = matrix_io_instance.parse_file(input_path);
@@ -59,9 +61,11 @@ void execute_mult(int requested_index, std::string input_path, std::string outpu
 
     matrix result_matrix(response.result, multiplication_context.first_matrix_height, multiplication_context.second_matrix_width);
     matrix_io_instance.write_matrix(result_matrix, output_path);
+
+    return benchmark_result;
 }
 
-void execute_mult_with_local(int requested_index, std::string input_path, std::string output_path)
+execution_benchmark_result execute_mult_with_local(int requested_index, std::string input_path, std::string output_path)
 {
     matrix_io matrix_io_instance = matrix_io();
     matrix_multiplication_context multiplication_context = matrix_io_instance.parse_file(input_path);
@@ -85,6 +89,8 @@ void execute_mult_with_local(int requested_index, std::string input_path, std::s
     matrix result_matrix(response.result, changer.modified_context_.first_matrix_height, changer.modified_context_.second_matrix_width);
     result_matrix = result_matrix.resize(changer.original_context_.first_matrix_height, changer.original_context_.second_matrix_width);
     matrix_io_instance.write_matrix(result_matrix, output_path);
+
+	return benchmark_result;
 }
 
 void benchmark_run()
@@ -112,11 +118,13 @@ int cli_execute(int argc, char** argv)
         switch (algo_type)
         {
         case 1:
-            execute_mult(device_index, input_path, output_path);
+            auto naive_result = execute_mult(device_index, input_path, output_path);
+            printf_s("\nTime: % f\t % f \n", naive_result.kernel_execution_time.count() * 1000, naive_result.total_execution_time.count() * 1000);
             return 0;
 
         case 2:
-            execute_mult_with_local(device_index, input_path, output_path);
+            auto local_result = execute_mult_with_local(device_index, input_path, output_path);
+            printf_s("\nTime: % f\t % f \n", local_result.kernel_execution_time.count() * 1000, local_result.total_execution_time.count() * 1000);
             return 0;
 
         default:
