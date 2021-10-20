@@ -72,7 +72,7 @@ void execute_mult(int requested_index, std::string input_path, std::string outpu
     multiplication_kernel mult_kernel = multiplication_kernel(execution_context_instance, kernel);
     mult_kernel.execute(argument, response);
 
-    matrix result_matrix(response.result, multiplication_context.second_matrix_width, multiplication_context.first_matrix_height);
+    matrix result_matrix(response.result, multiplication_context.first_matrix_height, multiplication_context.second_matrix_width);
     matrix_io_instance.write_matrix(result_matrix, output_path);
 }
 
@@ -146,7 +146,7 @@ int cli_execute(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-    return cli_execute(argc, argv);
+    //return cli_execute(argc, argv);
 
     //TODO: replace alloc with float[]
     //TODO: release memory object
