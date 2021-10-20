@@ -48,7 +48,7 @@ void execute_sum(int requested_index)
     cl_kernel kernel = kernel_source.get_kernel_source_code("sum", builder);
 
     sum_kernel sum = sum_kernel(execution_context_instance, kernel);
-    sum.execute(argument, response);
+    execution_benchmark_result benchmark_result = sum.execute(argument, response);
 
     std::cout << response.c;
 }
@@ -70,7 +70,7 @@ void execute_mult(int requested_index, std::string input_path, std::string outpu
     cl_kernel kernel = kernel_source.get_kernel_source_code("simpleMultiply", builder);
 
     multiplication_kernel mult_kernel = multiplication_kernel(execution_context_instance, kernel);
-    mult_kernel.execute(argument, response);
+    execution_benchmark_result benchmark_result = mult_kernel.execute(argument, response);
 
     matrix result_matrix(response.result, multiplication_context.first_matrix_height, multiplication_context.second_matrix_width);
     matrix_io_instance.write_matrix(result_matrix, output_path);
@@ -95,7 +95,7 @@ void execute_mult_with_local(int requested_index, std::string input_path, std::s
     cl_kernel kernel = kernel_source.get_kernel_source_code("multi_with_local_memory", builder);
 
     multiplication_kernel mult_kernel = multiplication_kernel(execution_context_instance, kernel);
-    mult_kernel.execute(argument, response);
+    execution_benchmark_result benchmark_result = mult_kernel.execute(argument, response);
 
     matrix result_matrix(response.result, changer.modified_context_.first_matrix_height, changer.modified_context_.second_matrix_width);
     result_matrix = result_matrix.resize(changer.original_context_.first_matrix_height, changer.original_context_.second_matrix_width);

@@ -159,6 +159,7 @@
     <ClCompile Include="device.cpp" />
     <ClCompile Include="error_message.h" />
     <ClCompile Include="error_validator.cpp" />
+    <ClCompile Include="execution_benchmark_result.cpp" />
     <ClCompile Include="execution_context.cpp" />
     <ClCompile Include="kernel_dimension_config.cpp" />
     <ClCompile Include="kernel_file_source.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="device_provider.h" />
     <ClInclude Include="device.h" />
     <ClInclude Include="error_validator.h" />
+    <ClInclude Include="execution_benchmark_result.h" />
     <ClInclude Include="execution_context.h" />
     <ClInclude Include="kernel_argument.h" />
     <ClInclude Include="kernel_contract.h" />

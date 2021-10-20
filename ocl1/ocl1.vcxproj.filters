@@ -147,6 +147,9 @@
     <ClCompile Include="matrix_generator.cpp">
       <Filter>Source Files\Benchmark</Filter>
     </ClCompile>
+    <ClCompile Include="execution_benchmark_result.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sum_kernel_argument.h">
@@ -219,6 +222,9 @@
       <Filter>Header Files\Core\Models</Filter>
     </ClInclude>
     <ClInclude Include="matrix_generator.h">
+      <Filter>Header Files\Benchmark</Filter>
+    </ClInclude>
+    <ClInclude Include="execution_benchmark_result.h">
       <Filter>Header Files\Benchmark</Filter>
     </ClInclude>
   </ItemGroup>
