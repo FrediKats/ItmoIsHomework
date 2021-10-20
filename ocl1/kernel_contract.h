@@ -5,6 +5,7 @@
 #include "execution_context.h"
 #include "error_validator.h"
 #include "error_message.h"
+#include "execution_benchmark_result.h"
 
 namespace ocl1
 {
@@ -14,7 +15,7 @@ namespace ocl1
 	public:
 		kernel_contract(const execution_context& execution_context_instance, cl_kernel kernel);
 
-		void execute(TArguments& argument, TResponse& response);
+		execution_benchmark_result execute(TArguments& argument, TResponse& response);
 
 	protected:
 		execution_context execution_context_instance_;
@@ -31,13 +32,18 @@ namespace ocl1
 	}
 
 	template <typename TArguments, typename TResponse>
-	void kernel_contract<TArguments, TResponse>::execute(TArguments& argument, TResponse& response)
+	execution_benchmark_result kernel_contract<TArguments, TResponse>::execute(TArguments& argument, TResponse& response)
 	{
-		argument.write_arguments(execution_context_instance_, kernel_);
+		int err;
 
+		const auto total_start_time = std::chrono::high_resolution_clock::now();
+		argument.write_arguments(execution_context_instance_, kernel_);
 		response.setup(execution_context_instance_, kernel_);
 
-		int err;
+		err = clFinish(execution_context_instance_.command_queue);
+		validate_error(err).or_throw(error_message::about_kernel_enqueue);
+		const auto kernel_start_time = std::chrono::high_resolution_clock::now();
+
 		err = clEnqueueNDRangeKernel(
 			execution_context_instance_.command_queue,
 			kernel_,
@@ -48,11 +54,16 @@ namespace ocl1
 			0,
 			nullptr,
 			nullptr);
-
 		validate_error(err).or_throw(error_message::about_kernel_enqueue);
+		err = clFinish(execution_context_instance_.command_queue);
+		validate_error(err).or_throw(error_message::about_kernel_enqueue);
+		const auto kernel_finish_time = std::chrono::high_resolution_clock::now();
 
 		response.read_result(execution_context_instance_);
 		err = clFinish(execution_context_instance_.command_queue);
 		validate_error(err).or_throw(error_message::about_waiting_processing);
+		const auto total_finish_time = std::chrono::high_resolution_clock::now();
+
+		return execution_benchmark_result(total_start_time, kernel_start_time, kernel_finish_time, total_finish_time);
 	}
 }
