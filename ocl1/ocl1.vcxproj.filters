@@ -79,6 +79,9 @@
     <Filter Include="Source Files\Benchmark">
       <UniqueIdentifier>{e91e70ce-bcaf-4af2-8ac1-80cb04e1c1d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tools">
+      <UniqueIdentifier>{a0b0049d-6644-423f-ba18-5593fde719d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ocl1.cpp">
@@ -148,6 +151,15 @@
       <Filter>Source Files\Benchmark</Filter>
     </ClCompile>
     <ClCompile Include="execution_benchmark_result.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bench_element.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix_benchmark.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix_extensions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -226,6 +238,15 @@
     </ClInclude>
     <ClInclude Include="execution_benchmark_result.h">
       <Filter>Header Files\Benchmark</Filter>
+    </ClInclude>
+    <ClInclude Include="bench_element.h">
+      <Filter>Header Files\Benchmark</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix_benchmark.h">
+      <Filter>Header Files\Benchmark</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix_extensions.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
