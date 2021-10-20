@@ -155,6 +155,7 @@
     <Text Include="sum.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bench_element.cpp" />
     <ClCompile Include="device_provider.cpp" />
     <ClCompile Include="device.cpp" />
     <ClCompile Include="error_message.h" />
@@ -164,6 +165,8 @@
     <ClCompile Include="kernel_dimension_config.cpp" />
     <ClCompile Include="kernel_file_source.cpp" />
     <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="matrix_benchmark.cpp" />
+    <ClCompile Include="matrix_extensions.cpp" />
     <ClCompile Include="matrix_generator.cpp" />
     <ClCompile Include="matrix_multiplication_context.cpp" />
     <ClCompile Include="matrix_io.cpp" />
@@ -180,6 +183,7 @@
     <ClCompile Include="multiplication_kernel_response.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bench_element.h" />
     <ClInclude Include="device_provider.h" />
     <ClInclude Include="device.h" />
     <ClInclude Include="error_validator.h" />
@@ -192,6 +196,8 @@
     <ClInclude Include="kernel_response.h" />
     <ClInclude Include="kernel_source.h" />
     <ClInclude Include="matrix.h" />
+    <ClInclude Include="matrix_benchmark.h" />
+    <ClInclude Include="matrix_extensions.h" />
     <ClInclude Include="matrix_generator.h" />
     <ClInclude Include="matrix_multiplication_context.h" />
     <ClInclude Include="matrix_io.h" />
