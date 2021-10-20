@@ -6,6 +6,7 @@
 #include "device_provider.h"
 #include "execution_context.h"
 #include "kernel_file_source.h"
+#include "matrix_benchmark.h"
 #include "matrix_extensions.h"
 #include "matrix_io.h"
 #include "matrix_size_changer.h"
@@ -86,6 +87,13 @@ void execute_mult_with_local(int requested_index, std::string input_path, std::s
     matrix_io_instance.write_matrix(result_matrix, output_path);
 }
 
+void benchmark_run()
+{
+    const ocl1::device device = ocl1::device_provider(false).select_device(0);
+    matrix_benchmark benchmark = matrix_benchmark(5, device);
+    benchmark.run();
+}
+
 int cli_execute(int argc, char** argv)
 {
     try
@@ -135,8 +143,10 @@ int main(int argc, char** argv)
     //TODO: replace alloc with float[]
     //TODO: release memory object
     //execute_mult(0, "input_matrix.txt", "output.txt");
-    execute_mult_with_local(0, "input_matrix.txt", "output.txt");
+    //execute_mult_with_local(0, "input_matrix.txt", "output.txt");
     //execute_sum(0);
+
+    benchmark_run();
 
 	return 0;
 }

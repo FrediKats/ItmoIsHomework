@@ -1,15 +1,43 @@
 ﻿#pragma once
+#include <iostream>
+#include <ostream>
+
 #include "bench_element.h"
 #include "kernel_file_source.h"
 #include "matrix_extensions.h"
+#include "matrix_generator.h"
 #include "matrix_size_changer.h"
 #include "program_builder.h"
 
 class matrix_benchmark
 {
 public:
-	const int run_count = 1;
+	int run_count;
     ocl1::device selected_device;
+
+	matrix_benchmark(int run_count, const ocl1::device& selected_device)
+		: run_count(run_count),
+		  selected_device(selected_device)
+	{
+	}
+
+    void run()
+	{
+        std::cout << "Matrix size;Naive;Local" << std::endl;
+
+        for (int i = 2 << 6; i <= 2 << 11; i *= 2)
+        {
+            matrix_multiplication_context context = matrix_generator::generate_context(i);
+            bench_element naive = create_naive_algo(context);
+            bench_element local = create_local_memory_algo(context);
+
+            std::cout
+                << i << ";"
+                << naive.run().to_string() << ";"
+                << local.run().to_string() << ";"
+                << std::endl;
+        }
+	}
 
 private:
 	bench_element create_naive_algo(matrix_multiplication_context multiplication_context)
