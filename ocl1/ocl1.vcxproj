@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\coding\itmo-master\LikeCtButCheaper\lab2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\cl_includes\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\coding\itmo-master\LikeCtButCheaper\lab2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\cl_includes\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,7 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\coding\itmo-master\LikeCtButCheaper\lab2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\cl_includes\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,10 +149,68 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lab2.cpp" />
+    <Text Include="input_matrix.txt" />
+    <Text Include="multiplication.txt" />
+    <Text Include="OptimaizedMultiplication.txt" />
+    <Text Include="sum.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="kernel.txt" />
+    <ClCompile Include="bench_element.cpp" />
+    <ClCompile Include="device_provider.cpp" />
+    <ClCompile Include="device.cpp" />
+    <ClCompile Include="error_message.h" />
+    <ClCompile Include="error_validator.cpp" />
+    <ClCompile Include="execution_benchmark_result.cpp" />
+    <ClCompile Include="execution_context.cpp" />
+    <ClCompile Include="kernel_dimension_config.cpp" />
+    <ClCompile Include="kernel_file_source.cpp" />
+    <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="matrix_benchmark.cpp" />
+    <ClCompile Include="matrix_extensions.cpp" />
+    <ClCompile Include="matrix_generator.cpp" />
+    <ClCompile Include="matrix_multiplication_context.cpp" />
+    <ClCompile Include="matrix_io.cpp" />
+    <ClCompile Include="matrix_size_changer.cpp" />
+    <ClCompile Include="multiplication_kernel.cpp" />
+    <ClCompile Include="multiplication_kernel_argument.cpp" />
+    <ClCompile Include="ocl1.cpp" />
+    <ClCompile Include="ocl_exception.cpp" />
+    <ClCompile Include="platform_info.cpp" />
+    <ClCompile Include="program_builder.cpp" />
+    <ClCompile Include="sum_kernel.cpp" />
+    <ClCompile Include="sum_kernel_argument.cpp" />
+    <ClCompile Include="sum_kernel_response.cpp" />
+    <ClCompile Include="multiplication_kernel_response.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bench_element.h" />
+    <ClInclude Include="device_provider.h" />
+    <ClInclude Include="device.h" />
+    <ClInclude Include="error_validator.h" />
+    <ClInclude Include="execution_benchmark_result.h" />
+    <ClInclude Include="execution_context.h" />
+    <ClInclude Include="kernel_argument.h" />
+    <ClInclude Include="kernel_contract.h" />
+    <ClInclude Include="kernel_dimension_config.h" />
+    <ClInclude Include="kernel_file_source.h" />
+    <ClInclude Include="kernel_response.h" />
+    <ClInclude Include="kernel_source.h" />
+    <ClInclude Include="matrix.h" />
+    <ClInclude Include="matrix_benchmark.h" />
+    <ClInclude Include="matrix_extensions.h" />
+    <ClInclude Include="matrix_generator.h" />
+    <ClInclude Include="matrix_multiplication_context.h" />
+    <ClInclude Include="matrix_io.h" />
+    <ClInclude Include="matrix_size_changer.h" />
+    <ClInclude Include="multiplication_kernel.h" />
+    <ClInclude Include="multiplication_kernel_argument.h" />
+    <ClInclude Include="ocl_exception.h" />
+    <ClInclude Include="platform_info.h" />
+    <ClInclude Include="program_builder.h" />
+    <ClInclude Include="sum_kernel.h" />
+    <ClInclude Include="sum_kernel_argument.h" />
+    <ClInclude Include="sum_kernel_response.h" />
+    <ClInclude Include="multiplication_kernel_response.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

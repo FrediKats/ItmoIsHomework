@@ -1,0 +1,21 @@
+__kernel void simpleMultiply( 
+	__global float* a,
+	__global float* b,
+	__global int* second_matrix_width,
+	__global int* k, 
+	__global int* first_matrix_height, 
+	__global float* c
+	)
+{
+	int row = get_global_id(0);
+	int col = get_global_id(1); 
+
+	float sum = 0.0f; 
+	//Calculate result of one element
+	for (int i = 0; i < (*k); i++)
+	{
+		sum += a[row * (*k) + i] * b[i * (*second_matrix_width) + col];
+	}
+
+	c[row * (*second_matrix_width) + col] = sum;
+}
