@@ -9,7 +9,7 @@ Directory.CreateDirectory(rootDir);
 
 
 Console.WriteLine( "Try to generate data");
-byte[] data = new byte[1_000_000];
+byte[] data = new byte[100_000_000];
 new Random().NextBytes(data);
 
 Console.WriteLine( "Try to write first file");
