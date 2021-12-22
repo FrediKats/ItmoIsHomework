@@ -7,7 +7,7 @@ using BenchmarkDotNet.Running;
 
 Summary? summary = BenchmarkRunner.Run<FileSystemBenchmark>();
 
-[SimpleJob(RunStrategy.Monitoring, RuntimeMoniker.CoreRt60, 1, 0, 1, 10)]
+[SimpleJob(RunStrategy.Monitoring, RuntimeMoniker.Net60, 1, 0, 1, 10)]
 
 [AsciiDocExporter]
 [CsvExporter]
