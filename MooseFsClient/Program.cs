@@ -1,11 +1,12 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
 
 Summary? summary = BenchmarkRunner.Run<FileSystemBenchmark>();
 
-[MemoryDiagnoser]
-[SimpleJob]
+[SimpleJob(RunStrategy.Monitoring, RuntimeMoniker.CoreRt60, 1, 0, 1, 10)]
 
 [AsciiDocExporter]
 [CsvExporter]
