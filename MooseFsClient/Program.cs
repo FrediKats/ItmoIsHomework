@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Drawing;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Reports;
@@ -30,6 +31,7 @@ public class FileSystemBenchmark
     [GlobalSetup]
     public void ReadBlockInit()
     {
+        Console.WriteLine("Start global init");
         int[] sizes = new[] { 100, 100_000, 100_000_00 };
 
         if (Directory.Exists(SampleRoot))
@@ -38,6 +40,8 @@ public class FileSystemBenchmark
 
         foreach (int size in sizes)
         {
+            Console.WriteLine($"Start global init for {size}");
+
             var data = new byte[size];
             _random.NextBytes(data);
             File.WriteAllBytes(Path.Combine(SampleRoot, size.ToString()), data);
@@ -48,12 +52,15 @@ public class FileSystemBenchmark
     [IterationSetup]
     public void Init()
     {
+        Console.WriteLine("Start iteration init");
+
         if (Directory.Exists(RootDir))
             Directory.Delete(RootDir, true);
         Directory.CreateDirectory(RootDir);
         _data = new byte[BlockSize];
         _random.NextBytes(_data);
 
+        Console.WriteLine("End iteration init");
     }
 
     [Benchmark]
