@@ -1,23 +1,138 @@
-﻿using System.Text;
+﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Reports;
+using BenchmarkDotNet.Running;
 
-Console.WriteLine( "Init");
-const string rootDir = "/mnt/mfs/test";
-if (Directory.Exists(rootDir))
-    Directory.Delete(rootDir, true);
-Console.WriteLine( "Try to create folder");
-Directory.CreateDirectory(rootDir);
+Summary? summary = BenchmarkRunner.Run<FileSystemBenchmark>();
 
+[MemoryDiagnoser]
+[SimpleJob]
 
-Console.WriteLine( "Try to generate data");
-byte[] data = new byte[100_000_000];
-new Random().NextBytes(data);
-
-Console.WriteLine( "Try to write first file");
-File.WriteAllBytes(Path.Combine(rootDir, 0.ToString()), data);
-Console.WriteLine( "Start copy cicle");
-for (int i = 1; i < 400; i++)
+[AsciiDocExporter]
+[CsvExporter]
+[CsvMeasurementsExporter]
+[MarkdownExporterAttribute.GitHub]
+[JsonExporterAttribute.Brief]
+public class FileSystemBenchmark
 {
-    File.Copy(Path.Combine(rootDir, (i - 1).ToString()), Path.Combine(rootDir, i.ToString()));
-    Console.WriteLine($"Done {i}");
-}
+    public const string RootDir = "/mnt/mfs/test";
+    public const string SampleRoot = "/mnt/mfs/sample";
 
+    private byte[] _data;
+    private readonly Random _random = new Random();
+
+    public long BlockCount => 1_000_000_000 / BlockSize;
+
+    [Params(100, 100_000, 100_000_000)]
+    public long BlockSize { get; }
+
+    [GlobalSetup]
+    public void ReadBlockInit()
+    {
+        int[] sizes = new[] { 100, 100_000, 100_000_00 };
+
+        if (Directory.Exists(SampleRoot))
+            Directory.Delete(SampleRoot, true);
+        Directory.CreateDirectory(SampleRoot);
+
+        foreach (int size in sizes)
+        {
+            var data = new byte[size];
+            _random.NextBytes(data);
+            File.WriteAllBytes(Path.Combine(SampleRoot, size.ToString()), data);
+        }
+        
+    }
+
+    [IterationSetup]
+    public void Init()
+    {
+        if (Directory.Exists(RootDir))
+            Directory.Delete(RootDir, true);
+        Directory.CreateDirectory(RootDir);
+        _data = new byte[BlockSize];
+        _random.NextBytes(_data);
+
+    }
+
+    [Benchmark]
+    public void Read()
+    {
+        for (var i = 0; i < BlockCount; i++)
+        {
+            File.ReadAllBytes(Path.Combine(SampleRoot, BlockSize.ToString()));
+        }
+    }
+
+    [Benchmark]
+    public void ReadParallel()
+    {
+        Enumerable
+            .Range(1, (int)BlockCount)
+            .AsParallel()
+            .ForAll(i => File.ReadAllBytes(Path.Combine(SampleRoot, BlockSize.ToString())));
+    }
+
+    [Benchmark]
+    public void ReadWrite()
+    {
+        for (var i = 0; i < BlockCount; i++)
+        {
+            File.WriteAllBytes(Path.Combine(RootDir, i.ToString()), _data);
+            File.ReadAllBytes(Path.Combine(RootDir, i.ToString()));
+        }
+    }
+
+    [Benchmark]
+    public void ReadWriteParallel()
+    {
+        Enumerable
+            .Range(1, (int)BlockCount)
+            .AsParallel()
+            .ForAll(i =>
+            {
+                File.WriteAllBytes(Path.Combine(RootDir, i.ToString()), _data);
+                File.ReadAllBytes(Path.Combine(RootDir, i.ToString()));
+            });
+    }
+
+    [Benchmark]
+    public void Write()
+    {
+        for (var i = 0; i < BlockCount; i++)
+        {
+            File.WriteAllBytes(Path.Combine(RootDir, i.ToString()), _data);
+        }
+    }
+
+    [Benchmark]
+    public void WriteParallel()
+    {
+        Enumerable
+            .Range(1, (int)(BlockCount))
+            .AsParallel()
+            .ForAll(i => File.WriteAllBytes(Path.Combine(RootDir, i.ToString()), _data));
+    }
+
+    [Benchmark]
+    public void Copy()
+    {
+        string sourceFile = Path.Combine(RootDir, 0.ToString());
+        File.WriteAllBytes(sourceFile, _data);
+        for (var i = 1; i < BlockCount; i++)
+        {
+            File.Copy(sourceFile, Path.Combine(RootDir, i.ToString()));
+        }
+    }
+
+    [Benchmark]
+    public void CopyParallel()
+    {
+        string sourceFile = Path.Combine(RootDir, 0.ToString());
+        File.WriteAllBytes(sourceFile, _data);
+
+        Enumerable
+            .Range(1, (int)(BlockCount - 1))
+            .AsParallel()
+            .ForAll(i => File.Copy(sourceFile, Path.Combine(RootDir, i.ToString())));
+    }
+}
