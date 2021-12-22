@@ -7,7 +7,7 @@ using BenchmarkDotNet.Running;
 
 Summary? summary = BenchmarkRunner.Run<FileSystemBenchmark>();
 
-[SimpleJob(RunStrategy.Monitoring, RuntimeMoniker.Net60, 1, 0, 1, 5)]
+[SimpleJob(RunStrategy.Monitoring, RuntimeMoniker.Net60, 1, 0, 10)]
 
 [AsciiDocExporter]
 [CsvExporter]
@@ -51,15 +51,11 @@ public class FileSystemBenchmark
     [IterationSetup]
     public void Init()
     {
-        Console.WriteLine("Start iteration init");
-
         if (Directory.Exists(RootDir))
             Directory.Delete(RootDir, true);
         Directory.CreateDirectory(RootDir);
         _data = new byte[BlockSize];
         _random.NextBytes(_data);
-
-        Console.WriteLine("End iteration init");
     }
 
     [Benchmark]
