@@ -7,7 +7,7 @@ using BenchmarkDotNet.Running;
 
 Summary? summary = BenchmarkRunner.Run<FileSystemBenchmark>();
 
-[SimpleJob(RunStrategy.Monitoring, RuntimeMoniker.Net60, 10, 0, 1, 10)]
+[SimpleJob(RunStrategy.Monitoring, RuntimeMoniker.Net60, 1, 0, 10)]
 
 [AsciiDocExporter]
 [CsvExporter]
@@ -28,6 +28,7 @@ public class FileSystemBenchmark
     [Params(100, 100_000, 100_000_000)]
     public long BlockSize;
 
+    
     [GlobalSetup]
     public void ReadBlockInit()
     {
@@ -40,8 +41,6 @@ public class FileSystemBenchmark
 
         foreach (int size in sizes)
         {
-            Console.WriteLine($"Start global init for {size}");
-
             var data = new byte[size];
             _random.NextBytes(data);
             File.WriteAllBytes(Path.Combine(SampleRoot, size.ToString()), data);
