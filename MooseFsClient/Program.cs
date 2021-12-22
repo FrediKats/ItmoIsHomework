@@ -23,9 +23,9 @@ public class FileSystemBenchmark
     private readonly Random _random = new Random();
 
     //public long BlockCount => 1_000 / BlockSize;
-    public long BlockCount => 10_000_000_000 / BlockSize;
+    public long BlockCount => 100_000_000 / BlockSize;
 
-    [Params(100, 100_000, 100_000_000)]
+    [Params(100, 10_000, 10_000_000)]
     public long BlockSize;
 
     
