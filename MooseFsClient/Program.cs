@@ -23,7 +23,7 @@ public class FileSystemBenchmark
     public long BlockCount => 1_000_000_000 / BlockSize;
 
     [Params(100, 100_000, 100_000_000)]
-    public long BlockSize { get; }
+    public long BlockSize;
 
     [GlobalSetup]
     public void ReadBlockInit()
