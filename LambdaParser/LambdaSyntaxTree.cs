@@ -9,6 +9,5 @@ public class LambdaSyntaxTree
     public LambdaSyntaxTree(LambdaSyntaxNode root)
     {
         Root = root;
-        
     }
 }

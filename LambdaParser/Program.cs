@@ -1,11 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Text;
 using LambdaParser.LambdaSyntaxNodes;
 using LambdaParser.Parsers;
 using Microsoft.Extensions.Primitives;
 using Serilog;
 
 var simpleTerm = "(λn.(n))";
+var trueTerm = "(λx.(λy.(x)))";
 var λnΛfΛxFNFX = "λn.λf.λx.f (n f x)";
 var λfΛxFFXSqr = "(((λf . (λx . (f (f x)))) sqr) 3)";
 
@@ -15,7 +17,9 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.File("parser-log")
     .CreateLogger();
 
-var lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(simpleTerm));
+Console.OutputEncoding = Encoding.Unicode;
+
+var lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(trueTerm));
 if (lambdaSyntaxNode.HasError)
     Log.Error(lambdaSyntaxNode.Error.Message);
 else
