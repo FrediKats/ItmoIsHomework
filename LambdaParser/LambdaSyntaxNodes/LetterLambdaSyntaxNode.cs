@@ -1,4 +1,6 @@
-﻿public class LetterLambdaSyntaxNode : ExpressionLambdaSyntaxNode
+﻿namespace LambdaParser.LambdaSyntaxNodes;
+
+public class LetterLambdaSyntaxNode : ExpressionLambdaSyntaxNode
 {
     public string Value { get; }
 

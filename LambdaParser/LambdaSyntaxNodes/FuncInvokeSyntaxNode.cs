@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
 
+namespace LambdaParser.LambdaSyntaxNodes;
+
 public class FuncInvokeSyntaxNode : ExpressionLambdaSyntaxNode
 {
     public LetterLambdaSyntaxNode FunctionName { get; }

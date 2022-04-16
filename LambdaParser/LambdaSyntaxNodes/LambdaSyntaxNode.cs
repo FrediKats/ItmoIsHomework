@@ -1,4 +1,6 @@
-﻿public abstract class LambdaSyntaxNode
+﻿namespace LambdaParser.LambdaSyntaxNodes;
+
+public abstract class LambdaSyntaxNode
 {
     public NodeLocation Location { get; }
 

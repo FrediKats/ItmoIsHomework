@@ -1,4 +1,6 @@
-﻿public class AbstractionLambdaSyntaxNode : LambdaSyntaxNode
+﻿namespace LambdaParser.LambdaSyntaxNodes;
+
+public class AbstractionLambdaSyntaxNode : LambdaSyntaxNode
 {
     public LetterLambdaSyntaxNode Argument { get; }
     public LambdaSyntaxNode Body { get; }
