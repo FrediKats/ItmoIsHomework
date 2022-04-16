@@ -8,10 +8,7 @@ public class NodeLocation
     public int End { get; }
     public int Length => End - Start + 1;
 
-    public NodeLocation()
-    {
-        
-    }
+    public NodeLocation(int position) : this(position, position) {}
 
     public NodeLocation(int start, int end)
     {
@@ -25,6 +22,11 @@ public class NodeLocation
     public static NodeLocation FromSegment(StringSegment segment)
     {
         return new NodeLocation(segment.Offset, segment.Offset + segment.Length - 1);
+    }
+
+    public static NodeLocation FromSegmentStart(StringSegment segment)
+    {
+        return new NodeLocation(segment.Offset, segment.Offset);
     }
 
     public override string ToString()

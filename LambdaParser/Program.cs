@@ -15,14 +15,11 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.File("parser-log")
     .CreateLogger();
 
-try
+var lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(simpleTerm));
+if (lambdaSyntaxNode.HasError)
+    Log.Error(lambdaSyntaxNode.Error.Message);
+else
 {
-    LambdaSyntaxNode lambdaSyntaxNode = LambdaSyntaxNodeParser.Parse(new StringSegment(simpleTerm));
-    Console.WriteLine(lambdaSyntaxNode);
+    Log.Information($"Result - {lambdaSyntaxNode.Node}");
 }
-catch (Exception e)
-{
-    Log.Error(e, "Cannot parse expression");
-}
-
 return;
