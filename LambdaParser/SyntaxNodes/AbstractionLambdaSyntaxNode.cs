@@ -1,6 +1,8 @@
-﻿namespace LambdaParser.LambdaSyntaxNodes;
+﻿using LambdaParser.Tools;
 
-public class AbstractionLambdaSyntaxNode : LambdaSyntaxNode
+namespace LambdaParser.SyntaxNodes;
+
+public class AbstractionLambdaSyntaxNode : ExpressionLambdaSyntaxNode
 {
     public LetterLambdaSyntaxNode Argument { get; }
     public LambdaSyntaxNode Body { get; }
@@ -13,6 +15,6 @@ public class AbstractionLambdaSyntaxNode : LambdaSyntaxNode
 
     public override string ToString()
     {
-        return $"({Constants.Lambda}) {Argument}.({Body})";
+        return $"{Constants.Lambda}{Argument}.({Body})";
     }
 }

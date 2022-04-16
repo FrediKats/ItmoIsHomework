@@ -1,4 +1,5 @@
-﻿using LambdaParser.LambdaSyntaxNodes;
+﻿using LambdaParser.SyntaxNodes;
+using LambdaParser.Tools;
 using Microsoft.Extensions.Primitives;
 
 namespace LambdaParser.Parsers;
@@ -28,7 +29,7 @@ public class LetterLambdaSyntaxNodeParser
         if (i == 0)
             throw new LambdaParseException($"Cannot create Letter term at {expression.Offset}");
 
-        var lambdaSyntaxNode = new LetterLambdaSyntaxNode(new NodeLocation(expression.Offset, expression.Offset + i), expression.Substring(0, i));
+        var lambdaSyntaxNode = new LetterLambdaSyntaxNode(new NodeLocation(expression.Offset, expression.Offset + i - 1), expression.Substring(0, i));
         return new ParseResult<LetterLambdaSyntaxNode>(lambdaSyntaxNode);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace LambdaParser;
+﻿namespace LambdaParser.Tools;
 
 public class LambdaParseException : Exception
 {

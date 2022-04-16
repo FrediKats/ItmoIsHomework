@@ -1,4 +1,5 @@
-﻿using LambdaParser.LambdaSyntaxNodes;
+﻿using LambdaParser.SyntaxNodes;
+using LambdaParser.Tools;
 
 namespace LambdaParser;
 

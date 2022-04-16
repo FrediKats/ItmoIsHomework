@@ -1,4 +1,4 @@
-﻿namespace LambdaParser.LambdaSyntaxNodes;
+﻿namespace LambdaParser.SyntaxNodes;
 
 public class LetterLambdaSyntaxNode : ExpressionLambdaSyntaxNode
 {
