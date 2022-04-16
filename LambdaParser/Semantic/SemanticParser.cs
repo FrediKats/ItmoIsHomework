@@ -29,7 +29,7 @@ public class SemanticParseContext
         _parameters.Remove(argument.Syntax.Value);
     }
 
-    public bool TryResolve(LetterLambdaSyntaxNode parameter, out ArgumentLambdaSemanticNode argument)
+    public bool TryResolve(LetterLambdaSyntaxNode parameter, out ArgumentLambdaSemanticNode? argument)
     {
         return _parameters.TryGetValue(parameter.Value, out argument);
     }
@@ -40,7 +40,8 @@ public class SemanticParser
     public LambdaSemanticTree Parse(LambdaSyntaxTree tree)
     {
         LambdaSyntaxNode lambdaSyntaxNode = tree.Root;
-        return new LambdaSemanticTree(Parse(lambdaSyntaxNode, new SemanticParseContext()));
+        var semanticParseContext = new SemanticParseContext();
+        return new LambdaSemanticTree(tree, Parse(lambdaSyntaxNode, semanticParseContext));
     }
 
     public ExpressionLambdaSemanticNode Parse(LambdaSyntaxNode node, SemanticParseContext context)
@@ -60,8 +61,11 @@ public class SemanticParser
                 return new AbstractionLambdaSemanticNode(abstractionLambdaSyntaxNode, argumentLambdaSemanticNode, expressionLambdaSemanticNode);
 
             case LetterLambdaSyntaxNode letterLambdaSyntaxNode:
-                context.TryResolve(letterLambdaSyntaxNode, out ArgumentLambdaSemanticNode result);
-                return new ParameterLambdaSemanticNode(letterLambdaSyntaxNode, result);
+                context.TryResolve(letterLambdaSyntaxNode, out ArgumentLambdaSemanticNode? result);
+                var parameterLambdaSemanticNode = new ParameterLambdaSemanticNode(letterLambdaSyntaxNode, result);
+                if (result is not null)
+                    result.AddParameter(parameterLambdaSemanticNode);
+                return parameterLambdaSemanticNode;
 
             case ParenthesizedSyntaxNode parenthesizedSyntaxNode:
                 return Parse(parenthesizedSyntaxNode.Expression, context);

@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using LambdaParser.Semantic;
+using LambdaParser.Semantic.Nodes;
 using LambdaParser.Syntax;
 using LambdaParser.Syntax.Parsers;
 using LambdaParser.Syntax.Visualization;
@@ -30,11 +31,27 @@ else
     var visualize = LambdaSyntaxTreeVisualization.Visualize(lambdaSyntaxTree);
     Log.Information($"Tree:\n{visualize}");
 
-    Log.Information("Diff:");
-    Log.Information(sourceCode);
-    Log.Information(lambdaSyntaxNode.Node.ToString());
-
     LambdaSemanticTree lambdaSemanticTree = new SemanticParser().Parse(lambdaSyntaxTree);
+    LambdaSemanticTree semanticTree = new LambdaSemanticTreeRenamer().Rename(lambdaSemanticTree, FindArgument(lambdaSemanticTree.Root), "z");
+
+    Log.Information("Diff:");
+    Log.Information(lambdaSyntaxNode.Node.ToString());
+    Log.Information(semanticTree.Syntax.Root.ToString());
     return;
 }
 return;
+
+ArgumentLambdaSemanticNode? FindArgument(ExpressionLambdaSemanticNode lambdaSemanticNode)
+{
+    if (lambdaSemanticNode is ArgumentLambdaSemanticNode argumentLambdaNode)
+        return argumentLambdaNode;
+
+    foreach (var child in lambdaSemanticNode.GetChildren())
+    {
+        ArgumentLambdaSemanticNode? argumentLambdaSemanticNode = FindArgument(child);
+        if (argumentLambdaSemanticNode is not null)
+            return argumentLambdaSemanticNode;
+    }
+
+    return null;
+}
