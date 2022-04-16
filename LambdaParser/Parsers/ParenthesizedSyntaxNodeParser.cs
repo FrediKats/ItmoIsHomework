@@ -55,7 +55,7 @@ public class ParenthesizedSyntaxNodeParser : INodeParser<ParenthesizedSyntaxNode
             }
             else
             {
-                root = new ApplicationSyntaxNode(new NodeLocation(root.Location.Start, resultNode.Location.End), root, ImmutableArray<ExpressionLambdaSyntaxNode>.Empty.Add(resultNode));
+                root = new ApplicationSyntaxNode(new NodeLocation(root.Location.Start, resultNode.Location.End), root, resultNode);
                 Log.Verbose($"Add application node: {resultNode} at {resultNode.Location}");
             }
         } while (currentIndex < expression.Length && expression[currentIndex] != Constants.EndBracket);

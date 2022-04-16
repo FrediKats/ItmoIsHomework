@@ -33,7 +33,7 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
             return argument.As<AbstractionLambdaSyntaxNode>();
         }
 
-        IParseResult<LambdaSyntaxNode> body = ParseBody(expression.Subsegment(dotIndex + 1));
+        IParseResult<ExpressionLambdaSyntaxNode> body = ParseBody(expression.Subsegment(dotIndex + 1));
         if (body.HasError)
         {
             return body.As<AbstractionLambdaSyntaxNode>();
@@ -62,7 +62,7 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
             return body;
         }
 
-        LambdaSyntaxNode bodyNode = body.Node;
+        ExpressionLambdaSyntaxNode bodyNode = body.Node;
         Log.Verbose($"Parse lambda body: {bodyNode} at {bodyNode.Location}");
         return body;
     }

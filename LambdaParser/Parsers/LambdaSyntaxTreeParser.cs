@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using LambdaParser.SyntaxNodes;
+﻿using LambdaParser.SyntaxNodes;
 using LambdaParser.Tools;
 using Microsoft.Extensions.Primitives;
 using Serilog;
@@ -8,7 +7,7 @@ namespace LambdaParser.Parsers;
 
 public class LambdaSyntaxTreeParser
 {
-    public static IParseResult<LambdaSyntaxNode> Parse(string expression)
+    public static IParseResult<ExpressionLambdaSyntaxNode> Parse(string expression)
     {
         expression = SpaceFixer.FixSpaces(expression);
 
@@ -28,13 +27,13 @@ public class LambdaSyntaxTreeParser
             if (root is null)
                 root = resultNode;
             else
-                root = new ApplicationSyntaxNode(root.Location, root, ImmutableArray<ExpressionLambdaSyntaxNode>.Empty.Add(resultNode));
+                root = new ApplicationSyntaxNode(root.Location, root, resultNode);
         } while (currentIndex != expression.Length);
 
 
         if (root is null)
             throw new LambdaParseException($"Cannot parse any statement from {expression}");
 
-        return new ParseResult<LambdaSyntaxNode>(root);
+        return new ParseResult<ExpressionLambdaSyntaxNode>(root);
     }
 }

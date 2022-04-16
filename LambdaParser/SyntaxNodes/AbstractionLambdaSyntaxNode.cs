@@ -7,9 +7,9 @@ namespace LambdaParser.SyntaxNodes;
 public class AbstractionLambdaSyntaxNode : ExpressionLambdaSyntaxNode
 {
     public LetterLambdaSyntaxNode Argument { get; }
-    public LambdaSyntaxNode Body { get; }
+    public ExpressionLambdaSyntaxNode Body { get; }
 
-    public AbstractionLambdaSyntaxNode(NodeLocation location, LetterLambdaSyntaxNode argument, LambdaSyntaxNode body) : base(location)
+    public AbstractionLambdaSyntaxNode(NodeLocation location, LetterLambdaSyntaxNode argument, ExpressionLambdaSyntaxNode body) : base(location)
     {
         Argument = argument;
         Body = body;

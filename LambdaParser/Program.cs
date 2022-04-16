@@ -25,11 +25,15 @@ if (lambdaSyntaxNode.HasError)
 else
 {
     Log.Information($"Result - {lambdaSyntaxNode.Node}");
-    var visualize = LambdaSyntaxTreeVisualization.Visualize(new LambdaSyntaxTree(lambdaSyntaxNode.Node));
+    var lambdaSyntaxTree = new LambdaSyntaxTree(lambdaSyntaxNode.Node);
+    var visualize = LambdaSyntaxTreeVisualization.Visualize(lambdaSyntaxTree);
     Log.Information($"Tree:\n{visualize}");
 
     Log.Information("Diff:");
     Log.Information(sourceCode);
     Log.Information(lambdaSyntaxNode.Node.ToString());
+
+    LambdaSemanticTree lambdaSemanticTree = new SemanticParser().Parse(lambdaSyntaxTree);
+    return;
 }
 return;

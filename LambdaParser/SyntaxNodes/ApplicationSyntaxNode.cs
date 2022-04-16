@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Text;
 using LambdaParser.Indexing;
 
 namespace LambdaParser.SyntaxNodes;
@@ -7,32 +6,26 @@ namespace LambdaParser.SyntaxNodes;
 public class ApplicationSyntaxNode : ExpressionLambdaSyntaxNode
 {
     public ExpressionLambdaSyntaxNode Function { get; }
-    public ImmutableArray<ExpressionLambdaSyntaxNode> Arguments { get; }
+    public ExpressionLambdaSyntaxNode Argument { get; }
 
-    public ApplicationSyntaxNode(NodeLocation location, ExpressionLambdaSyntaxNode function, ImmutableArray<ExpressionLambdaSyntaxNode> arguments) : base(location)
+    public ApplicationSyntaxNode(NodeLocation location, ExpressionLambdaSyntaxNode function, ExpressionLambdaSyntaxNode argument) : base(location)
     {
         Function = function;
-        Arguments = arguments;
+        Argument = argument;
 
         Function.SetParent(this);
-        foreach (ExpressionLambdaSyntaxNode argument in Arguments)
-        {
-            argument.SetParent(this);
-        }
+        Argument.SetParent(this);
     }
 
     public override ImmutableArray<LambdaSyntaxNode> GetChildren()
     {
         return ImmutableArray<LambdaSyntaxNode>.Empty
             .Add(Function)
-            .AddRange(Arguments);
+            .Add(Argument);
     }
 
     public override string ToString()
     {
-        return new StringBuilder()
-            .Append($"{Function} ")
-            .AppendJoin(' ', Arguments)
-            .ToString();
+        return $"{Function} {Argument}";
     }
 }
