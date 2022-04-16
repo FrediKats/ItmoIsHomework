@@ -15,6 +15,13 @@ public class ApplicationSyntaxNode : ExpressionLambdaSyntaxNode
         Arguments = arguments;
     }
 
+    public override ImmutableArray<LambdaSyntaxNode> GetChildren()
+    {
+        return ImmutableArray<LambdaSyntaxNode>.Empty
+            .Add(Function)
+            .AddRange(Arguments);
+    }
+
     public override string ToString()
     {
         return new StringBuilder()

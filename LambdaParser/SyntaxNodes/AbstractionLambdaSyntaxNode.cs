@@ -1,4 +1,5 @@
-﻿using LambdaParser.Indexing;
+﻿using System.Collections.Immutable;
+using LambdaParser.Indexing;
 using LambdaParser.Tools;
 
 namespace LambdaParser.SyntaxNodes;
@@ -12,6 +13,13 @@ public class AbstractionLambdaSyntaxNode : ExpressionLambdaSyntaxNode
     {
         Argument = argument;
         Body = body;
+    }
+
+    public override ImmutableArray<LambdaSyntaxNode> GetChildren()
+    {
+        return ImmutableArray<LambdaSyntaxNode>.Empty
+            .Add(Argument)
+            .Add(Body);
     }
 
     public override string ToString()

@@ -1,7 +1,8 @@
 ﻿using LambdaParser.Indexing;
+using LambdaParser.Tools;
 using Serilog;
 
-namespace LambdaParser.Tools;
+namespace LambdaParser.Visualization;
 
 public static class SyntaxWalkerLogger
 {
@@ -13,7 +14,7 @@ public static class SyntaxWalkerLogger
     public static void LogIt(string sourceCode, string text, NodeLocation location)
     {
         Log.Verbose(sourceCode);
-        var space = string.Join("", Enumerable.Repeat(" ", location.Start.Value));
+        var space = StringExtensions.FromChar(' ', location.Start.Value);
         Log.Verbose($"{space}^{text}");
     }
 }
