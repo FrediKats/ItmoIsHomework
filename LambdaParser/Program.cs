@@ -3,14 +3,7 @@ using LambdaParser.Parsers;
 using LambdaParser.Tools;
 using Serilog;
 
-var simpleTerm = "(λn.(n))";
-var trueTerm = "(λx.(λy.(x)))";
-var termWIthApplication = "λx.((λx.(x))x)";
-var termWIthApplication2 = "(λx.(λx.(x))x)";
-
-var numberDefinitionSimple = "λf.λx.(f (f (f x)))";
-var numberDefinition = "λf.λx.f (f (f x))";
-
+var predecessor= "λn.λf.λx.n (λg.λh.h (g f)) (λu.x) (λu.u)";
 var λnΛfΛxFNFX = "(λn.λf.λx.f (n f x)";
 var λfΛxFFXSqr = "(((λf . (λx . (f (f x)))) sqr) 3)";
 
@@ -22,11 +15,10 @@ Log.Logger = new LoggerConfiguration()
 
 Console.OutputEncoding = Encoding.Unicode;
 
-var sourceCode = SpaceFixer.FixSpaces(numberDefinitionSimple);
-var lambdaSyntaxNode = LambdaSyntaxTreeParser.Parse(sourceCode);
+var lambdaSyntaxNode = LambdaSyntaxTreeParser.Parse(predecessor);
 if (lambdaSyntaxNode.HasError)
 {
-    SyntaxWalkerLogger.LogIt((string) sourceCode, (ParserError) lambdaSyntaxNode.Error);
+    SyntaxWalkerLogger.LogIt(predecessor, lambdaSyntaxNode.Error);
 }
 else
 {

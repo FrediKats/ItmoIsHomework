@@ -10,6 +10,8 @@ public class LambdaSyntaxTreeParser
 {
     public static IParseResult<LambdaSyntaxNode> Parse(string expression)
     {
+        expression = SpaceFixer.FixSpaces(expression);
+
         int currentIndex = 0;
         ExpressionLambdaSyntaxNode? root = null;
         Log.Verbose($"Start parsing tree: {expression}");
