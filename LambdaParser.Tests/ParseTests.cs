@@ -1,6 +1,6 @@
-﻿using LambdaParser.Parsers;
-using LambdaParser.SyntaxNodes;
-using LambdaParser.Tools;
+﻿using LambdaParser.Syntax.Nodes;
+using LambdaParser.Syntax.Parsers;
+using LambdaParser.Syntax.Tools;
 using Microsoft.Extensions.Primitives;
 using NUnit.Framework;
 

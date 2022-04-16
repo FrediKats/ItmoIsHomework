@@ -1,7 +1,8 @@
 ﻿using System.Text;
-using LambdaParser;
-using LambdaParser.Parsers;
-using LambdaParser.Visualization;
+using LambdaParser.Semantic;
+using LambdaParser.Syntax;
+using LambdaParser.Syntax.Parsers;
+using LambdaParser.Syntax.Visualization;
 using Serilog;
 
 var predecessor = "λn.λf.λx.n (λg.λh.h (g f)) (λu.x) (λu.u)";
