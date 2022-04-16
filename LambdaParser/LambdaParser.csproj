@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="ConsoleIntegration\" />
-    <Folder Include="Parsers\" />
   </ItemGroup>
 
 </Project>

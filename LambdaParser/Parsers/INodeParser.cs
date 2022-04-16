@@ -5,5 +5,5 @@ namespace LambdaParser.Parsers;
 
 public interface INodeParser<T> where T : LambdaSyntaxNode
 {
-    IParseResult<T> Parse(StringSegment segment);
+    IParseResult<T> Parse(StringSegment expression);
 }
