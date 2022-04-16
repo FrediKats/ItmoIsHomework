@@ -10,4 +10,9 @@ public class AbstractionLambdaSyntaxNode : LambdaSyntaxNode
         Argument = argument;
         Body = body;
     }
+
+    public override string ToString()
+    {
+        return $"({Constants.Lambda}) {Argument}.({Body})";
+    }
 }
