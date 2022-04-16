@@ -1,4 +1,5 @@
-﻿using LambdaParser.SyntaxNodes;
+﻿using LambdaParser.Indexing;
+using LambdaParser.SyntaxNodes;
 using LambdaParser.Tools;
 using Microsoft.Extensions.Primitives;
 using Serilog;
@@ -15,14 +16,14 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
 
         if (expression.Length == 0 || expression[0] != Constants.Lambda)
         {
-            var nodeLocation = new NodeLocation(expression.Offset);
+            var nodeLocation = NodeLocation.ForSegmentStart(expression);
             return ParseResult.Fail<AbstractionLambdaSyntaxNode>((string) "Expect lambda letter at AbstractionLambdaSyntaxNode start.", nodeLocation);
         }
 
         int dotIndex = expression.IndexOf(Constants.Dot);
         if (dotIndex == -1)
         {
-            var nodeLocation = new NodeLocation(expression.Offset);
+            var nodeLocation = NodeLocation.ForSegmentStart(expression);
             return ParseResult.Fail<AbstractionLambdaSyntaxNode>((string) "Cannot find '.' char at AbstractionLambdaSyntaxNode start.", nodeLocation);
         }
 
@@ -38,7 +39,8 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
             return body.As<AbstractionLambdaSyntaxNode>();
         }
 
-        var result = new AbstractionLambdaSyntaxNode(new NodeLocation(expression.Offset, body.Node.Location.End), argument.Node, body.Node);
+        var location = new NodeLocation(new SourceCodeIndex(expression.Offset), body.Node.Location.End);
+        var result = new AbstractionLambdaSyntaxNode(location, argument.Node, body.Node);
         return new ParseResult<AbstractionLambdaSyntaxNode>(result);
     }
 

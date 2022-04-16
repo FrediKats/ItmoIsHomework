@@ -21,7 +21,7 @@ public class LambdaSyntaxTreeParser
                 return result;
 
             ExpressionLambdaSyntaxNode resultNode = result.Node;
-            currentIndex = resultNode.Location.End + 1;
+            currentIndex = resultNode.Location.End.Value + 1;
 
             if (root is null)
                 root = resultNode;

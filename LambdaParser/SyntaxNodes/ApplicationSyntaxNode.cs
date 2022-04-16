@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Text;
+using LambdaParser.Indexing;
 
 namespace LambdaParser.SyntaxNodes;
 
@@ -17,7 +18,7 @@ public class ApplicationSyntaxNode : ExpressionLambdaSyntaxNode
     public override string ToString()
     {
         return new StringBuilder()
-            .Append($"({Function})")
+            .Append($"{Function} ")
             .AppendJoin(' ', Arguments)
             .ToString();
     }

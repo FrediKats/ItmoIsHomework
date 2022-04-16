@@ -1,4 +1,5 @@
-﻿using LambdaParser.SyntaxNodes;
+﻿using LambdaParser.Indexing;
+using LambdaParser.SyntaxNodes;
 using LambdaParser.Tools;
 using Microsoft.Extensions.Primitives;
 
@@ -15,7 +16,7 @@ public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
             var symbol = expression[index];
             if (!char.IsLetter(symbol))
             {
-                return ParseResult.Fail<LetterLambdaSyntaxNode>("Found non letter symbol while letter is expected", new NodeLocation(expression.Offset + index));
+                return ParseResult.Fail<LetterLambdaSyntaxNode>("Found non letter symbol while letter is expected", new NodeLocation(new SourceCodeIndex(expression) + index));
             }
         }
 

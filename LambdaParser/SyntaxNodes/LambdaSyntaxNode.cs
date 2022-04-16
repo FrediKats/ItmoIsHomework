@@ -1,4 +1,6 @@
-﻿namespace LambdaParser.SyntaxNodes;
+﻿using LambdaParser.Indexing;
+
+namespace LambdaParser.SyntaxNodes;
 
 public abstract class LambdaSyntaxNode
 {

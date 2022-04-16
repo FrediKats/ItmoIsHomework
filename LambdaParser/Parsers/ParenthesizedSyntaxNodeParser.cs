@@ -3,6 +3,7 @@ using Microsoft.Extensions.Primitives;
 using LambdaParser.Tools;
 using Serilog;
 using System.Collections.Immutable;
+using LambdaParser.Indexing;
 
 namespace LambdaParser.Parsers;
 
@@ -13,16 +14,20 @@ public class ParenthesizedSyntaxNodeParser : INodeParser<ParenthesizedSyntaxNode
     public IParseResult<ParenthesizedSyntaxNode> Parse(StringSegment expression)
     {
         if (expression[0] != Constants.StartBracket)
-            return ParseResult.Fail<ParenthesizedSyntaxNode>($"Cannot find start bracket", new NodeLocation(expression.Offset));
+            return ParseResult.Fail<ParenthesizedSyntaxNode>($"Cannot find start bracket", NodeLocation.ForSegmentStart(expression));
 
         IParseResult<ExpressionLambdaSyntaxNode> parseResult = ParseInner(expression.Subsegment(1));
         if (parseResult.HasError)
             return parseResult.As<ParenthesizedSyntaxNode>();
-        if (expression.Length < parseResult.Node.Location.End + 1
-            || expression[parseResult.Node.Location.End + 1] != Constants.EndBracket)
-            return ParseResult.Fail<ParenthesizedSyntaxNode>($"Cannot find end bracket", new NodeLocation(parseResult.Node.Location.End));
 
-        var nodeLocation = new NodeLocation(parseResult.Node.Location.Start - 1, parseResult.Node.Location.End + 1);
+        var endBracket = parseResult.Node.Location.End.ToLocalIndex(expression) + 1;
+        if (endBracket >= expression.Length)
+            return ParseResult.Fail<ParenthesizedSyntaxNode>($"Raise string segment end but cannot find end bracket", new NodeLocation(new SourceCodeIndex(expression, endBracket)));
+
+        if (expression[endBracket] != Constants.EndBracket)
+            return ParseResult.Fail<ParenthesizedSyntaxNode>($"Expect end bracket in parenthesize expression end.", new NodeLocation(new SourceCodeIndex(expression, endBracket)));
+
+        var nodeLocation = new NodeLocation(new SourceCodeIndex(expression), new SourceCodeIndex(expression, endBracket));
         var parenthesizedSyntaxNode = new ParenthesizedSyntaxNode(nodeLocation, parseResult.Node);
         return new ParseResult<ParenthesizedSyntaxNode>(parenthesizedSyntaxNode);
     }
@@ -41,7 +46,7 @@ public class ParenthesizedSyntaxNodeParser : INodeParser<ParenthesizedSyntaxNode
                 return result;
 
             ExpressionLambdaSyntaxNode resultNode = result.Node;
-            currentIndex = resultNode.Location.End + 1 - expression.Offset;
+            currentIndex = resultNode.Location.End.ToLocalIndex(expression) + 1;
 
             if (root is null)
             {
@@ -50,7 +55,7 @@ public class ParenthesizedSyntaxNodeParser : INodeParser<ParenthesizedSyntaxNode
             }
             else
             {
-                root = new ApplicationSyntaxNode(root.Location, root, ImmutableArray<ExpressionLambdaSyntaxNode>.Empty.Add(resultNode));
+                root = new ApplicationSyntaxNode(new NodeLocation(root.Location.Start, resultNode.Location.End), root, ImmutableArray<ExpressionLambdaSyntaxNode>.Empty.Add(resultNode));
                 Log.Verbose($"Add application node: {resultNode} at {resultNode.Location}");
             }
         } while (currentIndex < expression.Length && expression[currentIndex] != Constants.EndBracket);
@@ -59,7 +64,7 @@ public class ParenthesizedSyntaxNodeParser : INodeParser<ParenthesizedSyntaxNode
             throw new LambdaParseException($"Cannot parse any statement from {expression}");
 
         if (currentIndex >= expression.Length)
-            return ParseResult.Fail<ApplicationSyntaxNode>($"Cannot find end bracket", new NodeLocation(expression.Offset + currentIndex));
+            return ParseResult.Fail<ApplicationSyntaxNode>($"Cannot find end bracket", new NodeLocation(new SourceCodeIndex(expression) + currentIndex));
 
         return new ParseResult<ExpressionLambdaSyntaxNode>(root);
     }
