@@ -21,13 +21,13 @@ public class ParenthesizedSyntaxNodeParser : INodeParser<ParenthesizedSyntaxNode
             return parseResult.As<ParenthesizedSyntaxNode>();
 
         var endBracket = parseResult.Node.Location.End.ToLocalIndex(expression) + 1;
+        var nodeLocation = NodeLocation.FromSegment(expression, endBracket);
         if (endBracket >= expression.Length)
-            return ParseResult.Fail<ParenthesizedSyntaxNode>($"Raise string segment end but cannot find end bracket", new NodeLocation(new SourceCodeIndex(expression, endBracket)));
+            return ParseResult.Fail<ParenthesizedSyntaxNode>($"Raise string segment end but cannot find end bracket", nodeLocation);
 
         if (expression[endBracket] != Constants.EndBracket)
-            return ParseResult.Fail<ParenthesizedSyntaxNode>($"Expect end bracket in parenthesize expression end.", new NodeLocation(new SourceCodeIndex(expression, endBracket)));
+            return ParseResult.Fail<ParenthesizedSyntaxNode>($"Expect end bracket in parenthesize expression end.", nodeLocation);
 
-        var nodeLocation = new NodeLocation(new SourceCodeIndex(expression), new SourceCodeIndex(expression, endBracket));
         var parenthesizedSyntaxNode = new ParenthesizedSyntaxNode(nodeLocation, parseResult.Node);
         return new ParseResult<ParenthesizedSyntaxNode>(parenthesizedSyntaxNode);
     }

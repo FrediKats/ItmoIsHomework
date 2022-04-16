@@ -4,9 +4,9 @@ namespace LambdaParser.Indexing;
 
 public record struct SourceCodeIndex(int Value)
 {
-    public static int operator-(SourceCodeIndex a, SourceCodeIndex b) => a.Value - b.Value;
-    public static int operator-(SourceCodeIndex a, int b) => a.Value - b;
-    public static int operator+(SourceCodeIndex a, int b) => a.Value + b;
+    public static SourceCodeIndex operator -(SourceCodeIndex a, SourceCodeIndex b) => new SourceCodeIndex(a.Value - b.Value);
+    public static SourceCodeIndex operator -(SourceCodeIndex a, int b) => new SourceCodeIndex(a.Value - b);
+    public static SourceCodeIndex operator +(SourceCodeIndex a, int b) => new SourceCodeIndex(a.Value + b);
     public static bool operator>(SourceCodeIndex a, SourceCodeIndex b) => a.Value > b.Value;
     public static bool operator <(SourceCodeIndex a, SourceCodeIndex b) => a.Value < b.Value;
 

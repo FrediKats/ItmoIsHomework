@@ -2,6 +2,7 @@
 using LambdaParser.SyntaxNodes;
 using LambdaParser.Tools;
 using Microsoft.Extensions.Primitives;
+using System.Linq.Expressions;
 
 namespace LambdaParser.Parsers;
 
@@ -16,7 +17,8 @@ public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
             var symbol = expression[index];
             if (!char.IsLetter(symbol))
             {
-                return ParseResult.Fail<LetterLambdaSyntaxNode>("Found non letter symbol while letter is expected", new NodeLocation(new SourceCodeIndex(expression) + index));
+                var nodeLocation = new NodeLocation(new SourceCodeIndex(expression) + index);
+                return ParseResult.Fail<LetterLambdaSyntaxNode>("Found non letter symbol while letter is expected", nodeLocation);
             }
         }
 
@@ -37,7 +39,8 @@ public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
         if (i == 0)
             throw new LambdaParseException($"Cannot create Letter term at {expression.Offset}");
 
-        var lambdaSyntaxNode = new LetterLambdaSyntaxNode(new NodeLocation(expression.Offset, expression.Offset + i - 1), expression.Substring(0, i));
+        var nodeLocation = NodeLocation.FromSegment(expression, i - 1);
+        var lambdaSyntaxNode = new LetterLambdaSyntaxNode(nodeLocation, expression.Substring(0, i));
         return new ParseResult<LetterLambdaSyntaxNode>(lambdaSyntaxNode);
     }
 }

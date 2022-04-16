@@ -6,16 +6,9 @@ public class NodeLocation
 {
     public SourceCodeIndex Start { get; }
     public SourceCodeIndex End { get; }
-    public int Length => End - Start + 1;
+    public int Length => (End - Start + 1).Value;
 
-    public NodeLocation(int position) : this(position, position) {}
-    private NodeLocation(StringSegment segment) : this(new SourceCodeIndex(segment)) { }
-    
     public NodeLocation(SourceCodeIndex position) : this(position, position) {}
-
-    public NodeLocation(int start, int end) : this(new SourceCodeIndex(start), new SourceCodeIndex(end))
-    {
-    }
 
     public NodeLocation(SourceCodeIndex start, SourceCodeIndex end)
     {
@@ -28,12 +21,17 @@ public class NodeLocation
 
     public static NodeLocation FromSegment(StringSegment segment)
     {
-        return new NodeLocation(segment.Offset, segment.Offset + segment.Length - 1);
+        return new NodeLocation(new SourceCodeIndex(segment), new SourceCodeIndex(segment.Offset + segment.Length - 1));
+    }
+
+    public static NodeLocation FromSegment(StringSegment segment, int index)
+    {
+        return new NodeLocation(new SourceCodeIndex(segment), new SourceCodeIndex(segment.Offset + index));
     }
 
     public static NodeLocation ForSegmentStart(StringSegment segment)
     {
-        return new NodeLocation(segment);
+        return new NodeLocation(new SourceCodeIndex(segment));
     }
 
     public override string ToString()

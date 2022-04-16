@@ -39,7 +39,7 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
             return body.As<AbstractionLambdaSyntaxNode>();
         }
 
-        var location = new NodeLocation(new SourceCodeIndex(expression.Offset), body.Node.Location.End);
+        var location = new NodeLocation(new SourceCodeIndex(expression), body.Node.Location.End);
         var result = new AbstractionLambdaSyntaxNode(location, argument.Node, body.Node);
         return new ParseResult<AbstractionLambdaSyntaxNode>(result);
     }
