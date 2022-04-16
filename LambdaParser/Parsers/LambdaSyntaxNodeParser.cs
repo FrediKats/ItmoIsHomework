@@ -7,28 +7,28 @@ public class LambdaSyntaxNodeParser
 {
     public static LambdaSyntaxNode Parse(StringSegment expression)
     {
-        LambdaSyntaxNode result = null;
-        var index = 0;
+        while (true)
+        {
+            LambdaSyntaxNode result = ParseOneNode(expression);
+            var nextSymbolIndex = result.Location.End - expression.Offset;
+            if (expression[nextSymbolIndex] == Constants.EndBracket)
+                return result;
 
+            throw new NotImplementedException($"Cannot parse expression after {result.Location.End}");
+        }
+    }
+
+    public static LambdaSyntaxNode ParseOneNode(StringSegment expression)
+    {
+        var index = 0;
         switch (expression[index])
         {
             case Constants.Lambda:
-                throw new NotImplementedException();
+                return AbstractionLambdaSyntaxNodeParser.Parse(expression);
             case '(':
-                LambdaSyntaxNode innerStatement = Parse(expression.Subsegment(index + 1));
-                index = innerStatement.Location.End + 1;
-
-                //TODO:rework
-                result = innerStatement;
-                break;
-
-            case ')':
-                if (expression.Length == index)
-                    return result;
-
-                throw new NotImplementedException("Do not currently support brackets inside term");
+                return ParseOneNode(expression.Subsegment(1));
+            default:
+                return LetterLambdaSyntaxNodeParser.CreateMaxSequence(expression);
         }
-
-        throw new NotImplementedException();
     }
 }

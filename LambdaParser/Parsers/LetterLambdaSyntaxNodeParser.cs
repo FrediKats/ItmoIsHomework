@@ -16,4 +16,18 @@ public class LetterLambdaSyntaxNodeParser
 
         return new LetterLambdaSyntaxNode(NodeLocation.FromSegment(expression), expression.Value);
     }
+
+    public static LetterLambdaSyntaxNode CreateMaxSequence(StringSegment expression)
+    {
+        int i = 0;
+        while (Char.IsLetter(expression[i]) && i < expression.Length)
+        {
+            i++;
+        }
+
+        if (i == 0)
+            throw new LambdaParseException($"Cannot create Letter term at {expression.Offset}");
+
+        return new LetterLambdaSyntaxNode(new NodeLocation(expression.Offset, expression.Offset + i), expression.Substring(0, i));
+    }
 }

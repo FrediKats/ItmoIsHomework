@@ -18,8 +18,8 @@ public class AbstractionLambdaSyntaxNodeParser
         if (endIndex == -1)
             throw new LambdaParseException($"Expect char '{Constants.EndBracket}' in expression at {expression.Offset}");
 
-        LetterLambdaSyntaxNode letterLambdaSyntaxNode = LetterLambdaSyntaxNodeParser.Parse(expression.Subsegment(1, dotIndex));
-        LambdaSyntaxNode body = LambdaSyntaxNodeParser.Parse(expression.Subsegment(dotIndex + 1, endIndex));
+        LetterLambdaSyntaxNode letterLambdaSyntaxNode = LetterLambdaSyntaxNodeParser.Parse(expression.Subsegment(1, dotIndex - 1));
+        LambdaSyntaxNode body = LambdaSyntaxNodeParser.Parse(expression.Subsegment(dotIndex + 1, endIndex - dotIndex + 1));
 
         return new AbstractionLambdaSyntaxNode(new NodeLocation(expression.Offset, expression.Offset + endIndex), letterLambdaSyntaxNode, body);
     }

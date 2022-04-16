@@ -15,7 +15,7 @@ public class NodeLocation
 
     public NodeLocation(int start, int end)
     {
-        if (start < end)
+        if (start > end)
             throw new ArgumentException($"Location end is lower that start. [{start}..{end}]");
 
         Start = start;
@@ -25,5 +25,10 @@ public class NodeLocation
     public static NodeLocation FromSegment(StringSegment segment)
     {
         return new NodeLocation(segment.Offset, segment.Offset + segment.Length - 1);
+    }
+
+    public override string ToString()
+    {
+        return $"({Start}, {End})";
     }
 }
