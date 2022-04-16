@@ -43,8 +43,4 @@ public class ParseResult<T> : IParseResult<T> where T : LambdaSyntaxNode
         _node = null;
         _errorMessage = error;
     }
-
-    public ParseResult(string error, NodeLocation nodeLocation) : this(new ParserError(error, nodeLocation))
-    {
-    }
 }

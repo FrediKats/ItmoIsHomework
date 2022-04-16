@@ -14,22 +14,37 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
         Log.Verbose($"Parse {expression} via AbstractionLambdaSyntaxNodeParser");
 
         if (expression.Length == 0 || expression[0] != Constants.Lambda)
-            return new ParseResult<AbstractionLambdaSyntaxNode>("Expect lambda letter at AbstractionLambdaSyntaxNode start.", new NodeLocation(expression.Offset));
+        {
+            NodeLocation nodeLocation = new NodeLocation(expression.Offset);
+            return ParseResult.Fail<AbstractionLambdaSyntaxNode>((string) "Expect lambda letter at AbstractionLambdaSyntaxNode start.", nodeLocation);
+        }
 
         var dotIndex = expression.IndexOf(Constants.Dot);
         if (dotIndex == -1)
-            return new ParseResult<AbstractionLambdaSyntaxNode>("Cannot find '.' char at AbstractionLambdaSyntaxNode start.", new NodeLocation(expression.Offset));
+        {
+            NodeLocation nodeLocation = new NodeLocation(expression.Offset);
+            return ParseResult.Fail<AbstractionLambdaSyntaxNode>((string) "Cannot find '.' char at AbstractionLambdaSyntaxNode start.", nodeLocation);
+        }
 
         var startBracketIndex = expression.IndexOf(Constants.StartBracket);
         if (startBracketIndex == -1)
-            return new ParseResult<AbstractionLambdaSyntaxNode>("Cannot find '(' char at AbstractionLambdaSyntaxNode start.", new NodeLocation(expression.Offset));
+        {
+            NodeLocation nodeLocation = new NodeLocation(expression.Offset);
+            return ParseResult.Fail<AbstractionLambdaSyntaxNode>((string) "Cannot find '(' char at AbstractionLambdaSyntaxNode start.", nodeLocation);
+        }
 
         if (dotIndex != startBracketIndex - 1)
-            return new ParseResult<AbstractionLambdaSyntaxNode>("Cannot find '.(' at AbstractionLambdaSyntaxNode start.", new NodeLocation(expression.Offset));
+        {
+            NodeLocation nodeLocation = new NodeLocation(expression.Offset);
+            return ParseResult.Fail<AbstractionLambdaSyntaxNode>((string) "Cannot find '.(' at AbstractionLambdaSyntaxNode start.", nodeLocation);
+        }
 
         var endIndex = expression.IndexOf(Constants.EndBracket);
         if (endIndex == -1)
-            return new ParseResult<AbstractionLambdaSyntaxNode>($"Expect char '{Constants.EndBracket}' in AbstractionLambdaSyntaxNode start.", new NodeLocation(expression.Offset));
+        {
+            NodeLocation nodeLocation = new NodeLocation(expression.Offset);
+            return ParseResult.Fail<AbstractionLambdaSyntaxNode>((string) $"Expect char '{Constants.EndBracket}' in AbstractionLambdaSyntaxNode start.", nodeLocation);
+        }
 
         IParseResult<LetterLambdaSyntaxNode> argument = LetterLambdaSyntaxNodeParser.Instance.Parse(expression.Subsegment(1, dotIndex - 1));
         if (argument.HasError)
@@ -39,7 +54,7 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
         }
 
         LetterLambdaSyntaxNode argumentNode = argument.Node;
-        Log.Verbose($"Parse lambda argument: {argument} at {argumentNode.Location}");
+        Log.Verbose($"Parse lambda argument: {argumentNode} at {argumentNode.Location}");
 
         IParseResult<LambdaSyntaxNode> body = LambdaSyntaxNodeParser.Instance.Parse(expression.Subsegment(dotIndex + 1, endIndex - dotIndex + 1));
         if (body.HasError)

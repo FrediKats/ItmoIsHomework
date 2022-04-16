@@ -26,7 +26,7 @@ public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
     public static IParseResult<LetterLambdaSyntaxNode> CreateMaxSequence(StringSegment expression)
     {
         int i = 0;
-        while (Char.IsLetter(expression[i]) && i < expression.Length)
+        while (i < expression.Length && Char.IsLetter(expression[i]) && i < expression.Length)
         {
             i++;
         }
