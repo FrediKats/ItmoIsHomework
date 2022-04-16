@@ -1,6 +1,6 @@
 ﻿namespace LambdaParser.Tools;
 
-public class SpaceFixer
+public static class SpaceFixer
 {
     public static string FixSpaces(string text)
     {

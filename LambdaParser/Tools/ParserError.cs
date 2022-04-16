@@ -1,6 +1,6 @@
 ﻿using LambdaParser.Indexing;
 
-namespace LambdaParser;
+namespace LambdaParser.Tools;
 
 public record ParserError(string Message, NodeLocation Location)
 {

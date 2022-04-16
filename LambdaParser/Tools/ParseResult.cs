@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
 using LambdaParser.Indexing;
 using LambdaParser.SyntaxNodes;
-using LambdaParser.Tools;
 
-namespace LambdaParser;
+namespace LambdaParser.Tools;
 
 public interface IParseResult<out T> where T : LambdaSyntaxNode
 {

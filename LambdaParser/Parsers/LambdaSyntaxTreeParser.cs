@@ -11,7 +11,7 @@ public class LambdaSyntaxTreeParser
     public static IParseResult<LambdaSyntaxNode> Parse(string expression)
     {
         int currentIndex = 0;
-        ExpressionLambdaSyntaxNode root = null;
+        ExpressionLambdaSyntaxNode? root = null;
         Log.Verbose($"Start parsing tree: {expression}");
 
         do

@@ -3,7 +3,7 @@ using Serilog;
 
 namespace LambdaParser.Tools;
 
-public class SyntaxWalkerLogger
+public static class SyntaxWalkerLogger
 {
     public static void LogIt(string sourceCode, ParserError error)
     {

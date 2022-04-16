@@ -35,7 +35,7 @@ public class ParenthesizedSyntaxNodeParser : INodeParser<ParenthesizedSyntaxNode
     public IParseResult<ExpressionLambdaSyntaxNode> ParseInner(StringSegment expression)
     {
         int currentIndex = 0;
-        ExpressionLambdaSyntaxNode root = null;
+        ExpressionLambdaSyntaxNode? root = null;
         Log.Verbose($"Try parse expression inside parenthesized: {expression}");
 
         do

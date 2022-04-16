@@ -2,7 +2,6 @@
 using LambdaParser.SyntaxNodes;
 using LambdaParser.Tools;
 using Microsoft.Extensions.Primitives;
-using System.Linq.Expressions;
 
 namespace LambdaParser.Parsers;
 
