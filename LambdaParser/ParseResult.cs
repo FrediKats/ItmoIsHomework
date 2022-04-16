@@ -1,4 +1,5 @@
-﻿using LambdaParser.SyntaxNodes;
+﻿using System.Diagnostics;
+using LambdaParser.SyntaxNodes;
 using LambdaParser.Tools;
 
 namespace LambdaParser;
@@ -9,6 +10,7 @@ public interface IParseResult<out T> where T : LambdaSyntaxNode
     bool HasError { get; }
     ParserError Error { get; }
 
+    [DebuggerStepThrough]
     IParseResult<TOther> As<TOther>() where TOther : LambdaSyntaxNode
     {
         if (!HasError)

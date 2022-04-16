@@ -45,9 +45,7 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
     public IParseResult<LetterLambdaSyntaxNode> ParseArgument(StringSegment expression)
     {
         IParseResult<LetterLambdaSyntaxNode> argument = LetterLambdaSyntaxNodeParser.Instance.Parse(expression);
-        if (argument.HasError)
-            Log.Error(argument.Error.ToString());
-        else
+        if (!argument.HasError)
             Log.Verbose($"Parse lambda argument: {argument.Node} at {argument.Node.Location}");
 
         return argument;

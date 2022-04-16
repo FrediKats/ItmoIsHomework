@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using LambdaParser.ConsoleIntegration;
+using LambdaParser;
 using LambdaParser.Parsers;
 using LambdaParser.Tools;
 using Serilog;
@@ -27,7 +27,7 @@ var sourceCode = SpaceFixer.FixSpaces(numberDefinitionSimple);
 var lambdaSyntaxNode = LambdaSyntaxTreeParser.Parse(sourceCode);
 if (lambdaSyntaxNode.HasError)
 {
-    ConsoleErrorHandler.Handle(sourceCode, lambdaSyntaxNode.Error);
+    SyntaxWalkerLogger.LogIt((string) sourceCode, (ParserError) lambdaSyntaxNode.Error);
 }
 else
 {

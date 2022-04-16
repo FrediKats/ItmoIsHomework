@@ -26,6 +26,8 @@ public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
     public static IParseResult<LetterLambdaSyntaxNode> CreateMaxSequence(StringSegment expression)
     {
         int i = 0;
+        //TODO: remove
+        expression = expression.Trim();
         while (i < expression.Length && Char.IsLetter(expression[i]) && i < expression.Length)
         {
             i++;
