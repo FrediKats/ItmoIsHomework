@@ -1,9 +1,10 @@
 ﻿using LambdaParser.Syntax.Nodes;
+using LambdaParser.Syntax.Parsers;
 using LambdaParser.Syntax.Tools;
 using Microsoft.Extensions.Primitives;
 using Serilog;
 
-namespace LambdaParser.Syntax.Parsers;
+namespace LambdaParser.Syntax;
 
 public class LambdaSyntaxTreeParser
 {

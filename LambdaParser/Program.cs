@@ -1,57 +1,80 @@
 ﻿using System.Text;
 using LambdaParser.Semantic;
 using LambdaParser.Semantic.Nodes;
+using LambdaParser.Semantic.Reductions;
 using LambdaParser.Syntax;
-using LambdaParser.Syntax.Parsers;
 using LambdaParser.Syntax.Visualization;
 using Serilog;
 
-var predecessor = "λn.λf.λx.n (λg.λh.h (g f)) (λu.x) (λu.u)";
-var λnΛfΛxFNFX = "λn.λf.λx.f (n f x)";
-var λfΛxFFXSqr = "(((λf . (λx . (f (f x)))) sqr) a)";
 
+Console.OutputEncoding = Encoding.Unicode;
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Verbose()
     .WriteTo.Console()
     .WriteTo.File("parser-log")
     .CreateLogger();
 
-Console.OutputEncoding = Encoding.Unicode;
+AlphaReduction();
+BetaReduction();
 
-var sourceCode = λfΛxFFXSqr;
-var lambdaSyntaxNode = LambdaSyntaxTreeParser.Parse(sourceCode);
-if (lambdaSyntaxNode.HasError)
+void AlphaReduction()
 {
-    SyntaxWalkerLogger.LogIt(sourceCode, lambdaSyntaxNode.Error);
-}
-else
-{
-    Log.Information($"Result - {lambdaSyntaxNode.Node}");
-    var lambdaSyntaxTree = new LambdaSyntaxTree(lambdaSyntaxNode.Node);
-    var visualize = LambdaSyntaxTreeVisualization.Visualize(lambdaSyntaxTree);
-    Log.Information($"Tree:\n{visualize}");
-
-    LambdaSemanticTree lambdaSemanticTree = new SemanticParser().Parse(lambdaSyntaxTree);
-    LambdaSemanticTree semanticTree = new LambdaSemanticTreeRenamer().Rename(lambdaSemanticTree, FindArgument(lambdaSemanticTree.Root), "z");
-
-    Log.Information("Diff:");
-    Log.Information(lambdaSyntaxNode.Node.ToString());
-    Log.Information(semanticTree.Syntax.Root.ToString());
-    return;
-}
-return;
-
-ArgumentLambdaSemanticNode? FindArgument(ExpressionLambdaSemanticNode lambdaSemanticNode)
-{
-    if (lambdaSemanticNode is ArgumentLambdaSemanticNode argumentLambdaNode)
-        return argumentLambdaNode;
-
-    foreach (var child in lambdaSemanticNode.GetChildren())
+    var λfΛxFFXSqr = "(((λf . (λx . (f (f x)))) sqr) a)";
+    var sourceCode = λfΛxFFXSqr;
+    var lambdaSyntaxNode = LambdaSyntaxTreeParser.Parse(sourceCode);
+    if (lambdaSyntaxNode.HasError)
     {
-        ArgumentLambdaSemanticNode? argumentLambdaSemanticNode = FindArgument(child);
-        if (argumentLambdaSemanticNode is not null)
-            return argumentLambdaSemanticNode;
+        SyntaxWalkerLogger.LogIt(sourceCode, lambdaSyntaxNode.Error);
+    }
+    else
+    {
+        Log.Information($"Result - {lambdaSyntaxNode.Node}");
+        var lambdaSyntaxTree = new LambdaSyntaxTree(lambdaSyntaxNode.Node);
+
+        LambdaSemanticTree lambdaSemanticTree = new SemanticParser().Parse(lambdaSyntaxTree);
+        LambdaSemanticTree semanticTree = new LambdaSemanticTreeAlphaReducing().Rename(lambdaSemanticTree, FindArgument(lambdaSemanticTree.Root), "z");
+
+        Log.Information("Diff:");
+        Log.Information(lambdaSyntaxNode.Node.ToString());
+        Log.Information(semanticTree.Syntax.Root.ToString());
     }
 
-    return null;
+    ArgumentLambdaSemanticNode? FindArgument(ExpressionLambdaSemanticNode lambdaSemanticNode)
+    {
+        if (lambdaSemanticNode is ArgumentLambdaSemanticNode argumentLambdaNode)
+            return argumentLambdaNode;
+
+        foreach (var child in lambdaSemanticNode.GetChildren())
+        {
+            ArgumentLambdaSemanticNode? argumentLambdaSemanticNode = FindArgument(child);
+            if (argumentLambdaSemanticNode is not null)
+                return argumentLambdaSemanticNode;
+        }
+
+        return null;
+    }
+}
+
+void BetaReduction()
+{
+    var orTrueFalse = "λp.λq.(p p q)(λx.λy.x)(λx.λy.y)";
+    var sourceCode = orTrueFalse;
+    var lambdaSyntaxNode = LambdaSyntaxTreeParser.Parse(sourceCode);
+    if (lambdaSyntaxNode.HasError)
+    {
+        SyntaxWalkerLogger.LogIt(sourceCode, lambdaSyntaxNode.Error);
+    }
+    else
+    {
+        Log.Information($"Result - {lambdaSyntaxNode.Node}");
+        var lambdaSyntaxTree = new LambdaSyntaxTree(lambdaSyntaxNode.Node);
+        var visualize = LambdaSyntaxTreeVisualization.Visualize(lambdaSyntaxTree);
+        Log.Information($"Tree:\n{visualize}");
+
+        LambdaSemanticTree lambdaSemanticTree = new SemanticParser().Parse(lambdaSyntaxTree);
+        Log.Information("Diff:");
+        Log.Information(lambdaSyntaxNode.Node.ToString());
+        return;
+    }
+    return;
 }

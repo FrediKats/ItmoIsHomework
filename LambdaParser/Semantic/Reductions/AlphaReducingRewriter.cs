@@ -2,14 +2,14 @@
 using LambdaParser.Syntax;
 using LambdaParser.Syntax.Nodes;
 
-namespace LambdaParser.Semantic;
+namespace LambdaParser.Semantic.Reductions;
 
-public class AlphaReducing : LambdaSyntaxTreeRewriter
+public class AlphaReducingRewriter : LambdaSyntaxTreeRewriter
 {
     private readonly ArgumentLambdaSemanticNode _argumentLambda;
     private string _newName;
 
-    public AlphaReducing(ArgumentLambdaSemanticNode argumentLambda, string newName)
+    public AlphaReducingRewriter(ArgumentLambdaSemanticNode argumentLambda, string newName)
     {
         _argumentLambda = argumentLambda;
         _newName = newName;
@@ -25,15 +25,4 @@ public class AlphaReducing : LambdaSyntaxTreeRewriter
 
         return base.Visit(letterLambdaSyntaxNode);
     }
-}
-
-public class LambdaSemanticTreeRenamer
-{
-    public LambdaSemanticTree Rename(LambdaSemanticTree tree, ArgumentLambdaSemanticNode argument, string newName)
-    {
-        var alphaReducing = new AlphaReducing(argument, newName);
-        LambdaSyntaxTree lambdaSyntaxTree = alphaReducing.Visit(tree.Syntax);
-        return new SemanticParser().Parse(lambdaSyntaxTree);
-    }
-
 }
