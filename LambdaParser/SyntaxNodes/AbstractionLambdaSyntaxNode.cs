@@ -13,6 +13,9 @@ public class AbstractionLambdaSyntaxNode : ExpressionLambdaSyntaxNode
     {
         Argument = argument;
         Body = body;
+
+        Argument.SetParent(this);
+        Body.SetParent(this);
     }
 
     public override ImmutableArray<LambdaSyntaxNode> GetChildren()

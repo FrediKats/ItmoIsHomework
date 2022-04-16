@@ -10,6 +10,8 @@ public class ParenthesizedSyntaxNode : ExpressionLambdaSyntaxNode
     public ParenthesizedSyntaxNode(NodeLocation location, ExpressionLambdaSyntaxNode expression) : base(location)
     {
         Expression = expression;
+
+        Expression.SetParent(this);
     }
 
     public override ImmutableArray<LambdaSyntaxNode> GetChildren()

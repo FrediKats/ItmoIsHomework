@@ -13,6 +13,12 @@ public class ApplicationSyntaxNode : ExpressionLambdaSyntaxNode
     {
         Function = function;
         Arguments = arguments;
+
+        Function.SetParent(this);
+        foreach (ExpressionLambdaSyntaxNode argument in Arguments)
+        {
+            argument.SetParent(this);
+        }
     }
 
     public override ImmutableArray<LambdaSyntaxNode> GetChildren()
