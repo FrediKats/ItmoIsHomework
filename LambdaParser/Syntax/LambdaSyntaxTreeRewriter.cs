@@ -4,44 +4,45 @@ namespace LambdaParser.Syntax;
 
 public abstract class LambdaSyntaxTreeRewriter
 {
-    public LambdaSyntaxTree Visit(LambdaSyntaxTree tree)
+    public LambdaSyntaxTree Visit(LambdaSyntaxNode node)
     {
-        return new LambdaSyntaxTree(VisitInternal(tree.Root));
+        return new LambdaSyntaxTree(VisitInternal(node));
     }
 
-    private ExpressionLambdaSyntaxNode VisitInternal(LambdaSyntaxNode node)
+    protected ExpressionLambdaSyntaxNode VisitInternal(LambdaSyntaxNode node)
     {
         return node switch
         {
             ApplicationSyntaxNode applicationSyntaxNode => Visit(applicationSyntaxNode),
             AbstractionLambdaSyntaxNode abstractionLambdaSyntaxNode => Visit(abstractionLambdaSyntaxNode),
-            LetterLambdaSyntaxNode letterLambdaSyntaxNode => Visit(letterLambdaSyntaxNode),
+            ArgumentLambdaSyntaxNode letterLambdaSyntaxNode => Visit(letterLambdaSyntaxNode),
+            ParameterLambdaSyntaxNode parameterLambdaSyntaxNode => Visit(parameterLambdaSyntaxNode),
             ParenthesizedSyntaxNode parenthesizedSyntaxNode => Visit(parenthesizedSyntaxNode),
             ExpressionLambdaSyntaxNode expressionLambdaSyntaxNode => Visit(expressionLambdaSyntaxNode),
             _ => throw new ArgumentOutOfRangeException(nameof(node))
         };
     }
 
-    protected virtual ApplicationSyntaxNode Visit(ApplicationSyntaxNode applicationSyntaxNode)
+    protected virtual ExpressionLambdaSyntaxNode Visit(ApplicationSyntaxNode applicationSyntaxNode)
     {
         ExpressionLambdaSyntaxNode function = VisitInternal(applicationSyntaxNode.Function);
         ExpressionLambdaSyntaxNode argument = VisitInternal(applicationSyntaxNode.Argument);
         return new ApplicationSyntaxNode(applicationSyntaxNode.Location, function, argument);
     }
 
-    protected virtual AbstractionLambdaSyntaxNode Visit(AbstractionLambdaSyntaxNode abstractionLambdaSyntaxNode)
+    protected virtual ExpressionLambdaSyntaxNode Visit(AbstractionLambdaSyntaxNode abstractionLambdaSyntaxNode)
     {
-        LetterLambdaSyntaxNode argument = Visit(abstractionLambdaSyntaxNode.Argument);
+        ArgumentLambdaSyntaxNode argument = Visit(abstractionLambdaSyntaxNode.Argument);
         ExpressionLambdaSyntaxNode body = VisitInternal(abstractionLambdaSyntaxNode.Body);
         return new AbstractionLambdaSyntaxNode(abstractionLambdaSyntaxNode.Location, argument, body);
     }
 
-    protected virtual LetterLambdaSyntaxNode Visit(LetterLambdaSyntaxNode letterLambdaSyntaxNode)
+    protected virtual ArgumentLambdaSyntaxNode Visit(ArgumentLambdaSyntaxNode argumentLambdaSyntaxNode)
     {
-        return letterLambdaSyntaxNode;
+        return argumentLambdaSyntaxNode;
     }
 
-    protected virtual ParenthesizedSyntaxNode Visit(ParenthesizedSyntaxNode parenthesizedSyntaxNode)
+    protected virtual ExpressionLambdaSyntaxNode Visit(ParenthesizedSyntaxNode parenthesizedSyntaxNode)
     {
         return new ParenthesizedSyntaxNode(parenthesizedSyntaxNode.Location, VisitInternal(parenthesizedSyntaxNode.Expression));
     }
@@ -49,5 +50,10 @@ public abstract class LambdaSyntaxTreeRewriter
     protected virtual ExpressionLambdaSyntaxNode Visit(ExpressionLambdaSyntaxNode expressionLambdaSyntaxNode)
     {
         return expressionLambdaSyntaxNode;
+    }
+
+    protected virtual ExpressionLambdaSyntaxNode Visit(ParameterLambdaSyntaxNode parameterLambdaSyntaxNode)
+    {
+        return VisitInternal(parameterLambdaSyntaxNode);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace LambdaParser.Syntax.Nodes;
 
-public class LetterLambdaSyntaxNode : ExpressionLambdaSyntaxNode
+public class ArgumentLambdaSyntaxNode : ExpressionLambdaSyntaxNode
 {
     public string Value { get; }
 
-    public LetterLambdaSyntaxNode(NodeLocation location, string value) : base(location)
+    public ArgumentLambdaSyntaxNode(NodeLocation location, string value) : base(location)
     {
         Value = value;
     }

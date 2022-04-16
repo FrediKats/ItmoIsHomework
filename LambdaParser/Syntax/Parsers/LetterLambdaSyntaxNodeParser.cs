@@ -5,11 +5,11 @@ using Microsoft.Extensions.Primitives;
 
 namespace LambdaParser.Syntax.Parsers;
 
-public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
+public class LetterLambdaSyntaxNodeParser : INodeParser<ArgumentLambdaSyntaxNode>
 {
     public static LetterLambdaSyntaxNodeParser Instance = new LetterLambdaSyntaxNodeParser();
 
-    public IParseResult<LetterLambdaSyntaxNode> Parse(StringSegment expression)
+    public IParseResult<ArgumentLambdaSyntaxNode> Parse(StringSegment expression)
     {
         expression = expression.Trim();
         for (var index = 0; index < expression.Length; index++)
@@ -18,15 +18,15 @@ public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
             if (!char.IsLetter(symbol))
             {
                 var nodeLocation = new NodeLocation(new SourceCodeIndex(expression) + index);
-                return ParseResult.Fail<LetterLambdaSyntaxNode>("Found non letter symbol while letter is expected", nodeLocation);
+                return ParseResult.Fail<ArgumentLambdaSyntaxNode>("Found non letter symbol while letter is expected", nodeLocation);
             }
         }
 
-        var result = new LetterLambdaSyntaxNode(NodeLocation.FromSegment(expression), expression.Value);
-        return new ParseResult<LetterLambdaSyntaxNode>(result);
+        var result = new ArgumentLambdaSyntaxNode(NodeLocation.FromSegment(expression), expression.Value);
+        return new ParseResult<ArgumentLambdaSyntaxNode>(result);
     }
 
-    public static IParseResult<LetterLambdaSyntaxNode> CreateMaxSequence(StringSegment expression)
+    public static IParseResult<ArgumentLambdaSyntaxNode> CreateMaxSequence(StringSegment expression)
     {
         int i = 0;
         //TODO: remove
@@ -40,7 +40,7 @@ public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
             throw new LambdaParseException($"Cannot create Letter term at {expression.Offset}");
 
         var nodeLocation = NodeLocation.FromSegment(expression, i - 1);
-        var lambdaSyntaxNode = new LetterLambdaSyntaxNode(nodeLocation, expression.Substring(0, i));
-        return new ParseResult<LetterLambdaSyntaxNode>(lambdaSyntaxNode);
+        var lambdaSyntaxNode = new ArgumentLambdaSyntaxNode(nodeLocation, expression.Substring(0, i));
+        return new ParseResult<ArgumentLambdaSyntaxNode>(lambdaSyntaxNode);
     }
 }

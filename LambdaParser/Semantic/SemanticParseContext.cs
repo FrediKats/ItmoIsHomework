@@ -28,7 +28,7 @@ public class SemanticParseContext
         _parameters.Remove(argument.Syntax.Value);
     }
 
-    public bool TryResolve(LetterLambdaSyntaxNode parameter, out ArgumentLambdaSemanticNode? argument)
+    public bool TryResolve(ParameterLambdaSyntaxNode parameter, out ArgumentLambdaSemanticNode? argument)
     {
         return _parameters.TryGetValue(parameter.Value, out argument);
     }

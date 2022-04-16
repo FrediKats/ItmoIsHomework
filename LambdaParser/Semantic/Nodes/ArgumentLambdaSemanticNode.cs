@@ -6,13 +6,19 @@ public class ArgumentLambdaSemanticNode : ExpressionLambdaSemanticNode
 {
     private readonly List<ParameterLambdaSemanticNode> _parameters;
 
-    public LetterLambdaSyntaxNode Syntax { get; }
+    public ArgumentLambdaSyntaxNode Syntax { get; }
+
     public IReadOnlyCollection<ParameterLambdaSemanticNode> DependentParameters => _parameters;
 
-    public ArgumentLambdaSemanticNode(LetterLambdaSyntaxNode syntax)
+    public ArgumentLambdaSemanticNode(ArgumentLambdaSyntaxNode syntax)
     {
         Syntax = syntax;
         _parameters = new List<ParameterLambdaSemanticNode>();
+    }
+
+    public override ExpressionLambdaSyntaxNode GetSyntax()
+    {
+        return Syntax;
     }
 
     public void AddParameter(ParameterLambdaSemanticNode parameter)

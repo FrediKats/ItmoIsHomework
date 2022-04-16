@@ -28,7 +28,7 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
             return ParseResult.Fail<AbstractionLambdaSyntaxNode>((string) "Cannot find '.' char at AbstractionLambdaSyntaxNode start.", nodeLocation);
         }
 
-        IParseResult<LetterLambdaSyntaxNode> argument = ParseArgument(expression.Subsegment(1, dotIndex - 1));
+        IParseResult<ArgumentLambdaSyntaxNode> argument = ParseArgument(expression.Subsegment(1, dotIndex - 1));
         if (argument.HasError)
         {
             return argument.As<AbstractionLambdaSyntaxNode>();
@@ -45,9 +45,9 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
         return new ParseResult<AbstractionLambdaSyntaxNode>(result);
     }
 
-    public IParseResult<LetterLambdaSyntaxNode> ParseArgument(StringSegment expression)
+    public IParseResult<ArgumentLambdaSyntaxNode> ParseArgument(StringSegment expression)
     {
-        IParseResult<LetterLambdaSyntaxNode> argument = LetterLambdaSyntaxNodeParser.Instance.Parse(expression);
+        IParseResult<ArgumentLambdaSyntaxNode> argument = LetterLambdaSyntaxNodeParser.Instance.Parse(expression);
         if (!argument.HasError)
             Log.Verbose($"Parse lambda argument: {argument.Node} at {argument.Node.Location}");
 

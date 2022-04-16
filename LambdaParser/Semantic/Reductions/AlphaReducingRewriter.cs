@@ -15,14 +15,23 @@ public class AlphaReducingRewriter : LambdaSyntaxTreeRewriter
         _newName = newName;
     }
 
-    protected override LetterLambdaSyntaxNode Visit(LetterLambdaSyntaxNode letterLambdaSyntaxNode)
+    protected override ExpressionLambdaSyntaxNode Visit(ParameterLambdaSyntaxNode parameterLambdaSyntaxNode)
     {
-        if (_argumentLambda.DependentParameters.Any(dp => dp.Syntax == letterLambdaSyntaxNode)
-            || _argumentLambda.Syntax == letterLambdaSyntaxNode)
+        if (_argumentLambda.DependentParameters.Any(dp => dp.Syntax == parameterLambdaSyntaxNode))
         {
-            return new LetterLambdaSyntaxNode(letterLambdaSyntaxNode.Location, _newName);
+            return new ParameterLambdaSyntaxNode(parameterLambdaSyntaxNode.Location, _newName);
         }
 
-        return base.Visit(letterLambdaSyntaxNode);
+        return base.Visit(parameterLambdaSyntaxNode);
+    }
+
+    protected override ArgumentLambdaSyntaxNode Visit(ArgumentLambdaSyntaxNode argumentLambdaSyntaxNode)
+    {
+        if (_argumentLambda.Syntax == argumentLambdaSyntaxNode)
+        {
+            return new ArgumentLambdaSyntaxNode(argumentLambdaSyntaxNode.Location, _newName);
+        }
+
+        return base.Visit(argumentLambdaSyntaxNode);
     }
 }

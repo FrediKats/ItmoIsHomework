@@ -29,15 +29,19 @@ public class SemanticParser
                 context.UnRegisterParameter(argumentLambdaSemanticNode);
                 return new AbstractionLambdaSemanticNode(abstractionLambdaSyntaxNode, argumentLambdaSemanticNode, expressionLambdaSemanticNode);
 
-            case LetterLambdaSyntaxNode letterLambdaSyntaxNode:
-                context.TryResolve(letterLambdaSyntaxNode, out ArgumentLambdaSemanticNode? result);
-                var parameterLambdaSemanticNode = new ParameterLambdaSemanticNode(letterLambdaSyntaxNode, result);
+            case ArgumentLambdaSyntaxNode letterLambdaSyntaxNode:
+                return new ArgumentLambdaSemanticNode(letterLambdaSyntaxNode);
+
+            case ParenthesizedSyntaxNode parenthesizedSyntaxNode:
+                return Parse(parenthesizedSyntaxNode.Expression, context);
+
+            case ParameterLambdaSyntaxNode parameterLambdaSyntaxNode:
+                context.TryResolve(parameterLambdaSyntaxNode, out ArgumentLambdaSemanticNode? result);
+                var parameterLambdaSemanticNode = new ParameterLambdaSemanticNode(parameterLambdaSyntaxNode, result);
                 if (result is not null)
                     result.AddParameter(parameterLambdaSemanticNode);
                 return parameterLambdaSemanticNode;
 
-            case ParenthesizedSyntaxNode parenthesizedSyntaxNode:
-                return Parse(parenthesizedSyntaxNode.Expression, context);
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(node));

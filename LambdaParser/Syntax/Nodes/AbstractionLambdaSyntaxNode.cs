@@ -6,10 +6,10 @@ namespace LambdaParser.Syntax.Nodes;
 
 public class AbstractionLambdaSyntaxNode : ExpressionLambdaSyntaxNode
 {
-    public LetterLambdaSyntaxNode Argument { get; }
+    public ArgumentLambdaSyntaxNode Argument { get; }
     public ExpressionLambdaSyntaxNode Body { get; }
 
-    public AbstractionLambdaSyntaxNode(NodeLocation location, LetterLambdaSyntaxNode argument, ExpressionLambdaSyntaxNode body) : base(location)
+    public AbstractionLambdaSyntaxNode(NodeLocation location, ArgumentLambdaSyntaxNode argument, ExpressionLambdaSyntaxNode body) : base(location)
     {
         Argument = argument;
         Body = body;

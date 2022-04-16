@@ -20,7 +20,7 @@ public class LambdaSyntaxNodeParser : INodeParser<ExpressionLambdaSyntaxNode>
             //case ' ':
             //    return Parse(expression.Subsegment(1));
             default:
-                return LetterLambdaSyntaxNodeParser.CreateMaxSequence(expression);
+                return ParameterLambdaSyntaxNodeParser.Instance.Parse(expression);
         }
     }
 }

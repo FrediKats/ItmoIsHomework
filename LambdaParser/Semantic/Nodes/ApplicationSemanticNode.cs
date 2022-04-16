@@ -17,6 +17,11 @@ public class ApplicationSemanticNode : ExpressionLambdaSemanticNode
         Argument = argument;
     }
 
+    public override ExpressionLambdaSyntaxNode GetSyntax()
+    {
+        return Syntax;
+    }
+
     public override ImmutableArray<ExpressionLambdaSemanticNode> GetChildren()
     {
         return ImmutableArray<ExpressionLambdaSemanticNode>.Empty
