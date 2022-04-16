@@ -1,7 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Collections.Immutable;
-
 const char Lambda = 'λ';
 
 Console.WriteLine("Hello, World!");
@@ -12,85 +10,36 @@ var λfΛxFFXSqr = "(((λf . (λx . (f (f x)))) sqr) 3)";
 
 LambdaSyntaxNode Parse(Span<char> expression)
 {
-    switch (expression[0])
+    LambdaSyntaxNode result = null;
+    var index = 0;
+
+    switch (expression[index])
     {
         case Lambda:
             throw new NotImplementedException();
         case '(':
-            throw new NotImplementedException();
+            LambdaSyntaxNode innerStatement = Parse(expression.Slice(index + 1));
+            index = innerStatement.Location.End + 1;
+
+            //TODO:rework
+            result = innerStatement;
+            break;
+
         case ')':
-            throw new NotImplementedException();
+            if (expression.Length == index)
+                return result;
+
+            throw new NotImplementedException("Do not currently support brackets inside term");
     }
 
     throw new NotImplementedException();
 }
 
-public class NodeLocation
-{
-    public int Start { get; }
-    public int End { get; }
-    public int Length => End - Start + 1;
-
-    public NodeLocation(int start, int end)
-    {
-        if (start < end)
-            throw new ArgumentException($"Location end is lower that start. [{start}..{end}]");
-
-        Start = start;
-        End = end;
-    }
-}
-
-public abstract class LambdaSyntaxNode
-{
-    public NodeLocation Location { get; }
-
-    protected LambdaSyntaxNode(NodeLocation location)
-    {
-        Location = location;
-    }
-}
-
-public abstract class ExpressionLambdaSyntaxNode : LambdaSyntaxNode
-{
-    protected ExpressionLambdaSyntaxNode(NodeLocation location) : base(location)
-    {
-    }
-}
-
-public class LetterLambdaSyntaxNode : ExpressionLambdaSyntaxNode
-{
-    public string Value { get; }
-
-    public LetterLambdaSyntaxNode(NodeLocation location, string value) : base(location)
-    {
-        Value = value;
-    }
-}
-
-public class FuncInvokeSyntaxNode : ExpressionLambdaSyntaxNode
-{
-    public LetterLambdaSyntaxNode FunctionName { get; }
-    public ImmutableArray<ExpressionLambdaSyntaxNode> Arguments { get; }
-
-    public FuncInvokeSyntaxNode(NodeLocation location, LetterLambdaSyntaxNode functionName, ImmutableArray<ExpressionLambdaSyntaxNode> arguments) : base(location)
-    {
-        FunctionName = functionName;
-        Arguments = arguments;
-    }
-}
-
-public class AbstractionLambdaSyntaxNode : LambdaSyntaxNode
-{
-    public LetterLambdaSyntaxNode Argument { get; }
-    public LambdaSyntaxNode Body { get; }
-
-    public AbstractionLambdaSyntaxNode(NodeLocation location, LetterLambdaSyntaxNode argument, LambdaSyntaxNode body) : base(location)
-    {
-        Argument = argument;
-        Body = body;
-    }
-}
+//AbstractionLambdaSyntaxNode ParseAbstractionLambdaSyntaxNode(Span<char> expression)
+//{
+//    if (expression.Length == 0 || expression[0] != Lambda)
+//        throw new Exception($"Unexpected char at {expression.}")
+//}
 
 public class LambdaSyntaxTree
 {
@@ -99,5 +48,6 @@ public class LambdaSyntaxTree
     public LambdaSyntaxTree(LambdaSyntaxNode root)
     {
         Root = root;
+        
     }
 }
