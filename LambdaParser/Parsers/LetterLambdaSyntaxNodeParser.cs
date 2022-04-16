@@ -4,18 +4,23 @@ using Microsoft.Extensions.Primitives;
 
 namespace LambdaParser.Parsers;
 
-public class LetterLambdaSyntaxNodeParser
+public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
 {
-    public static LetterLambdaSyntaxNode Parse(StringSegment expression)
+    public static LetterLambdaSyntaxNodeParser Instance = new LetterLambdaSyntaxNodeParser();
+
+    public IParseResult<LetterLambdaSyntaxNode> Parse(StringSegment expression)
     {
         for (var index = 0; index < expression.ToString().Length; index++)
         {
-            var symbol = expression.ToString()[index];
-            if (!Char.IsLetter(symbol))
-                throw new LambdaParseException($"Expect char symbols at {expression.Offset + index}");
+            var symbol = expression[index];
+            if (!char.IsLetter(symbol))
+            {
+                return ParseResult.Fail<LetterLambdaSyntaxNode>("Found non letter symbol while letter is expected", new NodeLocation(expression.Offset + index));
+            }
         }
 
-        return new LetterLambdaSyntaxNode(NodeLocation.FromSegment(expression), expression.Value);
+        var result = new LetterLambdaSyntaxNode(NodeLocation.FromSegment(expression), expression.Value);
+        return new ParseResult<LetterLambdaSyntaxNode>(result);
     }
 
     public static IParseResult<LetterLambdaSyntaxNode> CreateMaxSequence(StringSegment expression)

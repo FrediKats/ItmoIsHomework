@@ -31,13 +31,27 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
         if (endIndex == -1)
             return new ParseResult<AbstractionLambdaSyntaxNode>($"Expect char '{Constants.EndBracket}' in AbstractionLambdaSyntaxNode start.", new NodeLocation(expression.Offset));
 
-        LetterLambdaSyntaxNode letterLambdaSyntaxNode = LetterLambdaSyntaxNodeParser.Parse(expression.Subsegment(1, dotIndex - 1));
-        Log.Verbose($"Parse lambda argument: {letterLambdaSyntaxNode} at {letterLambdaSyntaxNode.Location}");
+        IParseResult<LetterLambdaSyntaxNode> argument = LetterLambdaSyntaxNodeParser.Instance.Parse(expression.Subsegment(1, dotIndex - 1));
+        if (argument.HasError)
+        {
+            Log.Error(argument.Error.ToString());
+            return argument.As<AbstractionLambdaSyntaxNode>();
+        }
+
+        LetterLambdaSyntaxNode argumentNode = argument.Node;
+        Log.Verbose($"Parse lambda argument: {argument} at {argumentNode.Location}");
 
         IParseResult<LambdaSyntaxNode> body = LambdaSyntaxNodeParser.Instance.Parse(expression.Subsegment(dotIndex + 1, endIndex - dotIndex + 1));
-        Log.Verbose($"Parse lambda body: {body.Node} at {body.Node.Location}");
+        if (body.HasError)
+        {
+            Log.Error(body.Error.ToString());
+            return body.As<AbstractionLambdaSyntaxNode>();
+        }
 
-        var result = new AbstractionLambdaSyntaxNode(new NodeLocation(expression.Offset, expression.Offset + endIndex), letterLambdaSyntaxNode, body.Node);
+        LambdaSyntaxNode bodyNode = body.Node;
+        Log.Verbose($"Parse lambda body: {bodyNode} at {bodyNode.Location}");
+
+        var result = new AbstractionLambdaSyntaxNode(new NodeLocation(expression.Offset, expression.Offset + endIndex), argumentNode, bodyNode);
         return new ParseResult<AbstractionLambdaSyntaxNode>(result);
     }
 }

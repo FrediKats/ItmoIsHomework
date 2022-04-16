@@ -1,8 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.Text;
+﻿using System.Text;
+using LambdaParser.ConsoleIntegration;
 using LambdaParser.Parsers;
-using Microsoft.Extensions.Primitives;
 using Serilog;
 
 var simpleTerm = "(λn.(n))";
@@ -21,9 +19,12 @@ Log.Logger = new LoggerConfiguration()
 
 Console.OutputEncoding = Encoding.Unicode;
 
-var lambdaSyntaxNode = LambdaSyntaxTreeParser.Parse(termWIthApplication);
+var sourceCode = termWIthApplication2;
+var lambdaSyntaxNode = LambdaSyntaxTreeParser.Parse(sourceCode);
 if (lambdaSyntaxNode.HasError)
-    Log.Error(lambdaSyntaxNode.Error.Message);
+{
+    ConsoleErrorHandler.Handle(sourceCode, lambdaSyntaxNode.Error);
+}
 else
 {
     Log.Information($"Result - {lambdaSyntaxNode.Node}");

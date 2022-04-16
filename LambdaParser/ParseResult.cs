@@ -8,9 +8,22 @@ public interface IParseResult<out T> where T : LambdaSyntaxNode
     T Node { get; }
     bool HasError { get; }
     ParserError Error { get; }
+
+    IParseResult<TOther> As<TOther>() where TOther : LambdaSyntaxNode
+    {
+        if (!HasError)
+            throw new LambdaParseException("Cannot cast non-error parse result.");
+        return ParseResult.Fail<TOther>(Error);
+    }
 }
 
-public record ParseResult<T> : IParseResult<T> where T : LambdaSyntaxNode
+public class ParseResult
+{
+    public static ParseResult<T> Fail<T>(ParserError error) where T : LambdaSyntaxNode => new ParseResult<T>(error);
+    public static ParseResult<T> Fail<T>(string error, NodeLocation nodeLocation) where T : LambdaSyntaxNode => new ParseResult<T>(new ParserError(error, nodeLocation));
+}
+
+public class ParseResult<T> : IParseResult<T> where T : LambdaSyntaxNode
 {
     private readonly T? _node;
     private readonly ParserError? _errorMessage;
