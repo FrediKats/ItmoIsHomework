@@ -11,7 +11,8 @@ public class LetterLambdaSyntaxNodeParser : INodeParser<LetterLambdaSyntaxNode>
 
     public IParseResult<LetterLambdaSyntaxNode> Parse(StringSegment expression)
     {
-        for (var index = 0; index < expression.ToString().Length; index++)
+        expression = expression.Trim();
+        for (var index = 0; index < expression.Length; index++)
         {
             var symbol = expression[index];
             if (!char.IsLetter(symbol))

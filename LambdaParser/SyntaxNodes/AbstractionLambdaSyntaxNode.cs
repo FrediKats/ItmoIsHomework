@@ -24,6 +24,6 @@ public class AbstractionLambdaSyntaxNode : ExpressionLambdaSyntaxNode
 
     public override string ToString()
     {
-        return $"{Constants.Lambda}{Argument}.({Body})";
+        return $"{Constants.Lambda}{Argument}.{Body}";
     }
 }

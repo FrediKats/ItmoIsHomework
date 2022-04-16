@@ -16,6 +16,8 @@ public class LambdaSyntaxNodeParser : INodeParser<ExpressionLambdaSyntaxNode>
                 return AbstractionLambdaSyntaxNodeParser.Instance.Parse(expression);
             case Constants.StartBracket:
                 return ParenthesizedSyntaxNodeParser.Instance.Parse(expression);
+            //case ' ':
+            //    return Parse(expression.Subsegment(1));
             default:
                 return LetterLambdaSyntaxNodeParser.CreateMaxSequence(expression);
         }
