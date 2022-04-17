@@ -4,7 +4,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace LambdaParser.Syntax.Parsers;
 
-public interface INodeParser<T> where T : LambdaSyntaxNode
+public interface ILambdaSyntaxNodeParser<T> where T : LambdaSyntaxNode
 {
     IParseResult<T> Parse(StringSegment expression);
 }

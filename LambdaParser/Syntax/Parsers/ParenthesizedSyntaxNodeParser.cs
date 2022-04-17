@@ -1,13 +1,12 @@
-﻿using LambdaParser.Syntax.Indexing;
+﻿using LambdaParser.Core.Tools;
 using LambdaParser.Syntax.Nodes;
 using LambdaParser.Syntax.Tools;
-using LambdaParser.Tools;
 using Microsoft.Extensions.Primitives;
 using Serilog;
 
 namespace LambdaParser.Syntax.Parsers;
 
-public class ParenthesizedSyntaxNodeParser : INodeParser<ParenthesizedSyntaxNode>
+public class ParenthesizedSyntaxNodeParser : ILambdaSyntaxNodeParser<ParenthesizedSyntaxNode>
 {
     public static ParenthesizedSyntaxNodeParser Instance { get; } = new ParenthesizedSyntaxNodeParser();
 

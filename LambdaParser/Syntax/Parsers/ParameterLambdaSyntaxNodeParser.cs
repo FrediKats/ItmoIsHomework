@@ -1,11 +1,11 @@
-﻿using LambdaParser.Syntax.Indexing;
+﻿using LambdaParser.Core.Tools;
 using LambdaParser.Syntax.Nodes;
 using LambdaParser.Syntax.Tools;
 using Microsoft.Extensions.Primitives;
 
 namespace LambdaParser.Syntax.Parsers;
 
-public class ParameterLambdaSyntaxNodeParser : INodeParser<ParameterLambdaSyntaxNode>
+public class ParameterLambdaSyntaxNodeParser : ILambdaSyntaxNodeParser<ParameterLambdaSyntaxNode>
 {
     public static ParameterLambdaSyntaxNodeParser Instance = new ParameterLambdaSyntaxNodeParser();
 

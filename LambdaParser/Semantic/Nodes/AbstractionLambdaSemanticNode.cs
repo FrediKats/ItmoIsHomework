@@ -1,6 +1,6 @@
 ﻿using LambdaParser.Syntax.Nodes;
-using LambdaParser.Tools;
 using System.Collections.Immutable;
+using LambdaParser.Core.Tools;
 
 namespace LambdaParser.Semantic.Nodes;
 

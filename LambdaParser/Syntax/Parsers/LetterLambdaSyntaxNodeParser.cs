@@ -1,13 +1,13 @@
-﻿using LambdaParser.Syntax.Indexing;
+﻿using LambdaParser.Core.Tools;
 using LambdaParser.Syntax.Nodes;
 using LambdaParser.Syntax.Tools;
 using Microsoft.Extensions.Primitives;
 
 namespace LambdaParser.Syntax.Parsers;
 
-public class LetterLambdaSyntaxNodeParser : INodeParser<ArgumentLambdaSyntaxNode>
+public class LetterLambdaSyntaxNodeParser : ILambdaSyntaxNodeParser<ArgumentLambdaSyntaxNode>
 {
-    public static LetterLambdaSyntaxNodeParser Instance = new LetterLambdaSyntaxNodeParser();
+    public static LetterLambdaSyntaxNodeParser Instance { get; } = new LetterLambdaSyntaxNodeParser();
 
     public IParseResult<ArgumentLambdaSyntaxNode> Parse(StringSegment expression)
     {

@@ -1,8 +1,9 @@
 ﻿using System.Text;
+using LambdaParser.Core.Tools;
+using LambdaParser.Syntax;
 using LambdaParser.Syntax.Nodes;
-using LambdaParser.Tools;
 
-namespace LambdaParser.Syntax.Visualization;
+namespace LambdaParser.Visualization;
 
 public class LambdaSyntaxTreeVisualization
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Primitives;
 
-namespace LambdaParser.Syntax.Indexing;
+namespace LambdaParser.Core.Tools;
 
 public readonly record struct SourceCodeIndex(int Value)
 {

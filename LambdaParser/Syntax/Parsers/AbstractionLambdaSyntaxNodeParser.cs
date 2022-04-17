@@ -1,13 +1,12 @@
-﻿using LambdaParser.Syntax.Indexing;
+﻿using LambdaParser.Core.Tools;
 using LambdaParser.Syntax.Nodes;
 using LambdaParser.Syntax.Tools;
-using LambdaParser.Tools;
 using Microsoft.Extensions.Primitives;
 using Serilog;
 
 namespace LambdaParser.Syntax.Parsers;
 
-public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSyntaxNode>
+public class AbstractionLambdaSyntaxNodeParser : ILambdaSyntaxNodeParser<AbstractionLambdaSyntaxNode>
 {
     public static AbstractionLambdaSyntaxNodeParser Instance = new();
 
@@ -45,7 +44,7 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
         return new ParseResult<AbstractionLambdaSyntaxNode>(result);
     }
 
-    public IParseResult<ArgumentLambdaSyntaxNode> ParseArgument(StringSegment expression)
+    private IParseResult<ArgumentLambdaSyntaxNode> ParseArgument(StringSegment expression)
     {
         IParseResult<ArgumentLambdaSyntaxNode> argument = LetterLambdaSyntaxNodeParser.Instance.Parse(expression);
         if (!argument.HasError)
@@ -54,7 +53,7 @@ public class AbstractionLambdaSyntaxNodeParser : INodeParser<AbstractionLambdaSy
         return argument;
     }
 
-    public IParseResult<LambdaSyntaxNode> ParseBody(StringSegment expression)
+    private IParseResult<LambdaSyntaxNode> ParseBody(StringSegment expression)
     {
         IParseResult<LambdaSyntaxNode> body = LambdaSyntaxNodeParser.Instance.Parse(expression);
         if (body.HasError)

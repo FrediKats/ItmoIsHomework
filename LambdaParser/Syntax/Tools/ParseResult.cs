@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using LambdaParser.Syntax.Indexing;
+using LambdaParser.Core.Tools;
 using LambdaParser.Syntax.Nodes;
 
 namespace LambdaParser.Syntax.Tools;

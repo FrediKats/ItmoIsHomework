@@ -1,9 +1,8 @@
-﻿using LambdaParser.Syntax.Indexing;
+﻿using LambdaParser.Core.Tools;
 using LambdaParser.Syntax.Tools;
-using LambdaParser.Tools;
 using Serilog;
 
-namespace LambdaParser.Syntax.Visualization;
+namespace LambdaParser.Visualization;
 
 public static class SyntaxWalkerLogger
 {

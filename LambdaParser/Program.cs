@@ -4,7 +4,7 @@ using LambdaParser.Semantic.Nodes;
 using LambdaParser.Semantic.Reductions;
 using LambdaParser.Syntax;
 using LambdaParser.Syntax.Tools;
-using LambdaParser.Syntax.Visualization;
+using LambdaParser.Visualization;
 using Serilog;
 
 Console.OutputEncoding = Encoding.Unicode;

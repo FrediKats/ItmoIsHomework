@@ -1,4 +1,4 @@
-﻿using LambdaParser.Syntax.Indexing;
+﻿using LambdaParser.Core.Tools;
 
 namespace LambdaParser.Syntax.Tools;
 

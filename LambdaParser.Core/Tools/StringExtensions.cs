@@ -1,6 +1,6 @@
-﻿namespace LambdaParser.Tools;
+﻿namespace LambdaParser.Core.Tools;
 
-public class StringExtensions
+public static class StringExtensions
 {
     public static string FromChar(char c, int count)
     {

@@ -1,6 +1,6 @@
 ﻿using LambdaParser.Syntax.Nodes;
 
-namespace LambdaParser.Tools;
+namespace LambdaParser.Syntax;
 
 public static class SyntaxNodeExtensions
 {

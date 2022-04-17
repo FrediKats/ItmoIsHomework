@@ -1,7 +1,6 @@
 ﻿using LambdaParser.Semantic.Nodes;
 using LambdaParser.Syntax;
 using LambdaParser.Syntax.Nodes;
-using LambdaParser.Tools;
 
 namespace LambdaParser.Semantic.Reductions;
 

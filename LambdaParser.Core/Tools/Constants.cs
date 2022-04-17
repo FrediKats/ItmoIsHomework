@@ -1,4 +1,4 @@
-﻿namespace LambdaParser.Tools;
+﻿namespace LambdaParser.Core.Tools;
 
 public static class Constants
 {

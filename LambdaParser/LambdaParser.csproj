@@ -14,4 +14,8 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LambdaParser.Core\LambdaParser.Core.csproj" />
+  </ItemGroup>
+
 </Project>
