@@ -33,8 +33,9 @@ void AlphaReduction()
         var lambdaSyntaxTree = new LambdaSyntaxTree(lambdaSyntaxNode.Node);
 
         LambdaSemanticTree lambdaSemanticTree = new SemanticParser().Parse(lambdaSyntaxTree);
-        ArgumentLambdaSemanticNode argumentLambdaSemanticNode = LambdaSemanticTreeFinder.Find<ArgumentLambdaSemanticNode>(lambdaSemanticTree.Root, _ => true) ?? throw new LambdaParseException("Cannot find node");
-        LambdaSemanticTree semanticTree = new LambdaSemanticTreeReducing().AlphaReducing(lambdaSemanticTree, argumentLambdaSemanticNode, "z");
+        var alphaReducer = new AlphaReducer();
+        ArgumentLambdaSemanticNode argumentLambdaSemanticNode = alphaReducer.FindAcceptableNodes(lambdaSemanticTree).FirstOrDefault() ?? throw new LambdaParseException("Cannot find node");
+        LambdaSemanticTree semanticTree = alphaReducer.AlphaReducing(lambdaSemanticTree, argumentLambdaSemanticNode, "z");
 
         Log.Information("Diff:");
         Log.Information(lambdaSyntaxNode.Node.ToString());
@@ -58,10 +59,10 @@ void BetaReduction()
         var visualize = LambdaSyntaxTreeVisualization.Visualize(lambdaSyntaxTree);
         Log.Information($"Tree:\n{visualize}");
 
-        var lambdaSemanticTreeReducing = new LambdaSemanticTreeReducing();
+        var betaReducer = new BetaReducer();
         LambdaSemanticTree lambdaSemanticTree = new SemanticParser().Parse(lambdaSyntaxTree);
-        ApplicationSemanticNode argumentLambdaSemanticNode = LambdaSemanticTreeFinder.Find<ApplicationSemanticNode>(lambdaSemanticTree.Root, a => lambdaSemanticTreeReducing.IsCanBeReduced(a)) ?? throw new LambdaParseException("Cannot find node");
-        LambdaSemanticTree betaReduced = lambdaSemanticTreeReducing.BetaReducing(lambdaSemanticTree, argumentLambdaSemanticNode);
+        ApplicationSemanticNode argumentLambdaSemanticNode = betaReducer.FindAcceptableNodes(lambdaSemanticTree).FirstOrDefault() ?? throw new LambdaParseException("Cannot find node");
+        LambdaSemanticTree betaReduced = betaReducer.BetaReducing(lambdaSemanticTree, argumentLambdaSemanticNode);
         Log.Information("Diff:");
         Log.Information(lambdaSyntaxNode.Node.ToString());
         Log.Information(betaReduced.Syntax.Root.ToString());

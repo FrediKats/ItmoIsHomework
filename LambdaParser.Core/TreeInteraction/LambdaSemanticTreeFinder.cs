@@ -2,19 +2,25 @@
 
 namespace LambdaParser.Core.TreeInteraction;
 
-public class LambdaSemanticTreeFinder
+public static class LambdaSemanticTreeFinder
 {
-    public static T? Find<T>(ExpressionLambdaSemanticNode root, Func<T, bool> predicate) where T : ExpressionLambdaSemanticNode
+    public static IReadOnlyCollection<T> FindAll<T>(ExpressionLambdaSemanticNode root, Func<T, bool> predicate) where T : ExpressionLambdaSemanticNode
     {
-        if (root is T value && predicate(value))
-            return value;
+        var result = new List<T>();
+        FindAllRecursive(root);
+        return result;
 
-        foreach (ExpressionLambdaSemanticNode expressionLambdaSemanticNode in root.GetChildren())
+        void FindAllRecursive(ExpressionLambdaSemanticNode currentNode)
         {
-            if (expressionLambdaSemanticNode is T innerValue && predicate(innerValue))
-                return innerValue;
-        }
+            if (currentNode is T value && predicate(value))
+            {
+                result.Add(value);
+            }
 
-        return null;
+            foreach (ExpressionLambdaSemanticNode childNode in currentNode.GetChildren())
+            {
+                FindAllRecursive(childNode);
+            }
+        }
     }
 }
