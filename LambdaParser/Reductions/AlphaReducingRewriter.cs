@@ -1,7 +1,7 @@
-﻿using LambdaParser.Core.Syntax.Nodes;
-using LambdaParser.Semantic.Nodes;
+﻿using LambdaParser.Core.Semantic.Nodes;
+using LambdaParser.Core.Syntax.Nodes;
 
-namespace LambdaParser.Semantic.Reductions;
+namespace LambdaParser.Reductions;
 
 public class AlphaReducingRewriter : LambdaSyntaxTreeRewriter
 {

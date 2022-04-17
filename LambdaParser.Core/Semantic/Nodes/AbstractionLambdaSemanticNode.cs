@@ -2,7 +2,7 @@
 using LambdaParser.Core.Syntax.Nodes;
 using LambdaParser.Core.Tools;
 
-namespace LambdaParser.Semantic.Nodes;
+namespace LambdaParser.Core.Semantic.Nodes;
 
 public class AbstractionLambdaSemanticNode : ExpressionLambdaSemanticNode
 {

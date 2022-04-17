@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using LambdaParser.Core.Syntax.Nodes;
 
-namespace LambdaParser.Semantic.Nodes;
+namespace LambdaParser.Core.Semantic.Nodes;
 
 public class ApplicationSemanticNode : ExpressionLambdaSemanticNode
 {

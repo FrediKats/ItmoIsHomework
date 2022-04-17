@@ -1,6 +1,6 @@
-﻿using LambdaParser.Semantic.Nodes;
+﻿using LambdaParser.Core.Semantic.Nodes;
 
-namespace LambdaParser.Semantic;
+namespace LambdaParser;
 
 public class LambdaSemanticTreeFinder
 {

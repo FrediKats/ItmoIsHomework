@@ -1,8 +1,8 @@
-﻿using LambdaParser.Core.Syntax.Nodes;
-using LambdaParser.Semantic.Nodes;
-using LambdaParser.Semantic.Tools;
+﻿using LambdaParser.Core.Semantic.Nodes;
+using LambdaParser.Core.Semantic.Tools;
+using LambdaParser.Core.Syntax.Nodes;
 
-namespace LambdaParser.Semantic;
+namespace LambdaParser.Core.Semantic;
 
 public class SemanticParseContext
 {

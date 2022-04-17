@@ -1,7 +1,7 @@
-﻿using LambdaParser.Core.Syntax;
-using LambdaParser.Semantic.Nodes;
+﻿using LambdaParser.Core.Semantic.Nodes;
+using LambdaParser.Core.Syntax;
 
-namespace LambdaParser.Semantic;
+namespace LambdaParser.Core.Semantic;
 
 public class LambdaSemanticTree
 {

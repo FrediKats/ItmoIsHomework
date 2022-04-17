@@ -1,4 +1,4 @@
-﻿namespace LambdaParser.Semantic.Tools;
+﻿namespace LambdaParser.Core.Semantic.Tools;
 
 public class LambdaSemanticParseException : Exception
 {
