@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using LambdaParser.Core.Tools;
 
-namespace LambdaParser.Syntax.Nodes;
+namespace LambdaParser.Core.Syntax.Nodes;
 
 public class ApplicationSyntaxNode : LambdaSyntaxNode
 {

@@ -1,6 +1,6 @@
-﻿using LambdaParser.Syntax.Nodes;
+﻿using LambdaParser.Core.Syntax.Nodes;
 
-namespace LambdaParser.Syntax;
+namespace LambdaParser.Core.Syntax;
 
 public class LambdaSyntaxTree
 {

@@ -1,7 +1,7 @@
 ﻿using System.Text;
+using LambdaParser.Core.Syntax;
+using LambdaParser.Core.Syntax.Nodes;
 using LambdaParser.Core.Tools;
-using LambdaParser.Syntax;
-using LambdaParser.Syntax.Nodes;
 
 namespace LambdaParser.Visualization;
 

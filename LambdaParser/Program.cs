@@ -1,9 +1,9 @@
 ﻿using System.Text;
+using LambdaParser.Core.Syntax;
+using LambdaParser.Core.Syntax.Tools;
 using LambdaParser.Semantic;
 using LambdaParser.Semantic.Nodes;
 using LambdaParser.Semantic.Reductions;
-using LambdaParser.Syntax;
-using LambdaParser.Syntax.Tools;
 using LambdaParser.Visualization;
 using Serilog;
 

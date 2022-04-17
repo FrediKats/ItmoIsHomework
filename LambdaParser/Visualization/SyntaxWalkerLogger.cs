@@ -1,5 +1,5 @@
-﻿using LambdaParser.Core.Tools;
-using LambdaParser.Syntax.Tools;
+﻿using LambdaParser.Core.Syntax.Tools;
+using LambdaParser.Core.Tools;
 using Serilog;
 
 namespace LambdaParser.Visualization;

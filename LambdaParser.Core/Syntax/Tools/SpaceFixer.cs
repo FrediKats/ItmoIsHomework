@@ -1,4 +1,4 @@
-﻿namespace LambdaParser.Syntax.Tools;
+﻿namespace LambdaParser.Core.Syntax.Tools;
 
 public static class SpaceFixer
 {

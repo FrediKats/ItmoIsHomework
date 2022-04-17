@@ -1,8 +1,8 @@
-﻿using LambdaParser.Syntax.Nodes;
-using LambdaParser.Syntax.Tools;
+﻿using LambdaParser.Core.Syntax.Nodes;
+using LambdaParser.Core.Syntax.Tools;
 using Microsoft.Extensions.Primitives;
 
-namespace LambdaParser.Syntax.Parsers;
+namespace LambdaParser.Core.Syntax.Parsers;
 
 public interface ILambdaSyntaxNodeParser<T> where T : LambdaSyntaxNode
 {

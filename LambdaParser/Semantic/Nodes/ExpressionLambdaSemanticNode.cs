@@ -1,5 +1,5 @@
 ﻿using System.Collections.Immutable;
-using LambdaParser.Syntax.Nodes;
+using LambdaParser.Core.Syntax.Nodes;
 
 namespace LambdaParser.Semantic.Nodes;
 
