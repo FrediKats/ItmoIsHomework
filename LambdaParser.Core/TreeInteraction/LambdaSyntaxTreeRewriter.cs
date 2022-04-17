@@ -1,7 +1,7 @@
 ﻿using LambdaParser.Core.Syntax;
 using LambdaParser.Core.Syntax.Nodes;
 
-namespace LambdaParser;
+namespace LambdaParser.Core.TreeInteraction;
 
 public abstract class LambdaSyntaxTreeRewriter
 {

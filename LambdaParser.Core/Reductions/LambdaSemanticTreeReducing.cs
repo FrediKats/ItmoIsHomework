@@ -2,7 +2,7 @@
 using LambdaParser.Core.Semantic.Nodes;
 using LambdaParser.Core.Syntax;
 
-namespace LambdaParser.Reductions;
+namespace LambdaParser.Core.Reductions;
 
 public class LambdaSemanticTreeReducing
 {

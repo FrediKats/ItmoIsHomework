@@ -2,7 +2,7 @@
 using LambdaParser.Core.Tools;
 using Serilog;
 
-namespace LambdaParser.Visualization;
+namespace LambdaParser;
 
 public static class SyntaxWalkerLogger
 {

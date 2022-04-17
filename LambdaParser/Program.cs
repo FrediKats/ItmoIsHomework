@@ -1,11 +1,11 @@
 ﻿using System.Text;
 using LambdaParser;
+using LambdaParser.Core.Reductions;
 using LambdaParser.Core.Semantic;
 using LambdaParser.Core.Semantic.Nodes;
 using LambdaParser.Core.Syntax;
 using LambdaParser.Core.Syntax.Tools;
-using LambdaParser.Reductions;
-using LambdaParser.Visualization;
+using LambdaParser.Core.TreeInteraction;
 using Serilog;
 
 Console.OutputEncoding = Encoding.Unicode;

@@ -1,8 +1,9 @@
 ﻿using LambdaParser.Core.Semantic.Nodes;
 using LambdaParser.Core.Syntax;
 using LambdaParser.Core.Syntax.Nodes;
+using LambdaParser.Core.TreeInteraction;
 
-namespace LambdaParser.Reductions;
+namespace LambdaParser.Core.Reductions;
 
 public class BetaReducingRewriter : LambdaSyntaxTreeRewriter
 {

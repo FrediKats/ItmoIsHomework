@@ -3,7 +3,7 @@ using LambdaParser.Core.Syntax;
 using LambdaParser.Core.Syntax.Nodes;
 using LambdaParser.Core.Tools;
 
-namespace LambdaParser.Visualization;
+namespace LambdaParser;
 
 public class LambdaSyntaxTreeVisualization
 {
