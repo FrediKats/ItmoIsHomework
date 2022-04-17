@@ -15,7 +15,7 @@ public class AlphaReducingRewriter : LambdaSyntaxTreeRewriter
         _newName = newName;
     }
 
-    protected override ExpressionLambdaSyntaxNode Visit(ParameterLambdaSyntaxNode parameterLambdaSyntaxNode)
+    protected override LambdaSyntaxNode Visit(ParameterLambdaSyntaxNode parameterLambdaSyntaxNode)
     {
         if (_argumentLambda.DependentParameters.Any(dp => dp.Syntax == parameterLambdaSyntaxNode))
         {

@@ -16,7 +16,7 @@ public class ArgumentLambdaSemanticNode : ExpressionLambdaSemanticNode
         _parameters = new List<ParameterLambdaSemanticNode>();
     }
 
-    public override ExpressionLambdaSyntaxNode GetSyntax()
+    public override LambdaSyntaxNode GetSyntax()
     {
         return Syntax;
     }

@@ -4,7 +4,7 @@ namespace LambdaParser.Tools;
 
 public static class SyntaxNodeExtensions
 {
-    public static ExpressionLambdaSyntaxNode UnwrapParenthesized(this ExpressionLambdaSyntaxNode expression)
+    public static LambdaSyntaxNode UnwrapParenthesized(this LambdaSyntaxNode expression)
     {
         if (expression is ParenthesizedSyntaxNode parenthesizedSyntaxNode)
             return parenthesizedSyntaxNode.Expression;

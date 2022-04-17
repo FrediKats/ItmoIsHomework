@@ -2,7 +2,7 @@
 
 namespace LambdaParser.Syntax.Indexing;
 
-public record struct SourceCodeIndex(int Value)
+public readonly record struct SourceCodeIndex(int Value)
 {
     public static SourceCodeIndex operator -(SourceCodeIndex a, SourceCodeIndex b) => new SourceCodeIndex(a.Value - b.Value);
     public static SourceCodeIndex operator -(SourceCodeIndex a, int b) => new SourceCodeIndex(a.Value - b);

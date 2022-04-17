@@ -17,7 +17,7 @@ public class ApplicationSemanticNode : ExpressionLambdaSemanticNode
         Argument = argument;
     }
 
-    public override ExpressionLambdaSyntaxNode GetSyntax()
+    public override LambdaSyntaxNode GetSyntax()
     {
         return Syntax;
     }

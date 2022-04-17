@@ -8,21 +8,21 @@ namespace LambdaParser.Syntax;
 
 public class LambdaSyntaxTreeParser
 {
-    public static IParseResult<ExpressionLambdaSyntaxNode> Parse(string expression)
+    public static IParseResult<LambdaSyntaxNode> Parse(string expression)
     {
         expression = SpaceFixer.FixSpaces(expression);
 
         int currentIndex = 0;
-        ExpressionLambdaSyntaxNode? root = null;
+        LambdaSyntaxNode? root = null;
         Log.Verbose($"Start parsing tree: {expression}");
 
         do
         {
-            IParseResult<ExpressionLambdaSyntaxNode> result = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(expression, currentIndex, expression.Length - currentIndex));
+            IParseResult<LambdaSyntaxNode> result = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(expression, currentIndex, expression.Length - currentIndex));
             if (result.HasError)
                 return result;
 
-            ExpressionLambdaSyntaxNode resultNode = result.Node;
+            LambdaSyntaxNode resultNode = result.Node;
             currentIndex = resultNode.Location.End.Value + 1;
 
             if (root is null)
@@ -35,6 +35,6 @@ public class LambdaSyntaxTreeParser
         if (root is null)
             throw new LambdaParseException($"Cannot parse any statement from {expression}");
 
-        return new ParseResult<ExpressionLambdaSyntaxNode>(root);
+        return new ParseResult<LambdaSyntaxNode>(root);
     }
 }

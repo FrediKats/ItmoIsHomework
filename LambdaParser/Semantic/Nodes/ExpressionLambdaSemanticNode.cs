@@ -5,7 +5,7 @@ namespace LambdaParser.Semantic.Nodes;
 
 public abstract class ExpressionLambdaSemanticNode
 {
-    public abstract ExpressionLambdaSyntaxNode GetSyntax();
+    public abstract LambdaSyntaxNode GetSyntax();
 
     public virtual ImmutableArray<ExpressionLambdaSemanticNode> GetChildren()
     {

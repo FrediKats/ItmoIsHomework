@@ -5,11 +5,11 @@ using Microsoft.Extensions.Primitives;
 
 namespace LambdaParser.Syntax.Parsers;
 
-public class LambdaSyntaxNodeParser : INodeParser<ExpressionLambdaSyntaxNode>
+public class LambdaSyntaxNodeParser : INodeParser<LambdaSyntaxNode>
 {
     public static LambdaSyntaxNodeParser Instance { get; } = new LambdaSyntaxNodeParser();
 
-    public IParseResult<ExpressionLambdaSyntaxNode> Parse(StringSegment expression)
+    public IParseResult<LambdaSyntaxNode> Parse(StringSegment expression)
     {
         switch (expression[0])
         {

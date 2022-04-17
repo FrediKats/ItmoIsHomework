@@ -16,7 +16,7 @@ public class BetaReducingRewriter : LambdaSyntaxTreeRewriter
         _syntaxNode = (AbstractionLambdaSyntaxNode)_application.Syntax.Function.UnwrapParenthesized();
     }
 
-    protected override ExpressionLambdaSyntaxNode Visit(ApplicationSyntaxNode applicationSyntaxNode)
+    protected override LambdaSyntaxNode Visit(ApplicationSyntaxNode applicationSyntaxNode)
     {
         if (applicationSyntaxNode != _application.Syntax)
             return base.Visit(applicationSyntaxNode);
@@ -24,7 +24,7 @@ public class BetaReducingRewriter : LambdaSyntaxTreeRewriter
         return VisitInternal(_syntaxNode.Body);
     }
 
-    protected override ExpressionLambdaSyntaxNode Visit(ParameterLambdaSyntaxNode parameterLambdaSyntaxNode)
+    protected override LambdaSyntaxNode Visit(ParameterLambdaSyntaxNode parameterLambdaSyntaxNode)
     {
         var abstractionLambdaSemanticNode = (AbstractionLambdaSemanticNode)_application.Function;
         if (abstractionLambdaSemanticNode.Argument.DependentParameters.Any(dp => dp.Syntax == parameterLambdaSyntaxNode))

@@ -2,11 +2,10 @@
 
 namespace LambdaParser.Syntax.Indexing;
 
-public class NodeLocation
+public readonly record struct NodeLocation
 {
     public SourceCodeIndex Start { get; }
     public SourceCodeIndex End { get; }
-    public int Length => (End - Start + 1).Value;
 
     public NodeLocation(SourceCodeIndex position) : this(position, position) {}
 

@@ -13,7 +13,7 @@ public class ParseTests
     {
         var simpleTerm = "(λn.(n))";
 
-        IParseResult<ExpressionLambdaSyntaxNode> lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(simpleTerm));
+        IParseResult<LambdaSyntaxNode> lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(simpleTerm));
 
         Assert.IsFalse(lambdaSyntaxNode.HasError);
     }
@@ -23,7 +23,7 @@ public class ParseTests
     {
         var trueTerm = "(λx.(λy.(x)))";
 
-        IParseResult<ExpressionLambdaSyntaxNode> lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(trueTerm));
+        IParseResult<LambdaSyntaxNode> lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(trueTerm));
 
         Assert.IsFalse(lambdaSyntaxNode.HasError);
     }
@@ -33,7 +33,7 @@ public class ParseTests
     {
         var termWIthApplication2 = "(λx.(λx.(x))x)";
 
-        IParseResult<ExpressionLambdaSyntaxNode> lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(termWIthApplication2));
+        IParseResult<LambdaSyntaxNode> lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(termWIthApplication2));
 
         Assert.IsFalse(lambdaSyntaxNode.HasError);
     }
@@ -43,7 +43,7 @@ public class ParseTests
     {
         var numberDefinition = "λf.λx.f (f (f x))";
 
-        IParseResult<ExpressionLambdaSyntaxNode> lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(numberDefinition));
+        IParseResult<LambdaSyntaxNode> lambdaSyntaxNode = LambdaSyntaxNodeParser.Instance.Parse(new StringSegment(numberDefinition));
 
         Assert.IsFalse(lambdaSyntaxNode.HasError);
     }

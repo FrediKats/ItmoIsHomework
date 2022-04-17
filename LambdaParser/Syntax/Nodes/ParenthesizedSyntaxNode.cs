@@ -3,11 +3,11 @@ using LambdaParser.Syntax.Indexing;
 
 namespace LambdaParser.Syntax.Nodes;
 
-public class ParenthesizedSyntaxNode : ExpressionLambdaSyntaxNode
+public class ParenthesizedSyntaxNode : LambdaSyntaxNode
 {
-    public ExpressionLambdaSyntaxNode Expression { get; }
+    public LambdaSyntaxNode Expression { get; }
 
-    public ParenthesizedSyntaxNode(NodeLocation location, ExpressionLambdaSyntaxNode expression) : base(location)
+    public ParenthesizedSyntaxNode(NodeLocation location, LambdaSyntaxNode expression) : base(location)
     {
         Expression = expression;
 

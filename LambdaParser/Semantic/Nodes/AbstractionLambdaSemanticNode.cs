@@ -18,7 +18,7 @@ public class AbstractionLambdaSemanticNode : ExpressionLambdaSemanticNode
         Body = body;
     }
 
-    public override ExpressionLambdaSyntaxNode GetSyntax()
+    public override LambdaSyntaxNode GetSyntax()
     {
         return Syntax;
     }

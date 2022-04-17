@@ -4,12 +4,12 @@ using LambdaParser.Tools;
 
 namespace LambdaParser.Syntax.Nodes;
 
-public class AbstractionLambdaSyntaxNode : ExpressionLambdaSyntaxNode
+public class AbstractionLambdaSyntaxNode : LambdaSyntaxNode
 {
     public ArgumentLambdaSyntaxNode Argument { get; }
-    public ExpressionLambdaSyntaxNode Body { get; }
+    public LambdaSyntaxNode Body { get; }
 
-    public AbstractionLambdaSyntaxNode(NodeLocation location, ArgumentLambdaSyntaxNode argument, ExpressionLambdaSyntaxNode body) : base(location)
+    public AbstractionLambdaSyntaxNode(NodeLocation location, ArgumentLambdaSyntaxNode argument, LambdaSyntaxNode body) : base(location)
     {
         Argument = argument;
         Body = body;

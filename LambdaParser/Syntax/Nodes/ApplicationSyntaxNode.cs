@@ -3,12 +3,12 @@ using LambdaParser.Syntax.Indexing;
 
 namespace LambdaParser.Syntax.Nodes;
 
-public class ApplicationSyntaxNode : ExpressionLambdaSyntaxNode
+public class ApplicationSyntaxNode : LambdaSyntaxNode
 {
-    public ExpressionLambdaSyntaxNode Function { get; }
-    public ExpressionLambdaSyntaxNode Argument { get; }
+    public LambdaSyntaxNode Function { get; }
+    public LambdaSyntaxNode Argument { get; }
 
-    public ApplicationSyntaxNode(NodeLocation location, ExpressionLambdaSyntaxNode function, ExpressionLambdaSyntaxNode argument) : base(location)
+    public ApplicationSyntaxNode(NodeLocation location, LambdaSyntaxNode function, LambdaSyntaxNode argument) : base(location)
     {
         Function = function;
         Argument = argument;

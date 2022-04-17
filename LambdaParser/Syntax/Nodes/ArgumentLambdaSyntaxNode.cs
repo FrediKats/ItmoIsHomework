@@ -2,7 +2,7 @@
 
 namespace LambdaParser.Syntax.Nodes;
 
-public class ArgumentLambdaSyntaxNode : ExpressionLambdaSyntaxNode
+public class ArgumentLambdaSyntaxNode : LambdaSyntaxNode
 {
     public string Value { get; }
 

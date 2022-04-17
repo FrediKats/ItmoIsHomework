@@ -14,7 +14,7 @@ public class ParameterLambdaSemanticNode : ExpressionLambdaSemanticNode
         Declaration = declaration;
     }
 
-    public override ExpressionLambdaSyntaxNode GetSyntax()
+    public override LambdaSyntaxNode GetSyntax()
     {
         return Syntax;
     }
