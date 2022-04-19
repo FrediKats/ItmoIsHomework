@@ -15,8 +15,30 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.File("parser-log")
     .CreateLogger();
 
+//Parse();
 //AlphaReduction();
 BetaReduction();
+
+void Parse()
+{
+    var sourceCode = "λn.λm.λs.λz.n s (m s z)";
+    var lambdaSyntaxNode = LambdaSyntaxTreeParser.Parse(sourceCode);
+    if (lambdaSyntaxNode.HasError)
+    {
+        SyntaxWalkerLogger.LogIt(sourceCode, lambdaSyntaxNode.Error);
+    }
+    else
+    {
+        Log.Information($"Result - {lambdaSyntaxNode.Node}");
+        var lambdaSyntaxTree = new LambdaSyntaxTree(lambdaSyntaxNode.Node);
+        var visualize = LambdaSyntaxTreeVisualization.Visualize(lambdaSyntaxTree);
+        Log.Information($"Tree:\n{visualize}");
+
+        Log.Information("Diff:");
+        Log.Information(sourceCode);
+        Log.Information(lambdaSyntaxNode.Node.ToString());
+    }
+}
 
 void AlphaReduction()
 {
@@ -31,6 +53,9 @@ void AlphaReduction()
     {
         Log.Information($"Result - {lambdaSyntaxNode.Node}");
         var lambdaSyntaxTree = new LambdaSyntaxTree(lambdaSyntaxNode.Node);
+        Log.Information("Diff:");
+        Log.Information(sourceCode);
+        Log.Information(lambdaSyntaxNode.Node.ToString());
 
         LambdaSemanticTree lambdaSemanticTree = new SemanticParser().Parse(lambdaSyntaxTree);
         var alphaReducer = new AlphaReducer();
@@ -58,6 +83,10 @@ void BetaReduction()
         var lambdaSyntaxTree = new LambdaSyntaxTree(lambdaSyntaxNode.Node);
         var visualize = LambdaSyntaxTreeVisualization.Visualize(lambdaSyntaxTree);
         Log.Information($"Tree:\n{visualize}");
+
+        Log.Information("Diff:");
+        Log.Information(sourceCode);
+        Log.Information(lambdaSyntaxNode.Node.ToString());
 
         var betaReducer = new BetaReducer();
         LambdaSemanticTree lambdaSemanticTree = new SemanticParser().Parse(lambdaSyntaxTree);

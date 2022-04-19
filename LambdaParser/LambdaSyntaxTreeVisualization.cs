@@ -18,7 +18,7 @@ public class LambdaSyntaxTreeVisualization
     private static void Add(LambdaSyntaxNode node, int level, StringBuilder stringBuilder)
     {
         var space = StringExtensions.FromChar('\t', level);
-        stringBuilder.Append(space).Append(node).AppendLine();
+        stringBuilder.Append(space).Append(node.ToDetailedString()).AppendLine();
         foreach (LambdaSyntaxNode lambdaSyntaxNode in node.GetChildren())
         {
             Add(lambdaSyntaxNode, level + 1, stringBuilder);

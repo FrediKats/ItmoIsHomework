@@ -25,6 +25,11 @@ public abstract class LambdaSyntaxNode
         return ImmutableArray<LambdaSyntaxNode>.Empty;
     }
 
+    public virtual string ToDetailedString()
+    {
+        return $"{ToString()} <- {this.GetType().Name}";
+    }
+
     public LambdaSyntaxNode SetParent(LambdaSyntaxNode? parent)
     {
         Parent = parent;
