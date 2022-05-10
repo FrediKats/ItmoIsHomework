@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28606.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppliedMath.Lab1", "AppliedMath.Lab1\AppliedMath.Lab1.csproj", "{F5AA31F1-5141-4065-9DB0-4DD99DF644B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppliedMath.Lab2", "AppliedMath.Lab2\AppliedMath.Lab2.csproj", "{1D9D872B-C178-41E1-A443-B054A7E05267}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppliedMath.Lab3", "AppliedMath.Lab3\AppliedMath.Lab3.csproj", "{E0D91C93-1814-4E74-8136-FC7F6772C59D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppliedMath.Lab4", "AppliedMath.Lab4\AppliedMath.Lab4.csproj", "{EB5AFB6C-0743-4363-ABF0-43B8C4C9E511}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppliedMath.LoadBalancer", "AppliedMath.LoadBalancer\AppliedMath.LoadBalancer.csproj", "{DF0D8382-82E7-43B8-AA23-CF142D27F7B6}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AppliedMath.FSharp", "AppliedMath.FSharp\AppliedMath.FSharp.fsproj", "{A51BBFB7-3EA4-461C-BCC6-9F46C1311A9A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5AA31F1-5141-4065-9DB0-4DD99DF644B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5AA31F1-5141-4065-9DB0-4DD99DF644B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5AA31F1-5141-4065-9DB0-4DD99DF644B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5AA31F1-5141-4065-9DB0-4DD99DF644B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D9D872B-C178-41E1-A443-B054A7E05267}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D9D872B-C178-41E1-A443-B054A7E05267}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D9D872B-C178-41E1-A443-B054A7E05267}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D9D872B-C178-41E1-A443-B054A7E05267}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0D91C93-1814-4E74-8136-FC7F6772C59D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0D91C93-1814-4E74-8136-FC7F6772C59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0D91C93-1814-4E74-8136-FC7F6772C59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0D91C93-1814-4E74-8136-FC7F6772C59D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB5AFB6C-0743-4363-ABF0-43B8C4C9E511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB5AFB6C-0743-4363-ABF0-43B8C4C9E511}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB5AFB6C-0743-4363-ABF0-43B8C4C9E511}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB5AFB6C-0743-4363-ABF0-43B8C4C9E511}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF0D8382-82E7-43B8-AA23-CF142D27F7B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF0D8382-82E7-43B8-AA23-CF142D27F7B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF0D8382-82E7-43B8-AA23-CF142D27F7B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF0D8382-82E7-43B8-AA23-CF142D27F7B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51BBFB7-3EA4-461C-BCC6-9F46C1311A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51BBFB7-3EA4-461C-BCC6-9F46C1311A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51BBFB7-3EA4-461C-BCC6-9F46C1311A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51BBFB7-3EA4-461C-BCC6-9F46C1311A9A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E655F42A-619B-4CA4-ADAF-5DDA8C13E1BB}
+	EndGlobalSection
+EndGlobal

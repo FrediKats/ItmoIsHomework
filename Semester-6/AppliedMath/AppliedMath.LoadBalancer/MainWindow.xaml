@@ -1,0 +1,16 @@
+﻿<Window x:Class="AppliedMath.LoadBalancer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppliedMath.LoadBalancer"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="448.58" Width="1038.486">
+    <Grid>
+        <ListBox Name="LogList" HorizontalAlignment="Left" Height="341" Margin="10,25,0,0" VerticalAlignment="Top" Width="383"/>
+        <Button Content="Run" HorizontalAlignment="Left" Margin="680,25,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <oxy:Plot Name="MainChart" Margin="427,136,27,52"/>
+        <TextBlock Name="StatusOutput" HorizontalAlignment="Left" Margin="491,25,0,0" TextWrapping="Wrap" Text="StatusOutput" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
