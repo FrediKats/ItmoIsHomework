@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: warehouse-client
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka/
