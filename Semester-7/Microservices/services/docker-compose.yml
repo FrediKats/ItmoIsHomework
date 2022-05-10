@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+
+  eureka:
+    build: EurekaDiscovery/
+    hostname: eureka
+    ports:
+      - 8761:8761
+
+  zuul:
+    build: zuul-proxy/
+    ports:
+      - 8180:8180
+
+  rabbitmq:
+    image: rabbitmq
+    hostname: rabbitmq
+    expose:
+      - 5672
+      - 15672
+
+  order:
+    build: order/
+    ports:
+      - 8182:8182
+    hostname: order
+    depends_on:
+      - rabbitmq
+
+  payment:
+    build: payment/
+    expose:
+      - 8183
+    hostname: payment
+    depends_on:
+    - rabbitmq
+
+  warehouse:
+    build: warehouse/
+    expose:
+      - 8181
+    hostname: warehouse
+    depends_on:
+      - rabbitmq

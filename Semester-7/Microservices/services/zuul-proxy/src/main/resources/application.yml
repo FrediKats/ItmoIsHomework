@@ -1,0 +1,22 @@
+zuul:
+  routes:
+    warehouse:
+      path: /api/warehouse/**
+      serviceId: warehouse-client
+      stripPrefix: false
+    order:
+      path: /api/orders/**
+      serviceId: order-client
+      stripPrefix: false
+    payment:
+      path: /api/payment/**
+      serviceId: payment-client
+      stripPrefix: false
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 60000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka/
