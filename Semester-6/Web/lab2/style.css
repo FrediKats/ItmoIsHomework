@@ -1,0 +1,79 @@
+header {
+    background-color: aquamarine;
+}
+
+header > .row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-logo > img {
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+}
+
+ul.nav {
+    justify-content: flex-end;
+    margin: 20px;
+}
+
+.greeting-container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding: 30px;
+}
+
+.greeting-box {
+    max-width: 400px;
+}
+
+.greeting-description {
+    margin: 5px;
+}
+
+main {
+    padding: 0;
+}
+
+.features-container {
+    padding: 0;
+    background-color: aliceblue;
+}
+
+.feature-item {
+    max-width: 300px;
+    margin: 10px;
+}
+
+.feature-item > button {
+    margin: 3px;
+}
+
+.services-container {
+    background-color: antiquewhite;
+}
+
+.service-item {
+    width: 300px;
+    max-width: 400px;
+    margin: 20px;
+}
+
+.feedback {
+    width: 100%;
+}
+
+.feedback-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-container {
+    margin: 5px;
+    max-width: 400px;
+}
