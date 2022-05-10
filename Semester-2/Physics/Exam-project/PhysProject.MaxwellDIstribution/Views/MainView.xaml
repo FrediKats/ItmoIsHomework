@@ -1,0 +1,212 @@
+﻿<Window
+    x:Class="PhysProject.MaxwellDIstribution.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PhysProject.MaxwellDIstribution.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:oxy="http://oxyplot.org/wpf"
+    Title="Maxwell Distribution by Maxim Ivliev"
+    Width="1366"
+    Height="768"
+    mc:Ignorable="d">
+    <Canvas>
+        <oxy:PlotView
+            x:Name="Graphic"
+            Canvas.Left="482"
+            Canvas.Top="10"
+            Canvas.Right="10"
+            Width="800"
+            Height="500" />
+        <Slider
+            x:Name="SliderTemperature1"
+            Canvas.Left="250"
+            Canvas.Top="106"
+            Width="200"
+            Height="25" />
+        <Slider
+            x:Name="SliderTemperature2"
+            Canvas.Left="250"
+            Canvas.Top="293"
+            Width="200"
+            Height="25" />
+        <Slider
+            x:Name="SliderMass1"
+            Canvas.Left="250"
+            Canvas.Top="150"
+            Width="200"
+            Height="25" />
+        <TextBlock
+            x:Name="TextTemperature1"
+            Canvas.Left="71"
+            Canvas.Top="106"
+            Height="39"
+            Text="Temperature, K"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="ValueTemperature1"
+            Canvas.Left="455"
+            Canvas.Top="106"
+            Height="39"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="TextMass1"
+            Canvas.Left="71"
+            Canvas.Top="150"
+            Height="39"
+            Text="Mass, g/mol"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="ValueMass1"
+            Canvas.Left="455"
+            Canvas.Top="150"
+            Height="39"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="ValueMass2"
+            Canvas.Left="455"
+            Canvas.Top="350"
+            Height="39"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <Slider
+            x:Name="SliderMass2"
+            Canvas.Left="250"
+            Canvas.Top="350"
+            Width="200"
+            Height="25" />
+        <TextBlock
+            x:Name="ValueTemperature2"
+            Canvas.Left="455"
+            Canvas.Top="293"
+            Height="39"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="TextMass2"
+            Canvas.Left="71"
+            Canvas.Top="350"
+            Height="39"
+            Text="Mass, g/mol"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="TextTemperature2"
+            Canvas.Left="71"
+            Canvas.Top="293"
+            Height="39"
+            Text="Temperature, K"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat1Value1"
+            Canvas.Left="202"
+            Canvas.Top="517"
+            Height="40"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat1Velocity1"
+            Canvas.Left="71"
+            Canvas.Top="516"
+            Height="39"
+            Text="Most probable velocity"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat1Velocity2"
+            Canvas.Left="71"
+            Canvas.Top="560"
+            Height="39"
+            Text="Mean velocity"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat1Velocity3"
+            Canvas.Left="71"
+            Canvas.Top="604"
+            Height="39"
+            Text="Square mean velocity"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat1Value2"
+            Canvas.Left="202"
+            Canvas.Top="560"
+            Height="40"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat1Value3"
+            Canvas.Left="202"
+            Canvas.Top="604"
+            Height="40"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat2Velocity1"
+            Canvas.Left="356"
+            Canvas.Top="517"
+            Height="39"
+            Text="Most probable velocity"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat2Velocity2"
+            Canvas.Left="356"
+            Canvas.Top="560"
+            Height="39"
+            Text="Mean velocity"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat2Velocity3"
+            Canvas.Left="356"
+            Canvas.Top="604"
+            Height="39"
+            Text="Square mean velocity"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat2Value1"
+            Canvas.Left="487"
+            Canvas.Top="517"
+            Height="40"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat2Value2"
+            Canvas.Left="487"
+            Canvas.Top="560"
+            Height="40"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="Stat2Value3"
+            Canvas.Left="487"
+            Canvas.Top="604"
+            Height="40"
+            Text="Null"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Left="71"
+            Canvas.Top="478"
+            Width="153"
+            Height="39"
+            Text="Graph 1"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Left="356"
+            Canvas.Top="478"
+            Width="153"
+            Height="39"
+            Text="Graph 2"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Left="71"
+            Canvas.Top="62"
+            Height="39"
+            Text="Graph 1"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Left="71"
+            Canvas.Top="249"
+            Height="39"
+            Text="Graph 2"
+            TextWrapping="Wrap" />
+    </Canvas>
+</Window>

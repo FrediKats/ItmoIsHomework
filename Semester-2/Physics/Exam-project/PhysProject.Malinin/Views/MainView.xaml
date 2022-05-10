@@ -1,0 +1,100 @@
+﻿<Window
+    x:Class="PhysProject.Malinin.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PhysProject.Malinin.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:oxy="http://oxyplot.org/wpf"
+    x:Name="Win"
+    Title="MainWindow"
+    Width="1200"
+    Height="700"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+    <Canvas x:Name="MainCanvas" Margin="0,0,0,0">
+
+        <TextBlock
+            Canvas.Left="622"
+            Canvas.Top="20"
+            Width="92"
+            Text="Введите данные"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="TextBoxV"
+            Canvas.Top="56"
+            Canvas.Right="450"
+            Width="120"
+            Height="24"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="TextBoxA"
+            Canvas.Top="85"
+            Canvas.Right="450"
+            Width="120"
+            Height="22"
+            RenderTransformOrigin="0.5,-0.818"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="TextBoxH"
+            Canvas.Top="112"
+            Canvas.Right="450"
+            Width="120"
+            Height="24"
+            TextWrapping="Wrap" />
+        <Button
+            Canvas.Top="150"
+            Canvas.Right="450"
+            Width="75"
+            Click="CreateObjectTrigger"
+            Content="Создать" />
+        <Button
+            x:Name="ButtonStart"
+            Canvas.Top="180"
+            Canvas.Right="450"
+            Width="76"
+            Height="21"
+            Content="Запуск" />
+        <TextBlock
+            Canvas.Top="56"
+            Canvas.Right="600"
+            Width="96"
+            Height="24"
+            Text="Скорость, м/с"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Top="83"
+            Canvas.Right="600"
+            Width="96"
+            Height="24"
+            Text="Угол, град"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Canvas.Top="112"
+            Canvas.Right="600"
+            Width="96"
+            Height="24"
+            Text="Высота, м"
+            TextWrapping="Wrap" />
+        <Line Stroke="Black" StrokeThickness="2" />
+        <TextBlock
+            x:Name="CoordsTextBlock"
+            Canvas.Top="222"
+            Canvas.Right="500"
+            TextWrapping="Wrap" />
+        <oxy:PlotView
+            x:Name="BottomChart"
+            Canvas.Top="350"
+            Canvas.Right="10"
+            Width="400"
+            Height="300" />
+        <oxy:PlotView
+            x:Name="TopChart"
+            Canvas.Top="20"
+            Canvas.Right="10"
+            Width="400"
+            Height="300" />
+    </Canvas>
+
+</Window>
