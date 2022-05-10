@@ -1,0 +1,41 @@
+﻿<Window
+    x:Class="GeneticWay.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GeneticWay"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    xmlns:oxy="http://oxyplot.org/wpf"
+    Width="800"
+    Height="800"
+    mc:Ignorable="d">
+    <Grid>
+        <Image
+            Name="Drawer"
+            Width="100"
+            Height="100"
+            Margin="10,32,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" />
+        <Button
+            Name="btnStart"
+            Width="75"
+            Margin="0,59,9.6,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="RunAntiAliasing"
+            Content="Run" />
+        <TextBox
+            Name="CountInput"
+            Width="120"
+            Height="23"
+            Margin="664,18,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="1"
+            TextWrapping="Wrap" />
+        <oxy:Plot Name="VelocityPlot" Margin="32,550,27.6,44.4"/>
+    </Grid>
+
+</Window>
