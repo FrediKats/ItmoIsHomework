@@ -1,0 +1,17 @@
+﻿<Window x:Class="ServeYourself.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="1000">
+    <ScrollViewer>
+        <StackPanel Name="ElementsList">
+            <StackPanel Height="50" Orientation="Horizontal">
+                <Button Content="Update" Click="Button_Click" Width="100"/>
+                <TextBox Text="10" Name="IterationCount" Width="100" Margin="10 0"/>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>
